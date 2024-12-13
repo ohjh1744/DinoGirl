@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="StageData")]
+[CreateAssetMenu(fileName = "StageData")]
 public class StageData : ScriptableObject 
 {
-    public int stageNum;
+    public string stageName; // 스테이지 이름
+    public float timeLimit; // 제한시간 
+    public bool isClear; // 클리어 여부
 
 
     // 스테이지 번호, 몬스터의 배치 , 어떤 몬스터인지 , 몬스터의 스탯(스테이지번호를 따라가면 좋을듯?) 
