@@ -23,12 +23,18 @@ public class DataManager : MonoBehaviour
 
     private Coroutine _downLoadRoutine;
 
+    private bool _isLoad;
+
     private void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            if (_isLoad == false)
+            {
+                _downLoadRoutine = StartCoroutine(DownloadRoutine());
+            }
         }
         else
         {
@@ -36,18 +42,9 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        _downLoadRoutine = StartCoroutine(DownloadRoutine());
-    }
-
-    private void Update()
-    {
-        Debug.Log(_datas[0]);
-    }
-
     private IEnumerator DownloadRoutine()
     {
+        _isLoad = true;
         for (int i = 0; i < _urls.Length; i++)
         {
             _request = UnityWebRequest.Get(_urls[i]);
@@ -57,6 +54,8 @@ public class DataManager : MonoBehaviour
 
             //다운로드 완료 후 string에 저장.
             _datas[i] = _request.downloadHandler.text;
+
+            Debug.Log(_datas[i]);
         }
     }
 
