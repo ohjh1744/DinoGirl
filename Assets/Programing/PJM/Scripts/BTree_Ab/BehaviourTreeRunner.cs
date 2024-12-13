@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BehaviourTreeRunner
 {
-    private INode _rootNode;
+    private BaseNode _rootNode;
 
-    public BehaviourTreeRunner(INode rootNode)
+    public BehaviourTreeRunner(BaseNode rootNode)
     {
         this._rootNode = rootNode;
     }
