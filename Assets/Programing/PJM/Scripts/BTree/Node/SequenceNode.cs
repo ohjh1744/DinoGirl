@@ -6,7 +6,7 @@ public sealed class SequenceNode : INode
 
     public SequenceNode(List<INode> childs)
     {
-        this._childs = childs;
+        _childs = childs;
     }
 
     /// <summary>
