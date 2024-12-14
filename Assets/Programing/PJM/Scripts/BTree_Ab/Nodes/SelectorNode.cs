@@ -33,12 +33,20 @@ public class SelectorNode : BaseNode
             switch (result)
             {
                 case ENodeState.Running:
+                    return ENodeState.Running;
+                case ENodeState.Success:
+                    return ENodeState.Success;
+                // 트리를 다시 돌 때 앞서 Running이 있었을 경우
+                // Success가 나오면 앞서 진행하던 Running중인 Action Node를 멈춰주는것이 필요할 수 있음
+                
+                // Running 체크 하는 버전
+                /*case ENodeState.Running:
                     _runningNodeIndex = i;
                     return ENodeState.Running;
                 case ENodeState.Success:
                     return ENodeState.Success;
                 case ENodeState.Failure:
-                    continue;
+                    continue;*/
             }
         }
         return ENodeState.Failure;

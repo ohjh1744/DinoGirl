@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AutoAI : MonoBehaviour
 {
     private BehaviourTreeRunner _BTRunner;
     private Animator _animator;
-    private int _tempMana = 50;
-    private string _tempRole = "Dealer";
-    private Transform _detectedEnemy;
-    private float _detectRange = 10.0f;
-    private float _attackRange = 5.0f;
-    private float _moveSpeed = 3.0f;
+    /*private int _tempMana = 50;
+    private string _tempRole = "Dealer";*/
+    [SerializeField] private Transform _detectedEnemy;
+    [SerializeField] private Transform _currentTarget;
+    [SerializeField] private float _detectRange = 10f;
+    [SerializeField] private float _attackRange = 1.0f;
+    [SerializeField] private float _moveSpeed = 2.0f;
+    [SerializeField] private LayerMask _allianceLayer;
+    [SerializeField] private LayerMask _enemyLayer;
 
+    
     private void Start()
     {
+        SetLayer();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
@@ -24,104 +30,33 @@ public class AutoAI : MonoBehaviour
         _BTRunner.Operate();
     }
 
-    private bool IsMyTurn()
-    {
-        return true;
-    }
-
     private BaseNode SetBTree()
     {
-        return new SelectorNode
+        return new SelectorNode // Behaviour Selector
         (
             new List<BaseNode>
             {
-                new SequenceNode
+                new SequenceNode // Attack Dicision
                 (
                     new List<BaseNode>
                     {
-                        new ActionNode(CheckAutoOn),
+                        new ConditionNode(CheckAttackRange),
+                        new ActionNode(SetTargetToAttack),
+                        new ActionNode(AttackTarget),
                     }
                 ),
-                new SequenceNode
+                new SequenceNode // Detect Target
                 (
                     new List<BaseNode>
                     {
-                        new ActionNode(DetectEnemys),
-                        new ActionNode(MoveToEnemy),
+                        new ConditionNode(CheckDetectingRange),
+                        new ActionNode(SelectDetectedTargetToChase),
+                        new ActionNode(ChaseTarget),
                     }
                 ),
-                new SequenceNode
-                (
-                    new List<BaseNode>
-                    {
-                        new ActionNode(DoAttack),
-                    }
-                ),
-                new ActionNode(TempMethod)
+                new ActionNode(StayIdle)
             }
         );
-    }
-
-    private BaseNode.ENodeState CheckAutoOn()
-    {
-        if (TurnManager.Instance.IsAutoBattle)
-        {
-            return BaseNode.ENodeState.Success;
-        }
-        else
-        {
-            return BaseNode.ENodeState.Failure;
-        }
-    }
-
-    private BaseNode.ENodeState DetectEnemys()
-    {
-        var overlapColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, LayerMask.GetMask("Player"));
-        if (overlapColliders != null && overlapColliders.Length > 0)
-        {
-            _detectedEnemy = overlapColliders[0].transform;
-            return BaseNode.ENodeState.Success;
-        }
-
-        _detectedEnemy = null;
-
-        return BaseNode.ENodeState.Failure;
-    }
-
-    private BaseNode.ENodeState CheckAttackRange()
-    {
-        Debug.Log("사거리 내에 적 있음");
-        return BaseNode.ENodeState.Success;
-    }
-
-    private BaseNode.ENodeState MoveToEnemy()
-    {
-        if (_detectedEnemy != null)
-        {
-            if (Vector2.SqrMagnitude(_detectedEnemy.position - transform.position) < _attackRange * _attackRange)
-            {
-                return BaseNode.ENodeState.Success;
-            }
-
-            transform.position = Vector2.MoveTowards(transform.position, _detectedEnemy.position, _moveSpeed * Time.deltaTime);
-            return BaseNode.ENodeState.Running;
-        }
-        return BaseNode.ENodeState.Failure;
-    }
-
-    private BaseNode.ENodeState DoAttack()
-    {
-        if (IsAnimationRunning("attackStateNameTemp"))
-        {
-            return BaseNode.ENodeState.Running;
-        }
-
-        return BaseNode.ENodeState.Success;
-    }
-
-    private BaseNode.ENodeState TempMethod()
-    {
-        return BaseNode.ENodeState.Success;
     }
 
     bool IsAnimationRunning(string stateName)
@@ -138,4 +73,173 @@ public class AutoAI : MonoBehaviour
 
         return false;
     }
+
+    /// <summary>
+    /// 적과 자신의 구분을 위해 레이어를 설정하는 메서드
+    /// </summary>
+    private void SetLayer()
+    {
+        string myLayerName = LayerMask.LayerToName(gameObject.layer);
+        if (myLayerName == "UserCharacter")
+        {
+            _enemyLayer = LayerMask.GetMask("Enemy");
+        }
+        else
+        {
+            _enemyLayer = LayerMask.GetMask("UserCharacter");
+        }
+            
+        _allianceLayer = LayerMask.GetMask(myLayerName);
+    }
+    
+    // Actions
+    private BaseNode.ENodeState SetTargetToAttack()
+    {
+        if (_detectedEnemy != null)
+        {
+            // 앞선 컨디션 노드에서 확인했으므로 필요 없을 가능성 있음 
+            _currentTarget = _detectedEnemy;
+            return BaseNode.ENodeState.Success;
+        }
+        return BaseNode.ENodeState.Failure;
+    }
+
+    private BaseNode.ENodeState AttackTarget()
+    {
+        if (_currentTarget != null)
+        {
+            Debug.Log($"{_currentTarget.gameObject.name}를 공격함! ");
+            return BaseNode.ENodeState.Success;
+        }
+        return BaseNode.ENodeState.Failure;
+    }
+    
+    private BaseNode.ENodeState SelectDetectedTargetToChase()
+    {
+        if (_detectedEnemy != null)
+        {
+            _currentTarget = _detectedEnemy;
+            return BaseNode.ENodeState.Success;
+        }
+        
+        return BaseNode.ENodeState.Failure;
+    }
+
+    private BaseNode.ENodeState ChaseTarget()
+    {
+        if (_currentTarget != null)
+        {
+            float sqrDistance = Vector2.SqrMagnitude(_currentTarget.position - transform.position);
+            if (sqrDistance > _attackRange * _attackRange) 
+            {
+                transform.position = Vector2.MoveTowards(transform.position, _currentTarget.position, _moveSpeed * Time.deltaTime);
+                return BaseNode.ENodeState.Running;
+            }
+            return BaseNode.ENodeState.Success;
+                
+        }
+        return BaseNode.ENodeState.Failure;
+    }
+
+    private BaseNode.ENodeState StayIdle()
+    {
+        Debug.Log("Idle 상태");
+        return BaseNode.ENodeState.Success;
+    }
+    
+    // Conditions
+    private bool CheckAttackRange()
+    {
+        if (_detectedEnemy == null)
+            return false;
+        
+        // 최적화를 위해 sqrDistance를 사용
+        float sqrDistance = Vector2.SqrMagnitude(_detectedEnemy.position - transform.position);
+        return sqrDistance <= _attackRange * _attackRange;
+    }
+
+
+
+    private bool CheckDetectingRange()
+    {
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
+        if (detectedColliders.Length > 0)
+        {
+            // detected Enemy를 정할 조건이 필요할 경우 추가
+            _detectedEnemy = detectedColliders[0].transform;
+            return true;
+        }
+
+        _detectedEnemy = null;
+        return false;
+    }
+    private void OnDrawGizmos()
+    {
+        // Detect Range
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, _detectRange);
+
+        // Attack Range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
+    }
 }
+
+/*private BaseNode.ENodeState CheckAutoOn()
+{
+    if (BattleManager.Instance.IsAutoBattle)
+    {
+        return BaseNode.ENodeState.Success;
+    }
+
+    return BaseNode.ENodeState.Failure;
+}
+
+private BaseNode.ENodeState DetectEnemys()
+{
+    var overlapColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, LayerMask.GetMask("Player"));
+    if (overlapColliders != null && overlapColliders.Length > 0)
+    {
+        _detectedEnemy = overlapColliders[0].transform;
+        return BaseNode.ENodeState.Success;
+    }
+
+    _detectedEnemy = null;
+    return BaseNode.ENodeState.Failure;
+}
+
+
+private BaseNode.ENodeState MoveToEnemy()
+{
+    if (_detectedEnemy != null)
+    {
+        float sqrDistance = Vector2.SqrMagnitude(_detectedEnemy.position - transform.position);
+        if (sqrDistance < _attackRange * _attackRange)
+        {
+            return BaseNode.ENodeState.Success;
+        }
+
+        if (sqrDistance > Mathf.Epsilon)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _detectedEnemy.position, _moveSpeed * Time.deltaTime);
+            return BaseNode.ENodeState.Running;
+        }
+
+    }
+    return BaseNode.ENodeState.Failure;
+}
+
+private BaseNode.ENodeState DoAttack()
+{
+    if (IsAnimationRunning("attackStateNameTemp"))
+    {
+        return BaseNode.ENodeState.Running;
+    }
+
+    return BaseNode.ENodeState.Success;
+}
+
+private BaseNode.ENodeState TempMethod()
+{
+    return BaseNode.ENodeState.Success;
+}*/
