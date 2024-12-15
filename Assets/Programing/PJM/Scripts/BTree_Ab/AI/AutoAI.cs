@@ -9,14 +9,29 @@ public class AutoAI : MonoBehaviour
     private Animator _animator;
     /*private int _tempMana = 50;
     private string _tempRole = "Dealer";*/
-    [SerializeField] private Transform _detectedEnemy;
-    [SerializeField] private Transform _currentTarget;
-    [SerializeField] private float _detectRange = 10f;
-    [SerializeField] private float _attackRange = 1.0f;
+    private Transform _detectedEnemy;
+    private Transform _currentTarget;
+
+
+    [SerializeField] private float _detectRange = 5.0f;
+    [SerializeField] private float _attackRange = 2.0f;
     [SerializeField] private float _moveSpeed = 2.0f;
     [SerializeField] private LayerMask _allianceLayer;
     [SerializeField] private LayerMask _enemyLayer;
 
+    public float DetectRange
+    { get => _detectRange; private set => _detectRange = value;}
+    public float AttackRange
+    { get => _attackRange; private set => _attackRange = value;}
+
+    public float MoveSpeed
+    { get => _moveSpeed; private set => _moveSpeed = value;}
+
+    public LayerMask AllianceLayer 
+    { get => _allianceLayer; private set => _allianceLayer = value;}
+
+    public LayerMask EnemyLayer
+    { get => _enemyLayer; private set => _enemyLayer = value;}
     
     private void Start()
     {
@@ -133,6 +148,7 @@ public class AutoAI : MonoBehaviour
             if (sqrDistance > _attackRange * _attackRange) 
             {
                 transform.position = Vector2.MoveTowards(transform.position, _currentTarget.position, _moveSpeed * Time.deltaTime);
+                Debug.Log($"타겟 : {_currentTarget.gameObject.name}를 Chase 중");
                 return BaseNode.ENodeState.Running;
             }
             return BaseNode.ENodeState.Success;

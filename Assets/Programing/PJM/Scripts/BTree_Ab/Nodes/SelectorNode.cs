@@ -16,15 +16,16 @@ public class SelectorNode : BaseNode
         if (_childs == null || _childs.Count == 0)
             return ENodeState.Failure;
 
-        if (_runningNodeIndex != -1)
+        /*if (_runningNodeIndex != -1)
         {
+            Debug.Log($"Running 중인 노드 있음 : {_childs[_runningNodeIndex]}");
             ENodeState result = _childs[_runningNodeIndex].Evaluate();
             if (result != ENodeState.Running)
             {
                 _runningNodeIndex = -1;
             }
             return result;
-        }
+        }*/
 
         for (int i = 0; i < _childs.Count; i++)
         {
