@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
-    public static TurnManager Instance;
+    public static BattleManager Instance;
     public bool IsAutoBattle { get; private set; }
 
     private void Awake()
