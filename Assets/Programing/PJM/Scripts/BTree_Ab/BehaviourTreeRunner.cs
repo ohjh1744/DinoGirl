@@ -8,7 +8,7 @@ public class BehaviourTreeRunner
 
     public BehaviourTreeRunner(BaseNode rootNode)
     {
-        this._rootNode = rootNode;
+        _rootNode = rootNode;
     }
 
     public void Operate()
