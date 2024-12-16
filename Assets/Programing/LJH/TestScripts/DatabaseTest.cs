@@ -5,8 +5,12 @@ using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
+
+
+
 
 
 public class DatabaseTest : MonoBehaviour
@@ -18,6 +22,14 @@ public class DatabaseTest : MonoBehaviour
     [SerializeField] Transform[] enemyPoss;
 
     private void OnEnable()
+    {
+    }
+
+
+    private StageData stageData;
+    
+   
+    private void getDbData() 
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
         reference.Child("Stages").GetValueAsync()
@@ -35,16 +47,14 @@ public class DatabaseTest : MonoBehaviour
                 }
 
                 DataSnapshot snapshot = task.Result;
-                
+
                 Debug.Log($"Found {snapshot.GetRawJsonValue()}");
                 Debug.Log("가져오기 성공");
             });
 
-        
+
 
     }
-    private StageData stageData;
-
     public void TestgetStageData(int stageNum) 
     {   
         string num = (stageNum-1).ToString(); // 입력할때 1적은 값을 입력하는게 나아보이긴 함 
