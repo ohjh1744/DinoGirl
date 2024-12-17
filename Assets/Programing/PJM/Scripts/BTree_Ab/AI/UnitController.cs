@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class AutoAI : MonoBehaviour
+public class UnitController : MonoBehaviour
 {
+    // 추상 클래스로 돌리고 WarriorAI 등으로 상속받는 AI를 자식을 만들어야함
     private BehaviourTreeRunner _BTRunner;
-    private Animator _animator;
+    private Animator _animator; 
     /*private int _tempMana = 50;
     private string _tempRole = "Dealer";*/
     private Transform _detectedEnemy;
@@ -18,6 +19,8 @@ public class AutoAI : MonoBehaviour
     [SerializeField] private float _moveSpeed = 2.0f;
     [SerializeField] private LayerMask _allianceLayer;
     [SerializeField] private LayerMask _enemyLayer;
+    
+    private bool _attackTriggered = false;
 
     public float DetectRange
     { get => _detectRange; private set => _detectRange = value;}
@@ -36,6 +39,7 @@ public class AutoAI : MonoBehaviour
     private void Start()
     {
         SetLayer();
+        _animator = GetComponent<Animator>();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
@@ -55,6 +59,7 @@ public class AutoAI : MonoBehaviour
                 (
                     new List<BaseNode>
                     {
+                        new ActionNode(CheckAttacking),
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
                         new ActionNode(AttackTarget),
@@ -74,18 +79,26 @@ public class AutoAI : MonoBehaviour
         );
     }
 
-    bool IsAnimationRunning(string stateName)
+    private bool IsAnimationRunning(string stateName)
     {
-        if (_animator is not null)
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
-            {
-                var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-                return normalizedTime != 0 && normalizedTime < 1f;
-            }
+            return normalizedTime != 0 && normalizedTime < 1f;
         }
+        
+        return false;
+    }
 
+    private bool IsAnimationFinished(string stateName)
+    {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        {
+            var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+            return normalizedTime > 1.0f;
+        }
         return false;
     }
 
@@ -108,6 +121,12 @@ public class AutoAI : MonoBehaviour
     }
     
     // Actions
+
+    private BaseNode.ENodeState CheckAttacking()
+    {
+        return IsAnimationRunning("Attacking") ? BaseNode.ENodeState.Running : BaseNode.ENodeState.Success;
+    }
+    
     private BaseNode.ENodeState SetTargetToAttack()
     {
         if (_detectedEnemy != null)
@@ -121,12 +140,30 @@ public class AutoAI : MonoBehaviour
 
     private BaseNode.ENodeState AttackTarget()
     {
-        if (_currentTarget != null)
+        if (_currentTarget != null && !_attackTriggered)
         {
-            Debug.Log($"{_currentTarget.gameObject.name}를 공격함! ");
-            return BaseNode.ENodeState.Success;
+            _attackTriggered = true;
+            _animator.SetTrigger("Attack");
+            Debug.Log($"{_currentTarget.gameObject.name}를 공격 시작! ");
+            StartCoroutine(ResetAttackTrigger());
+            return BaseNode.ENodeState.Running;
         }
+
+        if (IsAnimationRunning("Attacking"))
+        {
+            return BaseNode.ENodeState.Running;
+        }
+        
         return BaseNode.ENodeState.Failure;
+    }
+    
+    private IEnumerator ResetAttackTrigger()
+    {
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        //Todo : 실제 공격 로직 여기서 구현? 공격중인 대상이 사라졌을때 처리도 해야함
+        Debug.Log("공격 완료됨. 실제 데미지 들어감");
+        
+        _attackTriggered = false;
     }
     
     private BaseNode.ENodeState SelectDetectedTargetToChase()
@@ -164,6 +201,7 @@ public class AutoAI : MonoBehaviour
     }
     
     // Conditions
+
     private bool CheckAttackRange()
     {
         if (_detectedEnemy == null)
