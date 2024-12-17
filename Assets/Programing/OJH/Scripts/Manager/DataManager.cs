@@ -67,6 +67,7 @@ public class DataManager : MonoBehaviour
             //다운로드 완료 후 string에 저장.
             _csvDatas[i] = _request.downloadHandler.text;
 
+            //Parsing에서 List에 저장.
             DataLists[i] = ChangeCsvToList(_csvDatas[i]);
         }
     }
