@@ -160,7 +160,9 @@ public class UnitController : MonoBehaviour
     private IEnumerator ResetAttackTrigger()
     {
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        //Todo : 실제 공격 로직 여기서 구현? 공격중인 대상이 사라졌을때 처리도 해야함
         Debug.Log("공격 완료됨. 실제 데미지 들어감");
+        
         _attackTriggered = false;
     }
     
