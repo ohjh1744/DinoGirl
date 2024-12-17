@@ -42,6 +42,7 @@ public class TestMakeStage : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] Transform[] myPoss;
     [SerializeField] Transform[] enemyPoss;
+    [SerializeField] Button[] buttons;
 
     private void Start()
     {
@@ -56,6 +57,14 @@ public class TestMakeStage : MonoBehaviour
         stageDatas[8] = stage9;
         stageDatas[9] = stage10;
         stageDatas[10] = stage11;
+        for (int i = 0; i < buttons.Length; i++) 
+        {
+            buttons[i].interactable = false;
+        }
+    }
+    public void LockStage() 
+    {
+
     }
 
     public void setStageData(int stageNum)
@@ -109,15 +118,29 @@ public class TestMakeStage : MonoBehaviour
         for (int i = 0; i < curMobCount; i++)
         {
            GameObject gameObject1 =  Instantiate(monster, enemyPoss[curMobPos[i]-1].position, Quaternion.identity);
-           Destroy(gameObject1,3f);
+           //Destroy(gameObject1,3f);
            
         }
         for (int i = 0; i < curmyPos.Count; i++)
         {
             GameObject gameObject2 = Instantiate(player, myPoss[curmyPos[i]].position, Quaternion.identity);
-            Destroy(gameObject2, 3f);
+           // Destroy(gameObject2, 3f);
         }
     }
+
+    public void stageClear() 
+    {
+
+    }
+    public void stop() 
+    {
+        Time.timeScale = 0;
+    }
+    public void Unstop()
+    {
+        Time.timeScale = 1;
+    }
+
 
 
 
