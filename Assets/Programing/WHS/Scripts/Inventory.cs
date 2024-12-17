@@ -19,6 +19,15 @@ public class Currency
     public Sprite icon;         // UI에 표시될 아이콘
 }
 
+[System.Serializable]
+public class Character
+{
+    public string name;         // 캐릭터 이름
+    public int level;           // 캐릭터 레벨
+    public Sprite image;        // 캐릭터 이미지
+    // 추가 속성
+}
+
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
@@ -35,6 +44,9 @@ public class Inventory : MonoBehaviour
 
     // 재화 리스트
     public List<Currency> currencies = new List<Currency>();
+
+    // 캐릭터 리스트
+    public List<Character> characters = new List<Character>();
 
     // 재화 추가하기
     public void AddCurrency(CurrencyType type, int amount)

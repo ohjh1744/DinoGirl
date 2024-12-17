@@ -15,6 +15,7 @@ public class CurrencyUI : MonoBehaviour
         UpdateCurrencyUI();
     }
 
+    // 재화UI 갱신
     public void UpdateCurrencyUI()
     {
         dinoStoneText.text = Inventory.instance.GetCurrencyAmount(CurrencyType.DinoStone).ToString();
