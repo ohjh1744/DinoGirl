@@ -13,16 +13,19 @@ public class CharacterSlotUI : MonoBehaviour
 
     private Character character;
 
+    // 인벤토리에 캐릭터 세팅 - 이미지, 이름, 레벨 ( 레어도, 포지션 등 )
     public void SetCharacter(Character newCharacter)
     {
         character = newCharacter;
         iconImage.sprite = character.image;
-        nameText.text = $"{character.name}";
+        nameText.text = $"{character.Name}";
         levelText.text = $"{character.level}";
     }
 
+    // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
     public void OnClick()
     {
-        Debug.Log($"{character.name}");
+        Debug.Log($"{character.Name}");
+        Debug.Log($"{character.ID}");
     }
 }

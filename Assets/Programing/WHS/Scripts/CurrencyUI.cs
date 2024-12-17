@@ -15,7 +15,7 @@ public class CurrencyUI : MonoBehaviour
         UpdateCurrencyUI();
     }
 
-    // 재화UI 갱신
+    // 재화 UI 갱신
     public void UpdateCurrencyUI()
     {
         dinoStoneText.text = Inventory.instance.GetCurrencyAmount(CurrencyType.DinoStone).ToString();
@@ -24,5 +24,5 @@ public class CurrencyUI : MonoBehaviour
         boneCrystalText.text = Inventory.instance.GetCurrencyAmount(CurrencyType.BoneCrystal).ToString();
     }
 
-    // 숫자 길어지면 k, m처럼 끊기?
+    // 숫자 길어지면 k, m처럼 끊거나 글씨를 작게하나
 }

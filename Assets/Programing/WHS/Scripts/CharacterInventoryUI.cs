@@ -21,12 +21,12 @@ public class CharacterInventoryUI : MonoBehaviour
         Sprite noSprite = Resources.Load<Sprite>("5");
         Sprite oSprite = Resources.Load<Sprite>("6");
 
-        AddCharacter(new Character { name = "tyrano", level = 10, image = tyranoSprite });
-        AddCharacter(new Character { name = "yrano", level = 50, image = yranoSprite });
-        AddCharacter(new Character { name = "rano", level = 33, image = ranoSprite });
-        AddCharacter(new Character { name = "ano", level = 44, image = anoSprite });
-        AddCharacter(new Character { name = "no", level = 12, image = noSprite });
-        AddCharacter(new Character { name = "o", level = 21, image = oSprite });
+        AddCharacter(new Character { Name = "tyrano", level = 10, image = tyranoSprite });
+        AddCharacter(new Character { Name = "yrano", level = 50, image = yranoSprite });
+        AddCharacter(new Character { Name = "rano", level = 33, image = ranoSprite });
+        AddCharacter(new Character { Name = "ano", level = 44, image = anoSprite });
+        AddCharacter(new Character { Name = "no", level = 12, image = noSprite });
+        AddCharacter(new Character { Name = "o", level = 21, image = oSprite });
 
         PopulateGrid();
     }
@@ -37,7 +37,7 @@ public class CharacterInventoryUI : MonoBehaviour
         characterList.Add(character);
     }
 
-    // 그리드에 가지고있는 캐릭터 정렬
+    // 그리드에 가진 캐릭터 정렬
     public void PopulateGrid()
     {
         foreach(Transform child in content)
@@ -45,12 +45,20 @@ public class CharacterInventoryUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        // 캐릭터 정렬
         foreach(Character character in characterList)
         {
             GameObject slot = Instantiate(characterPrefab, content);
             CharacterSlotUI slotUI = slot.GetComponent<CharacterSlotUI>();
 
+            // 가진 캐릭터 정보 세팅
             slotUI.SetCharacter(character);
         }
     }
+
+    // 보유하지 않은 캐릭터도 정렬?
+
+    // 보유하지 않은 캐릭터는 누르면 상점으로 이동하게?
+
+    // 상점에서는 캐릭터를 구매하면 가진 목록에 추가?
 }
