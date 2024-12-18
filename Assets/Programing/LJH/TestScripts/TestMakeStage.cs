@@ -43,7 +43,7 @@ public class TestMakeStage : MonoBehaviour
     [SerializeField] Transform[] myPoss;
     [SerializeField] Transform[] enemyPoss;
     [SerializeField] Button[] buttons;
-
+    [SerializeField] List<Dictionary<string, string>> stageDic;
     private void Start()
     {
         stageDatas[0] = stage1;
@@ -51,7 +51,7 @@ public class TestMakeStage : MonoBehaviour
         stageDatas[2] = stage3;
         stageDatas[3] = stage4;
         stageDatas[4] = stage5;
-        stageDatas[5] = stage6;
+        stageDatas[5] = stage6; 
         stageDatas[6] = stage7;
         stageDatas[7] = stage8;
         stageDatas[8] = stage9;
@@ -59,36 +59,25 @@ public class TestMakeStage : MonoBehaviour
         stageDatas[10] = stage11;
         for (int i = 0; i < buttons.Length; i++) 
         {
-            buttons[i].interactable = false;
+           // buttons[i].interactable = false;
+            //유저의 스테이지 클리어 데이터를 가지고 있어야 함 ! 
+            // 추가로 db에 해당 데이터가 있어야 함
+            // db에 
         }
-    }
-    public void LockStage() 
-    {
-
+       
     }
 
     public void setStageData(int stageNum)
     {
-
-        string[] values = stageDatas[stageNum].Split(',');
-
-        curStageNum = values[0];
-        curStageNames = values[1];
-        curTimeLimit = int.Parse(values[2]);
-        if (values[3] == "0")
-        {
-            curStageCleared = false;
-        }
-        else 
-        {
-            curStageCleared = true; 
-        }
-        curMobCount = int.Parse(values[4]);
-        string[] val = values[5].Split("");
-
-        string mobPosString = values[5]; // 예: "135"
-        curMobPos = new int[mobPosString.Length]; // 배열 크기 설정
-        for (int i = 0; i < enemygrid.Length; i++) 
+        stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage]; //파싱한 순서(url 순서대로 들어감)
+        curStageNum = stageDic[stageNum]["Id"];
+        curStageNames = stageDic[stageNum]["StageName"];
+        curTimeLimit = int.Parse(stageDic[stageNum]["TimeLimit"]);       
+        curMobCount = int.Parse(stageDic[stageNum]["MonsterCount"]);
+        //  string[] val = stageDic[stageNum]["MonsterPos"].Split("");
+        // 예: "135" 
+        curMobPos = new int[stageDic[stageNum]["MonsterPos"].Length]; // 배열 크기 설정
+        for (int i = 0; i < enemygrid.Length; i++) // 색 설정 및 초기화
         {
             enemygrid[i].image.color = Color.black;
             mygrid[i].image.color = Color.black;
@@ -96,9 +85,9 @@ public class TestMakeStage : MonoBehaviour
 
         }
 
-        for (int i = 0; i < mobPosString.Length; i++)
+        for (int i = 0; i < curMobPos.Length; i++)
         {
-            curMobPos[i] = int.Parse(mobPosString[i].ToString()); // 한 문자씩 숫자로 변환
+            curMobPos[i] = int.Parse(stageDic[stageNum]["MonsterPos"].ToString()); // 한 문자씩 숫자로 변환
             enemygrid[curMobPos[i]-1].image.color= Color.red;
         }
         
@@ -107,7 +96,7 @@ public class TestMakeStage : MonoBehaviour
         stageNameText.text = curStageNames;
     }
 
-    public void setMyPos(int num) 
+    public void setMyPos(int num)  // 버튼 눌러서 자리 세팅 , 추후엔 드래그 앤 드랍으로 바꿔야 함 
     {
         mygrid[num].image.color = Color.green;
         curmyPos.Add(num);
@@ -127,18 +116,15 @@ public class TestMakeStage : MonoBehaviour
            // Destroy(gameObject2, 3f);
         }
     }
-
-    public void stageClear() 
-    {
-
-    }
+   
     public void stop() 
     {
         Time.timeScale = 0;
     }
     public void Unstop()
     {
-        Time.timeScale = 1;
+        stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
+        Debug.Log(stageDic[0]["MonsterPos"]);
     }
 
 
