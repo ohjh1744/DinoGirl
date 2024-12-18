@@ -11,5 +11,5 @@ public class RnDStageCSV
     public int timeLimit { get; set; }
     // public bool isCleared { get; set; }
     public int monsterCount { get; set; }
-    //public int monsterPos { get; set; }
+    public int monsterPos { get; set; }
 }

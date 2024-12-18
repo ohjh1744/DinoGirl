@@ -32,7 +32,7 @@ public class RnDStageParser : MonoBehaviour
             Debug.Log(dictionary[i]["StageName"]);
             Debug.Log(dictionary[i]["TimeLimit"]);
             Debug.Log(dictionary[i]["MonsterCount"]);
-            //Debug.Log(dictionary[i]["MonsterPos"]);
+            Debug.Log(dictionary[i]["MonsterPos"]);
 
             RnDStageCSV stage = new RnDStageCSV();
             // 각 stage의 변수들의 자료형에 맞추어 변환 후 저장
@@ -40,7 +40,7 @@ public class RnDStageParser : MonoBehaviour
             stage.stageName = dictionary[i]["StageName"];
             stage.timeLimit = int.Parse(dictionary[i]["TimeLimit"]);
             stage.monsterCount = int.Parse(dictionary[i]["MonsterCount"]);
-            //stage.monsterPos = int.Parse(dictionary[i]["MonsterPos"]);
+            stage.monsterPos = int.Parse(dictionary[i]["MonsterPos"]);
             stages.Add(stage); // 완성된 stage를 stages 리스트에 저장
         }
     }
@@ -53,7 +53,7 @@ public class RnDStageParser : MonoBehaviour
             Debug.Log(stages[i].stageName);
             Debug.Log(stages[i].timeLimit);
             Debug.Log(stages[i].monsterCount);
-            //Debug.Log(stages[i].monsterPos);
+            Debug.Log(stages[i].monsterPos);
         }
     }
 }
