@@ -1,241 +1,249 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UnitController : MonoBehaviour
+public abstract class UnitController : MonoBehaviour
 {
-    // 추상 클래스로 돌리고 WarriorAI 등으로 상속받는 AI를 자식을 만들어야함
-    private BehaviourTreeRunner _BTRunner;
-    private Animator _animator; 
-    /*private int _tempMana = 50;
-    private string _tempRole = "Dealer";*/
-    private Transform _detectedEnemy;
-    private Transform _currentTarget;
+    protected BehaviourTreeRunner _BTRunner;
+    protected Animator _animator;
+    protected Transform _detectedEnemy;
+    protected Transform _currentTarget;
 
-
-    [SerializeField] private float _detectRange = 5.0f;
-    [SerializeField] private float _attackRange = 2.0f;
-    [SerializeField] private float _moveSpeed = 2.0f;
-    [SerializeField] private LayerMask _allianceLayer;
-    [SerializeField] private LayerMask _enemyLayer;
+    // 카메라 범위
+    protected Vector2 _bottomLeft;
+    protected Vector2 _topRight;
     
-    private bool _attackTriggered = false;
-
-    public float DetectRange
-    { get => _detectRange; private set => _detectRange = value;}
-    public float AttackRange
-    { get => _attackRange; private set => _attackRange = value;}
-
-    public float MoveSpeed
-    { get => _moveSpeed; private set => _moveSpeed = value;}
-
-    public LayerMask AllianceLayer 
-    { get => _allianceLayer; private set => _allianceLayer = value;}
-
-    public LayerMask EnemyLayer
-    { get => _enemyLayer; private set => _enemyLayer = value;}
     
-    private void Start()
+    [SerializeField] protected float _detectRange;
+    [SerializeField] protected float _attackRange;
+    [SerializeField] protected float _moveSpeed;
+    [SerializeField] protected LayerMask _allianceLayer;
+    [SerializeField] protected LayerMask _enemyLayer;
+    
+    protected bool _attackTriggered = false;
+    [SerializeField] protected bool _isPriorityTargetFar;
+        
+
+
+    public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
+    public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+    
+    public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
+
+    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
+    public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
+    public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
+    public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
+    public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
+
+    protected virtual void Awake()
+    {
+        
+    }
+
+    protected virtual void Start()
     {
         SetLayer();
+        SetDetectingArea();
         _animator = GetComponent<Animator>();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         _BTRunner.Operate();
     }
 
-    private BaseNode SetBTree()
-    {
-        return new SelectorNode // Behaviour Selector
-        (
-            new List<BaseNode>
-            {
-                new SequenceNode // Attack Dicision
-                (
-                    new List<BaseNode>
-                    {
-                        new ActionNode(CheckAttacking),
-                        new ConditionNode(CheckAttackRange),
-                        new ActionNode(SetTargetToAttack),
-                        new ActionNode(AttackTarget),
-                    }
-                ),
-                new SequenceNode // Detect Target
-                (
-                    new List<BaseNode>
-                    {
-                        new ConditionNode(CheckDetectingRange),
-                        new ActionNode(SelectDetectedTargetToChase),
-                        new ActionNode(ChaseTarget),
-                    }
-                ),
-                new ActionNode(StayIdle)
-            }
-        );
-    }
+    protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
 
-    private bool IsAnimationRunning(string stateName)
+    protected bool IsAnimationRunning(string stateName)
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
             var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
             return normalizedTime != 0 && normalizedTime < 1f;
         }
-        
         return false;
     }
 
-    private bool IsAnimationFinished(string stateName)
+    protected bool IsAnimationFinished(string stateName)
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
             var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
             return normalizedTime > 1.0f;
         }
         return false;
     }
 
-    /// <summary>
-    /// 적과 자신의 구분을 위해 레이어를 설정하는 메서드
-    /// </summary>
-    private void SetLayer()
+    protected virtual void SetLayer()
     {
         string myLayerName = LayerMask.LayerToName(gameObject.layer);
-        if (myLayerName == "UserCharacter")
-        {
-            _enemyLayer = LayerMask.GetMask("Enemy");
-        }
-        else
-        {
-            _enemyLayer = LayerMask.GetMask("UserCharacter");
-        }
-            
-        _allianceLayer = LayerMask.GetMask(myLayerName);
+        EnemyLayer = myLayerName == "UserCharacter" ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("UserCharacter");
+        AllianceLayer = LayerMask.GetMask(myLayerName);
     }
-    
-    // Actions
 
-    private BaseNode.ENodeState CheckAttacking()
+    protected BaseNode.ENodeState SetTargetToAttack()
     {
-        return IsAnimationRunning("Attacking") ? BaseNode.ENodeState.Running : BaseNode.ENodeState.Success;
-    }
-    
-    private BaseNode.ENodeState SetTargetToAttack()
-    {
-        if (_detectedEnemy != null)
+        if (DetectedEnemy != null)
         {
-            // 앞선 컨디션 노드에서 확인했으므로 필요 없을 가능성 있음 
-            _currentTarget = _detectedEnemy;
+            CurrentTarget = DetectedEnemy;
             return BaseNode.ENodeState.Success;
         }
         return BaseNode.ENodeState.Failure;
     }
 
-    private BaseNode.ENodeState AttackTarget()
+    protected BaseNode.ENodeState ChaseTarget()
     {
-        if (_currentTarget != null && !_attackTriggered)
+        if (DetectedEnemy != null)
         {
-            _attackTriggered = true;
-            _animator.SetTrigger("Attack");
-            Debug.Log($"{_currentTarget.gameObject.name}를 공격 시작! ");
-            StartCoroutine(ResetAttackTrigger());
-            return BaseNode.ENodeState.Running;
-        }
-
-        if (IsAnimationRunning("Attacking"))
-        {
-            return BaseNode.ENodeState.Running;
-        }
-        
-        return BaseNode.ENodeState.Failure;
-    }
-    
-    private IEnumerator ResetAttackTrigger()
-    {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-        //Todo : 실제 공격 로직 여기서 구현? 공격중인 대상이 사라졌을때 처리도 해야함
-        Debug.Log("공격 완료됨. 실제 데미지 들어감");
-        
-        _attackTriggered = false;
-    }
-    
-    private BaseNode.ENodeState SelectDetectedTargetToChase()
-    {
-        if (_detectedEnemy != null)
-        {
-            _currentTarget = _detectedEnemy;
-            return BaseNode.ENodeState.Success;
-        }
-        
-        return BaseNode.ENodeState.Failure;
-    }
-
-    private BaseNode.ENodeState ChaseTarget()
-    {
-        if (_currentTarget != null)
-        {
-            float sqrDistance = Vector2.SqrMagnitude(_currentTarget.position - transform.position);
-            if (sqrDistance > _attackRange * _attackRange) 
+            float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
+            if (sqrDistance > _attackRange * _attackRange)
             {
-                transform.position = Vector2.MoveTowards(transform.position, _currentTarget.position, _moveSpeed * Time.deltaTime);
-                Debug.Log($"타겟 : {_currentTarget.gameObject.name}를 Chase 중");
+                transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
+                Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
             }
             return BaseNode.ENodeState.Success;
-                
         }
         return BaseNode.ENodeState.Failure;
     }
 
-    private BaseNode.ENodeState StayIdle()
+    protected BaseNode.ENodeState StayIdle()
     {
         Debug.Log("Idle 상태");
         return BaseNode.ENodeState.Success;
     }
-    
-    // Conditions
 
-    private bool CheckAttackRange()
+    protected bool CheckAttackRange()
     {
-        if (_detectedEnemy == null)
-            return false;
-        
-        // 최적화를 위해 sqrDistance를 사용
-        float sqrDistance = Vector2.SqrMagnitude(_detectedEnemy.position - transform.position);
-        return sqrDistance <= _attackRange * _attackRange;
+        if (DetectedEnemy == null) return false;
+        float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
+        return sqrDistance <= AttackRange * AttackRange;
     }
 
-
-
-    private bool CheckDetectingRange()
+    protected BaseNode.ENodeState SetDetectedTarget()
     {
+        // 이미 감지된 적이 있었을경우엔 수행할 필요 없음,  바로 chase로 전환
+        if (DetectedEnemy != null)
+            return BaseNode.ENodeState.Success;
+        
+        Collider2D[] detectedColliders = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
+
+        if (detectedColliders.Length == 0)
+        {
+            DetectedEnemy = null;
+            return BaseNode.ENodeState.Failure;
+        }
+        
+        float minDistance = float.MaxValue;
+        float maxDistance = float.MinValue;
+        Transform closetEnemy = null;
+        Transform farthestEnemy = null;
+
+        foreach (Collider2D collider in detectedColliders)
+        {
+            float distance = Vector2.Distance(transform.position, collider.transform.position);
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closetEnemy = collider.transform;
+            }
+
+            if (distance > maxDistance)
+            {
+                maxDistance = distance;
+                farthestEnemy = collider.transform;
+            }
+        }
+        if (IsPriorityTargetFar)
+        {
+            // 가장 먼 타겟을 DetectedEnemy 로 설정
+            DetectedEnemy = farthestEnemy;
+        }
+        else
+        {
+            // 가장 가까운 타겟을 DetectedEnemy로 설정
+            DetectedEnemy = closetEnemy;
+        }
+
+        return BaseNode.ENodeState.Success;
+        
+        
+        
+
+        /*if (_detectedEnemy != null)
+            return true;
+        
+        // 현재 카메라에 보이는 전체 영역 탐지
+
+        //Rect screenRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
+        Collider2D[] detectedEnemys = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
+
+        if (detectedEnemys.Length > 0)
+        {
+            _detectedEnemy = detectedEnemys[0].transform;
+            return true;
+        }
+        
+        return false;*/
+        
+        /*// 가장 먼저 탐지한 적을 우선적으로 공격할 경우
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
         if (detectedColliders.Length > 0)
         {
-            // detected Enemy를 정할 조건이 필요할 경우 추가
             _detectedEnemy = detectedColliders[0].transform;
             return true;
         }
-
         _detectedEnemy = null;
-        return false;
+        return false;*/
     }
-    private void OnDrawGizmos()
+    
+    // coroutine
+    protected IEnumerator ResetAttackTrigger(string animationName)
     {
-        // Detect Range
-        Gizmos.color = Color.blue;
+        // 애니메이션의 길이만큼 대기 후 리셋
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        _attackTriggered = false;
+        Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
+    }
+
+    // others
+    protected void SetDetectingArea()
+    {
+        if (Camera.main != null)
+        {
+            _bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+            _topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        }
+    }
+    protected void OnDrawGizmos()
+    {
+        string layerName = LayerMask.LayerToName(gameObject.layer);
+        Gizmos.color = (layerName == "UserCharacter") ? Color.green : Color.red;
+        
+        //Gizmos.color = Color.yellow;
+        if(_detectedEnemy != null)
+            Gizmos.DrawLine(transform.position, _detectedEnemy.position);
+
+        Gizmos.color = Color.cyan;
+        Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(topRight.x, bottomLeft.y, 0)); // 아래쪽
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, topRight.y, 0), new Vector3(topRight.x, topRight.y, 0));    // 위쪽
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(bottomLeft.x, topRight.y, 0)); // 왼쪽
+        Gizmos.DrawLine(new Vector3(topRight.x, bottomLeft.y, 0), new Vector3(topRight.x, topRight.y, 0));    // 오른쪽
+
+        /*Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _detectRange);
 
-        // Attack Range
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        Gizmos.DrawWireSphere(transform.position, _attackRange);*/
     }
 }
 
