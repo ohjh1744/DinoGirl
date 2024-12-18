@@ -7,7 +7,7 @@ public class RnDStageParser : MonoBehaviour
     List<Dictionary<string, string>> dictionary = new List<Dictionary<string, string>>();
 
     // 원하는 데이터를 형전환 후 저장할 리스트(Stage 자료형)
-    List<RnDStage> stages = new List<RnDStage>();
+    List<RnDStageCSV> stages = new List<RnDStageCSV>();
     private void Update()
     {
         // 자료 테스트 용
@@ -34,7 +34,7 @@ public class RnDStageParser : MonoBehaviour
             Debug.Log(dictionary[i]["MonsterCount"]);
             //Debug.Log(dictionary[i]["MonsterPos"]);
 
-            RnDStage stage = new RnDStage();
+            RnDStageCSV stage = new RnDStageCSV();
             // 각 stage의 변수들의 자료형에 맞추어 변환 후 저장
             stage.id = int.Parse(dictionary[i]["Id"]);
             stage.stageName = dictionary[i]["StageName"];
