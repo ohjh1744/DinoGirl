@@ -91,7 +91,7 @@ public class DataManager : MonoBehaviour
 
             for (int j = 0; j < headers.Length; j++)
             {
-                dataDic[headers[j]] = values[j];
+                dataDic[headers[j].Trim()] = values[j].Trim();
             }
 
             dataList.Add(dataDic);

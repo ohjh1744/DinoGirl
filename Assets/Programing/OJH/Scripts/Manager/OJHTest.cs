@@ -23,8 +23,7 @@ public class OJHTest : MonoBehaviour
     {
         stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
 
-        // 시트의 첫번째 행의 TileLimit 값 150
-        Debug.Log(stageDic[0]["TimeLimit"]);
+        Debug.Log(stageDic[0]["MonsterPos"]);
 
         //포문을 통해 값을 찾는 방법
         foreach(Dictionary<string, string> field in stageDic)
