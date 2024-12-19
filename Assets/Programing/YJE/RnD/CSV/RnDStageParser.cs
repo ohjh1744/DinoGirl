@@ -24,7 +24,7 @@ public class RnDStageParser : MonoBehaviour
     private void DataLoadTest()
     {
         // DataManager.cs에서 파싱된 데이터 불러오기
-        dictionary = RnDDataManager.Instance.DataLists[0];
+        dictionary = DataManager.Instance.DataLists[0];
         // [index][원하는 항목 제목 string]
         for(int i = 0; i < dictionary.Count; i++)
         {

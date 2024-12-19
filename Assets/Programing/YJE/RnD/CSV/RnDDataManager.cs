@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Dynamic;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -95,7 +92,7 @@ public class RnDDataManager : MonoBehaviour
 
             for (int j = 0; j < headers.Length; j++)
             {
-                dataDic[headers[j]] = values[j];
+                dataDic[headers[j].Trim()] = values[j].Trim();
             }
 
             dataList.Add(dataDic);
@@ -111,6 +108,8 @@ public class RnDDataManager : MonoBehaviour
 
         return dataList;
     }
+
+
 
 
 }
