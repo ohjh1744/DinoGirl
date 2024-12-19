@@ -11,7 +11,7 @@ public abstract class UnitController : MonoBehaviour
     protected Transform _detectedEnemy;
     protected Transform _currentTarget;
 
-    // ì¹´ë©”ë¼ ë²”ìœ„
+    // Ä«¸Ş¶ó ¹üÀ§
     protected Vector2 _bottomLeft;
     protected Vector2 _topRight;
     
@@ -54,10 +54,13 @@ public abstract class UnitController : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         _BTRunner.Operate();
     }
 
-    protected abstract BaseNode SetBTree(); // ê° ìœ ë‹›ì´ êµ¬í˜„í•  í–‰ë™ íŠ¸ë¦¬ ë©”ì„œë“œ
+    protected abstract BaseNode SetBTree(); // °¢ À¯´ÖÀÌ ±¸ÇöÇÒ Çàµ¿ Æ®¸® ¸Ş¼­µå
 
     protected bool IsAnimationRunning(string stateName)
     {
@@ -104,7 +107,7 @@ public abstract class UnitController : MonoBehaviour
             if (sqrDistance > _attackRange * _attackRange)
             {
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
-                Debug.Log($"íƒ€ê²Ÿ {DetectedEnemy.gameObject.name}ë¥¼ ì¶”ì  ì¤‘");
+                Debug.Log($"Å¸°Ù {DetectedEnemy.gameObject.name}¸¦ ÃßÀû Áß");
                 return BaseNode.ENodeState.Running;
             }
             return BaseNode.ENodeState.Success;
@@ -114,7 +117,7 @@ public abstract class UnitController : MonoBehaviour
 
     protected BaseNode.ENodeState StayIdle()
     {
-        Debug.Log("Idle ìƒíƒœ");
+        Debug.Log("Idle »óÅÂ");
         return BaseNode.ENodeState.Success;
     }
 
@@ -127,7 +130,7 @@ public abstract class UnitController : MonoBehaviour
 
     protected BaseNode.ENodeState SetDetectedTarget()
     {
-        // ì´ë¯¸ ê°ì§€ëœ ì ì´ ìˆì—ˆì„ê²½ìš°ì—” ìˆ˜í–‰í•  í•„ìš” ì—†ìŒ,  ë°”ë¡œ chaseë¡œ ì „í™˜
+        // ÀÌ¹Ì °¨ÁöµÈ ÀûÀÌ ÀÖ¾úÀ»°æ¿ì¿£ ¼öÇàÇÒ ÇÊ¿ä ¾øÀ½,  ¹Ù·Î chase·Î ÀüÈ¯
         if (DetectedEnemy != null)
             return BaseNode.ENodeState.Success;
         
@@ -162,12 +165,12 @@ public abstract class UnitController : MonoBehaviour
         }
         if (IsPriorityTargetFar)
         {
-            // ê°€ì¥ ë¨¼ íƒ€ê²Ÿì„ DetectedEnemy ë¡œ ì„¤ì •
+            // °¡Àå ¸Õ Å¸°ÙÀ» DetectedEnemy ·Î ¼³Á¤
             DetectedEnemy = farthestEnemy;
         }
         else
         {
-            // ê°€ì¥ ê°€ê¹Œìš´ íƒ€ê²Ÿì„ DetectedEnemyë¡œ ì„¤ì •
+            // °¡Àå °¡±î¿î Å¸°ÙÀ» DetectedEnemy·Î ¼³Á¤
             DetectedEnemy = closetEnemy;
         }
 
@@ -179,7 +182,7 @@ public abstract class UnitController : MonoBehaviour
         /*if (_detectedEnemy != null)
             return true;
         
-        // í˜„ì¬ ì¹´ë©”ë¼ì— ë³´ì´ëŠ” ì „ì²´ ì˜ì—­ íƒì§€
+        // ÇöÀç Ä«¸Ş¶ó¿¡ º¸ÀÌ´Â ÀüÃ¼ ¿µ¿ª Å½Áö
 
         //Rect screenRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
         Collider2D[] detectedEnemys = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
@@ -192,7 +195,7 @@ public abstract class UnitController : MonoBehaviour
         
         return false;*/
         
-        /*// ê°€ì¥ ë¨¼ì € íƒì§€í•œ ì ì„ ìš°ì„ ì ìœ¼ë¡œ ê³µê²©í•  ê²½ìš°
+        /*// °¡Àå ¸ÕÀú Å½ÁöÇÑ ÀûÀ» ¿ì¼±ÀûÀ¸·Î °ø°İÇÒ °æ¿ì
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
         if (detectedColliders.Length > 0)
         {
@@ -206,10 +209,10 @@ public abstract class UnitController : MonoBehaviour
     // coroutine
     protected IEnumerator ResetAttackTrigger(string animationName)
     {
-        // ì• ë‹ˆë©”ì´ì…˜ì˜ ê¸¸ì´ë§Œí¼ ëŒ€ê¸° í›„ ë¦¬ì…‹
+        // ¾Ö´Ï¸ŞÀÌ¼ÇÀÇ ±æÀÌ¸¸Å­ ´ë±â ÈÄ ¸®¼Â
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
         _attackTriggered = false;
-        Debug.Log($"{animationName} ì• ë‹ˆë©”ì´ì…˜ ì™„ë£Œ: ê³µê²© ë¦¬ì…‹ë¨.");
+        Debug.Log($"{animationName} ¾Ö´Ï¸ŞÀÌ¼Ç ¿Ï·á: °ø°İ ¸®¼ÂµÊ.");
     }
 
     // others
@@ -234,10 +237,10 @@ public abstract class UnitController : MonoBehaviour
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
         
-        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(topRight.x, bottomLeft.y, 0)); // ì•„ë˜ìª½
-        Gizmos.DrawLine(new Vector3(bottomLeft.x, topRight.y, 0), new Vector3(topRight.x, topRight.y, 0));    // ìœ„ìª½
-        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(bottomLeft.x, topRight.y, 0)); // ì™¼ìª½
-        Gizmos.DrawLine(new Vector3(topRight.x, bottomLeft.y, 0), new Vector3(topRight.x, topRight.y, 0));    // ì˜¤ë¥¸ìª½
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(topRight.x, bottomLeft.y, 0)); // ¾Æ·¡ÂÊ
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, topRight.y, 0), new Vector3(topRight.x, topRight.y, 0));    // À§ÂÊ
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(bottomLeft.x, topRight.y, 0)); // ¿ŞÂÊ
+        Gizmos.DrawLine(new Vector3(topRight.x, bottomLeft.y, 0), new Vector3(topRight.x, topRight.y, 0));    // ¿À¸¥ÂÊ
 
         /*Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _detectRange);
