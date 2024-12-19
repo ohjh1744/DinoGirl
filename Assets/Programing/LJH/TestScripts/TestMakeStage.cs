@@ -9,17 +9,7 @@ using UnityEngine.UI;
 
 public class TestMakeStage : MonoBehaviour
 {
-    private string stage1 = "0,tutorial1,150,0,3,135";
-    private string stage2 = "1,tutorial2,150,0,3,279";
-    private string stage3 = "2,tutorial3,150,0,3,369";
-    private string stage4 = "3,Well begun is half done,150,0,5,12345";
-    private string stage5 = "4,Many Moons Ago,150,0,6,123789";
-    private string stage6 = "5,Opportunities don’t happen. You create them,150,0,3,578";
-    private string stage7 = "6,Knowledge is power,150,0,5,34569";
-    private string stage8 = "7,No pain no gain,150,0,4,1238";
-    private string stage9 = "8,Silence is golden,150,0,3,189";
-    private string stage10 = "9,Rome wasn’t built in a day,150,0,7,1234567";
-    private string stage11 = "10,A journey of a thousand miles begins with a single step,150,0,9,123456789";
+    
 
     [SerializeField] TMP_Text stageNumText;
     [SerializeField] TMP_Text stageNameText;
@@ -47,17 +37,7 @@ public class TestMakeStage : MonoBehaviour
     [SerializeField] List<Dictionary<string, string>> stageDic;
     private void Start()
     {
-        stageDatas[0] = stage1;
-        stageDatas[1] = stage2;
-        stageDatas[2] = stage3;
-        stageDatas[3] = stage4;
-        stageDatas[4] = stage5;
-        stageDatas[5] = stage6; 
-        stageDatas[6] = stage7;
-        stageDatas[7] = stage8;
-        stageDatas[8] = stage9;
-        stageDatas[9] = stage10;
-        stageDatas[10] = stage11;
+       
         for (int i = 0; i < buttons.Length; i++) 
         {
            // buttons[i].interactable = false;
@@ -100,7 +80,7 @@ public class TestMakeStage : MonoBehaviour
         stageNameText.text = curStageNames;
     }
 
-    public void setMyPos(int num)  // 버튼 눌러서 자리 세팅 , 추후엔 드래그 앤 드랍으로 바꿔야 함 
+    public void setMyPos(int num)  // 버튼 눌러서 자리 세팅 , 추후엔 드래그 앤 드랍으로 바꿔야 함, 드랍에서 빠지면 
     {
         mygrid[num].image.color = Color.green;
         curmyPos.Add(num);
