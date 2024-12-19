@@ -57,7 +57,7 @@ public class StagePanel : MonoBehaviour
 
     public void setMyGrid() 
     {
-        // Todo : 드랍하면 해당 위치에 올라가면서 정보 세팅 
+        // Todo : 드랍하면 해당 위치에 올라가면서 정보 세팅 asdasd
     }
 
 
