@@ -34,8 +34,9 @@ public class TestMakeStage : MonoBehaviour
     [SerializeField] string curStageNames;
     [SerializeField] int curTimeLimit;
     [SerializeField] int curMobCount;
-    [SerializeField] int[] curMobPos;
+    
 
+    [SerializeField] List<int> curMobPos;
     [SerializeField] List<int> curmyPos;
 
     [SerializeField] GameObject monster;
@@ -74,20 +75,23 @@ public class TestMakeStage : MonoBehaviour
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = int.Parse(stageDic[stageNum]["TimeLimit"]);       
         curMobCount = int.Parse(stageDic[stageNum]["MonsterCount"]);
-        //  string[] val = stageDic[stageNum]["MonsterPos"].Split("");
-        // 예: "135" 
-        curMobPos = new int[stageDic[stageNum]["MonsterPos"].Length]; // 배열 크기 설정
+
         for (int i = 0; i < enemygrid.Length; i++) // 색 설정 및 초기화
         {
             enemygrid[i].image.color = Color.black;
             mygrid[i].image.color = Color.black;
             curmyPos.Clear();
-
+            curMobPos.Clear();
         }
 
-        for (int i = 0; i < curMobPos.Length; i++)
+        foreach (char val in stageDic[stageNum]["MonsterPos"])// 한 문자씩 숫자로 변환
         {
-            curMobPos[i] = int.Parse(stageDic[stageNum]["MonsterPos"].ToString()); // 한 문자씩 숫자로 변환
+            curMobPos.Add(int.Parse(val.ToString()));
+        }
+
+        for (int i = 0; i < curMobPos.Count; i++)
+        {
+            
             enemygrid[curMobPos[i]-1].image.color= Color.red;
         }
         
