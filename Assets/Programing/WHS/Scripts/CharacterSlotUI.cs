@@ -10,11 +10,15 @@ using UnityEngine.UI;
 public class CharacterSlotUI : UIBInder
 {
     private Character character;
+    private GameObject characterPanel;
 
     private void Awake()
     {
-        Bind();
+        BindAll();
         AddEvent("Character(Clone)", EventType.Click, OnClick);
+
+        Transform parent = GameObject.Find("MainPanel").transform;
+        characterPanel = parent.Find("CharacterPanel").gameObject;
     }
 
     // 인벤토리에 캐릭터 세팅 - 이미지, 이름, 레벨 ( 레어도, 포지션 등 )
@@ -32,6 +36,7 @@ public class CharacterSlotUI : UIBInder
     {
         Debug.Log($"{character.Name}");
 
-
+        characterPanel.SetActive(true);
+        characterPanel.GetComponent<CharacterPanel>().DisplayCharacterInfo(character);
     }
 }
