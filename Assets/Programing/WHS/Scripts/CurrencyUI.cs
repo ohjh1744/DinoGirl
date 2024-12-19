@@ -24,5 +24,7 @@ public class CurrencyUI : MonoBehaviour
         boneCrystalText.text = Inventory.instance.GetCurrencyAmount(CurrencyType.BoneCrystal).ToString();
     }
 
-    // 숫자 길어지면 k, m처럼 끊거나 글씨를 작게하나
+    // 홈 버튼 -> 로비로 이동
+
+    // 백 버튼 -> 이전 씬으로 이동?
 }

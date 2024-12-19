@@ -5,10 +5,10 @@ using UnityEngine;
 
 public enum CurrencyType
 {
-    DinoStone,      // 가챠 재화 ( 젬, 청휘석 )
-    Coin,           // 공통 재화 ( 골드, 크레딧 )
-    DinoBlood,      // 캐릭터 레벨업 메인 재료 ( 경험치, 보고서, 혼 )
-    BoneCrystal,    // 캐릭터 혹은 장비 강화 ( 강화석, 망치 )
+    DinoStone,      // [영혼석]   가챠 재화 ( 젬, 청휘석 )
+    Coin,           // [골드]     공통 재화 ( 골드, 크레딧 )
+    DinoBlood,      // [경험치]   캐릭터 레벨업 메인 재료 ( 경험치, 보고서, 혼 )
+    BoneCrystal,    // [아이템]   캐릭터 혹은 장비 강화 ( 강화석, 망치 )
 }
 
 [System.Serializable]
@@ -19,7 +19,7 @@ public class Currency
     public Sprite icon;         // UI에 표시될 아이콘
 }
 
-[System.Serializable] // 캐릭터 정보 ~ 스프레드시트를 불러와야하나
+[System.Serializable] // 캐릭터 정보 ( 데이터베이스에서 받아올것)
 public class Character
 {
     public int ID;
@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour
     public void AddCurrency(CurrencyType type, int amount)
     {
         Currency currency = currencies.Find(x => x.type == type);
-        if(currency != null)
+        if (currency != null)
         {
             // 재화 보유량 증가
             currency.amount += amount;
@@ -72,7 +72,7 @@ public class Inventory : MonoBehaviour
     {
         Currency currency = currencies.Find(x => x.type == type);
 
-        if(currency != null && currency.amount >= amount)
+        if (currency != null && currency.amount >= amount)
         {
             currency.amount -= amount;
             Debug.Log($"{type} 재화 소모 : {amount}, 잔여 {currency.amount}");
