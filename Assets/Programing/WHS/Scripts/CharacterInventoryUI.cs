@@ -15,7 +15,7 @@ public class CharacterInventoryUI : MonoBehaviour
     private void Start()
     {
         // 캐릭터는 데이터베이스에서 받아와서 쓸것,  스크롤뷰 확인용
-        AddCharacter(new Character { ID = 10, Name = "tyrano", level = 10 });
+        AddCharacter(new Character { ID = 10, Name = "tyrano", level = 1 });
         AddCharacter(new Character { ID = 11, Name = "yrano", level = 50 });
         AddCharacter(new Character { ID = 12, Name = "rano", level = 33 });
         AddCharacter(new Character { ID = 13, Name = "ano", level = 44 });

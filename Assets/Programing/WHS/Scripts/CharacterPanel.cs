@@ -44,18 +44,50 @@ public class CharacterPanel : UIBInder
 
     private bool LevelUp(Character character)
     {
-        int requiredCoin = 100;
+        int coin = 10;
+        int dinoBlood = 100;
+        int boneCrystal = 50;
 
-        if (Inventory.instance.SpendItem(ItemID.Coin, requiredCoin))
+        int requiredCoin = coin + (character.level * 20);
+        int requiredDinoBlood = dinoBlood + (character.level * 10);
+        int requiredBoneCrystal = 0;
+
+        if(character.level % 5 == 0)
         {
-            character.level++;
-            Debug.Log($"{character.Name}의 레벨이 {character.level}로 올랐습니다.");
-            return true;
+            requiredBoneCrystal = boneCrystal + ((character.level / 5) * 50);
         }
-        else
+
+        if (Inventory.instance.GetItemAmount(ItemID.Coin) >= requiredCoin &&
+        Inventory.instance.GetItemAmount(ItemID.DinoBlood) >= requiredDinoBlood &&
+        Inventory.instance.GetItemAmount(ItemID.BoneCrystal) >= requiredBoneCrystal)
         {
-            Debug.Log("코인이 부족합니다");
-            return false;
+            if (Inventory.instance.SpendItem(ItemID.Coin, requiredCoin) &&
+                Inventory.instance.SpendItem(ItemID.DinoBlood, requiredDinoBlood) &&
+                (requiredBoneCrystal == 0 || Inventory.instance.SpendItem(ItemID.BoneCrystal, requiredBoneCrystal)))
+            {
+                character.level++;
+                Debug.Log($"{character.Name} 레벨업 {character.level}");
+                if(requiredBoneCrystal > 0)
+                {
+                    Debug.Log($"본 크리스탈 {requiredBoneCrystal} 소모");
+                }
+                return true;
+            }
         }
+
+        if (Inventory.instance.GetItemAmount(ItemID.Coin) < requiredCoin)
+        {
+            Debug.Log($"코인이 {Inventory.instance.GetItemAmount(ItemID.Coin) - requiredCoin} 부족합니다.");
+        }
+        if (Inventory.instance.GetItemAmount(ItemID.DinoBlood) < requiredDinoBlood)
+        {
+            Debug.Log($"다이노블러드가 {Inventory.instance.GetItemAmount(ItemID.DinoBlood) - requiredDinoBlood} 부족합니다");
+        }
+        if (Inventory.instance.GetItemAmount(ItemID.BoneCrystal) < requiredDinoBlood)
+        {
+            Debug.Log($"본크리스탈이 {Inventory.instance.GetItemAmount(ItemID.BoneCrystal) - requiredBoneCrystal} 부족합니다");
+        }
+
+        return false;
     }
 }

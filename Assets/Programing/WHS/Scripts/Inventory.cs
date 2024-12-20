@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
         items = new Dictionary<int, Item>();
 
         AddItem(ItemID.Coin, 100000);
-        AddItem(ItemID.DinoBlood, 500);
+        AddItem(ItemID.DinoBlood, 50000);
         AddItem(ItemID.BoneCrystal, 2000);
         AddItem(ItemID.DinoStone, 30000);
         AddItem(ItemID.LeapStone, 300);
