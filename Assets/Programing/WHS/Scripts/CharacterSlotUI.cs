@@ -35,6 +35,7 @@ public class CharacterSlotUI : UIBInder
     private void OnClick(PointerEventData eventData)
     {
         characterPanel.SetActive(true);
+
         characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(character);
     }
 

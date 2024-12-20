@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
 
         AddItem(ItemID.Coin, 100000);
         AddItem(ItemID.DinoBlood, 50000);
-        AddItem(ItemID.BoneCrystal, 2000);
+        AddItem(ItemID.BoneCrystal, 2500);
         AddItem(ItemID.DinoStone, 30000);
         AddItem(ItemID.LeapStone, 300);
         AddItem(ItemID.Gear, 100);
