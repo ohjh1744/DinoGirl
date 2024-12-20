@@ -105,7 +105,7 @@ public class WarriorUnitController : UnitController
         if (!_attackTriggered)
         {
             _attackTriggered = true;
-            _animator.SetTrigger("Attack");
+            _unitAnimator.SetTrigger("Attack");
             Debug.Log($"{_currentTarget.gameObject.name}에 워리어 공격!");
             StartCoroutine(ResetAttackTrigger(animationName));
             return BaseNode.ENodeState.Running;

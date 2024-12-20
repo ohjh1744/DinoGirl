@@ -8,11 +8,16 @@ public abstract class UnitController : MonoBehaviour
 {
     
     protected BehaviourTreeRunner _BTRunner;
-    protected Animator _animator;
+    protected Animator _unitAnimator;
+    public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }
     protected Transform _detectedEnemy;
+    public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
+    
     protected Transform _currentTarget;
-
+    public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+    
     protected int unitID;
+    public int UnitID { get { return unitID; } }
 
     // 카메라 범위
     protected Vector2 _bottomLeft;
@@ -20,33 +25,34 @@ public abstract class UnitController : MonoBehaviour
     
     
     [SerializeField] protected float _detectRange;
+    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
+    
     [SerializeField] protected float _attackRange;
+    public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
+    
     [SerializeField] protected float _moveSpeed;
+    public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
+    
     [SerializeField] protected LayerMask _allianceLayer;
+    public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
     [SerializeField] protected LayerMask _enemyLayer;
+    public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
     
     protected bool _attackTriggered = false;
+    public bool AttackTriggered { get => _attackTriggered; protected set => _attackTriggered = value;}
+    
     [SerializeField] protected bool _isPriorityTargetFar;
+    public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
         
 
-    public int UnitID { get { return unitID; } }
-    public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
-    public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
     
-    public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
-
-    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
-    public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
-    public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
-    public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
-    public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
-
+    
     
     protected virtual void Start()
     {
         SetLayer();
         SetDetectingArea();
-        _animator = GetComponent<Animator>();
+        _unitAnimator = GetComponent<Animator>();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
@@ -64,9 +70,9 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool IsAnimationRunning(string stateName)
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        if (_unitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            var normalizedTime = _unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             return normalizedTime != 0 && normalizedTime < 1f;
         }
         return false;
@@ -74,9 +80,9 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool IsAnimationFinished(string stateName)
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        if (_unitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            var normalizedTime = _unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             return normalizedTime > 1.0f;
         }
         return false;
@@ -123,7 +129,8 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool CheckAttackRange()
     {
-        if (DetectedEnemy == null) return false;
+        if (DetectedEnemy == null)
+            return false;
         float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
         return sqrDistance <= AttackRange * AttackRange;
     }
@@ -209,12 +216,19 @@ public abstract class UnitController : MonoBehaviour
     // coroutine
     protected IEnumerator ResetAttackTrigger(string animationName)
     {
+        while (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+        {
+            yield return null;
+        }
+        
+        UnitAnimator.SetTrigger("Attack");
+        
         // 애니메이션의 길이만큼 대기 후 리셋
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        //yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
         _attackTriggered = false;
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
     }
-
+    
     // others
     protected void SetDetectingArea()
     {

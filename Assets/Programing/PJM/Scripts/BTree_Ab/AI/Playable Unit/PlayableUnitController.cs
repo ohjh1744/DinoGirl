@@ -4,14 +4,21 @@ using UnityEngine;
 
 public abstract class PlayableUnitController : UnitController
 {
+    private float skillRange;
+
+    public float SkillRange { get => skillRange; protected set => skillRange = value;}
+    
+    private bool _skillTriggered;
+    public bool SkillTriggered { get => _skillTriggered; protected set => _skillTriggered = value; }
+
     private float _coolTime;
-    public float CoolTime {get => _coolTime; private set => _coolTime = value; }
+    public float CoolTime {get => _coolTime; protected set => _coolTime = value; }
     
     private float _coolTimeCounter;
-    public float CoolTimeCounter {get => _coolTimeCounter; private set => _coolTimeCounter = value; }
+    public float CoolTimeCounter {get => _coolTimeCounter; protected set => _coolTimeCounter = value; }
     
     protected bool _isAutoOn; // 임시, 배틀매니저 값을 참조하는게 좋음
-
+    
     protected override void Start()
     {
         base.Start();
@@ -25,14 +32,33 @@ public abstract class PlayableUnitController : UnitController
         throw new System.NotImplementedException();
     }
 
-    public abstract BaseNode.ENodeState UseSkill();
+    protected abstract BaseNode.ENodeState SetTargetToSkill();
+
+    protected abstract BaseNode.ENodeState PerformSkill(string animationName);
+    
+    
+    //public abstract BaseNode.ENodeState UseSkill();
+    
+    protected IEnumerator ResetSkillTrigger(string animationName)
+    {
+        // 애니메이션의 길이만큼 대기 후 리셋
+        while (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+        {
+            yield return null;
+        }
+        
+        //yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
+        UnitAnimator.SetTrigger("Skill");
+        SkillTriggered = false;
+        CoolTimeCounter = CoolTime;
+        Debug.Log($"{animationName} 애니메이션 완료: 스킬 리셋됨.");
+    }
 
 
     protected bool CheckSkillCooltime()
     {
         if (_coolTimeCounter <= 0)
         {
-            _coolTimeCounter = CoolTime;
             return true;
         }
         else
@@ -55,6 +81,8 @@ public abstract class PlayableUnitController : UnitController
         // 임시로 항시 True를 반환
         return true;
     }
-    
-    
+
+    protected abstract bool CheckSkillRange();
+
+
 }
