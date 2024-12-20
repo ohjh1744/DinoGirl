@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeController : UnitController
+public class MeleePlayerUnitController : PlayableUnitController
 {
-    private bool _isCooltimeReturn;
-
-    private bool _isAutoOn = true; // 우선 기본적으로 켜져있음
-    
-    
     //[SerializeField] private bool _isAssassin;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         //DetectRange = 20.0f;
         AttackRange = 2.0f;
         MoveSpeed = 2.0f;
@@ -31,6 +25,23 @@ public class MeleeController : UnitController
         (
             new List<BaseNode>
             {
+                new SequenceNode
+                (
+                    new List<BaseNode>()
+                    {
+                        new ConditionNode(CheckSkillCooltime),
+                        new SelectorNode
+                        (
+                            new List<BaseNode>()
+                            {
+                                new ConditionNode(CheckAutoOn),
+                                new ConditionNode(CheckUserInput)
+                            }
+                        ),
+                        
+                        new ActionNode(UseSkill)
+                    }
+                ),
                 new SequenceNode
                 (
                     new List<BaseNode>
@@ -55,9 +66,13 @@ public class MeleeController : UnitController
 
     // skill
 
-    public override void UseSkill()
+    public override BaseNode.ENodeState UseSkill()
     {
+        // 배틀 매니저에서 컷신 띄우기 및 타임스케일 조정
+        // 애니메이션이 끝났을 때 Success 반환?
+        
         Debug.Log($"전사 유닛  스킬 사용! "); //{UnitID}
+        return BaseNode.ENodeState.Success;
     }
 
 

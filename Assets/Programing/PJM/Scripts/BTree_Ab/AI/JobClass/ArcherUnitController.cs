@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class ArcherUnitController : UnitController
 {
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         //DetectRange = 20.0f;
         AttackRange = 15.0f;
         MoveSpeed = 1.0f;
@@ -40,12 +39,6 @@ public class ArcherUnitController : UnitController
         );
     }
     
-    // skill
-    public override void UseSkill()
-    {
-        Debug.Log($"궁수 유닛 {UnitID} 스킬 사용! ");
-    }
-
     private BaseNode.ENodeState PerformAttack(string animationName)
     {
         if (_currentTarget == null) return BaseNode.ENodeState.Failure;

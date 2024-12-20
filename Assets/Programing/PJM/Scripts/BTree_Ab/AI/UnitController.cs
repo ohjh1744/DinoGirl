@@ -41,17 +41,7 @@ public abstract class UnitController : MonoBehaviour
     public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
     public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
 
-    protected virtual void Awake()
-    {
-        
-    }
-
-    /*protected virtual void OnEnable()
-    {
-        SkillController.OnSkillUsed += 
-    }*/
     
-
     protected virtual void Start()
     {
         SetLayer();
@@ -225,10 +215,6 @@ public abstract class UnitController : MonoBehaviour
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
     }
 
-    // skill
-    public abstract void UseSkill();
-    
-    
     // others
     protected void SetDetectingArea()
     {

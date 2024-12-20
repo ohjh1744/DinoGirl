@@ -34,7 +34,7 @@ public class SkillController : MonoBehaviour
 
     public void OnSkillButtonTouched()
     {
-        tempUnit.UseSkill();
+        //tempUnit.UseSkill();
     }
 
     /*public void OnSkillButtonTouched(int skillIndex)
