@@ -24,6 +24,7 @@ public class LoginPanel : UIBInder
     void Start()
     {
         GetUI<Button>("LoginButton").onClick.AddListener(Login);
+        GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
     }
 
 
