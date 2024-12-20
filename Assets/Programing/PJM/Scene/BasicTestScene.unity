@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 56322086}
   - component: {fileID: 56322085}
   m_Layer: 5
-  m_Name: Hide Image
+  m_Name: Hide Image2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -410,6 +410,7 @@ MonoBehaviour:
   hideSkillImages:
   - {fileID: 1107856726}
   - {fileID: 56322085}
+  tempUnit: {fileID: 1538447555}
 --- !u!1001 &176329105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435,11 +436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.6
+      value: -5.03
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.95
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -504,11 +505,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: 48610d0eb6cbb36439ae3a15cd0b6aab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.77
+      value: -7.27
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: 48610d0eb6cbb36439ae3a15cd0b6aab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.18
+      value: -2.15
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: 48610d0eb6cbb36439ae3a15cd0b6aab, type: 3}
       propertyPath: m_LocalPosition.z
@@ -628,7 +629,7 @@ GameObject:
   - component: {fileID: 777229413}
   - component: {fileID: 777229412}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Cooltime Text2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -885,7 +886,7 @@ GameObject:
   - component: {fileID: 1107856727}
   - component: {fileID: 1107856726}
   m_Layer: 5
-  m_Name: Hide Image
+  m_Name: Hide Image1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1060,6 +1061,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 56422105}
+        m_TargetAssemblyTypeName: SkillController, Assembly-CSharp
+        m_MethodName: OnSkillButtonTouched
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1132903154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,11 +1128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.08
+      value: -1.78
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1418,11 +1431,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: 48610d0eb6cbb36439ae3a15cd0b6aab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.57
+      value: -7.16
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: 48610d0eb6cbb36439ae3a15cd0b6aab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.64
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 3291999828479281862, guid: 48610d0eb6cbb36439ae3a15cd0b6aab, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1605,6 +1618,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427757014}
   m_CullTransparentMesh: 1
+--- !u!114 &1538447555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5929243300474981920, guid: a0b755a31d8c57d41a3af64a0e4414c7, type: 3}
+  m_PrefabInstance: {fileID: 1304022018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95fa086b03a02b4caaf8e6f8facd2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1589960617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,11 +1783,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 60bd15e2ddbbd2c42951cdf019c2995c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.93
+      value: 5.05
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 60bd15e2ddbbd2c42951cdf019c2995c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.44
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 60bd15e2ddbbd2c42951cdf019c2995c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1816,11 +1840,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 60bd15e2ddbbd2c42951cdf019c2995c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.86
+      value: 7.78
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 60bd15e2ddbbd2c42951cdf019c2995c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.11
+      value: -2.58
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 60bd15e2ddbbd2c42951cdf019c2995c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1884,7 +1908,7 @@ GameObject:
   - component: {fileID: 1886867566}
   - component: {fileID: 1886867565}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Skill2 Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1965,11 +1989,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 66507d62c64663e4990c14d519ac2ee5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.13
+      value: 7.95
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 66507d62c64663e4990c14d519ac2ee5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.09
+      value: 1.84
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 66507d62c64663e4990c14d519ac2ee5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2030,11 +2054,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 66507d62c64663e4990c14d519ac2ee5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.95
+      value: 2.56
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 66507d62c64663e4990c14d519ac2ee5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.08
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3674749431432712198, guid: 66507d62c64663e4990c14d519ac2ee5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2086,7 +2110,7 @@ GameObject:
   - component: {fileID: 1988345606}
   - component: {fileID: 1988345605}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Skill1 Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2162,7 +2186,7 @@ GameObject:
   - component: {fileID: 2116408105}
   - component: {fileID: 2116408104}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Cooltime Text1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

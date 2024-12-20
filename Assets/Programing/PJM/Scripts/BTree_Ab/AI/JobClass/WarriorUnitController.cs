@@ -98,6 +98,14 @@ public class WarriorUnitController : UnitController
         return true;
     }*/
     
+    // skill
+
+    public override void UseSkill()
+    {
+        Debug.Log($"전사 유닛  스킬 사용! "); //{UnitID}
+    }
+
+
     private BaseNode.ENodeState PerformAttack(string animationName)
     {
         if (_currentTarget == null) return BaseNode.ENodeState.Failure;

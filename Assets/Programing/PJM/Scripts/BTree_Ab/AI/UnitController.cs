@@ -6,10 +6,13 @@ using UnityEngine;
 
 public abstract class UnitController : MonoBehaviour
 {
+    
     protected BehaviourTreeRunner _BTRunner;
     protected Animator _animator;
     protected Transform _detectedEnemy;
     protected Transform _currentTarget;
+
+    protected int unitID;
 
     // 카메라 범위
     protected Vector2 _bottomLeft;
@@ -26,7 +29,7 @@ public abstract class UnitController : MonoBehaviour
     [SerializeField] protected bool _isPriorityTargetFar;
         
 
-
+    public int UnitID { get { return unitID; } }
     public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
     public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
     
@@ -42,6 +45,12 @@ public abstract class UnitController : MonoBehaviour
     {
         
     }
+
+    /*protected virtual void OnEnable()
+    {
+        SkillController.OnSkillUsed += 
+    }*/
+    
 
     protected virtual void Start()
     {
@@ -59,6 +68,7 @@ public abstract class UnitController : MonoBehaviour
 
         _BTRunner.Operate();
     }
+
 
     protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
 
@@ -215,6 +225,10 @@ public abstract class UnitController : MonoBehaviour
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
     }
 
+    // skill
+    public abstract void UseSkill();
+    
+    
     // others
     protected void SetDetectingArea()
     {
