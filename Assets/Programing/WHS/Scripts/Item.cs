@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 아이템들 ( 시트에서 받아와야 하나)
 public class Item
 {
     public int id;          // ID 500~

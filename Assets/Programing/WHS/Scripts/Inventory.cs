@@ -31,6 +31,8 @@ public class Inventory : MonoBehaviour
         }
 
         instance = this;
+
+        InitInventory();
     }
 
     // 아이템 딕셔너리
@@ -38,6 +40,20 @@ public class Inventory : MonoBehaviour
 
     // 캐릭터 리스트
     public List<Character> characters = new List<Character>();
+
+
+    // 재화 초기화 ( 서버에서 받아와야 할 것)
+    private void InitInventory()
+    {
+        items = new Dictionary<int, Item>();
+
+        AddItem(ItemID.Coin, 100000);
+        AddItem(ItemID.DinoBlood, 500);
+        AddItem(ItemID.BoneCrystal, 2000);
+        AddItem(ItemID.DinoStone, 30000);
+        AddItem(ItemID.LeapStone, 300);
+        AddItem(ItemID.Gear, 100);
+    }
 
     // 재화 추가하기, 얻기
     public void AddItem(int itemID, int amount)
