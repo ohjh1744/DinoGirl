@@ -7,25 +7,33 @@ public abstract class Skill : ScriptableObject
     public string skillName;
     public float skillRange;
     public float cooldown;
-    protected Transform skillTarget; 
+    protected Transform skillTarget;
+    public Transform SkillTarget { get => skillTarget; protected set => skillTarget = value; }
+    protected List<Transform> skillTargets;
+    public List<Transform> SkillTargets { get => skillTargets; protected set => skillTargets = value; }
 
     // 거리 체크
-    public virtual bool CheckRange(Transform caster)
+    protected virtual bool CheckRange(Transform caster)
     {
-        if (skillTarget == null)
+        if (SkillTarget == null)
             return false;
-        float sqrDistance = (skillTarget.position - caster.position).sqrMagnitude;
+        float sqrDistance = (SkillTarget.position - caster.position).sqrMagnitude;
         return sqrDistance <= skillRange * skillRange;
     }
 
     // 타겟 설정
-    public abstract bool SetTarget(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar);
+    protected abstract bool SetTarget(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar);
 
     // 스킬 실행
-    public abstract void Perform(Transform caster);
+    protected abstract void Perform(Transform caster);
+
+    protected virtual void ResetTargets()
+    {
+        SkillTargets.Clear();
+    }
 
     // 스킬 행동 트리를 반환하는 메서드
-    public SequenceNode CreateSkillTree(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar)
+    public SequenceNode CreateSkillBTree(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar)
     {
         return new SequenceNode
         (

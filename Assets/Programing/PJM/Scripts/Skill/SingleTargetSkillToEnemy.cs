@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SingleTargetSkillToEnemy", menuName = "Skills/SingleTargetSkillToEnemy")]
 public class SingleTargetSkillToEnemy : Skill
 {
-    public override bool SetTarget(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar)
+    protected override bool SetTarget(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar)
     {
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.position, skillRange, enemyLayer);
         if (detectedColliders.Length == 0)
@@ -37,23 +37,23 @@ public class SingleTargetSkillToEnemy : Skill
         }
         if (isPriorityTargetFar)
         {
-            skillTarget = farthestEnemy;
+            SkillTarget = farthestEnemy;
         }
         else
         {
-            skillTarget = closetEnemy;
+            SkillTarget = closetEnemy;
         }
-        return skillTarget != null;
+        return SkillTarget != null;
     }
     
-    public override void Perform(Transform caster)
+    protected override void Perform(Transform caster)
     {
-        if (skillTarget == null)
+        if (SkillTarget == null)
         {
             Debug.Log($"{skillName}: 타겟이 없습니다.");
             return;
         }
 
-        Debug.Log($"{skillName}: {skillTarget.gameObject.name}에게 {skillName} 사용!");
+        Debug.Log($"{skillName}: {SkillTarget.gameObject.name}에게 {skillName} 사용!");
     }
 }
