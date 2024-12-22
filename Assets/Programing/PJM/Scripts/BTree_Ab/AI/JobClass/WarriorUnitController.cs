@@ -33,7 +33,7 @@ public class WarriorUnitController : UnitController
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attack"))
+                        new ActionNode(() => PerformAttack("Attacking"))
                     }
                 ),
                 new SequenceNode
@@ -99,7 +99,7 @@ public class WarriorUnitController : UnitController
     
     // skill
 
-    private BaseNode.ENodeState PerformAttack(string animationName)
+    /*private BaseNode.ENodeState PerformAttack(string animationName)
     {
         if (_currentTarget == null) return BaseNode.ENodeState.Failure;
         if (!_attackTriggered)
@@ -115,5 +115,5 @@ public class WarriorUnitController : UnitController
             return BaseNode.ENodeState.Running;
         }
         return BaseNode.ENodeState.Success;
-    }
+    }*/
 }

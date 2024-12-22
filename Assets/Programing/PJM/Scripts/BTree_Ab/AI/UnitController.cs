@@ -38,8 +38,8 @@ public abstract class UnitController : MonoBehaviour
     [SerializeField] protected LayerMask _enemyLayer;
     public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
     
-    protected bool _attackTriggered = false;
-    public bool AttackTriggered { get => _attackTriggered; protected set => _attackTriggered = value;}
+    protected bool _attackStarted = false;
+    public bool AttackStarted { get => _attackStarted; protected set => _attackStarted = value;}
     
     [SerializeField] protected bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
@@ -70,12 +70,18 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool IsAnimationRunning(string stateName)
     {
-        if (_unitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        /*AnimatorStateInfo stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        
+        return stateInfo.IsName(stateName) && stateInfo.normalizedTime < 1.0f;*/
+        if (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            var normalizedTime = _unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            return normalizedTime != 0 && normalizedTime < 1f;
+            var normalizedTime = UnitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            return normalizedTime != 0 && normalizedTime < 1.0f;
         }
         return false;
+            
+
+        
     }
 
     protected bool IsAnimationFinished(string stateName)
@@ -104,6 +110,57 @@ public abstract class UnitController : MonoBehaviour
         }
         return BaseNode.ENodeState.Failure;
     }
+    
+    protected BaseNode.ENodeState PerformAttack(string animationName) // 추후 해싱
+    {
+        // 타겟이 유효하지 않을때 
+        if (CurrentTarget == null)
+        {
+            AttackStarted = false;
+            return BaseNode.ENodeState.Failure;
+        }
+            
+        // 공격을 시작
+        if (!AttackStarted)
+        {
+            AttackStarted = true;
+            UnitAnimator.SetTrigger("Attack");
+            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 시작!");
+            StartCoroutine(ResetAttackRoutine((animationName)));
+            return BaseNode.ENodeState.Running;
+        }
+        // 공격이 진행중
+        if (AttackStarted && IsAnimationRunning(animationName))
+        {
+            Debug.Log($"공격 진행중 어택트리거 상태 : {AttackStarted}");
+            return BaseNode.ENodeState.Running;
+        }
+        if (!AttackStarted)
+        {
+            // 공격 모션이 끝남, 공격모션이 끝나고 한번만 실행되어야 함
+            Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackStarted}");
+            //AttackStarted = false;
+            return BaseNode.ENodeState.Success;
+        }
+
+        return BaseNode.ENodeState.Failure;
+    }
+    
+    // coroutine
+    protected IEnumerator ResetAttackRoutine(string animationName)
+    {
+        /*while (IsAnimationRunning(animationName))
+        {
+            yield return null;
+        }*/
+        
+        //UnitAnimator.SetTrigger("Attack");
+        
+        // 애니메이션의 길이만큼 대기 후 리셋
+        yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
+        AttackStarted = false;
+        Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
+    }
 
     protected BaseNode.ENodeState ChaseTarget()
     {
@@ -124,6 +181,7 @@ public abstract class UnitController : MonoBehaviour
     protected BaseNode.ENodeState StayIdle()
     {
         Debug.Log("Idle 상태");
+        //UnitAnimator.SetTrigger("Idle");
         return BaseNode.ENodeState.Success;
     }
 
@@ -183,51 +241,9 @@ public abstract class UnitController : MonoBehaviour
 
         return BaseNode.ENodeState.Success;
         
-        
-        
-
-        /*if (_detectedEnemy != null)
-            return true;
-        
-        // 현재 카메라에 보이는 전체 영역 탐지
-
-        //Rect screenRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
-        Collider2D[] detectedEnemys = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
-
-        if (detectedEnemys.Length > 0)
-        {
-            _detectedEnemy = detectedEnemys[0].transform;
-            return true;
-        }
-        
-        return false;*/
-        
-        /*// 가장 먼저 탐지한 적을 우선적으로 공격할 경우
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
-        if (detectedColliders.Length > 0)
-        {
-            _detectedEnemy = detectedColliders[0].transform;
-            return true;
-        }
-        _detectedEnemy = null;
-        return false;*/
     }
     
-    // coroutine
-    protected IEnumerator ResetAttackTrigger(string animationName)
-    {
-        while (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
-        {
-            yield return null;
-        }
-        
-        UnitAnimator.SetTrigger("Attack");
-        
-        // 애니메이션의 길이만큼 대기 후 리셋
-        //yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
-        _attackTriggered = false;
-        Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
-    }
+    
     
     // others
     protected void SetDetectingArea()
@@ -322,3 +338,29 @@ private BaseNode.ENodeState TempMethod()
 {
     return BaseNode.ENodeState.Success;
 }*/
+
+/*if (_detectedEnemy != null)
+            return true;
+
+        // 현재 카메라에 보이는 전체 영역 탐지
+
+        //Rect screenRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
+        Collider2D[] detectedEnemys = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
+
+        if (detectedEnemys.Length > 0)
+        {
+            _detectedEnemy = detectedEnemys[0].transform;
+            return true;
+        }
+
+        return false;*/
+        
+/*// 가장 먼저 탐지한 적을 우선적으로 공격할 경우
+Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
+if (detectedColliders.Length > 0)
+{
+    _detectedEnemy = detectedColliders[0].transform;
+    return true;
+}
+_detectedEnemy = null;
+return false;*/

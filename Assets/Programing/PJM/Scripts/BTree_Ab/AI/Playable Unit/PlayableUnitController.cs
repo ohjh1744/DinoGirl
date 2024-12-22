@@ -41,14 +41,14 @@ public abstract class PlayableUnitController : UnitController
     
     protected IEnumerator ResetSkillTrigger(string animationName)
     {
-        // 애니메이션의 길이만큼 대기 후 리셋
         while (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
         {
             yield return null;
         }
         
+        // 애니메이션의 길이만큼 대기 후 리셋
         //yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
-        UnitAnimator.SetTrigger("Skill");
+        //UnitAnimator.ResetTrigger("Skill");
         SkillTriggered = false;
         CoolTimeCounter = CoolTime;
         Debug.Log($"{animationName} 애니메이션 완료: 스킬 리셋됨.");

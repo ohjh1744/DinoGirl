@@ -52,7 +52,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                             {
                                 new ConditionNode(CheckSkillRange),
                                 new ActionNode(SetTargetToSkill),
-                                new ActionNode(() => PerformSkill("Skill"))
+                                new ActionNode(() => PerformSkill("UsingSkill"))
                             }
                         ),
                     }
@@ -64,7 +64,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attack"))
+                        new ActionNode(() => PerformAttack("Attacking"))
                     }
                 ),
                 new SequenceNode
@@ -92,30 +92,11 @@ public class MeleePlayerUnitController : PlayableUnitController
         return BaseNode.ENodeState.Success;
     }*/
 
-    private BaseNode.ENodeState PerformAttack(string animationName) // 추후 해싱
-    {
-        if (CurrentTarget == null) return BaseNode.ENodeState.Failure;
-        if (!AttackTriggered)
-        {
-            AttackTriggered = true;
-            UnitAnimator.SetTrigger("Attack");
-            Debug.Log($"{CurrentTarget.gameObject.name}에 워리어 공격!");
-            StartCoroutine(ResetAttackTrigger(animationName));
-            return BaseNode.ENodeState.Running;
-        }
-        if (IsAnimationRunning(animationName))
-        {
-            return BaseNode.ENodeState.Running;
-        }
-        return BaseNode.ENodeState.Success;
-    }
-
-
     protected override BaseNode.ENodeState SetTargetToSkill() // 임시 스킬
     {
         if (SkillTarget != null)
         {
-            Debug.Log($"스킬타겟 있음 : {SkillTarget.gameObject.name}");
+            //Debug.Log($"스킬타겟 있음 : {SkillTarget.gameObject.name}");
             return BaseNode.ENodeState.Success;
         }
         Debug.Log("스킬타겟 없음 찾아야함");
@@ -159,14 +140,14 @@ public class MeleePlayerUnitController : PlayableUnitController
     {
         // 스킬 타겟을 따로 둬야함
         // 비활성화도 인식아 필요할경우 activeInHierarchy나 activeSelf사용
-        if (SkillTarget == null || !SkillTarget.gameObject.activeInHierarchy)
+        if (SkillTarget == null)
             return BaseNode.ENodeState.Failure;
         
         if (!SkillTriggered)
         {
             SkillTriggered = true;
             UnitAnimator.SetTrigger("Skill");
-            Debug.Log($"******{SkillTarget.gameObject.name}에 밀리 스킬 공격!******");
+            Debug.Log($"******{SkillTarget.gameObject.name}에 밀리 스킬 공격 시작!******");
             StartCoroutine(ResetSkillTrigger(animationName));
             return BaseNode.ENodeState.Running;
         }
@@ -174,6 +155,8 @@ public class MeleePlayerUnitController : PlayableUnitController
         {
             return BaseNode.ENodeState.Running;
         }
+        
+        UnitAnimator.ResetTrigger("Skill");
         return BaseNode.ENodeState.Success;
     }
     

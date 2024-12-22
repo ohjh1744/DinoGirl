@@ -23,7 +23,7 @@ public class ArcherUnitController : UnitController
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attack"))
+                        new ActionNode(() => PerformAttack("Attacking"))
                     }
                 ),
                 new SequenceNode
@@ -39,7 +39,7 @@ public class ArcherUnitController : UnitController
         );
     }
     
-    private BaseNode.ENodeState PerformAttack(string animationName)
+    /*private BaseNode.ENodeState PerformAttack(string animationName)
     {
         if (_currentTarget == null) return BaseNode.ENodeState.Failure;
         if (!_attackTriggered)
@@ -89,7 +89,7 @@ public class ArcherUnitController : UnitController
          * 
          *
          * 
-         */
+         #1#
         return BaseNode.ENodeState.Success;
-    }
+    }*/
 }
