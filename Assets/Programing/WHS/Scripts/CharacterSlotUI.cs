@@ -32,11 +32,16 @@ public class CharacterSlotUI : UIBInder
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
-    public void OnClick(PointerEventData eventData)
+    private void OnClick(PointerEventData eventData)
     {
-        Debug.Log($"{character.Name}");
-
         characterPanel.SetActive(true);
-        characterPanel.GetComponent<CharacterPanel>().DisplayCharacterInfo(character);
+
+        characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(character);
     }
+
+    public Character GetCharacter()
+    {
+        return character;
+    }
+
 }

@@ -15,37 +15,37 @@ public class CharacterInventoryUI : MonoBehaviour
     private void Start()
     {
         // 캐릭터는 데이터베이스에서 받아와서 쓸것,  스크롤뷰 확인용
-        AddCharacter(new Character { Name = "tyrano", level = 10 });
-        AddCharacter(new Character { Name = "yrano", level = 50 });
-        AddCharacter(new Character { Name = "rano", level = 33 });
-        AddCharacter(new Character { Name = "ano", level = 44 });
-        AddCharacter(new Character { Name = "no", level = 12 });
-        AddCharacter(new Character { Name = "o", level = 21 });
-        AddCharacter(new Character { Name = "tyrano", level = 10 });
-        AddCharacter(new Character { Name = "yrano", level = 50 });
-        AddCharacter(new Character { Name = "rano", level = 33 });
-        AddCharacter(new Character { Name = "ano", level = 44 });
-        AddCharacter(new Character { Name = "no", level = 12 });
-        AddCharacter(new Character { Name = "o", level = 21 });
+        AddCharacter(new Character { ID = 10, Name = "tyrano", level = 1 });
+        AddCharacter(new Character { ID = 11, Name = "yrano", level = 50 });
+        AddCharacter(new Character { ID = 12, Name = "rano", level = 33 });
+        AddCharacter(new Character { ID = 13, Name = "ano", level = 44 });
+        AddCharacter(new Character { ID = 14, Name = "no", level = 12 });
+        AddCharacter(new Character { ID = 15, Name = "o", level = 21 });
+        AddCharacter(new Character { ID = 16, Name = "tyrano", level = 10 });
+        AddCharacter(new Character { ID = 17, Name = "yrano", level = 50 });
+        AddCharacter(new Character { ID = 18, Name = "rano", level = 33 });
+        AddCharacter(new Character { ID = 19, Name = "ano", level = 44 });
+        AddCharacter(new Character { ID = 20, Name = "no", level = 12 });
+        AddCharacter(new Character { ID = 21, Name = "o", level = 21 });
 
         PopulateGrid();
     }
 
     // 캐릭터 추가하기
-    public void AddCharacter(Character character)
+    private void AddCharacter(Character character)
     {
         characterList.Add(character);
     }
 
     // 그리드에 가진 캐릭터 정렬
-    public void PopulateGrid()
+    private void PopulateGrid()
     {
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);
         }
 
-        // 캐릭터 정렬
+        // 스크롤뷰에 캐릭터 정렬
         foreach (Character character in characterList)
         {
             GameObject slot = Instantiate(characterPrefab, content);
@@ -56,9 +56,17 @@ public class CharacterInventoryUI : MonoBehaviour
         }
     }
 
-    // 보유하지 않은 캐릭터도 정렬?
-
-    // 보유하지 않은 캐릭터는 누르면 상점으로 이동하게?
-
-    // 상점에서는 캐릭터를 구매하면 가진 목록에 추가?
+    // 바뀐 캐릭터 갱신
+    public void UpdateCharacterUI(Character updatedCharacter)
+    {
+        foreach (Transform child in content)
+        {
+            CharacterSlotUI slotUI = child.GetComponent<CharacterSlotUI>();
+            if (slotUI.GetCharacter().ID == updatedCharacter.ID)
+            {
+                slotUI.SetCharacter(updatedCharacter);
+                break;
+            }
+        }
+    }
 }
