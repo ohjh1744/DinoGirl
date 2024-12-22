@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "WarriorSkill")]
+//[CreateAssetMenu(menuName = "WarriorSkill")]
 public class RndWarriorSkill : RndSkillData
 {
     [SerializeField] private int damage;
