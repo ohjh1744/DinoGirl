@@ -79,9 +79,6 @@ public abstract class UnitController : MonoBehaviour
             return normalizedTime != 0 && normalizedTime < 1.0f;
         }
         return false;
-            
-
-        
     }
 
     protected bool IsAnimationFinished(string stateName)
