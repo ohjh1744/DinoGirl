@@ -38,8 +38,8 @@ public abstract class UnitController : MonoBehaviour
     [SerializeField] protected LayerMask _enemyLayer;
     public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
     
-    protected bool _attackStarted = false;
-    public bool AttackStarted { get => _attackStarted; protected set => _attackStarted = value;}
+    protected bool _attackTriggered = false;
+    public bool AttackTriggered { get => _attackTriggered; protected set => _attackTriggered = value;}
     
     [SerializeField] protected bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
@@ -116,29 +116,29 @@ public abstract class UnitController : MonoBehaviour
         // 타겟이 유효하지 않을때 
         if (CurrentTarget == null)
         {
-            AttackStarted = false;
+            AttackTriggered = false;
             return BaseNode.ENodeState.Failure;
         }
             
         // 공격을 시작
-        if (!AttackStarted)
+        if (!AttackTriggered)
         {
-            AttackStarted = true;
+            AttackTriggered = true;
             UnitAnimator.SetTrigger("Attack");
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 시작!");
             StartCoroutine(ResetAttackRoutine((animationName)));
             return BaseNode.ENodeState.Running;
         }
         // 공격이 진행중
-        if (AttackStarted && IsAnimationRunning(animationName))
+        if (AttackTriggered && IsAnimationRunning(animationName))
         {
-            Debug.Log($"공격 진행중 어택트리거 상태 : {AttackStarted}");
+            Debug.Log($"공격 진행중 어택트리거 상태 : {AttackTriggered}");
             return BaseNode.ENodeState.Running;
         }
-        if (!AttackStarted)
+        if (!AttackTriggered)
         {
             // 공격 모션이 끝남, 공격모션이 끝나고 한번만 실행되어야 함
-            Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackStarted}");
+            Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackTriggered}");
             //AttackStarted = false;
             return BaseNode.ENodeState.Success;
         }
@@ -158,7 +158,7 @@ public abstract class UnitController : MonoBehaviour
         
         // 애니메이션의 길이만큼 대기 후 리셋
         yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
-        AttackStarted = false;
+        AttackTriggered = false;
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
     }
 

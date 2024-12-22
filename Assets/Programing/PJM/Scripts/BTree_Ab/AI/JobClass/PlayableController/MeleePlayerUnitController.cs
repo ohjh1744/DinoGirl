@@ -141,7 +141,11 @@ public class MeleePlayerUnitController : PlayableUnitController
         // 스킬 타겟을 따로 둬야함
         // 비활성화도 인식아 필요할경우 activeInHierarchy나 activeSelf사용
         if (SkillTarget == null)
+        {
+            SkillTriggered = false;
             return BaseNode.ENodeState.Failure;
+        }
+            
         
         if (!SkillTriggered)
         {
@@ -153,11 +157,17 @@ public class MeleePlayerUnitController : PlayableUnitController
         }
         if (IsAnimationRunning(animationName))
         {
+            Debug.Log($"스킬 진행중 어택트리거 상태 : {AttackTriggered}");
             return BaseNode.ENodeState.Running;
         }
-        
-        UnitAnimator.ResetTrigger("Skill");
-        return BaseNode.ENodeState.Success;
+        if(!SkillTriggered)
+        {
+            Debug.Log($"스킬 종료됨 스킬트리거 상태 : {SkillTriggered}");
+            //UnitAnimator.ResetTrigger("Skill");
+            return BaseNode.ENodeState.Success;
+        }
+
+        return BaseNode.ENodeState.Failure;
     }
     
     // condition
