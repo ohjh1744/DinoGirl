@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MeleePlayerUnitController : PlayableUnitController
 {
+    
+    private List<Transform> _skillTargets;
+    
     private Transform _skillTarget;
 
     public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }
@@ -11,11 +14,11 @@ public class MeleePlayerUnitController : PlayableUnitController
     //[SerializeField] private bool _isAssassin;
     protected void Awake()
     {
+        _skillTargets = new List<Transform>();
         //DetectRange = 20.0f;
         AttackRange = 2.0f;
         MoveSpeed = 2.0f;
         SkillRange = 4.0f;
-        CoolTime = 5.0f;
         CoolTimeCounter = 0.0f;
     }
 
@@ -45,7 +48,9 @@ public class MeleePlayerUnitController : PlayableUnitController
                                 new ConditionNode(CheckUserInput)
                             }
                         ),
-                        new SequenceNode // Use Skill
+                        
+                        UniqueSkill.CreateSkillBTree(transform, _skillTargets, EnemyLayer,false, UnitAnimator)
+                        /*new SequenceNode // Use Skill
                             // 아군,적대상, 거리체크, 대상체크, ...
                         (
                             new List<BaseNode>()
@@ -54,7 +59,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                                 new ActionNode(SetTargetToSkill),
                                 new ActionNode(() => PerformSkill("UsingSkill"))
                             }
-                        ),
+                        ),*/
                     }
                 ),
                 
