@@ -59,7 +59,7 @@ public class SingleTargetSkillToEnemy : Skill
         }
         if (!unitAnimator.GetCurrentAnimatorStateInfo(0).IsName("UsingSkill"))
         {
-            unitAnimator.SetTrigger("Skill");
+            unitAnimator.SetBool("Skill",true);
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 사용 시작.");
             return BaseNode.ENodeState.Running;
         }
@@ -67,6 +67,7 @@ public class SingleTargetSkillToEnemy : Skill
         if (unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
+            unitAnimator.SetBool("Skill",false);
             return BaseNode.ENodeState.Success;
         }
 
