@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public enum E_Money {one, two, three, four, Five, Length }
+
+[System.Serializable]
 public class PlayerData : MonoBehaviour
 {
     [SerializeField] private string _playerName;
@@ -12,7 +14,7 @@ public class PlayerData : MonoBehaviour
 
     [SerializeField] private string _playerId;
 
-    public string PlayerId { get { return _playerId; } private set { } }
+    public string PlayerId { get { return _playerId; }  set { _playerId = value; } }
 
     [SerializeField] private int[] _money;
 

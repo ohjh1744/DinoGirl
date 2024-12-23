@@ -1,7 +1,9 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -9,6 +11,10 @@ using UnityEngine.UI;
 
 public class NamePanel : UIBInder
 {
+    [SerializeField] private int _baseUnitNum; //계정 생성후 갖고있는 캐릭터 개수.
+
+    [SerializeField] private int[] _baseUnitIds;// 캐릭터 ID
+
     private StringBuilder _sb = new StringBuilder();
 
     private void Awake()
@@ -53,9 +59,57 @@ public class NamePanel : UIBInder
                 return;
             }
 
-            gameObject.SetActive(false);
+            CreateDataBase();
         });
     }
+
+    private void CreateDataBase()
+    {
+        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
+        PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
+        PlayerDataManager.Instance.PlayerData.PlayerId = BackendManager.Auth.CurrentUser.UserId;
+
+        for (int i = 0; i < (int)E_Money.Length; i++)
+        {
+            PlayerDataManager.Instance.PlayerData.Money[i] = 0;
+        }
+
+        List<Dictionary<string, string>> stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Character];
+
+        for (int i = 0; i < _baseUnitNum; i++)
+        {
+            PlayerUnitData unitData = new PlayerUnitData();
+
+            Debug.Log($"{i}번쨰");
+
+            foreach (Dictionary<string, string> field in stageDic)
+            {
+                if (int.Parse(field["CharID"]) == _baseUnitIds[i])
+                {
+                    unitData.Name = field["Name"];
+                    unitData.UnitLevel = 0;
+                    unitData.Type = field["Class"];
+                    unitData.ElementName = field["ElementName"];
+                    unitData.Hp = int.Parse(field["BaseHp"]);
+                    unitData.Atk = int.Parse(field["BaseATK"]);
+                    unitData.Def = int.Parse(field["BaseDef"]);
+                    unitData.Grid = field["Grid"];
+                    unitData.StatId = int.Parse(field["StatID"]);
+                    unitData.PercentIncrease = int.Parse(field["PercentIncrease"]);
+
+                    PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
+                    Debug.Log("hhhii");
+                }
+            }
+        }
+
+        string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
+        root.SetRawJsonValueAsync(json);
+
+        // Database생성하고 나서 이름 Panel 끄고 로그인화면으로 돌아가기
+        gameObject.SetActive(false);
+    }
+
 
     private void SetTrueWarningPanel(string textName)
     {

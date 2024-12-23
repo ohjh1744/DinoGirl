@@ -81,8 +81,6 @@ public class DataManager : MonoBehaviour
 
         string[] lines = data.Split('\n');
 
-        Debug.Log(lines.Length);
-
         // CSV 첫 줄은 헤더
         string[] headers = lines[0].Split(',');
 

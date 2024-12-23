@@ -1,7 +1,9 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -26,6 +28,7 @@ public class SignUpPanel : UIBInder
 
     private void CreateAccount()
     {
+        Debug.Log("CreateAccount!!!");
         _email = GetUI<TMP_InputField>("EmailInputField").text;
 
         _password = GetUI<TMP_InputField>("PwInputField").text;
@@ -75,7 +78,6 @@ public class SignUpPanel : UIBInder
             }
 
             gameObject.SetActive(false);
-
         });
     }
 

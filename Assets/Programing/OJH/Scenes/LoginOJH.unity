@@ -820,6 +820,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6982161e7b96fa14eb751394ac17ac3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _baseUnitNum: 3
+  _baseUnitIds: 0a0000000b0000000e000000
 --- !u!1 &214945367
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,7 +2636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerName: 
   _playerId: 
-  _money: 
+  _money: 0000000000000000000000000000000000000000
   _unitDatas: []
 --- !u!1 &663548018
 GameObject:
@@ -5370,6 +5372,7 @@ GameObject:
   - component: {fileID: 1246839713}
   - component: {fileID: 1246839712}
   - component: {fileID: 1246839711}
+  - component: {fileID: 1246839714}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5443,6 +5446,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1246839714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246839710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec2f93d17defbe42b7bf1bbaa8172f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseUnitNum: 3
+  _baseUnitIds: 0a0000000b0000000e000000
 --- !u!1 &1282855455
 GameObject:
   m_ObjectHideFlags: 0
