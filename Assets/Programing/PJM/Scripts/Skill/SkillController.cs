@@ -16,6 +16,10 @@ public class SkillController : MonoBehaviour
     private float[] _skillTimes = {3, 6};
     private float[] _getSkillTime = {0, 0};
 
+    public UnitController tempUnit;
+
+    public static event Action<int> OnSkillUsed;
+    
     private void Update()
     {
         HideSkillCheck();
@@ -28,6 +32,16 @@ public class SkillController : MonoBehaviour
         _isHideSkills[skillIndex] = true;
     }
 
+    public void OnSkillButtonTouched()
+    {
+        //tempUnit.UseSkill();
+    }
+
+    /*public void OnSkillButtonTouched(int skillIndex)
+    {
+        OnSkillUsed?.Invoke(skillIndex);
+    }*/
+
     private void HideSkillCheck()
     {
         for(int i = 0; i < hideSkillButtons.Length; i++)
@@ -36,6 +50,8 @@ public class SkillController : MonoBehaviour
                 StartCoroutine(SkillTimeCheck(i));
         }
     }
+    
+    
 
     IEnumerator SkillTimeCheck(int skillIndex)
     {

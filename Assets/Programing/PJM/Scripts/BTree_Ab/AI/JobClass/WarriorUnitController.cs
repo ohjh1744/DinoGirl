@@ -7,9 +7,8 @@ using UnityEngine;
 public class WarriorUnitController : UnitController
 {
     //[SerializeField] private bool _isAssassin;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         //DetectRange = 20.0f;
         AttackRange = 2.0f;
         MoveSpeed = 2.0f;
@@ -34,7 +33,7 @@ public class WarriorUnitController : UnitController
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attack"))
+                        new ActionNode(() => PerformAttack("Attacking"))
                     }
                 ),
                 new SequenceNode
@@ -98,13 +97,15 @@ public class WarriorUnitController : UnitController
         return true;
     }*/
     
-    private BaseNode.ENodeState PerformAttack(string animationName)
+    // skill
+
+    /*private BaseNode.ENodeState PerformAttack(string animationName)
     {
         if (_currentTarget == null) return BaseNode.ENodeState.Failure;
         if (!_attackTriggered)
         {
             _attackTriggered = true;
-            _animator.SetTrigger("Attack");
+            _unitAnimator.SetTrigger("Attack");
             Debug.Log($"{_currentTarget.gameObject.name}에 워리어 공격!");
             StartCoroutine(ResetAttackTrigger(animationName));
             return BaseNode.ENodeState.Running;
@@ -114,5 +115,5 @@ public class WarriorUnitController : UnitController
             return BaseNode.ENodeState.Running;
         }
         return BaseNode.ENodeState.Success;
-    }
+    }*/
 }

@@ -6,74 +6,86 @@ using UnityEngine;
 
 public abstract class UnitController : MonoBehaviour
 {
+    
     protected BehaviourTreeRunner _BTRunner;
-    protected Animator _animator;
+    protected Animator _unitAnimator;
+    public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }
     protected Transform _detectedEnemy;
+    public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
+    
     protected Transform _currentTarget;
+    public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+    
+    protected int unitID;
+    public int UnitID { get { return unitID; } }
 
-    // ì¹´ë©”ë¼ ë²”ìœ„
+    // Ä«¸Ş¶ó ¹üÀ§
     protected Vector2 _bottomLeft;
     protected Vector2 _topRight;
     
     
     [SerializeField] protected float _detectRange;
+    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
+    
     [SerializeField] protected float _attackRange;
+    public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
+    
     [SerializeField] protected float _moveSpeed;
+    public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
+    
     [SerializeField] protected LayerMask _allianceLayer;
+    public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
     [SerializeField] protected LayerMask _enemyLayer;
+    public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
     
     protected bool _attackTriggered = false;
-    [SerializeField] protected bool _isPriorityTargetFar;
-        
-
-
-    public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
-    public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+    public bool AttackTriggered { get => _attackTriggered; protected set => _attackTriggered = value;}
     
+    [SerializeField] protected bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
-
-    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
-    public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
-    public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
-    public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
-    public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
-
-    protected virtual void Awake()
-    {
         
-    }
 
+    
+    
+    
     protected virtual void Start()
     {
         SetLayer();
         SetDetectingArea();
-        _animator = GetComponent<Animator>();
+        _unitAnimator = GetComponent<Animator>();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
 
     protected virtual void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         _BTRunner.Operate();
     }
 
-    protected abstract BaseNode SetBTree(); // ê° ìœ ë‹›ì´ êµ¬í˜„í•  í–‰ë™ íŠ¸ë¦¬ ë©”ì„œë“œ
+
+    protected abstract BaseNode SetBTree(); // °¢ À¯´ÖÀÌ ±¸ÇöÇÒ Çàµ¿ Æ®¸® ¸Ş¼­µå
 
     protected bool IsAnimationRunning(string stateName)
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        /*AnimatorStateInfo stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        
+        return stateInfo.IsName(stateName) && stateInfo.normalizedTime < 1.0f;*/
+        if (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            return normalizedTime != 0 && normalizedTime < 1f;
+            var normalizedTime = UnitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            return normalizedTime != 0 && normalizedTime < 1.0f;
         }
         return false;
     }
 
     protected bool IsAnimationFinished(string stateName)
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        if (_unitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            var normalizedTime = _unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             return normalizedTime > 1.0f;
         }
         return false;
@@ -95,6 +107,57 @@ public abstract class UnitController : MonoBehaviour
         }
         return BaseNode.ENodeState.Failure;
     }
+    
+    protected BaseNode.ENodeState PerformAttack(string animationName) // ÃßÈÄ ÇØ½Ì
+    {
+        // Å¸°ÙÀÌ À¯È¿ÇÏÁö ¾ÊÀ»¶§ 
+        if (CurrentTarget == null)
+        {
+            AttackTriggered = false;
+            return BaseNode.ENodeState.Failure;
+        }
+            
+        // °ø°İÀ» ½ÃÀÛ
+        if (!AttackTriggered)
+        {
+            AttackTriggered = true;
+            UnitAnimator.SetTrigger("Attack");
+            Debug.Log($"{CurrentTarget.gameObject.name}¿¡ {gameObject.name}ÀÌ °ø°İ ½ÃÀÛ!");
+            StartCoroutine(ResetAttackRoutine((animationName)));
+            return BaseNode.ENodeState.Running;
+        }
+        // °ø°İÀÌ ÁøÇàÁß
+        if (AttackTriggered && IsAnimationRunning(animationName))
+        {
+            Debug.Log($"°ø°İ ÁøÇàÁß ¾îÅÃÆ®¸®°Å »óÅÂ : {AttackTriggered}");
+            return BaseNode.ENodeState.Running;
+        }
+        if (!AttackTriggered)
+        {
+            // °ø°İ ¸ğ¼ÇÀÌ ³¡³², °ø°İ¸ğ¼ÇÀÌ ³¡³ª°í ÇÑ¹ø¸¸ ½ÇÇàµÇ¾î¾ß ÇÔ
+            Debug.Log($"°ø°İ Á¾·áµÊ ¾îÅÃÆ®¸®°Å »óÅÂ : {AttackTriggered}");
+            //AttackStarted = false;
+            return BaseNode.ENodeState.Success;
+        }
+
+        return BaseNode.ENodeState.Failure;
+    }
+    
+    // coroutine
+    protected IEnumerator ResetAttackRoutine(string animationName)
+    {
+        /*while (IsAnimationRunning(animationName))
+        {
+            yield return null;
+        }*/
+        
+        //UnitAnimator.SetTrigger("Attack");
+        
+        // ¾Ö´Ï¸ŞÀÌ¼ÇÀÇ ±æÀÌ¸¸Å­ ´ë±â ÈÄ ¸®¼Â
+        yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
+        AttackTriggered = false;
+        Debug.Log($"{animationName} ¾Ö´Ï¸ŞÀÌ¼Ç ¿Ï·á: °ø°İ ¸®¼ÂµÊ.");
+    }
 
     protected BaseNode.ENodeState ChaseTarget()
     {
@@ -104,7 +167,7 @@ public abstract class UnitController : MonoBehaviour
             if (sqrDistance > _attackRange * _attackRange)
             {
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
-                Debug.Log($"íƒ€ê²Ÿ {DetectedEnemy.gameObject.name}ë¥¼ ì¶”ì  ì¤‘");
+                Debug.Log($"Å¸°Ù {DetectedEnemy.gameObject.name}¸¦ ÃßÀû Áß");
                 return BaseNode.ENodeState.Running;
             }
             return BaseNode.ENodeState.Success;
@@ -114,20 +177,22 @@ public abstract class UnitController : MonoBehaviour
 
     protected BaseNode.ENodeState StayIdle()
     {
-        Debug.Log("Idle ìƒíƒœ");
+        Debug.Log("Idle »óÅÂ");
+        //UnitAnimator.SetTrigger("Idle");
         return BaseNode.ENodeState.Success;
     }
 
     protected bool CheckAttackRange()
     {
-        if (DetectedEnemy == null) return false;
+        if (DetectedEnemy == null)
+            return false;
         float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
         return sqrDistance <= AttackRange * AttackRange;
     }
 
     protected BaseNode.ENodeState SetDetectedTarget()
     {
-        // ì´ë¯¸ ê°ì§€ëœ ì ì´ ìˆì—ˆì„ê²½ìš°ì—” ìˆ˜í–‰í•  í•„ìš” ì—†ìŒ,  ë°”ë¡œ chaseë¡œ ì „í™˜
+        // ÀÌ¹Ì °¨ÁöµÈ ÀûÀÌ ÀÖ¾úÀ»°æ¿ì¿£ ¼öÇàÇÒ ÇÊ¿ä ¾øÀ½,  ¹Ù·Î chase·Î ÀüÈ¯
         if (DetectedEnemy != null)
             return BaseNode.ENodeState.Success;
         
@@ -162,56 +227,21 @@ public abstract class UnitController : MonoBehaviour
         }
         if (IsPriorityTargetFar)
         {
-            // ê°€ì¥ ë¨¼ íƒ€ê²Ÿì„ DetectedEnemy ë¡œ ì„¤ì •
+            // °¡Àå ¸Õ Å¸°ÙÀ» DetectedEnemy ·Î ¼³Á¤
             DetectedEnemy = farthestEnemy;
         }
         else
         {
-            // ê°€ì¥ ê°€ê¹Œìš´ íƒ€ê²Ÿì„ DetectedEnemyë¡œ ì„¤ì •
+            // °¡Àå °¡±î¿î Å¸°ÙÀ» DetectedEnemy·Î ¼³Á¤
             DetectedEnemy = closetEnemy;
         }
 
         return BaseNode.ENodeState.Success;
         
-        
-        
-
-        /*if (_detectedEnemy != null)
-            return true;
-        
-        // í˜„ì¬ ì¹´ë©”ë¼ì— ë³´ì´ëŠ” ì „ì²´ ì˜ì—­ íƒì§€
-
-        //Rect screenRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
-        Collider2D[] detectedEnemys = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
-
-        if (detectedEnemys.Length > 0)
-        {
-            _detectedEnemy = detectedEnemys[0].transform;
-            return true;
-        }
-        
-        return false;*/
-        
-        /*// ê°€ì¥ ë¨¼ì € íƒì§€í•œ ì ì„ ìš°ì„ ì ìœ¼ë¡œ ê³µê²©í•  ê²½ìš°
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
-        if (detectedColliders.Length > 0)
-        {
-            _detectedEnemy = detectedColliders[0].transform;
-            return true;
-        }
-        _detectedEnemy = null;
-        return false;*/
     }
     
-    // coroutine
-    protected IEnumerator ResetAttackTrigger(string animationName)
-    {
-        // ì• ë‹ˆë©”ì´ì…˜ì˜ ê¸¸ì´ë§Œí¼ ëŒ€ê¸° í›„ ë¦¬ì…‹
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-        _attackTriggered = false;
-        Debug.Log($"{animationName} ì• ë‹ˆë©”ì´ì…˜ ì™„ë£Œ: ê³µê²© ë¦¬ì…‹ë¨.");
-    }
-
+    
+    
     // others
     protected void SetDetectingArea()
     {
@@ -234,10 +264,10 @@ public abstract class UnitController : MonoBehaviour
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
         
-        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(topRight.x, bottomLeft.y, 0)); // ì•„ë˜ìª½
-        Gizmos.DrawLine(new Vector3(bottomLeft.x, topRight.y, 0), new Vector3(topRight.x, topRight.y, 0));    // ìœ„ìª½
-        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(bottomLeft.x, topRight.y, 0)); // ì™¼ìª½
-        Gizmos.DrawLine(new Vector3(topRight.x, bottomLeft.y, 0), new Vector3(topRight.x, topRight.y, 0));    // ì˜¤ë¥¸ìª½
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(topRight.x, bottomLeft.y, 0)); // ¾Æ·¡ÂÊ
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, topRight.y, 0), new Vector3(topRight.x, topRight.y, 0));    // À§ÂÊ
+        Gizmos.DrawLine(new Vector3(bottomLeft.x, bottomLeft.y, 0), new Vector3(bottomLeft.x, topRight.y, 0)); // ¿ŞÂÊ
+        Gizmos.DrawLine(new Vector3(topRight.x, bottomLeft.y, 0), new Vector3(topRight.x, topRight.y, 0));    // ¿À¸¥ÂÊ
 
         /*Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _detectRange);
@@ -305,3 +335,29 @@ private BaseNode.ENodeState TempMethod()
 {
     return BaseNode.ENodeState.Success;
 }*/
+
+/*if (_detectedEnemy != null)
+            return true;
+
+        // ÇöÀç Ä«¸Ş¶ó¿¡ º¸ÀÌ´Â ÀüÃ¼ ¿µ¿ª Å½Áö
+
+        //Rect screenRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
+        Collider2D[] detectedEnemys = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
+
+        if (detectedEnemys.Length > 0)
+        {
+            _detectedEnemy = detectedEnemys[0].transform;
+            return true;
+        }
+
+        return false;*/
+        
+/*// °¡Àå ¸ÕÀú Å½ÁöÇÑ ÀûÀ» ¿ì¼±ÀûÀ¸·Î °ø°İÇÒ °æ¿ì
+Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(transform.position, _detectRange, _enemyLayer);
+if (detectedColliders.Length > 0)
+{
+    _detectedEnemy = detectedColliders[0].transform;
+    return true;
+}
+_detectedEnemy = null;
+return false;*/
