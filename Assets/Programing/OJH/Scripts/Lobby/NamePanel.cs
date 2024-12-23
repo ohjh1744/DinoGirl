@@ -87,7 +87,7 @@ public class NamePanel : UIBInder
                 if (int.Parse(field["CharID"]) == _baseUnitIds[i])
                 {
                     unitData.Name = field["Name"];
-                    unitData.UnitLevel = 0;
+                    unitData.UnitLevel = 1;
                     unitData.Type = field["Class"];
                     unitData.ElementName = field["ElementName"];
                     unitData.Hp = int.Parse(field["BaseHp"]);
@@ -105,6 +105,10 @@ public class NamePanel : UIBInder
 
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
+
+
+        // Data저장하고나서는 초기화해주기
+        PlayerDataManager.Instance.PlayerData.UnitDatas.Clear();
 
         // Database생성하고 나서 이름 Panel 끄고 로그인화면으로 돌아가기
         gameObject.SetActive(false);
