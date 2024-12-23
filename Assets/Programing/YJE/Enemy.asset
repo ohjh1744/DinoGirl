@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c541a8c9ad375d4da6bc256970ccab7, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  charId: 10
-  skillId: 0
-  name: "\uC801"
-  hp: 1000
-  ATK: 10
-  DEF: 10
-  coolTime: 0
+  hp: 200
+  damage: 10
+  skillCode: 0
