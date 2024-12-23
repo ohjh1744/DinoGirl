@@ -49,7 +49,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                             }
                         ),
                         
-                        UniqueSkill.CreateSkillBTree(transform, _skillTargets, EnemyLayer,false, UnitAnimator)
+                        //UniqueSkill.CreateSkillBTree(this, _skillTargets)
                         /*new SequenceNode // Use Skill
                             // 아군,적대상, 거리체크, 대상체크, ...
                         (
@@ -118,14 +118,14 @@ public class MeleePlayerUnitController : PlayableUnitController
         float maxDistance = float.MinValue;
         Transform farthestEnemy = null;
 
-        foreach (Collider2D collider in detectedColliders)
+        foreach (Collider2D col in detectedColliders)
         {
-            float distance = Vector2.Distance(transform.position, collider.transform.position);
+            float distance = Vector2.Distance(transform.position, col.transform.position);
 
             if (distance > maxDistance)
             {
                 maxDistance = distance;
-                farthestEnemy = collider.transform;
+                farthestEnemy = col.transform;
             }
         }
         
