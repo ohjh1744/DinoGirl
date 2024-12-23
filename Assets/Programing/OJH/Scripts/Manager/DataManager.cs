@@ -7,7 +7,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public enum E_CsvData {Stage, Unit }
+public enum E_CsvData { Character, Element, Stat, CharacterSkill, CharacterLevelUp1, CharacterLevelUp2, CharacterLevelUp3, CharacterLevelUp4,
+    Monster, Stages, MontserGroup, StageReward, Item, Gacha, GachaReturn, Raids, RaidReward, WeeklyReward, Furniture}
 
 public class DataManager : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class DataManager : MonoBehaviour
 
     private bool _isLoad;
 
+    public bool IsLoad { get { return _isLoad; } private set { } }
+
     private void Awake()
     {
         if (_instance == null)
@@ -48,8 +51,6 @@ public class DataManager : MonoBehaviour
 
     private IEnumerator DownloadRoutine()
     {
-        _isLoad = true;
-
         // Data 초기화 
         DataLists = new List<Dictionary<string, string>>[_csvDatas.Length];
         for (int i = 0; i < DataLists.Length; i++)
@@ -70,6 +71,8 @@ public class DataManager : MonoBehaviour
             //Parsing에서 List에 저장.
             DataLists[i] = ChangeCsvToList(_csvDatas[i]);
         }
+
+        _isLoad = true;
     }
 
     List<Dictionary<string, string>> ChangeCsvToList(string data)

@@ -23,6 +23,7 @@ public class LoginPanel : UIBInder
     }
     void Start()
     {
+        _sceneChanger.CanChangeSceen = false;
         GetUI<Button>("LoginButton").onClick.AddListener(Login);
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
     }
@@ -126,6 +127,9 @@ public class LoginPanel : UIBInder
             Debug.Log($"Email: {user.Email}");
             Debug.Log($"EmailVerified: {user.IsEmailVerified}");
             Debug.Log($"UserId: {user.UserId}");
+
+            // 초기화 끝나고 나면 씬change진행.
+            _sceneChanger.CanChangeSceen = true;
         }
     }
 

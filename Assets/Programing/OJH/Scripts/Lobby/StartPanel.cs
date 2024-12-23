@@ -8,9 +8,21 @@ public class StartPanel : MonoBehaviour
 
     [SerializeField] private string _nextSceneName;
 
-    void Start()
+    private bool _isStart;
+
+    private void Start()
     {
+        _sceneChanager.CanChangeSceen = false;
         _sceneChanager.ChangeScene(_nextSceneName);
+    }
+
+    private void Update()
+    {
+        if(DataManager.Instance.IsLoad == true && _isStart == false)
+        {
+            _isStart = true;
+            _sceneChanager.CanChangeSceen = true;
+        }
     }
 
 }
