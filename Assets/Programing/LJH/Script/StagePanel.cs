@@ -37,33 +37,31 @@ public class StagePanel : MonoBehaviour
             curmyPos.Clear();
             curMobPos.Clear();
         }
-
+        
         foreach (char val in stageDic[stageNum]["MonsterPos"])// 한 문자씩 숫자로 변환
         {
             curMobPos.Add(int.Parse(val.ToString()));
+            
         }
 
         for (int i = 0; i < curMobPos.Count; i++)
         {
 
             enemygrid[curMobPos[i] - 1].color = Color.red;
+
+
+            // 몬스터는 id or 그룹 id 만 알면 소환 가능할거같음
+            // 스테이지 데이터에 그룹 id가 들어갈테니  현재 스크립트에서 그룹 id 분해해서 저장 하고 보내야할듯
+            // 저장 타입은 몬스터의 id or 이름 정도면 리소스에서 소환 가능하려나 
+            BattleSceneManager.Instance.enemyGridObject[curMobPos[i] - 1] = (curMobPos[i] - 1).ToString();
         }
 
 
         stageNumText.text = curStageNum;
         stageNameText.text = curStageNames;
         timeLimitText.text =  "Time Limit : "+curTimeLimit+" sec";
-    }
 
-    public void setMyGrid() 
-    {
-        // Todo : 드랍하면 해당 위치에 올라가면서 정보 세팅 
+        BattleSceneManager.Instance._timeLimit = int.Parse(curTimeLimit); // 시간 
     }
-
-
-    public void StageStart()
-    {
-        Debug.Log("스테이지 시작");
-        // Todo :  캐릭터의 배치 위치 정보 + 배치순서? + 버프가 적용된 기준의 스탯을 가지고 배틀씬으로 넘어가야 함 , + 몬스터의 배치 정보 
-    }
+   
 }

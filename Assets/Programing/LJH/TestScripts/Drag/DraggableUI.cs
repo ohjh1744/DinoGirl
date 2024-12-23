@@ -13,7 +13,8 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		canvas		= FindObjectOfType<Canvas>().transform;
 		rect		= GetComponent<RectTransform>();
 		canvasGroup	= GetComponent<CanvasGroup>();
-	}
+        previousParent = transform.parent;
+    }
 
 	/// <summary>
 	/// 현재 오브젝트를 드래그하기 시작할 때 1회 호출
@@ -21,7 +22,7 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	public void OnBeginDrag(PointerEventData eventData)
 	{
 		// 드래그 직전에 소속되어 있던 부모 Transform 정보 저장
-		previousParent = transform.parent;
+		
 
 		// 현재 드래그중인 UI가 화면의 최상단에 출력되도록 하기 위해
 		transform.SetParent(canvas);		// 부모 오브젝트를 Canvas로 설정
