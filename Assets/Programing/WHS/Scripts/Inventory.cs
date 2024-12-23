@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Item newItem = new Item { id = itemID, amount = amount };
+            Item newItem = new Item { ItemID = itemID, amount = amount };
             items[itemID] = newItem;
         }
         Debug.Log($"{itemID}°¡ {amount} Ãß°¡, {items[itemID].amount}");
