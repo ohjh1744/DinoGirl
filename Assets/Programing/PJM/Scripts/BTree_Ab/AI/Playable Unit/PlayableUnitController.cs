@@ -50,7 +50,7 @@ public abstract class PlayableUnitController : UnitController
         }*/
         
         // 애니메이션의 길이만큼 대기 후 리셋
-        yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
         //UnitAnimator.ResetTrigger("Skill");
         SkillTriggered = false;
         CoolTimeCounter = CoolTime;

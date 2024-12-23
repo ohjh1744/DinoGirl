@@ -59,23 +59,23 @@ public class SingleTargetSkillToEnemy : Skill
         }
 
         //if (!unitAnimator.GetBool("Skill"))
-        if (caster.UnitAnimator == null)
+        if (caster.UnitViewer.UnitAnimator == null)
         {
             Debug.LogWarning("애니메이터 없음;");
             return BaseNode.ENodeState.Failure;
         }
             
         
-        if(caster.UnitAnimator.GetBool("Skill"))
+        if(caster.UnitViewer.UnitAnimator.GetBool("Skill"))
         {
-            caster.UnitAnimator.SetBool("Skill",true);
+            caster.UnitViewer.UnitAnimator.SetBool("Skill",true);
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
             return BaseNode.ENodeState.Success;
         }
             
         
         //if (unitAnimator.GetCurrentAnimatorStateInfo(0).IsName("UsingSkill"))
-        if(caster.IsAnimationRunning("UsingSkill"))
+        if(caster.UnitViewer.IsAnimationRunning("UsingSkill"))
         {
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 사용 중.");
             return BaseNode.ENodeState.Running;
@@ -87,7 +87,7 @@ public class SingleTargetSkillToEnemy : Skill
         
         {
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
-            caster.UnitAnimator.SetBool("Skill",false);
+            caster.UnitViewer.UnitAnimator.SetBool("Skill",false);
             return BaseNode.ENodeState.Success;
         }
         

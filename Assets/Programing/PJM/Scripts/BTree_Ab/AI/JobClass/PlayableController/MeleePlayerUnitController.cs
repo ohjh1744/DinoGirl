@@ -69,7 +69,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attacking"))
+                        new ActionNode(PerformAttack)
                     }
                 ),
                 new SequenceNode
@@ -155,14 +155,14 @@ public class MeleePlayerUnitController : PlayableUnitController
         if (!SkillTriggered)
         {
             SkillTriggered = true;
-            UnitAnimator.SetTrigger("Skill");
+            UnitViewer.UnitAnimator.SetTrigger("Skill");
             Debug.Log($"******{SkillTarget.gameObject.name}에 밀리 스킬 공격 시작!******");
             StartCoroutine(ResetSkillTrigger(animationName));
             return BaseNode.ENodeState.Running;
         }
-        if (IsAnimationRunning(animationName))
+        if (UnitViewer.IsAnimationRunning(animationName))
         {
-            Debug.Log($"스킬 진행중 어택트리거 상태 : {AttackTriggered}");
+            Debug.Log($"스킬 진행중 어택트리거 상태 : {IsAttacking}");
             return BaseNode.ENodeState.Running;
         }
         if(!SkillTriggered)

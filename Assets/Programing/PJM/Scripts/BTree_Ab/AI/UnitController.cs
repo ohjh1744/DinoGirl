@@ -3,13 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class UnitController : MonoBehaviour
 {
+    // 임시 공격 후딜레이
+    private float _tempDelay = 0.5f;
+    private bool _inAttackDelay;
+    
+    private UnitView _unitViewer;
+    public UnitView UnitViewer { get => _unitViewer; private set => _unitViewer = value; }
     
     protected BehaviourTreeRunner _BTRunner;
-    protected Animator _unitAnimator;
-    public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }
+    /*protected Animator _unitAnimator;
+    public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }*/
     protected Transform _detectedEnemy;
     public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
     
@@ -38,8 +45,8 @@ public abstract class UnitController : MonoBehaviour
     [SerializeField] protected LayerMask _enemyLayer;
     public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
     
-    protected bool _attackTriggered = false;
-    public bool AttackTriggered { get => _attackTriggered; protected set => _attackTriggered = value;}
+    protected bool _isAttacking = false;
+    public bool IsAttacking { get => _isAttacking; protected set => _isAttacking = value;}
     
     [SerializeField] protected bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
@@ -52,7 +59,8 @@ public abstract class UnitController : MonoBehaviour
     {
         SetLayer();
         SetDetectingArea();
-        _unitAnimator = GetComponent<Animator>();
+        //UnitAnimator = GetComponent<Animator>();
+        _unitViewer = GetComponent<UnitView>();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
@@ -68,11 +76,11 @@ public abstract class UnitController : MonoBehaviour
 
     protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
 
-    public bool IsAnimationRunning(string stateName)
+    /*public bool IsAnimationRunning(string stateName)
     {
         /*AnimatorStateInfo stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
         
-        return stateInfo.IsName(stateName) && stateInfo.normalizedTime < 1.0f;*/
+        return stateInfo.IsName(stateName) && stateInfo.normalizedTime < 1.0f;#1#
         if (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
             var normalizedTime = UnitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -91,7 +99,7 @@ public abstract class UnitController : MonoBehaviour
         }
         Debug.Log($"[IsAnimationFinished] 현재 상태는 {stateName}이 아님.");
         return false;
-    }
+    }*/
 
     protected virtual void SetLayer()
     {
@@ -110,79 +118,131 @@ public abstract class UnitController : MonoBehaviour
         return BaseNode.ENodeState.Failure;
     }
     
-    protected BaseNode.ENodeState PerformAttack(string animationName) // 추후 해싱
+    protected BaseNode.ENodeState PerformAttack()
     {
+        if (_inAttackDelay)
+            return BaseNode.ENodeState.Failure;
+        
         // 타겟이 유효하지 않을때 
         if (CurrentTarget == null)
         {
-            //AttackTriggered = false;
-            UnitAnimator.SetBool("Attack", false);
-            Debug.Log($"[PerformAttack] 타겟이 유효하지 않아 공격 실패.");
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
+            IsAttacking = false;
+            Debug.Log($" 타겟이 유효하지 않아 공격 실패.");
             return BaseNode.ENodeState.Failure;
         }
         
-        // 공격 시작, 애니메이터 Attack 이 false였을 때 = 아직 공격 시작을 하지 않았을 때
-        if (!UnitAnimator.GetBool("Attack"))
+        // 공격을 시작
+        // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
+        if (!UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
         {
-            UnitAnimator.SetBool("Attack", true);
-            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 시작!");
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], true);
+            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
+            IsAttacking = true;
+            // 공격 애니메이션의 길이 + 지정된 공격 후딜레이 후 공격을 종료시켜줄 코루틴
+            // 공격 판정은 들어간 뒤 후 딜레이가 적용되어야 하므로 바꿀 필요가 있음
+            StartCoroutine(AttackRoutine("Attacking"));
+            return BaseNode.ENodeState.Running;
+        }
+        
+        // 공격 진행중
+        if (IsAttacking)
+        {
+            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 중!");
+            return BaseNode.ENodeState.Running;
+        }
+        
+        // 공격을 끝내야 할 경우
+        if (!IsAttacking)
+        {
+            Debug.Log($"공격 종료됨");
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
+            StartCoroutine(AttackDelayRoutine());
             return BaseNode.ENodeState.Success;
         }
         
-        //if (!AttackTriggered)
-        // Attack이 True : 공격이 진행중일 때 
-        //if(IsAnimationRunning(animationName))
-        
-        var stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
-        Debug.Log($"[PerformAttack] 현재 상태: {stateInfo.IsName(animationName)}, Normalized Time: {stateInfo.normalizedTime}");
+        Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
+        return BaseNode.ENodeState.Failure;
         
         
-        if(UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+
+        /*// 공격을 시작해야하는 경우
+        if()
+
+        // 공격이 진행중일 때
+        if (IsAttacking)
         {
-            //AttackTriggered = true;
-            //UnitAnimator.SetTrigger("Attack");
+
+        }
+        //if(UnitViewer.IsAnimationRunning("Attacking"))
+        if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
+        {
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 중!");
-            //StartCoroutine(ResetAttackRoutine((animationName)));
+            //StartCoroutine(AttackRoutine(("Attacking")));
             return BaseNode.ENodeState.Running;
         }
-        // 공격이 진행중
-        //if (AttackTriggered && IsAnimationRunning(animationName))
-        /*else if()
+
+
+        // 공격 시작, 애니메이터 Attack 이 false였을 때 = 아직 공격 시작을 하지 않았을 때
+       // if (!_unitViewer.UnitAnimator.GetBool(_unitViewer.parameterHash[(int)UnitView.AniState.Attack]))
+       // 애니메이션 스테이트 인포로 하면 정확한 상황을 받지 못할 가능성이 있다, 어택을 하고 있는지 확인할 bool 변수로 해본다
+        //if(!IsAttacking)
+
+        // getbool이 ture : 공격애니메이션 진행중일때
+        if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
         {
-            Debug.Log($"공격 진행중 어택트리거 상태 : {AttackTriggered}");
-            return BaseNode.ENodeState.Running;
-        }*/
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], true);
+            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 시작!");
+            IsAttacking = true;
+            return BaseNode.ENodeState.Success;
+        }
+
         //if (!AttackTriggered)
-        
-        if(IsAnimationFinished(animationName))
-        // 앞선 running 조건문의 결과가 false : 애니메이션이 종료되었을 때 
+        // Attack이 True : 공격이 진행중일 때
+        //if(IsAnimationRunning(animationName))
+
+        /*var stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        Debug.Log($"[PerformAttack] 현재 상태: {stateInfo.IsName(animationName)}, Normalized Time: {stateInfo.normalizedTime}");#1#
+
+        if(!IsAttacking)
         {
             // 공격 모션이 끝남, 공격모션이 끝나고 한번만 실행되어야 함
             //Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackTriggered}");
-            UnitAnimator.SetBool("Attack", false);
+            //UnitAnimator.SetBool("Attack", false);
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
             Debug.Log($"공격 종료됨");
-            //AttackStarted = false;
+            //IsAttacking = false;
             return BaseNode.ENodeState.Success;
         }
-        
-        Debug.LogWarning($"[PerformAttack] 예상치 못한 상태에서 공격 실패.");
-        return BaseNode.ENodeState.Failure;
+
+        Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
+        return BaseNode.ENodeState.Failure;*/
     }
     
     // coroutine
-    protected IEnumerator ResetAttackRoutine(string animationName)
+    protected IEnumerator AttackRoutine(string animationName)
     {
-        /*while (IsAnimationRunning(animationName))
+        /*while (UnitViewer.IsAnimationRunning(animationName))
         {
             yield return null;
         }*/
         
         //UnitAnimator.SetTrigger("Attack");
         
-        // 애니메이션의 길이만큼 대기 후 리셋
-        yield return new WaitForSeconds(UnitAnimator.GetCurrentAnimatorStateInfo(0).length);
-        AttackTriggered = false;
+        // 애니메이션의 길이만큼 대기 후 리셋 + 후딜레이?
+        // 현재 애니메이터의 info를 가져오기 때문에 실제 공격 애니메이션의 길이인지 확신 할 수 없음 다른방법 필요
+        //Debug.Log($"{UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0).length + _tempDelay}초 후 리셋");
+        yield return new WaitForSeconds(1.0f); // 애니메이션 길이
+        //UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
+        IsAttacking = false;
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
+    }
+
+    protected IEnumerator AttackDelayRoutine()
+    {
+        yield return new WaitForSeconds(_tempDelay);
+        if (_inAttackDelay)
+            _inAttackDelay = false;
     }
 
     protected BaseNode.ENodeState ChaseTarget()
