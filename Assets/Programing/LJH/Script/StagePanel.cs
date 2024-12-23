@@ -24,7 +24,7 @@ public class StagePanel : MonoBehaviour
 
     public void setStageData(int stageNum) //  stages csv의 스테이지 순서대로(0번부터)
     {
-        stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage]; //파싱한 순서(url 순서대로 들어감)
+        //stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage]; //파싱한 순서(url 순서대로 들어감)
         curStageNum = stageDic[stageNum]["Id"];
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["TimeLimit"];

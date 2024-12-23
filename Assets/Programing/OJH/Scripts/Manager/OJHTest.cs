@@ -21,7 +21,7 @@ public class OJHTest : MonoBehaviour
 
     private void Test()
     {
-        stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
+       // stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
 
         Debug.Log(stageDic[0]["MonsterPos"]);
 

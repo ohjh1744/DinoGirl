@@ -14,6 +14,10 @@ public class SceneChanger : MonoBehaviour
 
     private Coroutine _loadingRoutine;
 
+    private bool _canChangeSceen;
+
+    public bool CanChangeSceen { get { return _canChangeSceen; } set { _canChangeSceen = value; } }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -62,7 +66,7 @@ public class SceneChanger : MonoBehaviour
 
         //Fake Loading
         float time = 0f;
-        while (time < _loadingTime)
+        while (time < _loadingTime || _canChangeSceen == false)
         {
             time += Time.deltaTime;
             yield return null;

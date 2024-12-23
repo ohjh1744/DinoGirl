@@ -1,7 +1,9 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -23,6 +25,7 @@ public class LoginPanel : UIBInder
     }
     void Start()
     {
+        _sceneChanger.CanChangeSceen = false;
         GetUI<Button>("LoginButton").onClick.AddListener(Login);
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
     }
@@ -118,7 +121,7 @@ public class LoginPanel : UIBInder
         }
         else
         {
-            //TODO :  로비씬으로 비동기 씬 전환 및 여기서 Player관련 초기화 진행.
+            //TODO :  로비씬으로 비동기 씬 전환 
             _sceneChanger.ChangeScene("LobbyOJH");
 
             Debug.Log("User profile updated successfully.");
@@ -126,9 +129,11 @@ public class LoginPanel : UIBInder
             Debug.Log($"Email: {user.Email}");
             Debug.Log($"EmailVerified: {user.IsEmailVerified}");
             Debug.Log($"UserId: {user.UserId}");
+
+            // 초기화 끝나고 나면 씬change진행.
+            _sceneChanger.CanChangeSceen = true;
         }
     }
-
 
     private void SetTrueWarningPanel(string textName)
     {

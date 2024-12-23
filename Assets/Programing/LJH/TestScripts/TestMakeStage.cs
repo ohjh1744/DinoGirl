@@ -50,7 +50,7 @@ public class TestMakeStage : MonoBehaviour
 
     public void setStageData(int stageNum)
     {
-        stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage]; //파싱한 순서(url 순서대로 들어감)
+       // stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage]; //파싱한 순서(url 순서대로 들어감)
         curStageNum = stageDic[stageNum]["Id"];
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = int.Parse(stageDic[stageNum]["TimeLimit"]);       
@@ -107,7 +107,7 @@ public class TestMakeStage : MonoBehaviour
     }
     public void Unstop()
     {
-        stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
+        //stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
         Debug.Log(stageDic[0]["MonsterPos"]);
     }
 
