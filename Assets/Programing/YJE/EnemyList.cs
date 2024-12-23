@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 적 리스트를 확인하는 코드
+/// 적 오브젝트를 하나의 부모 오브젝트로 묶고 부모오브젝트에 적용하여
+/// 자식(적)오브젝트를 한번에 확인하는 것으로 사용
+/// - 임의로 제작한 함수로 BattleSceneManager와 Behavior Tree의 내용에 따라 추후 삭제 예정
+/// </summary>
 public class EnemyList : MonoBehaviour
 {
     [SerializeField] public List<GameObject> enemyList = new List<GameObject>();
