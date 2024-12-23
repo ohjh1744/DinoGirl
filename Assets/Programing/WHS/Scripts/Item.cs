@@ -5,10 +5,9 @@ using UnityEngine;
 // 아이템들 ( 시트에서 받아와야 하나)
 public class Item
 {
-    public int id;          // ID 500~
-    public string name;     // 이름
-    public int amount;      // 보유량
-    public Sprite icon;     // UI에 표시될 아이콘?
+    public int ItemID;          // ID 500~
+    public string ItemName;     // 이름
+    public int amount;          // 보유량
 }
 
 public static class ItemID
