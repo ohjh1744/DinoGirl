@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class PlayableUnitController : UnitController
 {
+    [SerializeField] private Skill _uniqueSkill;
+    public Skill UniqueSkill {get => _uniqueSkill; protected set => _uniqueSkill = value; }
     private float skillRange;
 
     public float SkillRange { get => skillRange; protected set => skillRange = value;}
@@ -22,6 +24,7 @@ public abstract class PlayableUnitController : UnitController
     protected override void Start()
     {
         base.Start();
+        
     }
     
     
@@ -57,13 +60,14 @@ public abstract class PlayableUnitController : UnitController
 
     protected bool CheckSkillCooltime()
     {
-        if (_coolTimeCounter <= 0)
+        if (CoolTimeCounter <= 0)
         {
+            CoolTimeCounter = UniqueSkill.Cooltime;
             return true;
         }
         else
         {
-            _coolTimeCounter -= Time.deltaTime;
+            CoolTimeCounter -= Time.deltaTime;
             return false;
         }
     }

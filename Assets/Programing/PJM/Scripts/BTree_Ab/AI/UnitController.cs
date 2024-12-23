@@ -68,7 +68,7 @@ public abstract class UnitController : MonoBehaviour
 
     protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
 
-    protected bool IsAnimationRunning(string stateName)
+    public bool IsAnimationRunning(string stateName)
     {
         /*AnimatorStateInfo stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
         
@@ -83,11 +83,13 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool IsAnimationFinished(string stateName)
     {
-        if (_unitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        var stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName(stateName))
         {
-            var normalizedTime = _unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            return normalizedTime > 1.0f;
+            Debug.Log($"[IsAnimationFinished] {stateName} 상태에서 Normalized Time: {stateInfo.normalizedTime}");
+            return stateInfo.normalizedTime >= 1.0f;
         }
+        Debug.Log($"[IsAnimationFinished] 현재 상태는 {stateName}이 아님.");
         return false;
     }
 
@@ -113,33 +115,57 @@ public abstract class UnitController : MonoBehaviour
         // 타겟이 유효하지 않을때 
         if (CurrentTarget == null)
         {
-            AttackTriggered = false;
+            //AttackTriggered = false;
+            UnitAnimator.SetBool("Attack", false);
+            Debug.Log($"[PerformAttack] 타겟이 유효하지 않아 공격 실패.");
             return BaseNode.ENodeState.Failure;
         }
-            
-        // 공격을 시작
-        if (!AttackTriggered)
+        
+        // 공격 시작, 애니메이터 Attack 이 false였을 때 = 아직 공격 시작을 하지 않았을 때
+        if (!UnitAnimator.GetBool("Attack"))
         {
-            AttackTriggered = true;
-            UnitAnimator.SetTrigger("Attack");
+            UnitAnimator.SetBool("Attack", true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 시작!");
-            StartCoroutine(ResetAttackRoutine((animationName)));
+            return BaseNode.ENodeState.Success;
+        }
+        
+        //if (!AttackTriggered)
+        // Attack이 True : 공격이 진행중일 때 
+        //if(IsAnimationRunning(animationName))
+        
+        var stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        Debug.Log($"[PerformAttack] 현재 상태: {stateInfo.IsName(animationName)}, Normalized Time: {stateInfo.normalizedTime}");
+        
+        
+        if(UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+        {
+            //AttackTriggered = true;
+            //UnitAnimator.SetTrigger("Attack");
+            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 중!");
+            //StartCoroutine(ResetAttackRoutine((animationName)));
             return BaseNode.ENodeState.Running;
         }
         // 공격이 진행중
-        if (AttackTriggered && IsAnimationRunning(animationName))
+        //if (AttackTriggered && IsAnimationRunning(animationName))
+        /*else if()
         {
             Debug.Log($"공격 진행중 어택트리거 상태 : {AttackTriggered}");
             return BaseNode.ENodeState.Running;
-        }
-        if (!AttackTriggered)
+        }*/
+        //if (!AttackTriggered)
+        
+        if(IsAnimationFinished(animationName))
+        // 앞선 running 조건문의 결과가 false : 애니메이션이 종료되었을 때 
         {
             // 공격 모션이 끝남, 공격모션이 끝나고 한번만 실행되어야 함
-            Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackTriggered}");
+            //Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackTriggered}");
+            UnitAnimator.SetBool("Attack", false);
+            Debug.Log($"공격 종료됨");
             //AttackStarted = false;
             return BaseNode.ENodeState.Success;
         }
-
+        
+        Debug.LogWarning($"[PerformAttack] 예상치 못한 상태에서 공격 실패.");
         return BaseNode.ENodeState.Failure;
     }
     

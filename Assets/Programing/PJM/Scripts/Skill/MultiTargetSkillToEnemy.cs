@@ -6,51 +6,57 @@ using UnityEngine;
 public class MultiTargetSkillToEnemy : Skill
 {
     public int maxTargets; // 최대 타겟 수
+    // 전체 타겟일 경우 배틀매니저에서 전체 리스트를 가져옴?
 
-    protected override bool SetTarget(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar)
+    protected override BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets)
     {
-        ResetTargets();
-
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.position, skillRange, enemyLayer);
+        ResetTargets(targets);
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
-            return false;
+            return BaseNode.ENodeState.Failure;
         }
 
         // 거리를 기준으로 정렬, 선택사항, 일단 넣어둠
-        List<Collider2D> sortedColliders = new List<Collider2D>(detectedColliders);
-        sortedColliders.Sort((a, b) =>
+        targets.Sort((a, b) =>
         {
-            float distanceA = Vector2.Distance(caster.position, a.transform.position);
-            float distanceB = Vector2.Distance(caster.position, b.transform.position);
-            return isPriorityTargetFar ? distanceB.CompareTo(distanceA) : distanceA.CompareTo(distanceB);
+            float distanceA = Vector2.Distance(caster.transform.position, a.transform.position);
+            float distanceB = Vector2.Distance(caster.transform.position, b.transform.position);
+            return caster.IsPriorityTargetFar ? distanceB.CompareTo(distanceA) : distanceA.CompareTo(distanceB);
         });
 
         // 최대 타겟 수만큼 선택
-        foreach (var collider in sortedColliders)
+        foreach (var target in targets)
         {
-            if (skillTargets.Count >= maxTargets)
+            if (targets.Count >= maxTargets)
                 break;
 
-            skillTargets.Add(collider.transform);
+            targets.Add(target.transform);
         }
 
-        return skillTargets.Count > 0;
+        if(targets.Count > 0)
+            return BaseNode.ENodeState.Success;
+        
+        return BaseNode.ENodeState.Failure;
+            
     }
 
-    protected override void Perform(Transform caster)
+    protected override BaseNode.ENodeState Perform(UnitController caster, List<Transform> targets)
     {
-        if (skillTargets.Count == 0)
+        if (targets.Count == 0)
         {
-            Debug.Log($"{skillName}: 타겟이 없습니다.");
-            return;
+            Debug.Log($"{SkillName}: 타겟이 없습니다.");
+            return BaseNode.ENodeState.Failure;
         }
 
-        foreach (var target in skillTargets)
+        foreach (var target in targets)
         {
-            Debug.Log($"{skillName}: {target.name}에게 {skillName} 사용!");
+            Debug.Log($"{target.name}에게 {SkillName} 사용!");
+            return BaseNode.ENodeState.Success;
             // 멀티타겟 전용 로직 추가
         }
+
+        return BaseNode.ENodeState.Running;
     }
 }
 

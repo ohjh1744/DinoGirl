@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SingleTargetSkillToEnemy", menuName = "Skills/SingleTargetSkillToEnemy")]
 public class SingleTargetSkillToEnemy : Skill
 {
-    protected override bool SetTarget(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar)
+    protected override BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets)
     {
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.position, skillRange, enemyLayer);
+        ResetTargets(targets);
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
-            skillTarget = null;
-            return false;
+            return BaseNode.ENodeState.Failure;
         }
 
         float minDistance = float.MaxValue;
@@ -35,25 +35,63 @@ public class SingleTargetSkillToEnemy : Skill
                 farthestEnemy = collider.transform;
             }
         }
-        if (isPriorityTargetFar)
+        if (caster.IsPriorityTargetFar)
         {
-            SkillTarget = farthestEnemy;
+            targets.Add(farthestEnemy);
         }
         else
         {
-            SkillTarget = closetEnemy;
+            targets.Add(closetEnemy);
         }
-        return SkillTarget != null;
+        
+        if(targets.Count > 0)
+            return BaseNode.ENodeState.Success;
+        
+        return BaseNode.ENodeState.Failure;
     }
     
-    protected override void Perform(Transform caster)
+    protected override BaseNode.ENodeState Perform(UnitController caster, List<Transform> targets)
     {
-        if (SkillTarget == null)
+        if (targets[0] == null)
         {
-            Debug.Log($"{skillName}: 타겟이 없습니다.");
-            return;
+            Debug.Log($"{SkillName}: 타겟이 없습니다.");
+            return BaseNode.ENodeState.Failure;
         }
 
-        Debug.Log($"{skillName}: {SkillTarget.gameObject.name}에게 {skillName} 사용!");
+        //if (!unitAnimator.GetBool("Skill"))
+        if (caster.UnitAnimator == null)
+        {
+            Debug.LogWarning("애니메이터 없음;");
+            return BaseNode.ENodeState.Failure;
+        }
+            
+        
+        if(caster.UnitAnimator.GetBool("Skill"))
+        {
+            caster.UnitAnimator.SetBool("Skill",true);
+            Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
+            return BaseNode.ENodeState.Success;
+        }
+            
+        
+        //if (unitAnimator.GetCurrentAnimatorStateInfo(0).IsName("UsingSkill"))
+        if(caster.IsAnimationRunning("UsingSkill"))
+        {
+            Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 사용 중.");
+            return BaseNode.ENodeState.Running;
+        }
+
+        // Skill이 true고 현재 애니메이터의 진행 상황이 UsingSKill이 아닌 상황?
+        
+        //else if(unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        
+        {
+            Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
+            caster.UnitAnimator.SetBool("Skill",false);
+            return BaseNode.ENodeState.Success;
+        }
+        
+        Debug.LogWarning("예외 상황");
+        return BaseNode.ENodeState.Failure;
     }
 }
