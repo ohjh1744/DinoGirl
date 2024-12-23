@@ -35,12 +35,12 @@ public class UnitView : MonoBehaviour
     
     public bool IsAnimationRunning(string stateName)
     {
-        if (UnitAnimator.IsInTransition(0))
+        /*if (UnitAnimator.IsInTransition(0))
         {
             Debug.Log($"트랜지션 중, 상태: {stateName}");
             return true; 
             // 트랜지션 중일 때도 실행 중으로 간주
-        }
+        }*/
         
         if (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
