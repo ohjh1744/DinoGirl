@@ -57,6 +57,10 @@ public class BattleSceneManager : MonoBehaviour
         for (int i = 0; i < inGridObject.Length; i++) 
         {
             inGridObject[i] = null; 
+            
+        }
+        for (int i = 0; i < enemyGridObject.Length; i++) 
+        {
             enemyGridObject[i] = null;
         }
         for (int i = 0; i < Draggables.Length; i++) 
@@ -81,9 +85,14 @@ public class BattleSceneManager : MonoBehaviour
     private void BattleSceneStart() 
     {
         // 적 위치, 종류(id?)
-
         // 아군 위치, 종류 최종 스탯 
         // 스테이지 시간 
 
+       Spawner spawner = FindAnyObjectByType<Spawner>();
+
+       spawner.SpawnUnits();
+
     }
+
+
 }
