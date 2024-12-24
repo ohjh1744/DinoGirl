@@ -13,7 +13,7 @@ public class Tester : MonoBehaviour
     public void Test()
     {
 
-        List<Dictionary<string, string>> stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Character];
+        List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         for (int i = 0; i < _baseUnitNum; i++)
         {

@@ -18,7 +18,7 @@ public class StartPanel : MonoBehaviour
 
     private void Update()
     {
-        if(DataManager.Instance.IsLoad == true && _isStart == false)
+        if(CsvDataManager.Instance.IsLoad == true && _isStart == false)
         {
             _isStart = true;
             _sceneChanager.CanChangeSceen = true;
