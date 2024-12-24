@@ -1,3 +1,5 @@
+using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -178,6 +180,7 @@ public class LevelUpPanel : UIBInder
 
                 UpdateCharacters(character);
                 ItemUI.instance.UpdateCurrencyUI();
+                UpdateLevelData(character);
 
                 return true;
             }
@@ -197,6 +200,33 @@ public class LevelUpPanel : UIBInder
         }
 
         return false;
+    }
+
+    // 데이터 갱신
+    private void UpdateLevelData(PlayerUnitData character)
+    {
+        // 로그인을 생략해 임시로 userID 지정
+        // string userID = BackendManager.Auth.CurrentUser.UserId;
+        string userID = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
+        DatabaseReference characterRef = BackendManager.Database.RootReference.
+            Child("UserData").Child(userID).Child("_unitDatas").Child("0");
+
+        string json = JsonUtility.ToJson(character);
+        characterRef.SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("캐릭터 데이터 로딩 취소됨");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("캐릭터 데이터 로딩중 오류 발생 " + task.Exception);
+                return;
+            }
+
+            Debug.Log($"{character.Name}의 데이터 업데이트됨");
+        });
     }
 
     // UI 갱신

@@ -33,6 +33,7 @@ public class CharacterInventoryUI : MonoBehaviour
     private void LoadCharacter()
     {
         // 로그인을 생략해 임시로 userID 지정
+        // string userID = BackendManager.Auth.CurrentUser.UserId;
         string userID = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(userID).Child("_unitDatas");
 
