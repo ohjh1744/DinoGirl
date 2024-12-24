@@ -13,7 +13,7 @@ public class CharacterInventoryUI : MonoBehaviour
     public Transform content;           // 스크롤뷰의 content
 
     // private List<PlayerUnitData> characterList = new List<PlayerUnitData>();
-
+    /*
     private void Start()
     {
         StartCoroutine(WaitForFirebaseInitialization());
@@ -65,6 +65,7 @@ public class CharacterInventoryUI : MonoBehaviour
         });
     }    
 
+    
     // 그리드에 가진 캐릭터 정렬
     private void PopulateGrid()
     {
@@ -91,12 +92,12 @@ public class CharacterInventoryUI : MonoBehaviour
         foreach (Transform child in content)
         {
             CharacterSlotUI slotUI = child.GetComponent<CharacterSlotUI>();
-            /*if (slotUI.GetCharacter().Name == updatedCharacter.Name)
+            if (slotUI.GetCharacter().Name == updatedCharacter.Name)
             {
                 slotUI.SetCharacter(updatedCharacter);
                 break;
             }
-            */
         }
     }
+    */
 }

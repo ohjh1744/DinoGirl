@@ -12,6 +12,7 @@ public class CharacterSlotUI : UIBInder
     private PlayerUnitData unitData;
     private GameObject characterPanel;
 
+    /*
     private void Awake()
     {
         BindAll();
@@ -26,12 +27,12 @@ public class CharacterSlotUI : UIBInder
     {
         unitData = newUnitData;
 
-        /*
+        
         GetUI<TextMeshProUGUI>("NameText").text = unitData.Name;
         GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
         //GetUI<Image>("Character").sprite = character.image;
 
-        */
+        
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
@@ -46,5 +47,5 @@ public class CharacterSlotUI : UIBInder
     {
         return unitData;
     }
-
+    */
 }

@@ -9,7 +9,7 @@ public class CharacterPanel : UIBInder
 {
     private PlayerUnitData curCharacter;
     private GameObject levelUpPanel;
-
+    /*
     private void Awake()
     {
         BindAll();
@@ -23,7 +23,7 @@ public class CharacterPanel : UIBInder
     {
         UpdateCharacterInfo(curCharacter);
     }
-
+    */
     // 캐릭터 정보 갱신
     public void UpdateCharacterInfo(PlayerUnitData character)
     {
@@ -44,7 +44,7 @@ public class CharacterPanel : UIBInder
         GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
         */
     }
-
+    /*
     private void OnLevelUpButtonClick(PointerEventData eventData)
     {
         if (curCharacter != null && curCharacter.UnitLevel < 30)
@@ -55,4 +55,5 @@ public class CharacterPanel : UIBInder
             levelUp.Initialize(curCharacter);
         }
     }
+    */
 }
