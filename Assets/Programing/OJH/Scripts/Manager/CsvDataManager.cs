@@ -10,10 +10,10 @@ using UnityEngine.Networking;
 public enum E_CsvData { Character, Element, Stat, CharacterSkill, CharacterLevelUp1, CharacterLevelUp2, CharacterLevelUp3, CharacterLevelUp4,
     Monster, Stages, MontserGroup, StageReward, Item, Gacha, GachaReturn, Raids, RaidReward, WeeklyReward, Furniture}
 
-public class DataManager : MonoBehaviour
+public class CsvDataManager : MonoBehaviour
 {
-    private static DataManager _instance;
-    public static DataManager Instance { get { return _instance; } set { _instance = value; } }
+    private static CsvDataManager _instance;
+    public static CsvDataManager Instance { get { return _instance; } set { _instance = value; } }
 
     //csv ¸µÅ©µé
     [SerializeField] private string[] _urls;
