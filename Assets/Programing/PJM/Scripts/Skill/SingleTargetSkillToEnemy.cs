@@ -65,12 +65,12 @@ public class SingleTargetSkillToEnemy : Skill
             return BaseNode.ENodeState.Failure;
         }
             
-        
-        if(caster.UnitViewer.UnitAnimator.GetBool("Skill"))
+        // 스킬 시전 시작
+        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill]))
         {
-            caster.UnitViewer.UnitAnimator.SetBool("Skill",true);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],true);
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
-            return BaseNode.ENodeState.Success;
+            return BaseNode.ENodeState.Running;
         }
             
         
@@ -87,7 +87,7 @@ public class SingleTargetSkillToEnemy : Skill
         
         {
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
-            caster.UnitViewer.UnitAnimator.SetBool("Skill",false);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],false);
             return BaseNode.ENodeState.Success;
         }
         

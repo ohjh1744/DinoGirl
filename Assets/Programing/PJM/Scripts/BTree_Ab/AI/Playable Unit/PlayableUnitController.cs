@@ -12,6 +12,9 @@ public abstract class PlayableUnitController : UnitController
     
     private bool _skillTriggered;
     public bool SkillTriggered { get => _skillTriggered; protected set => _skillTriggered = value; }
+    
+    private List<Transform> _skillTargets;
+    public List<Transform> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
 
     private float _coolTime;
     public float CoolTime {get => _coolTime; protected set => _coolTime = value; }
@@ -35,9 +38,10 @@ public abstract class PlayableUnitController : UnitController
         throw new System.NotImplementedException();
     }
 
+    /*protected abstract bool CheckSkillRange();
     protected abstract BaseNode.ENodeState SetTargetToSkill();
 
-    protected abstract BaseNode.ENodeState PerformSkill(string animationName);
+    protected abstract BaseNode.ENodeState PerformSkill(string animationName);*/
     
     
     //public abstract BaseNode.ENodeState UseSkill();
@@ -86,7 +90,7 @@ public abstract class PlayableUnitController : UnitController
         return true;
     }
 
-    protected abstract bool CheckSkillRange();
+    
 
 
 }

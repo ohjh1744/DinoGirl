@@ -5,16 +5,16 @@ using UnityEngine;
 public class MeleePlayerUnitController : PlayableUnitController
 {
     
-    private List<Transform> _skillTargets;
+    //private List<Transform> _skillTargets;
     
-    private Transform _skillTarget;
+    /*private Transform _skillTarget;
 
-    public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }
+    public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }*/
 
     //[SerializeField] private bool _isAssassin;
     protected void Awake()
     {
-        _skillTargets = new List<Transform>();
+        SkillTargets = new List<Transform>();
         //DetectRange = 20.0f;
         AttackRange = 2.0f;
         MoveSpeed = 2.0f;
@@ -35,7 +35,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         (
             new List<BaseNode>
             {
-                /*new SequenceNode // skill Dicision
+                new SequenceNode // skill Dicision
                 (
                     new List<BaseNode>()
                     {
@@ -49,7 +49,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                             }
                         ),
                         
-                        //UniqueSkill.CreateSkillBTree(this, _skillTargets)
+                        UniqueSkill.CreateSkillBTree(this, SkillTargets)
                         /*new SequenceNode // Use Skill
                             // 아군,적대상, 거리체크, 대상체크, ...
                         (
@@ -59,9 +59,9 @@ public class MeleePlayerUnitController : PlayableUnitController
                                 new ActionNode(SetTargetToSkill),
                                 new ActionNode(() => PerformSkill("UsingSkill"))
                             }
-                        ),#1#
+                        ),*/
                     }
-                ),*/
+                ),
                 
                 new SequenceNode // Attack Dicision
                 (
@@ -97,7 +97,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         return BaseNode.ENodeState.Success;
     }*/
 
-    protected override BaseNode.ENodeState SetTargetToSkill() // 임시 스킬
+    /*protected override BaseNode.ENodeState SetTargetToSkill() // 임시 스킬
     {
         if (SkillTarget != null)
         {
@@ -173,14 +173,14 @@ public class MeleePlayerUnitController : PlayableUnitController
         }
 
         return BaseNode.ENodeState.Failure;
-    }
+    }*/
     
     // condition
-    protected override bool CheckSkillRange()
+    /*protected override bool CheckSkillRange()
     {
         if (DetectedEnemy == null || !DetectedEnemy.gameObject.activeSelf)
             return false;
         float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
         return sqrDistance <= SkillRange * SkillRange;
-    }
+    }*/
 }

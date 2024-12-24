@@ -3,18 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum AniState
+{
+    Idle, Attack, Skill, Size
+}
 
 public class UnitView : MonoBehaviour
 {
-    public enum AniState
-    {
-        Idle, Attack, Size
-    }
+
     public UnitController unit;
     private Animator _unitAnimator;
     public Animator UnitAnimator { get => _unitAnimator;}
-    public AnimatorStateInfo stateInfo;
+
+    private int[] _parameterHash;
+
+    public int[] ParameterHash { get => _parameterHash; private set => _parameterHash = value; }
+    //public AnimatorStateInfo stateInfo;
 
     private int[] _animationHash = new int[]
     {
@@ -22,11 +26,16 @@ public class UnitView : MonoBehaviour
         Animator.StringToHash("Attacking"),
     };
 
-    public int[] parameterHash = new int[]
+
+
+    private void Awake()
     {
-        Animator.StringToHash("Idle"),
-        Animator.StringToHash("Attack"),
-    };
+        ParameterHash = new int[(int)AniState.Size];
+        ParameterHash[(int)AniState.Idle] = Animator.StringToHash("Idle");
+        ParameterHash[(int)AniState.Attack] = Animator.StringToHash("Attack");
+        ParameterHash[(int)AniState.Skill] = Animator.StringToHash("Skill");
+    }
+
     private void Start()
     {
         unit = GetComponent<UnitController>();

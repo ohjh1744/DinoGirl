@@ -137,7 +137,7 @@ public abstract class UnitController : MonoBehaviour
         // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
         if (CurrentTarget == null)
         {
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Attack], false);
             IsAttacking = false;
             Debug.Log(" 타겟이 유효하지 않아 공격 실패."); // 공격 애니메이션 진행중 대상이 사라졌을 경우?
             return BaseNode.ENodeState.Failure;
@@ -145,11 +145,11 @@ public abstract class UnitController : MonoBehaviour
         
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
-        //if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
+        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)AniState.Attack]))
         
-        if (!IsAttacking)
+        //if (!IsAttacking)
         {
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], true);
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Attack], true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
             IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
             
@@ -162,6 +162,9 @@ public abstract class UnitController : MonoBehaviour
         // 공격 진행중, Attack 파라미터 True 상태
         //if (IsAttacking) // 위의 조건이 있어 사실상 필요 없을지도
             
+        
+        //if(UnitViewer.IsAnimationRunning())
+        
         
         
         //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
@@ -178,7 +181,7 @@ public abstract class UnitController : MonoBehaviour
                 {
                     // 공격 애니메이션이 끝났을 경우
                     Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
-                    UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
+                    UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Attack], false);
                     IsAttacking = false;
                     return BaseNode.ENodeState.Success;
                 }
