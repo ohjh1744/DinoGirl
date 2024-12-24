@@ -481,7 +481,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 437147475}
-  - component: {fileID: 437147476}
   m_Layer: 0
   m_Name: Tester
   m_TagString: Untagged
@@ -504,19 +503,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &437147476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437147473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fa0c51fdcc740641b659481954db337, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 108148409}
 --- !u!1 &505110957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,7 +1300,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1813872192}
-  - component: {fileID: 1813872191}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -1322,58 +1307,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1813872191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1813872189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2944c1c562faf1b4181e507d486ca685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _urls:
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=466068447&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1718232863&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=344127323&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=851817555&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=757879467&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1159364946&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=216579312&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=149986950&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1097868669&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1334652996&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1539147186&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=764001638&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1372944728&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1022538183&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=111536029&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1825062578&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1420684731&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1967817911&format=csv
-  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=375507297&format=csv
-  _csvDatas:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
 --- !u!4 &1813872192
 Transform:
   m_ObjectHideFlags: 0
