@@ -7,7 +7,7 @@ public class SingleTargetSkillToEnemy : Skill
 {
     protected override BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets)
     {
-        ResetTargets(targets);
+        ResetTargets(targets); // 이거 나중에 문제될것으로 보임
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
@@ -59,25 +59,49 @@ public class SingleTargetSkillToEnemy : Skill
         }
 
         //if (!unitAnimator.GetBool("Skill"))
-        if (caster.UnitAnimator == null)
+        if (caster.UnitViewer.UnitAnimator == null)
         {
             Debug.LogWarning("애니메이터 없음;");
             return BaseNode.ENodeState.Failure;
         }
+        // 임시
+        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Run], false);
             
-        
-        if(caster.UnitAnimator.GetBool("Skill"))
+        // 스킬 시전 시작
+        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill]))
         {
-            caster.UnitAnimator.SetBool("Skill",true);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],true);
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
-            return BaseNode.ENodeState.Success;
+            caster.CoolTimeCounter = Cooltime;
+            caster.IsSkillRunning = true;
+            return BaseNode.ENodeState.Running;
         }
             
         
         //if (unitAnimator.GetCurrentAnimatorStateInfo(0).IsName("UsingSkill"))
-        if(caster.IsAnimationRunning("UsingSkill"))
+        var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        
+        
+        //if(caster.UnitViewer.IsAnimationRunning("UsingSkill"))
+        if(stateInfo.IsName("UsingSkill"))
         {
-            Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 사용 중.");
+            if (stateInfo.normalizedTime < 1.0f)
+            {
+                Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 사용 중.");
+                return BaseNode.ENodeState.Running;
+            }
+            else if (stateInfo.normalizedTime >= 1.0f)
+            {
+                Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
+                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],false);
+                caster.IsSkillRunning = false;
+                return BaseNode.ENodeState.Success;
+            }
+            
+        }
+        else
+        {
+            Debug.Log("IsUsingSkill이 True지만 현재 애니메이션 상태가 UsingSkill이 아님");
             return BaseNode.ENodeState.Running;
         }
 
@@ -85,11 +109,11 @@ public class SingleTargetSkillToEnemy : Skill
         
         //else if(unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         
-        {
+        /*{
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
-            caster.UnitAnimator.SetBool("Skill",false);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],false);
             return BaseNode.ENodeState.Success;
-        }
+        }*/
         
         Debug.LogWarning("예외 상황");
         return BaseNode.ENodeState.Failure;

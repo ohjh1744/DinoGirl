@@ -23,7 +23,7 @@ public class ArcherUnitController : UnitController
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attacking"))
+                        new ActionNode(PerformAttack)
                     }
                 ),
                 new SequenceNode

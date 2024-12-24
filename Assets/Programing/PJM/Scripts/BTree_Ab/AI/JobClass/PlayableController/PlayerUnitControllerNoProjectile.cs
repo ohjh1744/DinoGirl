@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleePlayerUnitController : PlayableUnitController
+public class PlayerUnitControllerNoProjectile : PlayableUnitController
 {
-    
-    private List<Transform> _skillTargets;
-    
-    private Transform _skillTarget;
 
-    public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }
+    //private List<Transform> _skillTargets;
+
+    /*private Transform _skillTarget;
+
+    public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }*/
 
     //[SerializeField] private bool _isAssassin;
     protected void Awake()
     {
-        _skillTargets = new List<Transform>();
+        SkillTargets = new List<Transform>();
         //DetectRange = 20.0f;
         AttackRange = 2.0f;
         MoveSpeed = 2.0f;
@@ -27,7 +27,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         base.Start();
         // 추가로 해줄 동작 설정
     }
-    
+
 
     protected override BaseNode SetBTree()
     {
@@ -35,21 +35,33 @@ public class MeleePlayerUnitController : PlayableUnitController
         (
             new List<BaseNode>
             {
-                new SequenceNode // skill Dicision
+                new SelectorNode // skillable Dicision Selector
                 (
-                    new List<BaseNode>()
+                    new List<BaseNode>
                     {
-                        new ConditionNode(CheckSkillCooltime),
-                        new SelectorNode
+                        new DecoratorNode
+                        (
+                            new ConditionNode(IsSkillAlreadyRunning),
+                            UniqueSkill.CreatePerformNode(this, SkillTargets)
+                        ),
+                        new SequenceNode // skillable Dicision Sequence
                         (
                             new List<BaseNode>()
                             {
-                                new ConditionNode(CheckAutoOn),
-                                new ConditionNode(CheckUserInput)
+                                new ConditionNode(CheckSkillCooltimeBack),
+                                new SelectorNode // condition Selector
+                                (
+                                    new List<BaseNode>
+                                    {
+                                        new ConditionNode(CheckAutoOn),
+                                        new ConditionNode(CheckUserInput)
+                                    }
+                                ),
+                                UniqueSkill.CreateSkillBTree(this, SkillTargets)
                             }
                         ),
-                        
-                        //UniqueSkill.CreateSkillBTree(this, _skillTargets)
+                   
+
                         /*new SequenceNode // Use Skill
                             // 아군,적대상, 거리체크, 대상체크, ...
                         (
@@ -62,14 +74,14 @@ public class MeleePlayerUnitController : PlayableUnitController
                         ),*/
                     }
                 ),
-                
+
                 new SequenceNode // Attack Dicision
                 (
                     new List<BaseNode>
                     {
                         new ConditionNode(CheckAttackRange),
                         new ActionNode(SetTargetToAttack),
-                        new ActionNode(() => PerformAttack("Attacking"))
+                        new ActionNode(PerformAttack)
                     }
                 ),
                 new SequenceNode
@@ -85,7 +97,8 @@ public class MeleePlayerUnitController : PlayableUnitController
         );
     }
 
-    // skill
+
+// skill
 
     /*
     public override BaseNode.ENodeState UseSkill()
@@ -97,7 +110,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         return BaseNode.ENodeState.Success;
     }*/
 
-    protected override BaseNode.ENodeState SetTargetToSkill() // 임시 스킬
+    /*protected override BaseNode.ENodeState SetTargetToSkill() // 임시 스킬
     {
         if (SkillTarget != null)
         {
@@ -155,14 +168,14 @@ public class MeleePlayerUnitController : PlayableUnitController
         if (!SkillTriggered)
         {
             SkillTriggered = true;
-            UnitAnimator.SetTrigger("Skill");
+            UnitViewer.UnitAnimator.SetTrigger("Skill");
             Debug.Log($"******{SkillTarget.gameObject.name}에 밀리 스킬 공격 시작!******");
             StartCoroutine(ResetSkillTrigger(animationName));
             return BaseNode.ENodeState.Running;
         }
-        if (IsAnimationRunning(animationName))
+        if (UnitViewer.IsAnimationRunning(animationName))
         {
-            Debug.Log($"스킬 진행중 어택트리거 상태 : {AttackTriggered}");
+            Debug.Log($"스킬 진행중 어택트리거 상태 : {SkillTriggered}");
             return BaseNode.ENodeState.Running;
         }
         if(!SkillTriggered)
@@ -173,14 +186,14 @@ public class MeleePlayerUnitController : PlayableUnitController
         }
 
         return BaseNode.ENodeState.Failure;
-    }
+    }*/
     
     // condition
-    protected override bool CheckSkillRange()
+    /*protected override bool CheckSkillRange()
     {
         if (DetectedEnemy == null || !DetectedEnemy.gameObject.activeSelf)
             return false;
         float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
         return sqrDistance <= SkillRange * SkillRange;
-    }
+    }*/
 }
