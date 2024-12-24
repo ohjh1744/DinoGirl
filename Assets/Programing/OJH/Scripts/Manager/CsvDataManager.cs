@@ -22,7 +22,7 @@ public class CsvDataManager : MonoBehaviour
     [SerializeField] private string[] _csvDatas;
 
     //csvData Parsing한 Data들
-    public List<Dictionary<string, string>>[] DataLists { get; set; }
+    public Dictionary<int, Dictionary<string, string>>[] DataLists { get; set; }
 
     UnityWebRequest _request;
 
@@ -52,10 +52,10 @@ public class CsvDataManager : MonoBehaviour
     private IEnumerator DownloadRoutine()
     {
         // Data 초기화 
-        DataLists = new List<Dictionary<string, string>>[_csvDatas.Length];
+        DataLists = new Dictionary<int, Dictionary<string, string>>[_csvDatas.Length];
         for (int i = 0; i < DataLists.Length; i++)
         {
-            DataLists[i] = new List<Dictionary<string, string>>();
+            DataLists[i] = new Dictionary<int, Dictionary<string, string>>();
         }
 
         for (int i = 0; i < _urls.Length; i++)
@@ -75,9 +75,9 @@ public class CsvDataManager : MonoBehaviour
         _isLoad = true;
     }
 
-    List<Dictionary<string, string>> ChangeCsvToList(string data)
+    Dictionary< int, Dictionary<string, string>> ChangeCsvToList(string data)
     {
-        List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
+        Dictionary<int, Dictionary<string, string>> dataList = new Dictionary<int, Dictionary<string, string>>();
 
         string[] lines = data.Split('\n');
 
@@ -90,21 +90,15 @@ public class CsvDataManager : MonoBehaviour
             string[] values = lines[i].Split(',');
             Dictionary<string, string> dataDic = new Dictionary<string, string>();
 
-            for (int j = 0; j < headers.Length; j++)
+            //id는 제외하고 다음속석부터를 위해서 1부터
+            for (int j = 1; j < headers.Length; j++)
             {
                 dataDic[headers[j].Trim()] = values[j].Trim();
             }
 
-            dataList.Add(dataDic);
+            //values[0]은 
+            dataList[TypeCastManager.Instance.TryParseInt(values[0])] = dataDic;
         }
-
-        //foreach (var expando in dataList)
-        //{
-        //    foreach (var pair in expando)
-        //    {
-        //        Debug.Log($"{pair.Key}: {pair.Value}");
-        //    }
-        //}
 
         return dataList;
     }

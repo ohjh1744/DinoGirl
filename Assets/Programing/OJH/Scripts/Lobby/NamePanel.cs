@@ -74,22 +74,15 @@ public class NamePanel : UIBInder
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
         PlayerDataManager.Instance.PlayerData.ExitTime = DateTime.Now.ToString("o");
 
-        List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         for (int i = 0; i < _baseUnitNum; i++)
         {
             PlayerUnitData unitData = new PlayerUnitData();
 
-            foreach (Dictionary<string, string> field in stageDic)
-            {
-                if (int.Parse(field["CharID"]) == _baseUnitIds[i])
-                {
-                    unitData.UnitId = TypeCastManager.Instance.TryParseInt(field["CharID"]);
-                    unitData.UnitLevel = 1;
-                    PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
-                    break;
-                }
-            }
+            unitData.UnitId = _baseUnitIds[i];
+            unitData.UnitLevel = 1;
+
+            PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
         }
 
         //Json으로 변환후 저장.
