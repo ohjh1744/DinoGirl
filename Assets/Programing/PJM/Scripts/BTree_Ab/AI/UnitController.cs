@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public abstract class UnitController : MonoBehaviour
 {
-    // 임시 공격 후딜레이
+    // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
     
@@ -308,13 +308,13 @@ public abstract class UnitController : MonoBehaviour
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
     }
 
-    protected IEnumerator AttackDelayRoutine()
+    /*protected IEnumerator AttackDelayRoutine()
     {
         _inAttackDelay = true;
         yield return new WaitForSeconds(_tempDelay);
         if (_inAttackDelay)
             _inAttackDelay = false;
-    }
+    }*/
 
     protected BaseNode.ENodeState ChaseTarget()
     {

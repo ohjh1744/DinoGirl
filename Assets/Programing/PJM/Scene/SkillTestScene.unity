@@ -2134,11 +2134,10 @@ GameObject:
   - component: {fileID: 3291999828232714460}
   - component: {fileID: 3291999828232714462}
   - component: {fileID: 3291999828232714457}
-  - component: {fileID: 4466405043757659508}
   - component: {fileID: 644760517}
   - component: {fileID: 4466405043757659509}
   m_Layer: 10
-  m_Name: PlayerUnit
+  m_Name: PlayerUnitNoProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2177,28 +2176,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4466405043757659508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3291999828232714461}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 465428097c21a8f4caaa0ce87bd07da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _detectRange: 0
-  _attackRange: 0
-  _moveSpeed: 0
-  _allianceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _isPriorityTargetFar: 1
 --- !u!114 &4466405043757659509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2212,7 +2189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
-  parameterHash: 2b1a167c0d286c40
 --- !u!212 &6443849274324142073
 SpriteRenderer:
   m_ObjectHideFlags: 0
