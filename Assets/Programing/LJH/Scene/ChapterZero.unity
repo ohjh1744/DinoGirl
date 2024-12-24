@@ -855,12 +855,22 @@ MonoBehaviour:
   stageNumText: {fileID: 1358285112}
   stageNameText: {fileID: 2091948371}
   timeLimitText: {fileID: 1263817460}
-  curMobPos: 
-  curmyPos: 
-  curStageNum: 
+  curMobPos:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  curmyPos: 000000000000000000000000000000000000000000000000000000000000000000000000
+  curStageID: 
   curStageNames: 
   curTimeLimit: 
-  curMobCount: 0
+  curMobGroup: 
+  curRewardGroup: 
   mygrid:
   - {fileID: 1790742002}
   - {fileID: 1617051697}
@@ -881,6 +891,8 @@ MonoBehaviour:
   - {fileID: 51427009}
   - {fileID: 1898622048}
   - {fileID: 233932696}
+  itemIds: []
+  itemCounts: []
 --- !u!1 &133866154
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,6 +929,7 @@ RectTransform:
   - {fileID: 1699697010}
   - {fileID: 918689695}
   - {fileID: 1114227379}
+  - {fileID: 1669178189}
   m_Father: {fileID: 114538755}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3584,8 +3597,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _urls:
-  - https://docs.google.com/spreadsheets/d/1KXfqH_i8RFvsEWVfqmSbnVuuLuMm6GvW3kF6nt5iMI4/export?format=csv
+  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1097868669&format=csv
+  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1334652996&format=csv
+  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1539147186&format=csv
+  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=764001638&format=csv
+  - https://docs.google.com/spreadsheets/d/1rtwLadH7CrV4Sk4ksd3n_LkFLU5RampQlWgUdGDv7Rg/export?gid=1372944728&format=csv
   _csvDatas:
+  - 
+  - 
+  - 
+  - 
   - 
 --- !u!4 &1183420274
 Transform:
@@ -3617,6 +3638,8 @@ MonoBehaviour:
   inGridObject: []
   enemyGridObject: []
   _timeLimit: 0
+  curItemIDs: []
+  curItemCounts: []
 --- !u!1 &1263817458
 GameObject:
   m_ObjectHideFlags: 0
@@ -4701,6 +4724,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1669178188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1669178189}
+  - component: {fileID: 1669178190}
+  m_Layer: 5
+  m_Name: Rewards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1669178189
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669178188}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 133866155}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1000, y: 140}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1669178190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669178188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec04c2be6356f548a5e679d98931461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RewardSlot: {fileID: 5390988153695778392, guid: 749be854fecb7264a8aa56ec7f28e889, type: 3}
 --- !u!1 &1698219519
 GameObject:
   m_ObjectHideFlags: 0
