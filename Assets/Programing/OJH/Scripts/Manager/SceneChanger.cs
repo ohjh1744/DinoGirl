@@ -18,6 +18,11 @@ public class SceneChanger : MonoBehaviour
 
     public bool CanChangeSceen { get { return _canChangeSceen; } set { _canChangeSceen = value; } }
 
+    private void Awake()
+    {
+        _canChangeSceen = false;
+    }
+
     public void QuitGame()
     {
         Application.Quit();
