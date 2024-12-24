@@ -120,6 +120,13 @@ public abstract class UnitController : MonoBehaviour
     
     protected BaseNode.ENodeState PerformAttack()
     {
+        // 원하는것
+        // 해당 노드에 들어왔을 때 공격 시작중이 아니었을때(처음 공격시작) 공격 시작, 공격시작 로그 1번
+        // 공격중일 때(Running 반환) 공격 진행 중 로그 지속적으로 출력
+        // 공격이 종료되었을 때 공격 종료 로그 1번, Success 반환
+        // 위의 과정이 명확히 완료되어야 공격 선딜, 후딜도 추가할 수 있을 것 같다
+        
+        
         // 일단 후딜은 생각하지 말기
         /*if (_inAttackDelay)
             return BaseNode.ENodeState.Failure;*/
@@ -127,12 +134,12 @@ public abstract class UnitController : MonoBehaviour
         // Attack 파라미터를 False로 바꿔주더라도 바로 다음 행동트리를 돌 때 True로 바꿔서 제대로 된 애니메이션 전환이 일어나지 않나?
         
         
-        // 타겟이 유효하지 않을때 
+        // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
         if (CurrentTarget == null)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
             IsAttacking = false;
-            Debug.Log($" 타겟이 유효하지 않아 공격 실패.");
+            Debug.Log(" 타겟이 유효하지 않아 공격 실패."); // 공격 애니메이션 진행중 대상이 사라졌을 경우?
             return BaseNode.ENodeState.Failure;
         }
         
@@ -144,22 +151,45 @@ public abstract class UnitController : MonoBehaviour
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
-            IsAttacking = true;
-            // 공격 애니메이션의 길이 + 지정된 공격 후딜레이 후 공격을 종료시켜줄 코루틴
+            IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
+            
+            // 공격 애니메이션의 길이 + 지정된 공격 후딜레이 후 공격을 종료시켜줄 코루틴 // 현재 미사용
             // 공격 판정은 들어간 뒤 후 딜레이가 적용되어야 하므로 바꿀 필요가 있음
             //StartCoroutine(AttackRoutine("Attacking"));
             return BaseNode.ENodeState.Running;
         }
         
         // 공격 진행중, Attack 파라미터 True 상태
-        //if (IsAttacking)
+        //if (IsAttacking) // 위의 조건이 있어 사실상 필요 없을지도
+            
         
-        var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
         
-        if(stateInfo.IsName("Attacking") && stateInfo.normalizedTime < 1.0f) //UnitViewer.IsAnimationRunning("Attacking"))
+        //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
         {
-            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 중!");
-            return BaseNode.ENodeState.Running;
+            var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Attacking"))
+            {
+                if (stateInfo.normalizedTime < 1.0f)
+                {
+                    Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
+                    return BaseNode.ENodeState.Running;
+                }
+                else if (stateInfo.normalizedTime >= 1.0f)
+                {
+                    // 공격 애니메이션이 끝났을 경우
+                    Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
+                    UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
+                    IsAttacking = false;
+                    return BaseNode.ENodeState.Success;
+                }
+            }
+            else // 
+            {
+                // 트랜지션 이동중 애니메이션이 블렌딩 되어서? 애니메이션 상태로 확인하면 아래 로그가 출력됨
+                Debug.Log("IsAttacking이 True지만 현재 애니메이션 상태가 Attacking이 아님"); // IsAttacking이 True면 일단 공격중이니 Running 반환
+                //Debug.Log("Attack Bool 파라미터가 True지만 현재 애니메이션 상태가 Attacking이 아님");
+                return BaseNode.ENodeState.Running;
+            }
         }
         
         // 공격을 끝내야 할 경우, AttackRoutine 코루틴에서 애니메이션 길이 이후 IsAttacking을 false로 바꿔줬을 때
@@ -167,14 +197,15 @@ public abstract class UnitController : MonoBehaviour
         //if (!IsAttacking)
         
         //if(!UnitViewer.IsAnimationRunning("Attacking"))
-        if(stateInfo.IsName("Attacking") && stateInfo.normalizedTime >= 1.0f)
+        
+        /*if(stateInfo.IsName("Attacking") && stateInfo.normalizedTime >= 1.0f)
         {
             Debug.Log($"공격 종료됨");
             UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
             IsAttacking = false;
             //StartCoroutine(AttackDelayRoutine());
             return BaseNode.ENodeState.Success;
-        }
+        }*/
         
         Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
         return BaseNode.ENodeState.Failure;

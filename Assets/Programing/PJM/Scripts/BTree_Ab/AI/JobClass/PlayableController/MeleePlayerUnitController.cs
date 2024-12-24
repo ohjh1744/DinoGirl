@@ -35,7 +35,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         (
             new List<BaseNode>
             {
-                new SequenceNode // skill Dicision
+                /*new SequenceNode // skill Dicision
                 (
                     new List<BaseNode>()
                     {
@@ -59,9 +59,9 @@ public class MeleePlayerUnitController : PlayableUnitController
                                 new ActionNode(SetTargetToSkill),
                                 new ActionNode(() => PerformSkill("UsingSkill"))
                             }
-                        ),*/
+                        ),#1#
                     }
-                ),
+                ),*/
                 
                 new SequenceNode // Attack Dicision
                 (
@@ -162,7 +162,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         }
         if (UnitViewer.IsAnimationRunning(animationName))
         {
-            Debug.Log($"스킬 진행중 어택트리거 상태 : {IsAttacking}");
+            Debug.Log($"스킬 진행중 어택트리거 상태 : {SkillTriggered}");
             return BaseNode.ENodeState.Running;
         }
         if(!SkillTriggered)
