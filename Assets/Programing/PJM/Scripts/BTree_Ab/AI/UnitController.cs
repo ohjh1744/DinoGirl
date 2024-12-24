@@ -147,7 +147,7 @@ public abstract class UnitController : MonoBehaviour
         // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
         if (CurrentTarget == null)
         {
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Attack], false);
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
             IsAttacking = false;
             Debug.Log(" 타겟이 유효하지 않아 공격 실패."); // 공격 애니메이션 진행중 대상이 사라졌을 경우?
             return BaseNode.ENodeState.Failure;
@@ -155,12 +155,12 @@ public abstract class UnitController : MonoBehaviour
         
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
-        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
-        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)AniState.Attack]))
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
+        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]))
         
         //if (!IsAttacking)
         {
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Attack], true);
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
             IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
             
@@ -192,7 +192,7 @@ public abstract class UnitController : MonoBehaviour
                 {
                     // 공격 애니메이션이 끝났을 경우
                     Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
-                    UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Attack], false);
+                    UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
                     IsAttacking = false;
                     return BaseNode.ENodeState.Success;
                 }
@@ -323,7 +323,7 @@ public abstract class UnitController : MonoBehaviour
             float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
             if (sqrDistance > _attackRange * _attackRange) // 타겟이 공격 범위보다 멀때
             {
-                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], true);
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
                 
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
@@ -331,14 +331,14 @@ public abstract class UnitController : MonoBehaviour
             }
             else // 타겟이 공격 범위 내에 있을때 , 행동트리 후반에 있어서 공격으로 바로 넘어가서 뜨지 않음
             {
-                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name} 추적완료");
                 return BaseNode.ENodeState.Success;
             }
         }
         // 타겟이 없을때
         Debug.Log("타겟 없음");
-        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
         return BaseNode.ENodeState.Failure;
     }
 

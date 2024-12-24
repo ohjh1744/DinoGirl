@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AniState
+public enum Parameter
 {
     Idle, Run ,Attack, Skill, Size
 }
@@ -30,11 +30,11 @@ public class UnitView : MonoBehaviour
 
     private void Awake()
     {
-        ParameterHash = new int[(int)AniState.Size];
-        ParameterHash[(int)AniState.Idle] = Animator.StringToHash("Idle");
-        ParameterHash[(int)AniState.Run] = Animator.StringToHash("Run");
-        ParameterHash[(int)AniState.Attack] = Animator.StringToHash("Attack");
-        ParameterHash[(int)AniState.Skill] = Animator.StringToHash("Skill");
+        ParameterHash = new int[(int)Parameter.Size];
+        ParameterHash[(int)Parameter.Idle] = Animator.StringToHash("Idle");
+        ParameterHash[(int)Parameter.Run] = Animator.StringToHash("Run");
+        ParameterHash[(int)Parameter.Attack] = Animator.StringToHash("Attack");
+        ParameterHash[(int)Parameter.Skill] = Animator.StringToHash("Skill");
     }
 
     private void Start()
