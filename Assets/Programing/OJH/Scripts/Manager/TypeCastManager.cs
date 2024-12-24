@@ -41,4 +41,15 @@ public class TypeCastManager : MonoBehaviour
         }
         return parsedValue;
     }
+
+    public bool TryParseBool(string value)
+    {
+        bool parsedValue;
+        if (bool.TryParse(value, out parsedValue) == false)
+        {
+            Debug.Log($"{value} Parse½ÇÆÐ!");
+            return false;
+        }
+        return parsedValue;
+    }
 }

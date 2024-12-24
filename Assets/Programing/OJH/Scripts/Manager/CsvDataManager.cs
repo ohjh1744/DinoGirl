@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 
 public enum E_CsvData { Character, Element, Stat, CharacterSkill, CharacterLevelUp1, CharacterLevelUp2, CharacterLevelUp3, CharacterLevelUp4,
-    Monster, Stages, MontserGroup, StageReward, Item, Gacha, GachaReturn, Raids, RaidReward, WeeklyReward, Furniture}
+    Monster, Stages, StageReward, MontserGroup, Item, Gacha, GachaReturn, Raids, RaidReward, WeeklyReward, Housing}
 
 public class CsvDataManager : MonoBehaviour
 {

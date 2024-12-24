@@ -73,11 +73,7 @@ public class NamePanel : UIBInder
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
         PlayerDataManager.Instance.PlayerData.PlayerId = BackendManager.Auth.CurrentUser.UserId;
-
-        for (int i = 0; i < (int)E_Money.Length; i++)
-        {
-            PlayerDataManager.Instance.PlayerData.Money[i] = 0;
-        }
+        PlayerDataManager.Instance.PlayerData.ExitTime = DateTime.Now.ToString("o");
 
         List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
@@ -106,12 +102,9 @@ public class NamePanel : UIBInder
             }
         }
 
+        //Json으로 변환후 저장.
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
-
-
-        // Data저장하고나서는 초기화해주기
-        PlayerDataManager.Instance.PlayerData.UnitDatas.Clear();
 
         // 정상적으로 함수 동작시 씬 전환.
         _sceneChanger.CanChangeSceen = true;

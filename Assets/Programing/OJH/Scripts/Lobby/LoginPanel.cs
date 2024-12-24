@@ -9,6 +9,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class LoginPanel : UIBInder
 {
@@ -128,8 +129,6 @@ public class LoginPanel : UIBInder
             //ToDo: DB에서 PlayerData 불러오기 
             GetPlayerData();
 
-            // 초기화 끝나고 나면 씬change진행.
-            _sceneChanger.CanChangeSceen = true;
         }
     }
 
@@ -150,21 +149,32 @@ public class LoginPanel : UIBInder
             DataSnapshot snapShot = task.Result;
 
             PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
+
             PlayerDataManager.Instance.PlayerData.PlayerId = snapShot.Child("_playerId").Value.ToString();
 
-            var moneyChildren = snapShot.Child("_money").Children.ToList();
+            PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
 
-            Debug.Log(moneyChildren.Count);
-            for (int i = 0; i < moneyChildren.Count; i++)
+        
+            // int형 배열
+            var itemChildren = snapShot.Child("_items").Children.ToList();
+            itemChildren = itemChildren.OrderBy(item => TypeCastManager.Instance.TryParseInt(item.Key)).ToList();
+            for (int i = 0; i < itemChildren.Count; i++)
             {
-                Debug.Log(int.Parse(moneyChildren[i].Value.ToString()));
-                //PlayerDataManager.Instance.PlayerData.Money[i] = int.Parse(moneyChildren[i].Value.ToString());
-                PlayerDataManager.Instance.PlayerData.Money[i] = TypeCastManager.Instance.TryParseInt(moneyChildren[i].Value.ToString());
+                PlayerDataManager.Instance.PlayerData.Items[i] = TypeCastManager.Instance.TryParseInt(itemChildren[i].Value.ToString());
             }
 
-            var unitDataChildren = snapShot.Child("_unitDatas");
+            //bool형 배열
+            var isStageClearChildren = snapShot.Child("_isStageClear").Children.ToList();
+            isStageClearChildren = isStageClearChildren.OrderBy(isStageClear => TypeCastManager.Instance.TryParseInt(isStageClear.Key)).ToList();
+            for (int i = 0; i < isStageClearChildren.Count; i++)
+            {
+                PlayerDataManager.Instance.PlayerData.IsStageClear[i] = TypeCastManager.Instance.TryParseBool(isStageClearChildren[i].Value.ToString());
+            }
 
-            foreach (var unitChild in unitDataChildren.Children)
+            var unitDataChildren = snapShot.Child("_unitDatas").Children.ToList();
+            unitDataChildren = unitDataChildren.OrderBy(unitData => TypeCastManager.Instance.TryParseInt(unitData.Key)).ToList();
+
+            foreach (var unitChild in unitDataChildren)
             {
                 PlayerUnitData unitData = new PlayerUnitData
                 {
@@ -182,6 +192,8 @@ public class LoginPanel : UIBInder
                 PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
             }
 
+            // 초기화 끝나고 나면 씬change진행.
+            _sceneChanger.CanChangeSceen = true;
         });
     }
 
