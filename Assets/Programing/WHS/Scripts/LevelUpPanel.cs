@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+/*
 public class LevelUpPanel : UIBInder
 {
     private PlayerUnitData targetCharacter;
@@ -265,3 +265,4 @@ public class LevelUpPanel : UIBInder
         }
     }
 }
+*/

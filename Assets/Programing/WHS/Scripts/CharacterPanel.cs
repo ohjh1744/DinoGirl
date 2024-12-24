@@ -27,6 +27,7 @@ public class CharacterPanel : UIBInder
     // 캐릭터 정보 갱신
     public void UpdateCharacterInfo(PlayerUnitData character)
     {
+        /*
         curCharacter = character;
         GetUI<TextMeshProUGUI>("NameText").text = character.Name;
         GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
@@ -41,6 +42,7 @@ public class CharacterPanel : UIBInder
         GetUI<TextMeshProUGUI>("PercentIncreaseText").text = "PI : " + character.PercentIncrease.ToString();
 
         GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
+        */
     }
 
     private void OnLevelUpButtonClick(PointerEventData eventData)

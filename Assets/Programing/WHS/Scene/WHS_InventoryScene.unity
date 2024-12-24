@@ -666,7 +666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &71403675
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2830,7 +2830,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerName: 
   _playerId: 
-  _money: 0000000000000000000000000000000000000000
+  _exitTime: 
+  _items: 
+  _isStageClear: 
   _unitDatas: []
 --- !u!4 &404682262
 Transform:
