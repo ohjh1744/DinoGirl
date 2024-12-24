@@ -155,6 +155,7 @@ public abstract class UnitController : MonoBehaviour
         
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
         if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)AniState.Attack]))
         
         //if (!IsAttacking)
@@ -320,18 +321,23 @@ public abstract class UnitController : MonoBehaviour
         if (DetectedEnemy != null)
         {
             float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
-            if (sqrDistance > _attackRange * _attackRange)
+            if (sqrDistance > _attackRange * _attackRange) // 타겟이 공격 범위보다 멀때
             {
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
                 
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
-            } 
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
-            return BaseNode.ENodeState.Success;
-            
+            }
+            else // 타겟이 공격 범위 내에 있을때 , 행동트리 후반에 있어서 공격으로 바로 넘어가서 뜨지 않음
+            {
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
+                Debug.Log($"타겟 {DetectedEnemy.gameObject.name} 추적완료");
+                return BaseNode.ENodeState.Success;
+            }
         }
+        // 타겟이 없을때
+        Debug.Log("타겟 없음");
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
         return BaseNode.ENodeState.Failure;
     }
