@@ -8,8 +8,7 @@ public class RewardList : MonoBehaviour
 
 
     private void OnEnable()
-    {
-       
+    { 
         StartCoroutine(delaying());
     }
 
@@ -24,11 +23,12 @@ public class RewardList : MonoBehaviour
                 count++;
                 GameObject obj = Instantiate(RewardSlot);
                 RectTransform pos = obj.GetComponent<RectTransform>();
-                pos.anchoredPosition =  new Vector2(1000f, 140f);
                 obj.transform.SetParent(transform);
+                pos.anchoredPosition =  new Vector2(1000f, 140f-100*count);
                 obj.GetComponent<RewardSlot>().setText(BattleSceneManager.Instance.curItemCounts[i]);
             }
             
         }
     }
+  
 }
