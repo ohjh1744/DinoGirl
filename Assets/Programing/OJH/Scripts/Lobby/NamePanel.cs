@@ -72,7 +72,6 @@ public class NamePanel : UIBInder
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
-        PlayerDataManager.Instance.PlayerData.PlayerId = BackendManager.Auth.CurrentUser.UserId;
         PlayerDataManager.Instance.PlayerData.ExitTime = DateTime.Now.ToString("o");
 
         List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
@@ -85,7 +84,7 @@ public class NamePanel : UIBInder
             {
                 if (int.Parse(field["CharID"]) == _baseUnitIds[i])
                 {
-                    unitData.Name = field["Name"];
+                    unitData.UnitId = TypeCastManager.Instance.TryParseInt(field["CharID"]);
                     unitData.UnitLevel = 1;
                     unitData.Type = field["Class"];
                     unitData.ElementName = field["ElementName"];

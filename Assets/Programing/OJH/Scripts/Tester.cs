@@ -13,34 +13,34 @@ public class Tester : MonoBehaviour
     public void Test()
     {
 
-        List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        //List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
-        for (int i = 0; i < _baseUnitNum; i++)
-        {
-            PlayerUnitData unitData = new PlayerUnitData();
+        //for (int i = 0; i < _baseUnitNum; i++)
+        //{
+        //    PlayerUnitData unitData = new PlayerUnitData();
 
-            Debug.Log($"{i}¹ø¤Š");
+        //    Debug.Log($"{i}¹ø¤Š");
 
-            foreach (Dictionary<string, string> field in stageDic)
-            {
-                Debug.Log(field["CharID"]);
-                if (int.Parse(field["CharID"]) == _baseUnitIds[i])
-                {
-                    unitData.Name = field["Name"];
-                    unitData.UnitLevel = 0;
-                    unitData.Type = field["Class"];
-                    unitData.ElementName = field["ElementName"];
-                    unitData.Hp = int.Parse(field["BaseHp"]);
-                    unitData.Atk = int.Parse(field["BaseATK"]);
-                    unitData.Def = int.Parse(field["BaseDef"]);
-                    unitData.Grid = field["Grid"];
-                    unitData.StatId = int.Parse(field["StatID"]);
-                    unitData.PercentIncrease = int.Parse(field["PercentIncrease"]);
+        //    foreach (Dictionary<string, string> field in stageDic)
+        //    {
+        //        Debug.Log(field["CharID"]);
+        //        if (int.Parse(field["CharID"]) == _baseUnitIds[i])
+        //        {
+        //            unitData.UnitId = field["CharID"];
+        //            unitData.UnitLevel = 0;
+        //            unitData.Type = field["Class"];
+        //            unitData.ElementName = field["ElementName"];
+        //            unitData.Hp = int.Parse(field["BaseHp"]);
+        //            unitData.Atk = int.Parse(field["BaseATK"]);
+        //            unitData.Def = int.Parse(field["BaseDef"]);
+        //            unitData.Grid = field["Grid"];
+        //            unitData.StatId = int.Parse(field["StatID"]);
+        //            unitData.PercentIncrease = int.Parse(field["PercentIncrease"]);
 
-                    PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
-                    Debug.Log("hhhii");
-                }
-            }
-        }
+        //            PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
+        //            Debug.Log("hhhii");
+        //        }
+        //    }
+        //}
     }
 }
