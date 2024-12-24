@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class CharacterPanel : UIBInder
 {
-    private Character curCharacter;
+    private PlayerUnitData curCharacter;
     private GameObject levelUpPanel;
 
     private void Awake()
@@ -24,11 +24,11 @@ public class CharacterPanel : UIBInder
     }
 
     // 캐릭터 정보 갱신
-    public void UpdateCharacterInfo(Character character)
+    public void UpdateCharacterInfo(PlayerUnitData character)
     {
         curCharacter = character;
         GetUI<TextMeshProUGUI>("NameText").text = character.Name;
-        GetUI<TextMeshProUGUI>("LevelText").text = character.level.ToString();
+        GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
     }
 
     private void OnLevelUpButtonClick(PointerEventData eventData)

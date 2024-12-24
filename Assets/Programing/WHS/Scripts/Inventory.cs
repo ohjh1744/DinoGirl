@@ -3,22 +3,6 @@ using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-[System.Serializable] // 캐릭터 정보 ( 데이터베이스에서 받아올것)
-public class Character
-{
-    public int ID;
-    public string Name;
-    public string Dinosaur;
-    public string Job;
-    public string Element;
-    public string Skills;
-    public string SkillsDiscription;
-    public int Rare;
-
-    public int level;
-    public Sprite image;
-}
-
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
@@ -39,7 +23,7 @@ public class Inventory : MonoBehaviour
     public Dictionary<int, Item> items = new Dictionary<int, Item>();
 
     // 캐릭터 리스트
-    public List<Character> characters = new List<Character>();
+    public List<PlayerUnitData> characters = new List<PlayerUnitData>();
 
 
     // 재화 초기화 ( 서버에서 받아와야 할 것)
