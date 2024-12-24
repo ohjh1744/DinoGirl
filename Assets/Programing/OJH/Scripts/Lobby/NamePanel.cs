@@ -17,6 +17,8 @@ public class NamePanel : UIBInder
 
     private StringBuilder _sb = new StringBuilder();
 
+    [SerializeField] private SceneChanger _sceneChanger;
+
     private void Awake()
     {
         BindAll();
@@ -65,6 +67,9 @@ public class NamePanel : UIBInder
 
     private void CreateDataBase()
     {
+        // 성공시 비동기씬 진행.
+        _sceneChanger.ChangeScene("LobbyOJH");
+
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
         PlayerDataManager.Instance.PlayerData.PlayerId = BackendManager.Auth.CurrentUser.UserId;
@@ -79,8 +84,6 @@ public class NamePanel : UIBInder
         for (int i = 0; i < _baseUnitNum; i++)
         {
             PlayerUnitData unitData = new PlayerUnitData();
-
-            Debug.Log($"{i}번쨰");
 
             foreach (Dictionary<string, string> field in stageDic)
             {
@@ -98,7 +101,6 @@ public class NamePanel : UIBInder
                     unitData.PercentIncrease = int.Parse(field["PercentIncrease"]);
 
                     PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
-                    Debug.Log("hhhii");
                 }
             }
         }
@@ -110,8 +112,8 @@ public class NamePanel : UIBInder
         // Data저장하고나서는 초기화해주기
         PlayerDataManager.Instance.PlayerData.UnitDatas.Clear();
 
-        // Database생성하고 나서 이름 Panel 끄고 로그인화면으로 돌아가기
-        gameObject.SetActive(false);
+        // 정상적으로 함수 동작시 씬 전환.
+        _sceneChanger.CanChangeSceen = true;
     }
 
 
