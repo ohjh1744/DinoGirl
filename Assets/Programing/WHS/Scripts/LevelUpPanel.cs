@@ -1,3 +1,5 @@
+using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,7 +9,7 @@ using UnityEngine.UI;
 
 public class LevelUpPanel : UIBInder
 {
-    private Character targetCharacter;
+    private PlayerUnitData targetCharacter;
     private int maxLevelUp;
     private int curLevelUp;
     private const int MAXLEVEL = 30;
@@ -28,7 +30,7 @@ public class LevelUpPanel : UIBInder
         AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);
     }
 
-    public void Initialize(Character character)
+    public void Initialize(PlayerUnitData character)
     {
         targetCharacter = character;
         CalculateMaxLevelUp();
@@ -56,13 +58,13 @@ public class LevelUpPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.boneCrystal}";
 
-        if (targetCharacter.level + curLevelUp >= MAXLEVEL)
+        if (targetCharacter.UnitLevel + curLevelUp >= MAXLEVEL)
         {
-            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.level} -> Lv.{MAXLEVEL} (MAX)";
+            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.UnitLevel} -> Lv.{MAXLEVEL} (MAX)";
         }
         else
         {
-            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.level} -> Lv.{targetCharacter.level + curLevelUp}";
+            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.UnitLevel} -> Lv.{targetCharacter.UnitLevel + curLevelUp}";
         }
     }
 
@@ -71,7 +73,7 @@ public class LevelUpPanel : UIBInder
     {
         maxLevelUp = 0;
         while (CanLevelUp(maxLevelUp + 1)
-            && (targetCharacter.level + maxLevelUp + 1) <= MAXLEVEL)
+            && (targetCharacter.UnitLevel + maxLevelUp + 1) <= MAXLEVEL)
         {
             maxLevelUp++;
         }
@@ -80,7 +82,7 @@ public class LevelUpPanel : UIBInder
     // 레벨업 가능 여부
     private bool CanLevelUp(int level)
     {
-        if (targetCharacter.level + level > MAXLEVEL)
+        if (targetCharacter.UnitLevel + level > MAXLEVEL)
         {
             return false;
         }
@@ -111,7 +113,7 @@ public class LevelUpPanel : UIBInder
         int total = 0;
         for (int i = 0; i < levels; i++)
         {
-            total += 30 + (targetCharacter.level + i - 1) * 60;
+            total += 30 + (targetCharacter.UnitLevel + i - 1) * 60;
         }
         return total;
     }
@@ -122,7 +124,7 @@ public class LevelUpPanel : UIBInder
         int total = 0;
         for (int i = 0; i < levels; i++)
         {
-            total += 90 + (targetCharacter.level + i - 1) * 70;
+            total += 90 + (targetCharacter.UnitLevel + i - 1) * 70;
         }
         return total;
     }
@@ -135,9 +137,9 @@ public class LevelUpPanel : UIBInder
         for (int i = 0; i < levels; i++)
         {
             // 5레벨마다 본크리스탈 요구량
-            if ((targetCharacter.level + i) % 5 == 4)
+            if ((targetCharacter.UnitLevel + i) % 5 == 4)
             {
-                total += 10 + (((targetCharacter.level + i + 1) / 5) * 40);
+                total += 10 + (((targetCharacter.UnitLevel + i + 1) / 5) * 40);
             }
         }
         return total;
@@ -157,7 +159,7 @@ public class LevelUpPanel : UIBInder
     }
 
     // 레벨업
-    private bool LevelUp(Character character)
+    private bool LevelUp(PlayerUnitData character)
     {
         RequiredItems items = CalculateRequiredItems(1);
 
@@ -169,8 +171,8 @@ public class LevelUpPanel : UIBInder
                 Inventory.instance.SpendItem(ItemID.DinoBlood, items.dinoBlood) &&
                 (items.boneCrystal == 0 || Inventory.instance.SpendItem(ItemID.BoneCrystal, items.boneCrystal)))
             {
-                character.level++;
-                Debug.Log($"{character.Name} 레벨업 {character.level}");
+                character.UnitLevel++;
+                Debug.Log($"{character.Name} 레벨업 {character.UnitLevel}");
                 if (items.boneCrystal > 0)
                 {
                     Debug.Log($"본 크리스탈 {items.boneCrystal} 소모");
@@ -178,6 +180,7 @@ public class LevelUpPanel : UIBInder
 
                 UpdateCharacters(character);
                 ItemUI.instance.UpdateCurrencyUI();
+                UpdateLevelData(character);
 
                 return true;
             }
@@ -199,8 +202,35 @@ public class LevelUpPanel : UIBInder
         return false;
     }
 
+    // 데이터 갱신
+    private void UpdateLevelData(PlayerUnitData character)
+    {
+        // 로그인을 생략해 임시로 userID 지정
+        // string userID = BackendManager.Auth.CurrentUser.UserId;
+        string userID = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
+        DatabaseReference characterRef = BackendManager.Database.RootReference.
+            Child("UserData").Child(userID).Child("_unitDatas").Child("0");
+
+        string json = JsonUtility.ToJson(character);
+        characterRef.SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("캐릭터 데이터 로딩 취소됨");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("캐릭터 데이터 로딩중 오류 발생 " + task.Exception);
+                return;
+            }
+
+            Debug.Log($"{character.Name}의 데이터 업데이트됨");
+        });
+    }
+
     // UI 갱신
-    private void UpdateCharacters(Character character)
+    private void UpdateCharacters(PlayerUnitData character)
     {
         CharacterPanel characterPanel = FindObjectOfType<CharacterPanel>();
         if (characterPanel != null)
@@ -227,7 +257,7 @@ public class LevelUpPanel : UIBInder
 
     private void OnIncreaseButtonClick(PointerEventData eventData)
     {
-        if (curLevelUp < maxLevelUp && (targetCharacter.level + curLevelUp) + 1 <= MAXLEVEL)
+        if (curLevelUp < maxLevelUp && (targetCharacter.UnitLevel + curLevelUp) + 1 <= MAXLEVEL)
         {
             curLevelUp++;
             UpdateUI();

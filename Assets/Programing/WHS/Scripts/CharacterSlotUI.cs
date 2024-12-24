@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class CharacterSlotUI : UIBInder
 {
-    private Character character;
+    private PlayerUnitData unitData;
     private GameObject characterPanel;
 
     private void Awake()
@@ -22,12 +22,12 @@ public class CharacterSlotUI : UIBInder
     }
 
     // 인벤토리에 캐릭터 세팅 - 이미지, 이름, 레벨 ( 레어도, 포지션 등 )
-    public void SetCharacter(Character newCharacter)
+    public void SetCharacter(PlayerUnitData newUnitData)
     {
-        character = newCharacter;
+        unitData = newUnitData;
 
-        GetUI<TextMeshProUGUI>("NameText").text = character.Name;
-        GetUI<TextMeshProUGUI>("LevelText").text = character.level.ToString();
+        GetUI<TextMeshProUGUI>("NameText").text = unitData.Name;
+        GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
         //GetUI<Image>("Character").sprite = character.image;
     }
 
@@ -36,12 +36,12 @@ public class CharacterSlotUI : UIBInder
     {
         characterPanel.SetActive(true);
 
-        characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(character);
+        characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
     }
 
-    public Character GetCharacter()
+    public PlayerUnitData GetCharacter()
     {
-        return character;
+        return unitData;
     }
 
 }
