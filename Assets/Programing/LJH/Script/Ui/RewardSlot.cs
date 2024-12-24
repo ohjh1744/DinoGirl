@@ -11,4 +11,8 @@ public class RewardSlot : MonoBehaviour
     {
         text.text = texts;
     }
+    private void OnDisable()
+    {
+        Destroy(gameObject);
+    }
 }
