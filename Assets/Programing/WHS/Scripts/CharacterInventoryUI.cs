@@ -12,8 +12,8 @@ public class CharacterInventoryUI : MonoBehaviour
     public GameObject characterPrefab;  // 캐릭터 칸 프리팹
     public Transform content;           // 스크롤뷰의 content
 
-    private List<PlayerUnitData> characterList = new List<PlayerUnitData>();
-
+    // private List<PlayerUnitData> characterList = new List<PlayerUnitData>();
+    /*
     private void Start()
     {
         StartCoroutine(WaitForFirebaseInitialization());
@@ -22,7 +22,9 @@ public class CharacterInventoryUI : MonoBehaviour
     // 로그인을 생략해서 데이터베이스 연동 데스트용
     private IEnumerator WaitForFirebaseInitialization()
     {
-        while (BackendManager.Database == null || BackendManager.Database.RootReference == null)
+        while (PlayerDataManager.Instance == null || 
+            PlayerDataManager.Instance.PlayerData == null ||
+            PlayerDataManager.Instance.PlayerData.UnitDatas == null)
         {
             yield return null;
         }
@@ -51,20 +53,19 @@ public class CharacterInventoryUI : MonoBehaviour
             }
 
             DataSnapshot snapshot = task.Result;
-            characterList.Clear();
 
             foreach(DataSnapshot childSnapshot in snapshot.Children)
             {
                 string json = childSnapshot.GetRawJsonValue();
                 PlayerUnitData character = JsonUtility.FromJson<PlayerUnitData>(json);
-                characterList.Add(character);
             }
 
             PopulateGrid();
 
         });
-    }
+    }    
 
+    
     // 그리드에 가진 캐릭터 정렬
     private void PopulateGrid()
     {
@@ -75,7 +76,7 @@ public class CharacterInventoryUI : MonoBehaviour
         }
 
         // 스크롤뷰에 캐릭터 정렬
-        foreach (PlayerUnitData unitData in characterList)
+        foreach (PlayerUnitData unitData in PlayerDataManager.Instance.PlayerData.UnitDatas)
         {
             GameObject slot = Instantiate(characterPrefab, content);
             CharacterSlotUI slotUI = slot.GetComponent<CharacterSlotUI>();
@@ -98,4 +99,5 @@ public class CharacterInventoryUI : MonoBehaviour
             }
         }
     }
+    */
 }
