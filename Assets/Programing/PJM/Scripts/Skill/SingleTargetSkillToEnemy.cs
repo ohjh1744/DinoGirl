@@ -65,12 +65,12 @@ public class SingleTargetSkillToEnemy : Skill
             return BaseNode.ENodeState.Failure;
         }
         // 임시
-        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Run], false);
+        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
             
         // 스킬 시전 시작
-        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill]))
+        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill]))
         {
-            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],true);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],true);
             Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
             caster.CoolTimeCounter = Cooltime;
             caster.IsSkillRunning = true;
@@ -93,7 +93,7 @@ public class SingleTargetSkillToEnemy : Skill
             else if (stateInfo.normalizedTime >= 1.0f)
             {
                 Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
-                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],false);
+                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],false);
                 caster.IsSkillRunning = false;
                 return BaseNode.ENodeState.Success;
             }
