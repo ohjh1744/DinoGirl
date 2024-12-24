@@ -13,8 +13,10 @@ public class BattleSceneManager : MonoBehaviour
 
     [SerializeField] public GameObject[] inGridObject; // 아군 정보 배열 나중에 타입을 바꾸면 될듯
     [SerializeField] public string[] enemyGridObject;// 적 정보 배열
-    [SerializeField] public int _timeLimit; // private 프로퍼티로 바꿀 예정 , 
-   
+    [SerializeField] public int _timeLimit; // private 프로퍼티로 바꿀 예정
+    [SerializeField] public List<string> curItemIDs;
+    [SerializeField] public List<string> curItemCounts;
+
     private void Awake()
     {
         if (Instance == null)
@@ -48,11 +50,11 @@ public class BattleSceneManager : MonoBehaviour
         Debug.Log(datas);
         if (count > 5) 
         {
-            Debug.Log("5인 초과 출발 불가");
+            Debug.Log("5인 초과 출발 불가"); 
         }
     }
     public void BackStage() 
-    {
+    {   
         // 스테이지패널 , 배틀씬 매니저정보 초기화 해야함
         for (int i = 0; i < inGridObject.Length; i++) 
         {

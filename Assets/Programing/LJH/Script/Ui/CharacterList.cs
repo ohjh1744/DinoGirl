@@ -10,7 +10,9 @@ public class CharacterList : MonoBehaviour
     
     
     private void OnEnable()
-    {
+    {   
+      
+
         for (int i = 0; i < charaList.Length; i++) 
         {
             GameObject obj =  Instantiate(slot, new Vector3(100+150 * i,125, 0),Quaternion.identity);
