@@ -4,10 +4,12 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class LoginPanel : UIBInder
 {
@@ -124,15 +126,75 @@ public class LoginPanel : UIBInder
             //TODO :  로비씬으로 비동기 씬 전환 
             _sceneChanger.ChangeScene("LobbyOJH");
 
-            Debug.Log("User profile updated successfully.");
-            Debug.Log($"Display name: {user.DisplayName}");
-            Debug.Log($"Email: {user.Email}");
-            Debug.Log($"EmailVerified: {user.IsEmailVerified}");
-            Debug.Log($"UserId: {user.UserId}");
+            //ToDo: DB에서 PlayerData 불러오기 
+            GetPlayerData();
+
+        }
+    }
+
+    private void GetPlayerData()
+    {
+        FirebaseUser user = BackendManager.Auth.CurrentUser;
+
+        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(user.UserId);
+
+        root.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.Log("GetValueAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            DataSnapshot snapShot = task.Result;
+
+            PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
+
+            PlayerDataManager.Instance.PlayerData.PlayerId = snapShot.Child("_playerId").Value.ToString();
+
+            PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
+
+        
+            // int형 배열
+            var itemChildren = snapShot.Child("_items").Children.ToList();
+            itemChildren = itemChildren.OrderBy(item => TypeCastManager.Instance.TryParseInt(item.Key)).ToList();
+            for (int i = 0; i < itemChildren.Count; i++)
+            {
+                PlayerDataManager.Instance.PlayerData.Items[i] = TypeCastManager.Instance.TryParseInt(itemChildren[i].Value.ToString());
+            }
+
+            //bool형 배열
+            var isStageClearChildren = snapShot.Child("_isStageClear").Children.ToList();
+            isStageClearChildren = isStageClearChildren.OrderBy(isStageClear => TypeCastManager.Instance.TryParseInt(isStageClear.Key)).ToList();
+            for (int i = 0; i < isStageClearChildren.Count; i++)
+            {
+                PlayerDataManager.Instance.PlayerData.IsStageClear[i] = TypeCastManager.Instance.TryParseBool(isStageClearChildren[i].Value.ToString());
+            }
+
+            var unitDataChildren = snapShot.Child("_unitDatas").Children.ToList();
+            unitDataChildren = unitDataChildren.OrderBy(unitData => TypeCastManager.Instance.TryParseInt(unitData.Key)).ToList();
+
+            foreach (var unitChild in unitDataChildren)
+            {
+                PlayerUnitData unitData = new PlayerUnitData
+                {
+                    Name = unitChild.Child("_name").Value.ToString(),
+                    UnitLevel = int.Parse(unitChild.Child("_unitLevel").Value.ToString()),
+                    Type = unitChild.Child("_type").Value.ToString(),
+                    ElementName = unitChild.Child("_elementName").Value.ToString(),
+                    Hp = TypeCastManager.Instance.TryParseInt(unitChild.Child("_hp").Value.ToString()),
+                    Atk = TypeCastManager.Instance.TryParseInt(unitChild.Child("_atk").Value.ToString()),
+                    Def = TypeCastManager.Instance.TryParseInt(unitChild.Child("_def").Value.ToString()),
+                    Grid = unitChild.Child("_grid").Value.ToString(),
+                    StatId = TypeCastManager.Instance.TryParseInt(unitChild.Child("_statId").Value.ToString()),
+                    PercentIncrease = TypeCastManager.Instance.TryParseInt(unitChild.Child("_percentIncrease").Value.ToString())
+                };
+                PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
+            }
 
             // 초기화 끝나고 나면 씬change진행.
             _sceneChanger.CanChangeSceen = true;
-        }
+        });
     }
 
     private void SetTrueWarningPanel(string textName)

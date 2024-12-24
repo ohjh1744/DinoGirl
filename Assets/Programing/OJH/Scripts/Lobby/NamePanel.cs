@@ -17,6 +17,8 @@ public class NamePanel : UIBInder
 
     private StringBuilder _sb = new StringBuilder();
 
+    [SerializeField] private SceneChanger _sceneChanger;
+
     private void Awake()
     {
         BindAll();
@@ -65,22 +67,19 @@ public class NamePanel : UIBInder
 
     private void CreateDataBase()
     {
+        // 성공시 비동기씬 진행.
+        _sceneChanger.ChangeScene("LobbyOJH");
+
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
         PlayerDataManager.Instance.PlayerData.PlayerId = BackendManager.Auth.CurrentUser.UserId;
-
-        for (int i = 0; i < (int)E_Money.Length; i++)
-        {
-            PlayerDataManager.Instance.PlayerData.Money[i] = 0;
-        }
+        PlayerDataManager.Instance.PlayerData.ExitTime = DateTime.Now.ToString("o");
 
         List<Dictionary<string, string>> stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         for (int i = 0; i < _baseUnitNum; i++)
         {
             PlayerUnitData unitData = new PlayerUnitData();
-
-            Debug.Log($"{i}번쨰");
 
             foreach (Dictionary<string, string> field in stageDic)
             {
@@ -90,28 +89,25 @@ public class NamePanel : UIBInder
                     unitData.UnitLevel = 1;
                     unitData.Type = field["Class"];
                     unitData.ElementName = field["ElementName"];
-                    unitData.Hp = int.Parse(field["BaseHp"]);
-                    unitData.Atk = int.Parse(field["BaseATK"]);
-                    unitData.Def = int.Parse(field["BaseDef"]);
+                    unitData.Hp = TypeCastManager.Instance.TryParseInt(field["BaseHp"]);
+                    unitData.Atk = TypeCastManager.Instance.TryParseInt(field["BaseATK"]);
+                    unitData.Def = TypeCastManager.Instance.TryParseInt(field["BaseDef"]);
                     unitData.Grid = field["Grid"];
-                    unitData.StatId = int.Parse(field["StatID"]);
-                    unitData.PercentIncrease = int.Parse(field["PercentIncrease"]);
+                    unitData.StatId = TypeCastManager.Instance.TryParseInt(field["StatID"]);
+                    unitData.PercentIncrease = TypeCastManager.Instance.TryParseInt(field["PercentIncrease"]);
 
                     PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
-                    Debug.Log("hhhii");
+                    break;
                 }
             }
         }
 
+        //Json으로 변환후 저장.
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
 
-
-        // Data저장하고나서는 초기화해주기
-        PlayerDataManager.Instance.PlayerData.UnitDatas.Clear();
-
-        // Database생성하고 나서 이름 Panel 끄고 로그인화면으로 돌아가기
-        gameObject.SetActive(false);
+        // 정상적으로 함수 동작시 씬 전환.
+        _sceneChanger.CanChangeSceen = true;
     }
 
 
