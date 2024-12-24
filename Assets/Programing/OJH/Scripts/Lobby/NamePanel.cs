@@ -101,6 +101,7 @@ public class NamePanel : UIBInder
                     unitData.PercentIncrease = int.Parse(field["PercentIncrease"]);
 
                     PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
+                    break;
                 }
             }
         }
