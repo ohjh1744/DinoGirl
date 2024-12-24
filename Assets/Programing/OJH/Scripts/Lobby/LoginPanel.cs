@@ -178,14 +178,6 @@ public class LoginPanel : UIBInder
                 {
                     UnitId = TypeCastManager.Instance.TryParseInt(unitChild.Child("_unitId").Value.ToString()),
                     UnitLevel = int.Parse(unitChild.Child("_unitLevel").Value.ToString()),
-                    Type = unitChild.Child("_type").Value.ToString(),
-                    ElementName = unitChild.Child("_elementName").Value.ToString(),
-                    Hp = TypeCastManager.Instance.TryParseInt(unitChild.Child("_hp").Value.ToString()),
-                    Atk = TypeCastManager.Instance.TryParseInt(unitChild.Child("_atk").Value.ToString()),
-                    Def = TypeCastManager.Instance.TryParseInt(unitChild.Child("_def").Value.ToString()),
-                    Grid = unitChild.Child("_grid").Value.ToString(),
-                    StatId = TypeCastManager.Instance.TryParseInt(unitChild.Child("_statId").Value.ToString()),
-                    PercentIncrease = TypeCastManager.Instance.TryParseInt(unitChild.Child("_percentIncrease").Value.ToString())
                 };
                 PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
             }

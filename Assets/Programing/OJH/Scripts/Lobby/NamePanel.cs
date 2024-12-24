@@ -86,15 +86,6 @@ public class NamePanel : UIBInder
                 {
                     unitData.UnitId = TypeCastManager.Instance.TryParseInt(field["CharID"]);
                     unitData.UnitLevel = 1;
-                    unitData.Type = field["Class"];
-                    unitData.ElementName = field["ElementName"];
-                    unitData.Hp = TypeCastManager.Instance.TryParseInt(field["BaseHp"]);
-                    unitData.Atk = TypeCastManager.Instance.TryParseInt(field["BaseATK"]);
-                    unitData.Def = TypeCastManager.Instance.TryParseInt(field["BaseDef"]);
-                    unitData.Grid = field["Grid"];
-                    unitData.StatId = TypeCastManager.Instance.TryParseInt(field["StatID"]);
-                    unitData.PercentIncrease = TypeCastManager.Instance.TryParseInt(field["PercentIncrease"]);
-
                     PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
                     break;
                 }
