@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerUnitData 
 {
-    [SerializeField]private string _name;
+    [SerializeField]private int _unitId;
 
-    public string Name {  get { return _name; } set { _name = value; } }
+    public int UnitId {  get { return _unitId; } set { _unitId = value; } }
 
     [SerializeField] private int _unitLevel;
 

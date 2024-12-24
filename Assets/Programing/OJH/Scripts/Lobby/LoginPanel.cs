@@ -150,8 +150,6 @@ public class LoginPanel : UIBInder
 
             PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
 
-            PlayerDataManager.Instance.PlayerData.PlayerId = snapShot.Child("_playerId").Value.ToString();
-
             PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
 
         
@@ -178,7 +176,7 @@ public class LoginPanel : UIBInder
             {
                 PlayerUnitData unitData = new PlayerUnitData
                 {
-                    Name = unitChild.Child("_name").Value.ToString(),
+                    UnitId = TypeCastManager.Instance.TryParseInt(unitChild.Child("_unitId").Value.ToString()),
                     UnitLevel = int.Parse(unitChild.Child("_unitLevel").Value.ToString()),
                     Type = unitChild.Child("_type").Value.ToString(),
                     ElementName = unitChild.Child("_elementName").Value.ToString(),

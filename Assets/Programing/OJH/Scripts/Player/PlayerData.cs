@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum E_Item { Coin, DinoBlood, BoneCrystal, DinoStone, Stone, Length }
 
+// 여러 컨텐츠쪽에서 직접적으로 바로 필요한 것들만 최소한으로 저장. 
 [System.Serializable]
 public class PlayerData : MonoBehaviour
 {
@@ -12,9 +13,6 @@ public class PlayerData : MonoBehaviour
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
 
-    [SerializeField] private string _playerId;
-
-    public string PlayerId { get { return _playerId; }  set { _playerId = value; } }
 
     [SerializeField] private string _exitTime; // 게임종료시간 -> 추후 방치형보상쪽에서 사용할 예정.
 
