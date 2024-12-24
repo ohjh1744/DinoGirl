@@ -56,6 +56,11 @@ public abstract class Skill : ScriptableObject
         );
     }
 
+    public BaseNode CreatePerformNode(UnitController caster,List<Transform> targets)
+    {
+        return new ActionNode(() => Perform(caster, targets));
+    }
+
     protected void ResetTargets(List<Transform> targets)
     {
         targets.Clear();

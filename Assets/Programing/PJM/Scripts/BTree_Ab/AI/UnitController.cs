@@ -50,11 +50,11 @@ public abstract class UnitController : MonoBehaviour
     
     [SerializeField] protected bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
-        
 
-    
-    
-    
+    public float CoolTimeCounter { get; set; }
+    public bool IsSkillRunning { get; set; }
+
+
     protected virtual void Start()
     {
         SetLayer();
@@ -108,6 +108,16 @@ public abstract class UnitController : MonoBehaviour
         AllianceLayer = LayerMask.GetMask(myLayerName);
     }
 
+    /*protected bool IsPerformingAttackOrSkill()
+    {
+        if (UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)AniState.Attack]))
+        {
+            return true;
+        }
+        
+    }*/
+    
+    
     protected BaseNode.ENodeState SetTargetToAttack()
     {
         if (DetectedEnemy != null)
@@ -267,6 +277,16 @@ public abstract class UnitController : MonoBehaviour
         Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
         return BaseNode.ENodeState.Failure;*/
     }
+
+    protected bool IsSkillAlreadyRunning()
+    {
+        return IsSkillRunning;
+    }
+
+    protected bool CheckMoveable()
+    {
+        return !(IsAttacking || IsSkillRunning);
+    }
     
     // coroutine
     protected IEnumerator AttackRoutine(string animationName)
@@ -302,12 +322,17 @@ public abstract class UnitController : MonoBehaviour
             float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
             if (sqrDistance > _attackRange * _attackRange)
             {
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
+                
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
-            }
+            } 
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
             return BaseNode.ENodeState.Success;
+            
         }
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)AniState.Run], false);
         return BaseNode.ENodeState.Failure;
     }
 

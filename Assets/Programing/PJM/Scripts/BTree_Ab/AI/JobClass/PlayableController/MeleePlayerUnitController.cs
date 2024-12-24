@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MeleePlayerUnitController : PlayableUnitController
 {
-    
+
     //private List<Transform> _skillTargets;
-    
+
     /*private Transform _skillTarget;
 
     public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }*/
@@ -27,7 +27,7 @@ public class MeleePlayerUnitController : PlayableUnitController
         base.Start();
         // 추가로 해줄 동작 설정
     }
-    
+
 
     protected override BaseNode SetBTree()
     {
@@ -35,21 +35,33 @@ public class MeleePlayerUnitController : PlayableUnitController
         (
             new List<BaseNode>
             {
-                new SequenceNode // skill Dicision
+                new SelectorNode // skillable Dicision Selector
                 (
-                    new List<BaseNode>()
+                    new List<BaseNode>
                     {
-                        new ConditionNode(CheckSkillCooltime),
-                        new SelectorNode
+                        new DecoratorNode
+                        (
+                            new ConditionNode(IsSkillAlreadyRunning),
+                            UniqueSkill.CreatePerformNode(this, SkillTargets)
+                        ),
+                        new SequenceNode // skillable Dicision Sequence
                         (
                             new List<BaseNode>()
                             {
-                                new ConditionNode(CheckAutoOn),
-                                new ConditionNode(CheckUserInput)
+                                new ConditionNode(CheckSkillCooltimeBack),
+                                new SelectorNode // condition Selector
+                                (
+                                    new List<BaseNode>
+                                    {
+                                        new ConditionNode(CheckAutoOn),
+                                        new ConditionNode(CheckUserInput)
+                                    }
+                                ),
+                                UniqueSkill.CreateSkillBTree(this, SkillTargets)
                             }
                         ),
-                        
-                        UniqueSkill.CreateSkillBTree(this, SkillTargets)
+                   
+
                         /*new SequenceNode // Use Skill
                             // 아군,적대상, 거리체크, 대상체크, ...
                         (
@@ -62,7 +74,7 @@ public class MeleePlayerUnitController : PlayableUnitController
                         ),*/
                     }
                 ),
-                
+
                 new SequenceNode // Attack Dicision
                 (
                     new List<BaseNode>
@@ -85,7 +97,8 @@ public class MeleePlayerUnitController : PlayableUnitController
         );
     }
 
-    // skill
+
+// skill
 
     /*
     public override BaseNode.ENodeState UseSkill()

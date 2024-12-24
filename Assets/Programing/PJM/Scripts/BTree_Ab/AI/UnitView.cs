@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum AniState
 {
-    Idle, Attack, Skill, Size
+    Idle, Run ,Attack, Skill, Size
 }
 
 public class UnitView : MonoBehaviour
@@ -32,6 +32,7 @@ public class UnitView : MonoBehaviour
     {
         ParameterHash = new int[(int)AniState.Size];
         ParameterHash[(int)AniState.Idle] = Animator.StringToHash("Idle");
+        ParameterHash[(int)AniState.Run] = Animator.StringToHash("Run");
         ParameterHash[(int)AniState.Attack] = Animator.StringToHash("Attack");
         ParameterHash[(int)AniState.Skill] = Animator.StringToHash("Skill");
     }
