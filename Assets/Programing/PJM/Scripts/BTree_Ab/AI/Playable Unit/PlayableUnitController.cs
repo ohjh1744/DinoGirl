@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class PlayableUnitController : UnitController
 {
+    [SerializeField] BattleSceneUIView battleSceneUIView; // 임시 주입
     [SerializeField] private Skill _uniqueSkill;
     public Skill UniqueSkill {get => _uniqueSkill; protected set => _uniqueSkill = value; }
     private float skillRange;
@@ -26,6 +27,7 @@ public abstract class PlayableUnitController : UnitController
     protected override void Start()
     {
         base.Start();
+        
         
     }
     
@@ -98,14 +100,15 @@ public abstract class PlayableUnitController : UnitController
     protected bool CheckAutoOn()
     {
         // Todo : 배틀매니저에서 오토전투가 On 되었는지 확인함
-        return true;
+        return battleSceneUIView.isAutoOn;
     }
 
     protected bool CheckUserInput()
     {
         // Todo : UI와 연결해 버튼이 눌렸을 시 변경
         // 임시로 항시 True를 반환
-        return true;
+        // 임시 false로 전환
+        return false;
     }
 
     
