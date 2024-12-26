@@ -8,9 +8,9 @@ public class LotterySetting : MonoBehaviour
     List<Dictionary<string, string>> settingList = new List<Dictionary<string, string>>();
 
     [Header("UI")]
-    [SerializeField] private GameObject SingleBtn;
-    [SerializeField] private GameObject TenBtn;
-    [SerializeField] private GameObject LoadingPanel;
+    [SerializeField] private GameObject singleBtn;
+    [SerializeField] private GameObject tenBtn;
+    [SerializeField] private GameObject loadingPanel;
 
     private void Awake()
     {
@@ -21,9 +21,9 @@ public class LotterySetting : MonoBehaviour
         // Loading Panel 비활성화
         MakeLotteryList();
         LotteryDataLoad();
-        SingleBtn.SetActive(true);
-        TenBtn.SetActive(true);
-        LoadingPanel.SetActive(false);
+        singleBtn.SetActive(true);
+        tenBtn.SetActive(true);
+        loadingPanel.SetActive(false);
 
     }
 

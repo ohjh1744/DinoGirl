@@ -5,7 +5,6 @@ using UnityEngine;
 /// </summary>
 public class DBTest : MonoBehaviour
 {
-    /*
     // LotterySetting
     [SerializeField] GameObject target;
     private void Update()
@@ -17,5 +16,4 @@ public class DBTest : MonoBehaviour
             gameObject.SetActive(false); // Tester 비활성화
         }
     }
-    */
 }
