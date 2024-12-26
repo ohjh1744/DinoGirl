@@ -15,6 +15,9 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private float cooltime;
     public float Cooltime {get => cooltime; protected set => cooltime = value; }
     
+    [SerializeField] private Sprite _skillIcon;
+    public Sprite SkillIcon {get => _skillIcon;set => _skillIcon = value; }
+    
     /*protected Transform skillTarget; // 여기 있어도 괜찮나? 계속 바뀔텐데 데이터 컨테이너에 있을 얘가 아닌가?
     public Transform SkillTarget { get => skillTarget; protected set => skillTarget = value; }*/
     //protected List<Transform> skillTargets;

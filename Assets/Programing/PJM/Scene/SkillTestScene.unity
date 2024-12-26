@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 40144373}
   - component: {fileID: 40144372}
   m_Layer: 5
-  m_Name: Skill2Button
+  m_Name: Skill1Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 56322086}
   - component: {fileID: 56322085}
   m_Layer: 5
-  m_Name: HideImage2
+  m_Name: HideImage1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480ea2cd20d4cdb46a5e6f6f798386ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoOn: 0
+  _globalCooldown: 0.5
   _skillTimes:
   - 3
   - 6
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 777229413}
   - component: {fileID: 777229412}
   m_Layer: 5
-  m_Name: CooldownText2
+  m_Name: CooldownText1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -762,7 +762,7 @@ GameObject:
   m_Component:
   - component: {fileID: 807856473}
   m_Layer: 5
-  m_Name: Skill2
+  m_Name: Skill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,7 +1148,7 @@ GameObject:
   - component: {fileID: 1107856727}
   - component: {fileID: 1107856726}
   m_Layer: 5
-  m_Name: HideImage1
+  m_Name: HideImage0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1227,7 +1227,7 @@ GameObject:
   - component: {fileID: 1132903153}
   - component: {fileID: 1132903152}
   m_Layer: 5
-  m_Name: Skill1Button
+  m_Name: Skill0Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1846,6 +1846,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1649797266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1649797268}
+  - component: {fileID: 1649797267}
+  m_Layer: 0
+  m_Name: TempBattleContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1649797267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649797266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2022f0dac4dc04390d95e9289473da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players:
+  - {fileID: 644760517}
+--- !u!4 &1649797268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649797266}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1716.2754, y: 754.70245, z: 4.739458}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1672295986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,7 +1902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672295987}
   m_Layer: 5
-  m_Name: Skill1
+  m_Name: Skill0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1896,7 +1942,7 @@ GameObject:
   - component: {fileID: 1886867566}
   - component: {fileID: 1886867565}
   m_Layer: 5
-  m_Name: Skill2Image
+  m_Name: Skill1Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1972,7 +2018,7 @@ GameObject:
   - component: {fileID: 1988345606}
   - component: {fileID: 1988345605}
   m_Layer: 5
-  m_Name: Skill1Image
+  m_Name: Skill0Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2018,7 +2064,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1547655838456603242, guid: b4e22c5c0b3f4e044b24ced64a629856, type: 3}
+  m_Sprite: {fileID: -1922301615474650570, guid: 14f12b04434273f4e94b7e59cb92ddf3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2048,7 +2094,7 @@ GameObject:
   - component: {fileID: 2116408105}
   - component: {fileID: 2116408104}
   m_Layer: 5
-  m_Name: CooldownText1
+  m_Name: CooldownText0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,8 +10,13 @@ public class SkillSlot
     public Button skillButton;
     public Image hideImage;
     public TextMeshProUGUI cooldownText;
+    public Sprite skillIcon;
 
     public float skillTime; // 스킬의 쿨타임
     public float remainingTime; // 남은시간
     public bool isCooling; 
+    
+    public PlayableUnitController skillOwner;
+    public Skill skillData;
+
 }

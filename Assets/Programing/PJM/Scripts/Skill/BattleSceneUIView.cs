@@ -9,11 +9,13 @@ using UnityEngine.UI;
 
 public class BattleSceneUIView : UIBInder
 {
-    
-    public bool isAutoOn; // 임시 자동체크 변수
+    // 글로벌 쿨타임
+    [SerializeField] private float _globalCooldown = 0.5f;
+    private float _globalCooldownTimer;
+    //public bool isAutoOn; // 임시 자동체크 변수, 임시 배틀매니저에 들어가야함
     
     [SerializeField] private float[] _skillTimes = {3.0f, 6.0f}; // 임시 배치
-    private int _maxSkillSlotNum = 2;
+    private int _maxSkillUINum = 10;
     private List<SkillSlot> _skillSlots = new List<SkillSlot>();
     public static event Action<int> OnSkillUsed;
 
@@ -25,64 +27,116 @@ public class BattleSceneUIView : UIBInder
 
     private void Update()
     {
+        if(TempBattleContext.Instance.isGamePaused)
+            return;
+        
         UpdateCooldown();
     }
 
     private void InitializeSkillSlots()
     {
-        for (int i = 1; i <= _maxSkillSlotNum; i++)
+        if (TempBattleContext.Instance.players.Count <= 0)
         {
-            GameObject skillRoot = GetUI($"Skill{i}");
-            if(skillRoot == null)
+            Debug.LogWarning("플레이어가 배틀씬에 없다.");
+            return;
+        }
+
+        int slotIndex = 0;
+
+        foreach (var player in TempBattleContext.Instance.players)
+        {
+            if (player.UniqueSkill == null)
+            {
+                Debug.Log($"{player.name}에 스킬이 없습니다.");
+                continue;
+            }
+
+            if (slotIndex >= _maxSkillUINum)
                 break;
+            
+            
+            GameObject skillRoot = GetUI($"Skill{slotIndex}");
+            if (skillRoot == null)
+            {
+                Debug.Log($"Skill{slotIndex} UI 찾을 수 없음");
+                break;
+            }
+                
 
             // 스킬 슬롯에 UI 할당
             SkillSlot slot = new SkillSlot();
             slot.skillRoot = skillRoot;
-            slot.skillButton = GetUI<Button>($"Skill{i}Button");
-            slot.hideImage = GetUI<Image>($"HideImage{i}");
-            slot.cooldownText = GetUI<TextMeshProUGUI>($"CooldownText{i}");
+            slot.skillButton = GetUI<Button>($"Skill{slotIndex}Button");
+            slot.hideImage = GetUI<Image>($"HideImage{slotIndex}");
+            slot.cooldownText = GetUI<TextMeshProUGUI>($"CooldownText{slotIndex}");
 
-            int index = i - 1;
-            if (index < _skillTimes.Length)
-            {
-                slot.skillTime = _skillTimes[index];
-            }
-            else
-            {
-                Debug.Log("skillTimes 배열을 벗어남");
-            }
+            // 스킬 데이터 할당
+            slot.skillOwner = player;
+            slot.skillData = player.UniqueSkill;
+            slot.skillIcon = player.UniqueSkill.SkillIcon;
+            slot.skillTime = player.UniqueSkill.Cooltime;
+            slot.remainingTime = 0f;
+            slot.isCooling = false;
+            
+            Image iconImage = GetUI<Image>($"Skill{slotIndex}Icon");
+            if(iconImage != null)
+                iconImage.sprite = player.UniqueSkill.SkillIcon;
+            
+            
             
             // 전투 시작시 전체적으로 n초 동안은 스킬 사용 불가 // 임시
             slot.remainingTime = 2.0f;
             slot.isCooling = true;
-            
-            AddEvent($"Skill{i}Button",EventType.Click,(PointerEventData data) =>  OnSkillButtonTouched(index));
+
+            var index = slotIndex;
+            AddEvent($"Skill{slotIndex}Button",EventType.Click,(PointerEventData data) =>
+            {
+                OnSkillButtonTouched(index);
+            });
             
             _skillSlots.Add(slot);
-
+            slotIndex++;
+            
+        }
+        
+        
+        for (int i = 1; i <= _maxSkillUINum; i++)
+        {
+            
         }
     }
 
-    private void OnSkillButtonTouched(int skillIndex)
+    private void OnSkillButtonTouched(int slotIndex)
     {
-        Debug.Log($"스킬버튼 {skillIndex} 터치됨");
-        HideSkillSetting(skillIndex);
-    }
-
-    public void HideSkillSetting(int skillIndex)
-    {
-        // 잘못된 범위일경우 return
-        if (skillIndex < 0 || skillIndex >= _skillSlots.Count)
+        if (slotIndex < 0 || slotIndex >= _skillSlots.Count)
         {
-            Debug.Log("잘못된 스킬 인덱스");
+            Debug.Log("스킬 슬롯 리스트에 없는 스킬슬롯 입니다.");
+        }
+        
+        // 못누르게 해놨지만 혹시 모르니 추가
+        SkillSlot slot = _skillSlots[slotIndex];
+        if (slot.isCooling)
+        {
+            Debug.Log($"{slotIndex} 스킬이 쿨타임중입니다.");
             return;
         }
-        _skillSlots[skillIndex].hideImage.gameObject.SetActive(true);
-        //_skillSlots[skillIndex].skillRoot.SetActive(true);
+        
+        Debug.Log($"스킬버튼 {slotIndex} 터치됨");
+        HideSkillSetting(slotIndex);
+    }
 
-        _skillSlots[skillIndex].remainingTime = _skillSlots[skillIndex].skillTime;
-        _skillSlots[skillIndex].isCooling = true;
+    public void HideSkillSetting(int slotIndex)
+    {
+        // 잘못된 범위일경우 return
+        if (slotIndex < 0 || slotIndex >= _skillSlots.Count)
+        {
+            Debug.Log("잘못된 스킬 슬롯 인덱스");
+            return;
+        }
+        _skillSlots[slotIndex].hideImage.gameObject.SetActive(true);
+
+        _skillSlots[slotIndex].remainingTime = _skillSlots[slotIndex].skillTime;
+        _skillSlots[slotIndex].isCooling = true;
     }
 
     /// <summary>
