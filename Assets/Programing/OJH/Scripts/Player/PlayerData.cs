@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum E_Item { Coin, DinoBlood, BoneCrystal, DinoStone, Stone, Length }
 
@@ -20,7 +22,16 @@ public class PlayerData : MonoBehaviour
 
     [SerializeField] private int[] _items;
 
-    public int[] Items { get { return _items; } private set { } }
+    public int[] Items { get { return _items; } private set {} }
+
+    public void SetItem(TextMeshProUGUI text, int index, int value)
+    {
+        if(index >= 0 && index < _items.Length)
+        {
+            _items[index] = value;
+            OnItemChanged?.Invoke(text, value);
+        }
+    }
 
     [SerializeField] private int[] _unitPos;
 
@@ -34,5 +45,7 @@ public class PlayerData : MonoBehaviour
 
     public List<PlayerUnitData> UnitDatas { get { return _unitDatas; } private set { } }
 
+    public UnityAction<TextMeshProUGUI ,int> OnItemChanged;
 
+    
 }
