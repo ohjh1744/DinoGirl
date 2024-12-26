@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 40144373}
   - component: {fileID: 40144372}
   m_Layer: 5
-  m_Name: Skill2 Button
+  m_Name: Skill2Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,19 +219,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 40144374}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 56422105}
-        m_TargetAssemblyTypeName: SkillController, Assembly-CSharp
-        m_MethodName: HideSkillSetting
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &40144374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,12 +270,12 @@ GameObject:
   - component: {fileID: 56322086}
   - component: {fileID: 56322085}
   m_Layer: 5
-  m_Name: Hide Image2
+  m_Name: HideImage2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &56322084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -356,7 +344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 56422104}
-  - component: {fileID: 56422105}
+  - component: {fileID: 56422106}
   m_Layer: 5
   m_Name: Skills
   m_TagString: Untagged
@@ -386,7 +374,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 2000, y: 150}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &56422105
+--- !u!114 &56422106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -395,22 +383,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 56422103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c7e1ee62d7a3d54aa856080a6edb757, type: 3}
+  m_Script: {fileID: 11500000, guid: 480ea2cd20d4cdb46a5e6f6f798386ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideSkillButtons:
-  - {fileID: 1107856724}
-  - {fileID: 56322083}
-  textPros:
-  - {fileID: 2116408102}
-  - {fileID: 777229410}
-  hideSkillTimeTexts:
-  - {fileID: 2116408104}
-  - {fileID: 777229412}
-  hideSkillImages:
-  - {fileID: 1107856726}
-  - {fileID: 56322085}
-  tempUnit: {fileID: 0}
+  isAutoOn: 0
+  _skillTimes:
+  - 3
+  - 6
 --- !u!1 &207080635
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +615,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _isPriorityTargetFar: 0
+  battleSceneUIView: {fileID: 56422106}
   _uniqueSkill: {fileID: 11400000, guid: 16e37f40869171742b8188f55f920e2b, type: 2}
 --- !u!1 &777229410
 GameObject:
@@ -649,7 +629,7 @@ GameObject:
   - component: {fileID: 777229413}
   - component: {fileID: 777229412}
   m_Layer: 5
-  m_Name: Cooltime Text2
+  m_Name: CooldownText2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1168,12 +1148,12 @@ GameObject:
   - component: {fileID: 1107856727}
   - component: {fileID: 1107856726}
   m_Layer: 5
-  m_Name: Hide Image1
+  m_Name: HideImage1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1107856725
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1247,7 +1227,7 @@ GameObject:
   - component: {fileID: 1132903153}
   - component: {fileID: 1132903152}
   m_Layer: 5
-  m_Name: Skill1 Button
+  m_Name: Skill1Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1330,31 +1310,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1132903154}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 56422105}
-        m_TargetAssemblyTypeName: SkillController, Assembly-CSharp
-        m_MethodName: HideSkillSetting
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 56422105}
-        m_TargetAssemblyTypeName: SkillController, Assembly-CSharp
-        m_MethodName: OnSkillButtonTouched
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1132903154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,7 +1896,7 @@ GameObject:
   - component: {fileID: 1886867566}
   - component: {fileID: 1886867565}
   m_Layer: 5
-  m_Name: Skill2 Image
+  m_Name: Skill2Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2016,7 +1972,7 @@ GameObject:
   - component: {fileID: 1988345606}
   - component: {fileID: 1988345605}
   m_Layer: 5
-  m_Name: Skill1 Image
+  m_Name: Skill1Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2092,7 +2048,7 @@ GameObject:
   - component: {fileID: 2116408105}
   - component: {fileID: 2116408104}
   m_Layer: 5
-  m_Name: Cooltime Text1
+  m_Name: CooldownText1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
