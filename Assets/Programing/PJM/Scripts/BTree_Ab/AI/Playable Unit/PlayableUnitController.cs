@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayableUnitController : UnitController
 {
-    [SerializeField] BattleSceneUIView battleSceneUIView; // 임시 주입
+    //[SerializeField] BattleSceneUIView battleSceneUIView; // 임시 주입
     [SerializeField] private Skill _uniqueSkill;
     public Skill UniqueSkill {get => _uniqueSkill; protected set => _uniqueSkill = value; }
     private float skillRange;
@@ -19,12 +19,6 @@ public abstract class PlayableUnitController : UnitController
 
     private bool _skillInputed;
     public bool SkillInputed { get => _skillInputed;  set => _skillInputed = value; }
-    /*private float _coolTime;
-    public float CoolTime {get => _coolTime; protected set => _coolTime = value; }*/
-    
-
-    
-    protected bool _isAutoOn; // 임시, 배틀매니저 값을 참조하는게 좋음
     
     protected override void Start()
     {
@@ -68,7 +62,6 @@ public abstract class PlayableUnitController : UnitController
 
     protected bool CheckSkillCooltimeBack()
     {
-        // 일단 하드코딩..
         if (IsSkillRunning)
         {
             CoolTimeCounter -= Time.deltaTime;
@@ -80,10 +73,17 @@ public abstract class PlayableUnitController : UnitController
             CoolTimeCounter -= Time.deltaTime;
             return false;
         }
-        else
+
+        if (CoolTimeCounter <= 0)
         {
+            CoolTimeCounter = 0;
             return true;
         }
+        
+        Debug.LogWarning("예외상황");
+        return false;
+        
+
         
         
         /*if (CoolTimeCounter <= 0)
