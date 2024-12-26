@@ -23,21 +23,23 @@ public class SignUpPanel : UIBInder
     void Start()
     {
         GetUI<Button>("CreateButton").onClick.AddListener(CreateAccount);
+        GetUI<Button>("SignUpExitButton").onClick.AddListener(ResetInputField);
     }
 
 
     private void CreateAccount()
     {
         Debug.Log("CreateAccount!!!");
-        _email = GetUI<TMP_InputField>("EmailInputField").text;
+        _email = GetUI<TMP_InputField>("SignUpEmailInputField").text;
 
-        _password = GetUI<TMP_InputField>("PwInputField").text;
+        _password = GetUI<TMP_InputField>("SignUpPwInputField").text;
 
         BackendManager.Auth.CreateUserWithEmailAndPasswordAsync(_email, _password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {
                 Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                ResetInputField();
                 return;
             }
 
@@ -74,9 +76,11 @@ public class SignUpPanel : UIBInder
                             break;
                     }
                 }
+                ResetInputField();
                 return;
             }
 
+            ResetInputField();
             gameObject.SetActive(false);
         });
     }
@@ -88,5 +92,11 @@ public class SignUpPanel : UIBInder
         _sb.Clear();
         _sb.Append(textName);
         GetUI<TextMeshProUGUI>("WarningText").SetText(_sb);
+    }
+
+    private void ResetInputField()
+    {
+        GetUI<TMP_InputField>("SignUpEmailInputField").text = "";
+        GetUI<TMP_InputField>("SignUpPwInputField").text = "";
     }
 }

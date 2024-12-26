@@ -29,6 +29,7 @@ public class LoginPanel : UIBInder
     {
         _sceneChanger.CanChangeSceen = false;
         GetUI<Button>("LoginButton").onClick.AddListener(Login);
+        GetUI<Button>("SignUpButton").onClick.AddListener(ResetInputField);
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
     }
 
@@ -46,6 +47,7 @@ public class LoginPanel : UIBInder
             if (task.IsCanceled)
             {
                 Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                ResetInputField();
                 return;
             }
 
@@ -90,12 +92,14 @@ public class LoginPanel : UIBInder
                     Debug.LogError("FirebaseException이 아닌 다른 예외가 발생했습니다: " + exception?.ToString());
                 }
 
+                ResetInputField();
                 return;
             }
 
             AuthResult result = task.Result;
             Debug.Log($"User signed in successfully: {result.User.DisplayName} ({result.User.UserId})");
             CheckUserInfo();
+            ResetInputField();
         });
     }
 
@@ -193,5 +197,11 @@ public class LoginPanel : UIBInder
         _sb.Clear();
         _sb.Append(textName);
         GetUI<TextMeshProUGUI>("WarningText").SetText(_sb);
+    }
+
+    private void ResetInputField()
+    {
+        GetUI<TMP_InputField>("LoginEmailInputField").text = "";
+        GetUI<TMP_InputField>("LoginPwInputField").text = "";
     }
 }

@@ -27,6 +27,7 @@ public class NamePanel : UIBInder
     private void Start()
     {
         GetUI<Button>("SetNameButton").onClick.AddListener(SetName);
+        GetUI<Button>("NameExitButton").onClick.AddListener(ResetInputField);
     }
 
     private void SetName()
@@ -37,11 +38,13 @@ public class NamePanel : UIBInder
         if(nickName == "")
         {
             SetTrueWarningPanel("Please Input Name");
+            ResetInputField();
             return;
         }
 
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         if (user == null)
+            ResetInputField();
             return;
 
         UserProfile profile = new UserProfile();
@@ -53,14 +56,17 @@ public class NamePanel : UIBInder
             if (task.IsCanceled)
             {
                 Debug.LogError("UpdateUserProfileAsync was canceled.");
+                ResetInputField();
                 return;
             }
             if (task.IsFaulted)
             {
                 Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                ResetInputField();
                 return;
             }
 
+            ResetInputField();
             CreateDataBase();
         });
     }
@@ -100,6 +106,11 @@ public class NamePanel : UIBInder
         _sb.Clear();
         _sb.Append(textName);
         GetUI<TextMeshProUGUI>("WarningText").SetText(_sb);
+    }
+
+    private void ResetInputField()
+    {
+        GetUI<TMP_InputField>("NameInputField").text = "";
     }
 
 
