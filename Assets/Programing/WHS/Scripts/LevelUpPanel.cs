@@ -99,9 +99,9 @@ public class LevelUpPanel : UIBInder
         RequiredItems items = CalculateRequiredItems(level);
 
         // 레벨업에 충분한 양을 가지고 있으면 true
-        return Inventory.instance.GetItemAmount(ItemID.Coin) >= items.coin &&
-               Inventory.instance.GetItemAmount(ItemID.DinoBlood) >= items.dinoBlood &&
-               Inventory.instance.GetItemAmount(ItemID.BoneCrystal) >= items.boneCrystal;
+        return PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
+               PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
+               PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal;
     }
 
     // 요구 재화량 계산
@@ -186,40 +186,39 @@ public class LevelUpPanel : UIBInder
     {
         RequiredItems items = CalculateRequiredItems(1);
 
-        if (Inventory.instance.GetItemAmount(ItemID.Coin) >= items.coin &&
-            Inventory.instance.GetItemAmount(ItemID.DinoBlood) >= items.dinoBlood &&
-            Inventory.instance.GetItemAmount(ItemID.BoneCrystal) >= items.boneCrystal)
+        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
+            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
+            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal)
         {
-            if (Inventory.instance.SpendItem(ItemID.Coin, items.coin) &&
-                Inventory.instance.SpendItem(ItemID.DinoBlood, items.dinoBlood) &&
-                (items.boneCrystal == 0 || Inventory.instance.SpendItem(ItemID.BoneCrystal, items.boneCrystal)))
+            PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
+            PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
+            PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
+
+            character.UnitLevel++;
+            Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
+            if (items.boneCrystal > 0)
             {
-                character.UnitLevel++;
-                Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
-                if (items.boneCrystal > 0)
-                {
-                    Debug.Log($"본 크리스탈 {items.boneCrystal} 소모");
-                }
-
-                UpdateCharacters(character);
-                ItemUI.instance.UpdateCurrencyUI();
-                UpdateLevelData(character);
-
-                return true;
+                Debug.Log($"본 크리스탈 {items.boneCrystal} 소모");
             }
+
+            UpdateCharacters(character);
+            ItemUI.instance.UpdateCurrencyUI();
+            UpdateLevelData(character);
+
+            return true;
         }
 
-        if (Inventory.instance.GetItemAmount(ItemID.Coin) < items.coin)
+        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] < items.coin)
         {
-            Debug.Log($"코인이 {Inventory.instance.GetItemAmount(ItemID.Coin) - items.coin} 부족합니다.");
+            Debug.Log($"코인이 {items.coin - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]} 부족합니다.");
         }
-        if (Inventory.instance.GetItemAmount(ItemID.DinoBlood) < items.dinoBlood)
+        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] < items.dinoBlood)
         {
-            Debug.Log($"다이노블러드가 {Inventory.instance.GetItemAmount(ItemID.DinoBlood) - items.dinoBlood} 부족합니다");
+            Debug.Log($"다이노블러드가 {items.dinoBlood - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]} 부족합니다");
         }
-        if (Inventory.instance.GetItemAmount(ItemID.BoneCrystal) < items.boneCrystal)
+        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] < items.boneCrystal)
         {
-            Debug.Log($"본크리스탈이 {Inventory.instance.GetItemAmount(ItemID.BoneCrystal) - items.boneCrystal} 부족합니다");
+            Debug.Log($"본크리스탈이 {items.boneCrystal - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]} 부족합니다");
         }
 
         return false;

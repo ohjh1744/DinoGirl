@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
 
+/*
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
@@ -80,3 +81,4 @@ public class Inventory : MonoBehaviour
 
     // 재화를 데이터베이스에 어떻게 저장해야 하나
 }
+*/

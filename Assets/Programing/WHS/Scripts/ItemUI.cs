@@ -23,21 +23,22 @@ public class ItemUI : UIBInder
         BindAll();
         UpdateCurrencyUI();
 
-        AddEvent("BackButton", EventType.Click, AddItem);
+        AddEvent("BackButton", EventType.Click, ItemTEST);
     }
 
     // 재화 UI 갱신
     public void UpdateCurrencyUI()
     {
-        GetUI<TextMeshProUGUI>("DinoStoneText").text = Inventory.instance.GetItemAmount(ItemID.DinoStone).ToString();
-        GetUI<TextMeshProUGUI>("CoinText").text = Inventory.instance.GetItemAmount(ItemID.Coin).ToString();
-        GetUI<TextMeshProUGUI>("DinoBloodText").text = Inventory.instance.GetItemAmount(ItemID.DinoBlood).ToString();
-        GetUI<TextMeshProUGUI>("BoneCrystalText").text = Inventory.instance.GetItemAmount(ItemID.BoneCrystal).ToString();
+        GetUI<TextMeshProUGUI>("DinoStoneText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone].ToString();
+        GetUI<TextMeshProUGUI>("CoinText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin].ToString();
+        GetUI<TextMeshProUGUI>("DinoBloodText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood].ToString();
+        GetUI<TextMeshProUGUI>("BoneCrystalText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal].ToString();
     }
 
-    public void AddItem(PointerEventData eventData)
+    public void ItemTEST(PointerEventData eventData)
     {
-        Inventory.instance.AddItem(ItemID.Coin, 500);
+        int currentCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
+        PlayerDataManager.Instance.PlayerData.SetItem(GetUI<TextMeshProUGUI>("CoinText"), (int)E_Item.Coin, currentCoinAmount + 500);
         UpdateCurrencyUI();
     }
     // 홈 버튼 -> 로비로 이동
