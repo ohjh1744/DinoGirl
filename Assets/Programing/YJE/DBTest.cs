@@ -2,6 +2,8 @@ using UnityEngine;
 
 /// <summary>
 /// 임시 test를 위한 스크립트
+/// - DataManager가 다 불러와진 상태에서 로딩되도록 하기 위한 스크립트
+/// - 추후 로비씬과 연동 삭제 가능
 /// </summary>
 public class DBTest : MonoBehaviour
 {
