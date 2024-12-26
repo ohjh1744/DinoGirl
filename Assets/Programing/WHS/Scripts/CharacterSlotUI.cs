@@ -12,7 +12,7 @@ public class CharacterSlotUI : UIBInder
     private PlayerUnitData unitData;
     private GameObject characterPanel;
 
-    /*
+    
     private void Awake()
     {
         BindAll();
@@ -28,7 +28,7 @@ public class CharacterSlotUI : UIBInder
         unitData = newUnitData;
 
         
-        GetUI<TextMeshProUGUI>("NameText").text = unitData.Name;
+        GetUI<TextMeshProUGUI>("NameText").text = unitData.UnitId.ToString();
         GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
         //GetUI<Image>("Character").sprite = character.image;
 
@@ -47,5 +47,5 @@ public class CharacterSlotUI : UIBInder
     {
         return unitData;
     }
-    */
+    
 }

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-/*
+
 public class LevelUpPanel : UIBInder
 {
     private PlayerUnitData targetCharacter;
@@ -172,7 +172,7 @@ public class LevelUpPanel : UIBInder
                 (items.boneCrystal == 0 || Inventory.instance.SpendItem(ItemID.BoneCrystal, items.boneCrystal)))
             {
                 character.UnitLevel++;
-                Debug.Log($"{character.Name} 레벨업 {character.UnitLevel}");
+                Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
                 if (items.boneCrystal > 0)
                 {
                     Debug.Log($"본 크리스탈 {items.boneCrystal} 소모");
@@ -205,27 +205,42 @@ public class LevelUpPanel : UIBInder
     // 데이터 갱신
     private void UpdateLevelData(PlayerUnitData character)
     {
-        // 로그인을 생략해 임시로 userID 지정
-        // string userID = BackendManager.Auth.CurrentUser.UserId;
-        string userID = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
-        DatabaseReference characterRef = BackendManager.Database.RootReference.
-            Child("UserData").Child(userID).Child("_unitDatas").Child("0");
+        string userID = BackendManager.Auth.CurrentUser.UserId;
+        DatabaseReference characterRef = BackendManager.Database.RootReference
+            .Child("UserData").Child(userID).Child("_unitDatas");
 
-        string json = JsonUtility.ToJson(character);
-        characterRef.SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+        characterRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("캐릭터 데이터 로딩 취소됨");
-                return;
-            }
             if (task.IsFaulted)
             {
-                Debug.LogError("캐릭터 데이터 로딩중 오류 발생 " + task.Exception);
+                Debug.LogError("캐릭터 데이터 로딩 중 오류 발생: " + task.Exception);
                 return;
             }
 
-            Debug.Log($"{character.Name}의 데이터 업데이트됨");
+            DataSnapshot snapshot = task.Result;
+            foreach (var childSnapshot in snapshot.Children)
+            {
+                if (int.Parse(childSnapshot.Child("_unitId").Value.ToString()) == character.UnitId)
+                {
+                    Dictionary<string, object> updates = new Dictionary<string, object>
+                    {
+                        ["_unitLevel"] = character.UnitLevel
+                    };
+
+                    childSnapshot.Reference.UpdateChildrenAsync(updates).ContinueWithOnMainThread(updateTask =>
+                    {
+                        if (updateTask.IsCompleted)
+                        {
+                            Debug.Log($"캐릭터 ID {character.UnitId}의 레벨이 {character.UnitLevel}로 업데이트됨");
+                        }
+                        else
+                        {
+                            Debug.LogError($"캐릭터 ID {character.UnitId} 업데이트 실패: " + updateTask.Exception);
+                        }
+                    });
+                    break;
+                }
+            }
         });
     }
 
@@ -265,4 +280,3 @@ public class LevelUpPanel : UIBInder
         }
     }
 }
-*/
