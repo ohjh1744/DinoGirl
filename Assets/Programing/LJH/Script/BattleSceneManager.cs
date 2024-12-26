@@ -8,8 +8,8 @@ public class BattleSceneManager : MonoBehaviour
     public static BattleSceneManager Instance { get { return _instance; } set { _instance = value; } }
 
 
-    
-    private DraggableUI[] Draggables;
+
+    [SerializeField] private DraggableUI[] Draggables;
 
     [SerializeField] public GameObject[] inGridObject; // 아군 정보 배열 나중에 타입을 바꾸면 될듯
 
@@ -71,21 +71,24 @@ public class BattleSceneManager : MonoBehaviour
         {
             Destroy(Draggables[i].gameObject);
         }
-        curItemValues.Clear();
+        //curItemValues.Clear();
         
     } 
 
 
-    public void getDraggables() 
+    public void GetDraggables() 
     {
-        StartCoroutine(delay());
+        StartCoroutine(Delay());
+       
     }
 
-    IEnumerator delay() 
+    IEnumerator Delay() 
     {
-        yield return 0.1f;
+        yield return new WaitForSeconds(0.1f);
 
         Draggables = FindObjectsOfType<DraggableUI>();
+
+       // PlayerDataManager.Instance.PlayerData.UnitDatas
     }
 
 

@@ -32,6 +32,8 @@ public class StagePanel : MonoBehaviour
     [SerializeField] Image[] enemygrid;
 
     [SerializeField] Dictionary<int, int> itemValues = new Dictionary<int, int>();
+    [SerializeField] bool[] stageClear;
+    [SerializeField] PlayerUnitData[] playerData;   
 
 
     // Monster, Stages, MontserGroup, StageReward, Item  08 ~ 12 나중에 합칠때 리스트 순서 수정해야함 
@@ -66,7 +68,7 @@ public class StagePanel : MonoBehaviour
             }
         }
 
-        stageRewardDic = CsvDataManager.Instance.DataLists[3]; // 스테이지 클리어시 받을 보상 불러오기
+        stageRewardDic = CsvDataManager.Instance.DataLists[3]; // 스테이지 클리어시 받을 보상 불러오기 
         itemDic = CsvDataManager.Instance.DataLists[4];
         foreach (string item in stageRewardDic[curRewardGroup].Keys) 
         {
