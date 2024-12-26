@@ -31,4 +31,15 @@ public class TempBattleContext : MonoBehaviour
             Instance = null;
         }
     }
+    
+    private void InitializeAuto()
+    {
+        
+    }
+    
+    public void ToggleAuto()
+    {
+        isAutoOn = !isAutoOn;
+        Debug.Log($"Auto : {isAutoOn}");
+    }
 }

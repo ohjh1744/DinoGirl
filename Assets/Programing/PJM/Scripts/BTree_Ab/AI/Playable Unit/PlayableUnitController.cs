@@ -17,6 +17,8 @@ public abstract class PlayableUnitController : UnitController
     private List<Transform> _skillTargets;
     public List<Transform> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
 
+    private bool _skillInputed;
+    public bool SkillInputed { get => _skillInputed;  set => _skillInputed = value; }
     /*private float _coolTime;
     public float CoolTime {get => _coolTime; protected set => _coolTime = value; }*/
     
@@ -105,9 +107,12 @@ public abstract class PlayableUnitController : UnitController
 
     protected bool CheckUserInput()
     {
-        // Todo : UI와 연결해 버튼이 눌렸을 시 변경
-        // 임시로 항시 True를 반환
-        // 임시 false로 전환
+        if (SkillInputed)
+        {
+            SkillInputed = false;
+            return true;
+        }
+
         return false;
     }
 

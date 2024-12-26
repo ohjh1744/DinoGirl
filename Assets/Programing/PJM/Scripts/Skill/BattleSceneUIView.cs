@@ -122,6 +122,7 @@ public class BattleSceneUIView : UIBInder
         }
         
         Debug.Log($"스킬버튼 {slotIndex} 터치됨");
+        slot.skillOwner.SkillInputed = true;
         HideSkillSetting(slotIndex);
     }
 
@@ -162,6 +163,6 @@ public class BattleSceneUIView : UIBInder
             slot.hideImage.fillAmount = ratio;
         }
     }
-    
+
 }
 
