@@ -202,7 +202,7 @@ public class LevelUpPanel : UIBInder
             }
 
             UpdateCharacters(character);
-            ItemUI.instance.UpdateCurrencyUI();
+            ItemPanel.instance.UpdateCurrencyUI();
             UpdateLevelData(character);
 
             return true;
@@ -275,7 +275,7 @@ public class LevelUpPanel : UIBInder
             characterPanel.UpdateCharacterInfo(character);
         }
 
-        CharacterInventoryUI characterInventoryUI = FindObjectOfType<CharacterInventoryUI>();
+        InventoryPanel characterInventoryUI = FindObjectOfType<InventoryPanel>();
         if (characterInventoryUI != null)
         {
             characterInventoryUI.UpdateCharacterUI(character);

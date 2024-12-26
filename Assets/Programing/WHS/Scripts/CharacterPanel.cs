@@ -46,7 +46,7 @@ public class CharacterPanel : UIBInder
             GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
 
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
-            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
+            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(TypeCastManager.Instance.TryParseInt(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
             GetUI<TextMeshProUGUI>("ClassText").text = "Class : " + data["Class"];

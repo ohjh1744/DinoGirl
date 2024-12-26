@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemUI : UIBInder
+public class ItemPanel : UIBInder
 {
-    public static ItemUI instance;
+    public static ItemPanel instance;
 
     private void Awake()
     {
