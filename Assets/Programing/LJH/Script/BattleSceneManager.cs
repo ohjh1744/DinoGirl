@@ -17,8 +17,7 @@ public class BattleSceneManager : MonoBehaviour
 
     [SerializeField] public int _timeLimit; // private 프로퍼티로 바꿀 예정
 
-    [SerializeField] public List<string> curItemIDs;  // 클리어 보상
-    [SerializeField] public List<string> curItemCounts;
+    [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();// 클리어 보상
 
     private void Awake()
     {
@@ -72,8 +71,8 @@ public class BattleSceneManager : MonoBehaviour
         {
             Destroy(Draggables[i].gameObject);
         }
-        curItemCounts.Clear();
-        curItemIDs.Clear();
+        curItemValues.Clear();
+        
     } 
 
 
