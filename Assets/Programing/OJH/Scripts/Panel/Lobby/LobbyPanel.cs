@@ -23,15 +23,16 @@ public class LobbyPanel : UIBInder
     {
         ShowName();
         ShowItems();
+        //PlayerDataManager.Instance.LoadHousingIDs();
     }
 
     private void ShowName()
     {
         StringBuilder _nameSb = new StringBuilder();
         _nameSb.Clear();
-        _nameSb.Append(PlayerDataManager.Instance.name);
+        _nameSb.Append(PlayerDataManager.Instance.PlayerData.PlayerName);
         _nameSb.Append("#");
-        _nameSb.Append(BackendManager.Auth.CurrentUser.UserId.Substring(0, _idLength));
+        _nameSb.Append(BackendManager.Auth.CurrentUser.UserId.Substring(0, 4));
         GetUI<TextMeshProUGUI>("LobbyPlayerNameText").SetText(_nameSb);
         GetUI<TextMeshProUGUI>("PlayerPanelPlayerNameText").SetText(_nameSb);
     }

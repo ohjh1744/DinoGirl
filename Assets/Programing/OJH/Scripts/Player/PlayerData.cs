@@ -32,6 +32,19 @@ public class PlayerData : MonoBehaviour
         }
     }
 
+    [SerializeField] private int[] _storedItems;
+
+    public int[] StoredItems { get { return _storedItems; } private set { } }
+
+    public void SetStoredItem(int index, int value)
+    {
+        if (index >= 0 && index < _storedItems.Length)
+        {
+            _storedItems[index] = value;
+            OnStoredItemChanged[index]?.Invoke(value);
+        }
+    }
+
     [SerializeField] private int[] _unitPos;
 
     public int[]  UnitPos{ get { return _unitPos; } private set { } }
@@ -46,4 +59,5 @@ public class PlayerData : MonoBehaviour
 
     public UnityAction<int>[] OnItemChanged;
 
+    public UnityAction<int>[] OnStoredItemChanged;
 }
