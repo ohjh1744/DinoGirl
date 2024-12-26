@@ -44,8 +44,10 @@ public class NamePanel : UIBInder
 
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         if (user == null)
+        {
             ResetInputField();
             return;
+        }
 
         UserProfile profile = new UserProfile();
         profile.DisplayName = nickName;
@@ -65,6 +67,7 @@ public class NamePanel : UIBInder
                 ResetInputField();
                 return;
             }
+
 
             ResetInputField();
             CreateDataBase();
@@ -94,6 +97,7 @@ public class NamePanel : UIBInder
         //Json으로 변환후 저장.
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
+
 
         // 정상적으로 함수 동작시 씬 전환.
         _sceneChanger.CanChangeSceen = true;

@@ -165,6 +165,14 @@ public class LoginPanel : UIBInder
                 PlayerDataManager.Instance.PlayerData.Items[i] = TypeCastManager.Instance.TryParseInt(itemChildren[i].Value.ToString());
             }
 
+            // int형 배열
+            var unitPosChildren = snapShot.Child("_unitPos").Children.ToList();
+            itemChildren = unitPosChildren.OrderBy(item => TypeCastManager.Instance.TryParseInt(item.Key)).ToList();
+            for (int i = 0; i < unitPosChildren.Count; i++)
+            {
+                PlayerDataManager.Instance.PlayerData.Items[i] = TypeCastManager.Instance.TryParseInt(unitPosChildren[i].Value.ToString());
+            }
+
             //bool형 배열
             var isStageClearChildren = snapShot.Child("_isStageClear").Children.ToList();
             isStageClearChildren = isStageClearChildren.OrderBy(isStageClear => TypeCastManager.Instance.TryParseInt(isStageClear.Key)).ToList();
