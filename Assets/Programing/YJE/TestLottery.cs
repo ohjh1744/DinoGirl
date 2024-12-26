@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class TestLottery : MonoBehaviour
 {
     List<Lottery> lotteries = new List<Lottery>();
-
+    private int total = 0;
     private void Awake()
     {
         Lottery gold = new Lottery();
@@ -35,13 +36,15 @@ public class TestLottery : MonoBehaviour
 
         for(int i = 0; i < lotteries.Count; i++)
         {
+            total += lotteries[i].Probability;
             Debug.Log(lotteries[i].Id);
             Debug.Log(lotteries[i].Probability);
-        }  
+        }
+        Debug.Log(total);
     }
 
     public void SingleLotteryBtn()
     {
-        
+
     }
 }
