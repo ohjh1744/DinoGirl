@@ -38,7 +38,7 @@ public class ItemPanel : UIBInder
     public void ItemTEST(PointerEventData eventData)
     {
         int currentCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
-        PlayerDataManager.Instance.PlayerData.SetItem(GetUI<TextMeshProUGUI>("CoinText"), (int)E_Item.Coin, currentCoinAmount + 500);
+        // PlayerDataManager.Instance.PlayerData.SetItem(GetUI<TextMeshProUGUI>("CoinText"), (int)E_Item.Coin, currentCoinAmount + 500);
         UpdateCurrencyUI();
     }
     // 홈 버튼 -> 로비로 이동

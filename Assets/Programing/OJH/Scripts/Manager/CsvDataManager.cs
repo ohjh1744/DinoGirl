@@ -5,11 +5,11 @@ using System.Dynamic;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Text.RegularExpressions;
 
 
 public enum E_CsvData { Character, Element, Stat, CharacterSkill, CharacterLevelUp,
     Monster, Stages, StageReward, MontserGroup, Item, Gacha, GachaReturn, Raids, RaidReward, WeeklyReward, Housing}
-
 
 public class CsvDataManager : MonoBehaviour
 {
@@ -88,7 +88,7 @@ public class CsvDataManager : MonoBehaviour
         // CSV 데이터 파싱
         for (int i = 1; i < lines.Length; i++)
         {
-            string[] values = lines[i].Split(',');
+            string[] values = Regex.Split(lines[i], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
             Dictionary<string, string> dataDic = new Dictionary<string, string>();
 
             //id는 제외하고 다음속석부터를 위해서 1부터
