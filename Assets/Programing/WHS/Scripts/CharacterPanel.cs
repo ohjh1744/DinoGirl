@@ -1,3 +1,5 @@
+using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +11,9 @@ public class CharacterPanel : UIBInder
 {
     private PlayerUnitData curCharacter;
     private GameObject levelUpPanel;
-    
+
+    private Dictionary<int, Dictionary<string, string>> characterData;
+
     private void Awake()
     {
         BindAll();
@@ -17,35 +21,91 @@ public class CharacterPanel : UIBInder
 
         Transform parent = GameObject.Find("CharacterPanel").transform;
         levelUpPanel = parent.Find("LevelUpPanel").gameObject;
+
+        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        Debug.Log($"levelUpData count: {characterData.Count}");
+        foreach (var key in characterData.Keys)
+        {
+            Debug.Log($"Key: {key}, ");
+        }
     }
 
     private void Start()
     {
         UpdateCharacterInfo(curCharacter);
     }
-    
+
     // 캐릭터 정보 갱신
     public void UpdateCharacterInfo(PlayerUnitData character)
     {
-        
         curCharacter = character;
-        GetUI<TextMeshProUGUI>("unitid").text = character.UnitId.ToString();
-        // GetUI<TextMeshProUGUI>("NameText").text = character.Name;
-        GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
-        /*
-        GetUI<TextMeshProUGUI>("HPText").text = "HP : " + character.Hp.ToString();
-        GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + character.Atk.ToString();
-        GetUI<TextMeshProUGUI>("DefText").text = "Def : " + character.Def.ToString();
-        GetUI<TextMeshProUGUI>("ClassText").text = "Class : " + character.Type;
-        GetUI<TextMeshProUGUI>("ElementText").text = "Element : " + character.ElementName;
-        GetUI<TextMeshProUGUI>("GridText").text = "Grid : " + character.Grid;
-        GetUI<TextMeshProUGUI>("StatIdText").text = "StatID : " + character.StatId.ToString();
-        GetUI<TextMeshProUGUI>("PercentIncreaseText").text = "PI : " + character.PercentIncrease.ToString();
-        */
-        GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
-        
+        int level = character.UnitLevel;
+        if (characterData.TryGetValue(character.UnitId, out var data))
+        {
+            GetUI<TextMeshProUGUI>("unitid").text = character.UnitId.ToString();
+            GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
+
+            GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
+            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
+            GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
+            GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
+            GetUI<TextMeshProUGUI>("ClassText").text = "Class : " + data["Class"];
+            GetUI<TextMeshProUGUI>("ElementText").text = "Element : " + data["ElementName"];
+            GetUI<TextMeshProUGUI>("GridText").text = "Grid : " + data["Grid"];
+            GetUI<TextMeshProUGUI>("StatIdText").text = "StatID : " + data["StatID"];
+            GetUI<TextMeshProUGUI>("PercentIncreaseText").text = "PI : " + data["PercentIncrease"];
+
+            GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
+
+            UpdateCharacterData(character);
+        }
     }
-    
+
+    private void UpdateCharacterData(PlayerUnitData character)
+    {
+        // string userID = BackendManager.Auth.CurrentUser.UserId;
+        string userID = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
+        DatabaseReference characterRef = BackendManager.Database.RootReference
+            .Child("UserData").Child(userID).Child("_unitDatas");
+
+        characterRef.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("캐릭터 데이터 로딩 중 오류 발생: " + task.Exception);
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+            foreach (var childSnapshot in snapshot.Children)
+            {
+                if (int.Parse(childSnapshot.Child("_unitId").Value.ToString()) == character.UnitId)
+                {
+                    Dictionary<string, object> updates = new Dictionary<string, object>
+                    {
+                        ["_unitLevel"] = character.UnitLevel,
+                        ["_hp"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseHp"]), character.UnitLevel),
+                        ["_atk"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseATK"]), character.UnitLevel),
+                        ["_def"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseDef"]), character.UnitLevel)
+                    };
+
+                    childSnapshot.Reference.UpdateChildrenAsync(updates).ContinueWithOnMainThread(updateTask =>
+                    {
+                        if (updateTask.IsCompleted)
+                        {
+                            Debug.Log($"캐릭터 ID {character.UnitId}의 데이터가 업데이트됨");
+                        }
+                        else
+                        {
+                            Debug.LogError($"캐릭터 ID {character.UnitId} 업데이트 실패: " + updateTask.Exception);
+                        }
+                    });
+                    break;
+                }
+            }
+        });
+    }
+
     private void OnLevelUpButtonClick(PointerEventData eventData)
     {
         if (curCharacter != null && curCharacter.UnitLevel < 30)
@@ -56,5 +116,11 @@ public class CharacterPanel : UIBInder
             levelUp.Initialize(curCharacter);
         }
     }
-    
+
+    private int CalculateStat(int stat, int level)
+    {
+        // TODO : 레벨에 따른 스텟 계산 추가
+        return stat;
+    }
+
 }
