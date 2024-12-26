@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public enum E_Item { Coin, DinoBlood, BoneCrystal, DinoStone, Stone, Length }
-
 // 여러 컨텐츠쪽에서 직접적으로 바로 필요한 것들만 최소한으로 저장. 
 [System.Serializable]
 public class PlayerData : MonoBehaviour
@@ -24,12 +23,25 @@ public class PlayerData : MonoBehaviour
 
     public int[] Items { get { return _items; } private set {} }
 
-    public void SetItem(TextMeshProUGUI text, int index, int value)
+    public void SetItem(int index, int value)
     {
         if(index >= 0 && index < _items.Length)
         {
             _items[index] = value;
-            OnItemChanged?.Invoke(text, value);
+            OnItemChanged[index]?.Invoke(value);
+        }
+    }
+
+    [SerializeField] private int[] _storedItems;
+
+    public int[] StoredItems { get { return _storedItems; } private set { } }
+
+    public void SetStoredItem(int index, int value)
+    {
+        if (index >= 0 && index < _storedItems.Length)
+        {
+            _storedItems[index] = value;
+            OnStoredItemChanged[index]?.Invoke(value);
         }
     }
 
@@ -45,7 +57,7 @@ public class PlayerData : MonoBehaviour
 
     public List<PlayerUnitData> UnitDatas { get { return _unitDatas; } private set { } }
 
-    public UnityAction<TextMeshProUGUI ,int> OnItemChanged;
+    public UnityAction<int>[] OnItemChanged;
 
-    
+    public UnityAction<int>[] OnStoredItemChanged;
 }
