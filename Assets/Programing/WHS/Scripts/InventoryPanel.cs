@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterInventoryUI : MonoBehaviour
+public class InventoryPanel : MonoBehaviour
 {
     public GameObject characterPrefab;  // Ä³¸¯ÅÍ Ä­ ÇÁ¸®ÆÕ
     public Transform content;           // ½ºÅ©·ÑºäÀÇ content
