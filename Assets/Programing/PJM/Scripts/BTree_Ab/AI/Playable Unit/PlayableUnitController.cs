@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class PlayableUnitController : UnitController
 {
+    //[SerializeField] BattleSceneUIView battleSceneUIView; // 임시 주입
     [SerializeField] private Skill _uniqueSkill;
     public Skill UniqueSkill {get => _uniqueSkill; protected set => _uniqueSkill = value; }
     private float skillRange;
@@ -16,16 +17,13 @@ public abstract class PlayableUnitController : UnitController
     private List<Transform> _skillTargets;
     public List<Transform> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
 
-    /*private float _coolTime;
-    public float CoolTime {get => _coolTime; protected set => _coolTime = value; }*/
-    
-
-    
-    protected bool _isAutoOn; // 임시, 배틀매니저 값을 참조하는게 좋음
+    private bool _skillInputed;
+    public bool SkillInputed { get => _skillInputed;  set => _skillInputed = value; }
     
     protected override void Start()
     {
         base.Start();
+        
         
     }
     
@@ -64,7 +62,6 @@ public abstract class PlayableUnitController : UnitController
 
     protected bool CheckSkillCooltimeBack()
     {
-        // 일단 하드코딩..
         if (IsSkillRunning)
         {
             CoolTimeCounter -= Time.deltaTime;
@@ -76,10 +73,17 @@ public abstract class PlayableUnitController : UnitController
             CoolTimeCounter -= Time.deltaTime;
             return false;
         }
-        else
+
+        if (CoolTimeCounter <= 0)
         {
+            CoolTimeCounter = 0;
             return true;
         }
+        
+        Debug.LogWarning("예외상황");
+        return false;
+        
+
         
         
         /*if (CoolTimeCounter <= 0)
@@ -98,14 +102,18 @@ public abstract class PlayableUnitController : UnitController
     protected bool CheckAutoOn()
     {
         // Todo : 배틀매니저에서 오토전투가 On 되었는지 확인함
-        return true;
+        return TempBattleContext.Instance.isAutoOn;
     }
 
     protected bool CheckUserInput()
     {
-        // Todo : UI와 연결해 버튼이 눌렸을 시 변경
-        // 임시로 항시 True를 반환
-        return true;
+        if (SkillInputed)
+        {
+            SkillInputed = false;
+            return true;
+        }
+
+        return false;
     }
 
     

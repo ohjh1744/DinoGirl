@@ -21,7 +21,7 @@ public class UnitModel : MonoBehaviour
         set
         {
             int oldValue = _hp;
-            if (_hp != value)
+            if (_hp != value && oldValue != 0)
             {
                 _hp = Mathf.Clamp(value, 0, MaxHp);
                 OnHPChanged?.Invoke(_hp);

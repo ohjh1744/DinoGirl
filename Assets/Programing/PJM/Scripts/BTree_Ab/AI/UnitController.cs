@@ -51,6 +51,7 @@ public abstract class UnitController : MonoBehaviour
     [SerializeField] protected bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
 
+    // 스킬있는 적이 나중에 생길수도 있음 혹은 보스라던가
     public float CoolTimeCounter { get; set; }
     public bool IsSkillRunning { get; set; }
 
