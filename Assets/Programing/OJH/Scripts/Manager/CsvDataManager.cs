@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 public enum E_CsvData { Character, Element, Stat, CharacterSkill, CharacterLevelUp,
     Monster, Stages, StageReward, MontserGroup, Item, Gacha, GachaReturn, Raids, RaidReward, WeeklyReward, Housing}
 
+
 public class CsvDataManager : MonoBehaviour
 {
     private static CsvDataManager _instance;
