@@ -23,17 +23,15 @@ public class StagePanel : MonoBehaviour
     [SerializeField] string curStageNames;
     [SerializeField] string curTimeLimit;
 
-    [SerializeField] string curMobGroup;
-    [SerializeField] string curRewardGroup;
+    [SerializeField] int curMobGroup;
+    [SerializeField] int curRewardGroup;
 
 
   
     [SerializeField] Image[] mygrid;
     [SerializeField] Image[] enemygrid;
 
-    [SerializeField] List<string> itemIds;
-    [SerializeField] List<string> itemCounts;
-
+    [SerializeField] Dictionary<int, int> itemValues = new Dictionary<int, int>();
 
 
     // Monster, Stages, MontserGroup, StageReward, Item  08 ~ 12 나중에 합칠때 리스트 순서 수정해야함 
@@ -42,50 +40,39 @@ public class StagePanel : MonoBehaviour
         stageDic = CsvDataManager.Instance.DataLists[1]; //파싱한 순서(url 순서대로 들어감)
 
        // curStageID = TypeCastManager.Instance.TryParseInt(stageDic[101]["StageID"]);// stageDic[stageNum]["StageID"];
-        curStageNames = stageDic[stageNum]["StageName"];
+        curStageNames = stageDic[stageNum]["StageName"];// stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["Limit"];
         BattleSceneManager.Instance._timeLimit = int.Parse(curTimeLimit);
 
-        curMobGroup = stageDic[stageNum]["MonsterGroupID"];
-        curRewardGroup = stageDic[stageNum]["StageRewardID"]; 
+        curMobGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["MonsterGroupID"]);
+        curRewardGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["StageRewardID"]); 
+
         monsterGroupDic = CsvDataManager.Instance.DataLists[2];
 
         gridClearing();
 
-        for (int i = 0; i < monsterGroupDic.Count; i++)  // 현재 스테이지에 맞는 몬스터 그룹 찾아서 맞는 위치에 몬스터 넣기(몬스터 id)
+        for (int i = 0; i < 9; i++)  // 현재 스테이지에 맞는 몬스터 그룹 찾아서 맞는 위치에 몬스터 넣기(몬스터 id)
         {
-            if (monsterGroupDic[i]["MonsterGroupID"] == curMobGroup) 
-            {
-                curMobPos[int.Parse(monsterGroupDic[i]["MonsterLocation"])] = monsterGroupDic[i]["MonsterID"];
-            }
+            curMobPos[i] = monsterGroupDic[curMobGroup]["MonsterLocation" + (i+1).ToString()];
         }
 
         monsterDic = CsvDataManager.Instance.DataLists[0];
         for (int i = 0; i < curMobPos.Count; i++)
         {
-            if (curMobPos[i] != null) 
+            if (curMobPos[i] != "0") 
             {
                 enemygrid[i].color = Color.red;
                 BattleSceneManager.Instance.enemyGridObject[i] = curMobPos[i]; // 몬스터 id로 instantiate가 안될거 같으면 몬스터 이름으로?
             }
         }
 
-        stageRewardDic = CsvDataManager.Instance.DataLists[3];
+        stageRewardDic = CsvDataManager.Instance.DataLists[3]; // 스테이지 클리어시 받을 보상 불러오기
         itemDic = CsvDataManager.Instance.DataLists[4];
-        for (int i = 0; i < stageRewardDic.Count; i++)   // 스테이지 클리어시 받을 아이템 정보  
+        foreach (string item in stageRewardDic[curRewardGroup].Keys) 
         {
-            if (stageRewardDic[i]["StageRewardID"] == curRewardGroup) 
-            {
-                itemIds.Add(stageRewardDic[i]["ItemID"]);
-                itemCounts.Add(stageRewardDic[i]["Count"]);
-                BattleSceneManager.Instance.curItemIDs.Add(stageRewardDic[i]["ItemID"]);
-                BattleSceneManager.Instance.curItemCounts.Add(stageRewardDic[i]["Count"]);
-              
-            }
+            itemValues.Add(int.Parse(item),int.Parse(stageRewardDic[curRewardGroup][item]));
+            BattleSceneManager.Instance.curItemValues.Add(int.Parse(item), int.Parse(stageRewardDic[curRewardGroup][item]));
         }
-      
-        //BattleSceneManager.Instance.curRewardValue = Rewards;
-
 
         stageNumText.text = curStageID.ToString();
         stageNameText.text = curStageNames;
