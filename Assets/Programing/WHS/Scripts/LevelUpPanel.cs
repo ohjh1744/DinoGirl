@@ -14,6 +14,8 @@ public class LevelUpPanel : UIBInder
     private int curLevelUp;
     private const int MAXLEVEL = 30;
 
+    private Dictionary<int, Dictionary<string, string>> levelUpData;
+
     private struct RequiredItems
     {
         public int coin;
@@ -28,6 +30,13 @@ public class LevelUpPanel : UIBInder
         GetUI<Slider>("LevelUpSlider").onValueChanged.AddListener(OnSliderValueChanged);
         AddEvent("DecreaseButton", EventType.Click, OnDecreaseButtonClick);
         AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);
+
+        levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
+        Debug.Log($"levelUpData count: {levelUpData.Count}");
+        foreach (var key in levelUpData.Keys)
+        {
+            Debug.Log($"Key: {key}, Value: {levelUpData[key]["500"]}, {levelUpData[key]["501"]}, {levelUpData[key]["502"]}");
+        }
     }
 
     public void Initialize(PlayerUnitData character)
@@ -98,12 +107,26 @@ public class LevelUpPanel : UIBInder
     // 요구 재화량 계산
     private RequiredItems CalculateRequiredItems(int level)
     {
-        RequiredItems items = new RequiredItems();
+        RequiredItems items = new RequiredItems();  
 
-        items.coin = CalculateRequiredCoin(level);
-        items.dinoBlood = CalculateRequiredDinoBlood(level);
-        items.boneCrystal = CalculateRequiredBoneCrystal(level);
+        for (int i = 0; i < level; i++)
+        {
+            int levelUpId = 4000 + ((targetCharacter.UnitLevel + i) * 10);
 
+            if (levelUpData.TryGetValue(levelUpId, out Dictionary<string, string> data))
+            {
+                items.coin += int.Parse(data["500"].Replace(",", ""));
+                items.dinoBlood += int.Parse(data["501"].Replace(",", ""));
+                if (data.ContainsKey("502") && !string.IsNullOrEmpty(data["502"]))
+                {
+                    items.boneCrystal += int.Parse(data["502"].Replace(",", ""));
+                }
+            }
+            else
+            {
+                Debug.LogError($"레벨업 데이터를 찾을 수 없습니다. LevelUpID: {levelUpId}");
+            }
+        }
         return items;
     }
 
