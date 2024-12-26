@@ -1020,6 +1020,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec2f93d17defbe42b7bf1bbaa8172f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _baseUnitNum: 0
+  _baseUnitIds: 
 --- !u!4 &303168270
 Transform:
   m_ObjectHideFlags: 0
@@ -1728,7 +1730,7 @@ GameObject:
   - component: {fileID: 515164289}
   - component: {fileID: 515164288}
   m_Layer: 5
-  m_Name: PwInputField
+  m_Name: SignUpPwInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3706,7 +3708,7 @@ GameObject:
   - component: {fileID: 893284285}
   - component: {fileID: 893284284}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: SignUpExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5192,7 +5194,7 @@ GameObject:
   - component: {fileID: 1211696965}
   - component: {fileID: 1211696964}
   m_Layer: 5
-  m_Name: EmailInputField
+  m_Name: SignUpEmailInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5452,6 +5454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec2f93d17defbe42b7bf1bbaa8172f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _baseUnitNum: 0
+  _baseUnitIds: 
 --- !u!1 &1282855455
 GameObject:
   m_ObjectHideFlags: 0
@@ -6475,7 +6479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1837945282
 RectTransform:
   m_ObjectHideFlags: 0
