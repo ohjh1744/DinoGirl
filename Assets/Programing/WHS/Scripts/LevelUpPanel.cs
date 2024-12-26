@@ -190,9 +190,9 @@ public class LevelUpPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
             PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal)
         {
-            PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
-            PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
-            PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
+            //PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
+            //PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
+            //PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
 
             character.UnitLevel++;
             Debug.Log($"{character.UnitId} ·¹º§¾÷ {character.UnitLevel}");
