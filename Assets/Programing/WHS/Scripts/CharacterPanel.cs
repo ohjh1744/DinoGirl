@@ -84,9 +84,9 @@ public class CharacterPanel : UIBInder
                     Dictionary<string, object> updates = new Dictionary<string, object>
                     {
                         ["_unitLevel"] = character.UnitLevel,
-                        ["_hp"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseHp"]), character.UnitLevel),
-                        ["_atk"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseATK"]), character.UnitLevel),
-                        ["_def"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseDef"]), character.UnitLevel)
+                        // ["_hp"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseHp"]), character.UnitLevel),
+                        // ["_atk"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseATK"]), character.UnitLevel),
+                        // ["_def"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseDef"]), character.UnitLevel)
                     };
 
                     childSnapshot.Reference.UpdateChildrenAsync(updates).ContinueWithOnMainThread(updateTask =>

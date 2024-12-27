@@ -7,12 +7,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CharacterSlotUI : UIBInder
+public class CharacterSlot : UIBInder
 {
     private PlayerUnitData unitData;
     private GameObject characterPanel;
 
-    
     private void Awake()
     {
         BindAll();
@@ -27,12 +26,17 @@ public class CharacterSlotUI : UIBInder
     {
         unitData = newUnitData;
 
-        
-        GetUI<TextMeshProUGUI>("NameText").text = unitData.UnitId.ToString();
+        Dictionary<int, Dictionary<string, string>> characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        if (characterData.TryGetValue(unitData.UnitId, out var data))
+        {
+            GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
+        }
+        else
+        {
+            GetUI<TextMeshProUGUI>("NameText").text = unitData.UnitId.ToString();
+        }
         GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
         //GetUI<Image>("Character").sprite = character.image;
-
-        
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
@@ -40,12 +44,12 @@ public class CharacterSlotUI : UIBInder
     {
         characterPanel.SetActive(true);
 
-        characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
+       characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
     }
 
     public PlayerUnitData GetCharacter()
     {
         return unitData;
     }
-    
+
 }
