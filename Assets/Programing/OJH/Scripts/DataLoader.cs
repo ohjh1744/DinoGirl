@@ -25,8 +25,6 @@ public class DataLoader : MonoBehaviour
     [ContextMenu("LoadTest")]
     public void Test()
     {
-        FirebaseUser user = BackendManager.Auth.CurrentUser;
-
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(_uID);
 
         Debug.Log(root);
