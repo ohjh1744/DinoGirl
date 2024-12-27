@@ -5,7 +5,7 @@ public class TempBattleContext : MonoBehaviour
 {
     public static TempBattleContext Instance { get; private set; }
 
-    public List<PlayableUnitController> players;
+    public List<PlayableUnitController> players = new List<PlayableUnitController>();
 
     public bool isAutoOn {get; set; }
     public bool isGamePaused {get; set; }
@@ -13,15 +13,15 @@ public class TempBattleContext : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
-
-        Instance = this;
-
-        DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()

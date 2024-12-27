@@ -16,10 +16,10 @@ public class PlayerUnitControllerNoProjectile : PlayableUnitController
     {
         SkillTargets = new List<Transform>();
         //DetectRange = 20.0f;
-        AttackRange = 2.0f;
+        //AttackRange = 2.0f;
         MoveSpeed = 2.0f;
         SkillRange = 4.0f;
-        CoolTimeCounter = 0.0f;
+        CoolTimeCounter = 0.5f;
     }
 
     protected override void Start()
