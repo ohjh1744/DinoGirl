@@ -8,25 +8,15 @@ using Firebase.Extensions;
 using UnityEngine.UI;
 using Firebase.Database;
 using System.Linq;
-public class OthersRoomPanel : UIBInder
+public class OthersInfoPanel : UIBInder
 {
-    [SerializeField] private Button _othersRoom;
+    [SerializeField] private GameObject _othersInfoImage;
 
     [SerializeField] private Dictionary<string, int> _othersDinoStoneCounts;
 
     private void Awake()
     {
         BindAll();
-    }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
     }
 
     private void GetOthersData()

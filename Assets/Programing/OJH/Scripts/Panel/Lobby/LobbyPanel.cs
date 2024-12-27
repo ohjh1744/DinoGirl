@@ -23,7 +23,6 @@ public class LobbyPanel : UIBInder
     {
         ShowName();
         ShowItems();
-        //PlayerDataManager.Instance.LoadHousingIDs();
     }
 
     private void OnEnable()
