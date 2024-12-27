@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class UnitController : MonoBehaviour
+public abstract class BaseUnitController : MonoBehaviour
 {
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
@@ -13,15 +13,17 @@ public abstract class UnitController : MonoBehaviour
     
     private UnitView _unitViewer;
     public UnitView UnitViewer { get => _unitViewer; private set => _unitViewer = value; }
+    private UnitModel _unitModel;
+    public UnitModel UnitModel { get => _unitModel; private set => _unitModel = value; }
     
     protected BehaviourTreeRunner _BTRunner;
     /*protected Animator _unitAnimator;
     public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }*/
-    protected Transform _detectedEnemy;
-    public Transform DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
+    protected BaseUnitController _detectedEnemy;
+    public BaseUnitController DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
     
-    protected Transform _currentTarget;
-    public Transform CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+    protected BaseUnitController _currentTarget;
+    public BaseUnitController CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
     
     protected int unitID;
     public int UnitID { get { return unitID; } }
@@ -31,14 +33,14 @@ public abstract class UnitController : MonoBehaviour
     protected Vector2 _topRight;
     
     
-    [SerializeField] protected float _detectRange;
-    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
+    //[SerializeField] protected float _detectRange;
+    //public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
     
-    [SerializeField] protected float _attackRange;
-    public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
+    //[SerializeField] protected float _attackRange;
+    //public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
     
-    [SerializeField] protected float _moveSpeed;
-    public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
+    //[SerializeField] protected float _moveSpeed;
+    //public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
     
     [SerializeField] protected LayerMask _allianceLayer;
     public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
@@ -48,8 +50,8 @@ public abstract class UnitController : MonoBehaviour
     protected bool _isAttacking = false;
     public bool IsAttacking { get => _isAttacking; protected set => _isAttacking = value;}
     
-    [SerializeField] protected bool _isPriorityTargetFar;
-    public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
+    //[SerializeField] protected bool _isPriorityTargetFar;
+    //public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
 
     // 스킬있는 적이 나중에 생길수도 있음 혹은 보스라던가
     public float CoolTimeCounter { get; set; }
@@ -61,7 +63,8 @@ public abstract class UnitController : MonoBehaviour
         SetLayer();
         SetDetectingArea();
         //UnitAnimator = GetComponent<Animator>();
-        _unitViewer = GetComponent<UnitView>();
+        UnitViewer = GetComponent<UnitView>();
+        UnitModel = GetComponent<UnitModel>();
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
@@ -121,7 +124,7 @@ public abstract class UnitController : MonoBehaviour
     
     protected BaseNode.ENodeState SetTargetToAttack()
     {
-        if (DetectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
             CurrentTarget = DetectedEnemy;
             return BaseNode.ENodeState.Success;
@@ -146,7 +149,8 @@ public abstract class UnitController : MonoBehaviour
         
         
         // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
-        if (CurrentTarget == null)
+        //if (CurrentTarget == null)
+        if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
             IsAttacking = false;
@@ -195,6 +199,9 @@ public abstract class UnitController : MonoBehaviour
                     Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
                     UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
                     IsAttacking = false;
+                    // 공격수행 데미지 적용 시킴
+                    CurrentTarget.UnitModel.TakeDamage(UnitModel.AttackPoint);
+                    
                     return BaseNode.ENodeState.Success;
                 }
             }
@@ -319,13 +326,13 @@ public abstract class UnitController : MonoBehaviour
 
     protected BaseNode.ENodeState ChaseTarget()
     {
-        if (DetectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
-            float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
-            if (sqrDistance > _attackRange * _attackRange) // 타겟이 공격 범위보다 멀때
+            float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.gameObject.transform.position - transform.position);
+            if (sqrDistance > UnitModel.AttackRange * UnitModel.AttackRange) // 타겟이 공격 범위보다 멀때
             {
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], true);
-                transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.position, _moveSpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.gameObject.transform.position, UnitModel.Movespeed * Time.deltaTime);
                 
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
@@ -352,16 +359,19 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool CheckAttackRange()
     {
-        if (DetectedEnemy == null)
-            return false;
-        float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
-        return sqrDistance <= AttackRange * AttackRange;
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
+        {
+            float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.gameObject.transform.position - transform.position);
+            return sqrDistance <= UnitModel.AttackRange * UnitModel.AttackRange;
+        }
+        
+        return false;
     }
 
     protected BaseNode.ENodeState SetDetectedTarget()
     {
         // 이미 감지된 적이 있었을경우엔 수행할 필요 없음,  바로 chase로 전환
-        if (DetectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
             return BaseNode.ENodeState.Success;
         
         Collider2D[] detectedColliders = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
@@ -374,26 +384,33 @@ public abstract class UnitController : MonoBehaviour
         
         float minDistance = float.MaxValue;
         float maxDistance = float.MinValue;
-        Transform closetEnemy = null;
-        Transform farthestEnemy = null;
+        BaseUnitController closetEnemy = null;
+        BaseUnitController farthestEnemy = null;
 
-        foreach (Collider2D collider in detectedColliders)
+        foreach (var col in detectedColliders)
         {
-            float distance = Vector2.Distance(transform.position, collider.transform.position);
+            BaseUnitController unit = col.gameObject.GetComponent<BaseUnitController>();
+            if (unit == null)
+            {
+                Debug.LogWarning($"{col.gameObject.name}에 BaseUnitController가 없다.");
+                continue;
+            }
+            
+            float distance = Vector2.Distance(transform.position, col.transform.position);
 
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closetEnemy = collider.transform;
+                closetEnemy = unit;
             }
 
             if (distance > maxDistance)
             {
                 maxDistance = distance;
-                farthestEnemy = collider.transform;
+                farthestEnemy = unit;
             }
         }
-        if (IsPriorityTargetFar)
+        if (UnitModel.IsPriorityTargetFar)
         {
             // 가장 먼 타겟을 DetectedEnemy 로 설정
             DetectedEnemy = farthestEnemy;
@@ -425,8 +442,8 @@ public abstract class UnitController : MonoBehaviour
         Gizmos.color = (layerName == "UserCharacter") ? Color.green : Color.red;
         
         //Gizmos.color = Color.yellow;
-        if(_detectedEnemy != null)
-            Gizmos.DrawLine(transform.position, _detectedEnemy.position);
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
+            Gizmos.DrawLine(transform.position, _detectedEnemy.gameObject.transform.position);
 
         Gizmos.color = Color.cyan;
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));

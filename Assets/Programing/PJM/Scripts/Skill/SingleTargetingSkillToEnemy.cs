@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SingleTargetSkillToEnemy", menuName = "Skills/SingleTargetSkillToEnemy")]
-public class SingleTargetSkillToEnemy : Skill
+public class SingleTargetingSkillToEnemy : Skill
 {
-    protected override BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets)
+    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets)
     {
-        ResetTargets(targets); // 이거 나중에 문제될것으로 보임
+        ResetTargets(targets); 
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
@@ -35,7 +35,7 @@ public class SingleTargetSkillToEnemy : Skill
                 farthestEnemy = collider.transform;
             }
         }
-        if (caster.IsPriorityTargetFar)
+        if (caster.UnitModel.IsPriorityTargetFar)
         {
             targets.Add(farthestEnemy);
         }
@@ -50,9 +50,9 @@ public class SingleTargetSkillToEnemy : Skill
         return BaseNode.ENodeState.Failure;
     }
     
-    protected override BaseNode.ENodeState Perform(UnitController caster, List<Transform> targets)
+    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets)
     {
-        if (targets[0] == null)
+        if (targets[0] == null || !targets[0].gameObject.activeSelf)
         {
             Debug.Log($"{SkillName}: 타겟이 없습니다.");
             return BaseNode.ENodeState.Failure;

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WarriorUnitController : UnitController
+public class WarriorUnitController : BaseUnitController
 {
     //[SerializeField] private bool _isAssassin;
     protected void Awake()
     {
         //DetectRange = 20.0f;
-        AttackRange = 2.0f;
-        MoveSpeed = 2.0f;
+        //AttackRange = 2.0f;
+        //MoveSpeed = 2.0f;
     }
 
     protected override void Start()

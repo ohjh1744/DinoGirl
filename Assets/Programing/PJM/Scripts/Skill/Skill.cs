@@ -9,6 +9,9 @@ public abstract class Skill : ScriptableObject
     
     [SerializeField] private float _skillRange;
     public float SkillRange {get => _skillRange; protected set => _skillRange = value; }
+
+    [SerializeField] private int maxTargetingNum;
+    public int MaxTargetingNum {get => maxTargetingNum;}
     
     [SerializeField] private int skillRatio;
     public int SkillRatio {get => skillRatio; protected set => skillRatio = value; }
@@ -17,6 +20,8 @@ public abstract class Skill : ScriptableObject
     
     [SerializeField] private Sprite _skillIcon;
     public Sprite SkillIcon {get => _skillIcon;set => _skillIcon = value; }
+    
+    
     
     /*protected Transform skillTarget; // 여기 있어도 괜찮나? 계속 바뀔텐데 데이터 컨테이너에 있을 얘가 아닌가?
     public Transform SkillTarget { get => skillTarget; protected set => skillTarget = value; }*/
@@ -33,10 +38,10 @@ public abstract class Skill : ScriptableObject
     }*/
 
     // 타겟 설정
-    protected abstract BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets);
+    protected abstract BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets);
 
     // 스킬 실행
-    protected abstract BaseNode.ENodeState Perform(UnitController caster, List<Transform> targets);
+    protected abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets);
 
     /*protected virtual void ResetTargets()
     {
@@ -46,7 +51,7 @@ public abstract class Skill : ScriptableObject
     // 스킬 행동 트리를 반환하는 메서드
     //public abstract SequenceNode CreateSkillBTree(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar, Animator unitAnimator);
     
-    public SequenceNode CreateSkillBTree(UnitController caster,List<Transform> targets)
+    public SequenceNode CreateSkillBTree(BaseUnitController caster,List<Transform> targets)
     {
         return new SequenceNode
         (
@@ -59,7 +64,7 @@ public abstract class Skill : ScriptableObject
         );
     }
 
-    public BaseNode CreatePerformNode(UnitController caster,List<Transform> targets)
+    public BaseNode CreatePerformNode(BaseUnitController caster,List<Transform> targets)
     {
         return new ActionNode(() => Perform(caster, targets));
     }

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherUnitController : UnitController
+public class ArcherUnitController : BaseUnitController
 {
     protected void Awake()
     {
         //DetectRange = 20.0f;
-        AttackRange = 15.0f;
-        MoveSpeed = 1.0f;
+        //AttackRange = 15.0f;
+        //MoveSpeed = 1.0f;
     }
     
     protected override BaseNode SetBTree()
