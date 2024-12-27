@@ -47,6 +47,10 @@ public class PlayerDataManager : MonoBehaviour
         {
             _housingIDs[i] = TypeCastManager.Instance.TryParseInt(itemDic[_itemIDs[i]]["HousingID"]);
         }
+    }
+
+    public void CheckCleaerStage()
+    {
 
     }
 
