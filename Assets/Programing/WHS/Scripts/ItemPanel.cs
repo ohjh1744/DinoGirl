@@ -62,7 +62,7 @@ public class ItemPanel : UIBInder
         }
         else
         {
-            Debug.LogWarning("PlayerDataManager or PlayerData is null. Unable to load initial data.");
+            Debug.Log("PlayerData 찾을 수 없음");
         }
     }
 

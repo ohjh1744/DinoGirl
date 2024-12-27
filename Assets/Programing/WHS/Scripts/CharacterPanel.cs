@@ -23,11 +23,6 @@ public class CharacterPanel : UIBInder
         levelUpPanel = parent.Find("LevelUpPanel").gameObject;
 
         characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
-        Debug.Log($"levelUpData count: {characterData.Count}");
-        foreach (var key in characterData.Keys)
-        {
-            Debug.Log($"Key: {key}, ");
-        }
     }
 
     private void Start()
@@ -57,6 +52,7 @@ public class CharacterPanel : UIBInder
 
             GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
 
+            // db에 캐릭터 정보 갱신
             UpdateCharacterData(character);
         }
     }
