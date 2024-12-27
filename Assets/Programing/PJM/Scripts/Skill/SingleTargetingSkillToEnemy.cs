@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SingleTargetSkillToEnemy", menuName = "Skills/SingleTargetSkillToEnemy")]
-public class SingleTargetSkillToEnemy : Skill
+public class SingleTargetingSkillToEnemy : Skill
 {
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets)
     {
-        ResetTargets(targets); // 이거 나중에 문제될것으로 보임
+        ResetTargets(targets); 
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
