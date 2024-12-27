@@ -180,7 +180,7 @@ public class LoginPanel : UIBInder
             storedItemChildren = storedItemChildren.OrderBy(storedItem => TypeCastManager.Instance.TryParseInt(storedItem.Key)).ToList();
             for (int i = 0; i < storedItemChildren.Count; i++)
             {
-                PlayerDataManager.Instance.PlayerData.Items[i] = TypeCastManager.Instance.TryParseInt(storedItemChildren[i].Value.ToString());
+                PlayerDataManager.Instance.PlayerData.StoredItems[i] = TypeCastManager.Instance.TryParseInt(storedItemChildren[i].Value.ToString());
             }
 
 
@@ -228,7 +228,7 @@ public class LoginPanel : UIBInder
     //Snapshot이 제대로 불러와졌는지 체크하는 함수 -> snapshot이 불러와지는데 지연시간이 약간 있는것으로 예상이 됨.
     private void CheckSnapSHot(List<DataSnapshot> snapshotChildren)
     {
-        while (snapshotChildren == null)
+        while (snapshotChildren == null || snapshotChildren.Count == 0)
         {
             Debug.Log("snapshot null값임!");
         }
