@@ -13,8 +13,13 @@ public class LotterySetting : MonoBehaviour
 {
     // csvDataManager.cs에서 가져올 특정 DataList를 받을 Disctionary
     [SerializeField] Dictionary<int, Dictionary<string, string>> gachaList = new Dictionary<int, Dictionary<string, string>>();
+    [Header("Lottery Lists")]
+    public List<Lottery> lotteryList1 = new List<Lottery>();
+    public List<Lottery> lotteryList2 = new List<Lottery>();
 
     //List<Dictionary<string, string>> settingList = new List<Dictionary<string, string>>();
+    private bool isChecked;
+    public bool IsChecked { get { return isChecked; } set { isChecked = value; } }
 
     [Header("UI")]
     [SerializeField] private GameObject singleBtn;
@@ -30,28 +35,40 @@ public class LotterySetting : MonoBehaviour
         // 버튼들 활성화
         // Loading Panel 비활성화
         MakeLotteryList();
-        LotteryDataLoad();
         singleBtn.SetActive(true);
         tenBtn.SetActive(true);
         loadingPanel.SetActive(false);
 
     }
 
-    private void LotteryDataLoad()
-    {
-        // TODO : cvs 파일 DB에서 원하는 정보를 불러와 GachaID 별로 List<Lottery> 생성
-        // Lottery.cs에 Lottery 항목 참조
-
-    }
-
+    /// <summary>
+    /// csv데이터로 알맞은 가챠 리스트를 분리하는 함수
+    /// - 새로운 가챠를 추가하는 경우
+    ///    1. csv파일에 GachaGroup을 묶어서 파일 업로드
+    ///    2. 함수의 switch문에 새로운 case로 GachaGroup 분기점 제작
+    ///    3. Lottery Lists에 분기할 list를 미리 제작 후 분기에 알맞게 데이터 저장
+    /// </summary>
     private void MakeLotteryList()
     {
         gachaList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Gacha]; // csv데이터로 가챠리스트 가져오기
-        for(int i = 0; i < gachaList.Count; i++)
+        for (int i = 1; i < gachaList.Count + 1; i++)
         {
-
+            // Lottery 타입의 lottery를 선언하고 형변환을 거쳐 ID와 Probability를 저장
+            Lottery lottery = new Lottery();
+            lottery.Id = TypeCastManager.Instance.TryParseInt(gachaList[i]["ItemID"]);
+            lottery.Probability = TypeCastManager.Instance.TryParseInt(gachaList[i]["Probability"]);
+            // GachaGroup을 기준으로 알맞은 loggeryList에 저장
+            switch (gachaList[i]["GachaGroup"])
+            {
+                case "1":
+                    lotteryList1.Add(lottery);
+                    break;
+                case "2":
+                    lotteryList2.Add(lottery);
+                    break;
+                default:
+                    break;
+            }
         }
-        // TODO : csv 파일에서 GachaID의 개수를 파악하여 필요한 총 List 생성
-
     }
 }
