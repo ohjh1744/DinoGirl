@@ -35,7 +35,7 @@ public class SingleTargetSkillToEnemy : Skill
                 farthestEnemy = collider.transform;
             }
         }
-        if (caster.IsPriorityTargetFar)
+        if (caster.UnitModel.IsPriorityTargetFar)
         {
             targets.Add(farthestEnemy);
         }
@@ -52,7 +52,7 @@ public class SingleTargetSkillToEnemy : Skill
     
     protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets)
     {
-        if (targets[0] == null)
+        if (targets[0] == null || !targets[0].gameObject.activeSelf)
         {
             Debug.Log($"{SkillName}: 타겟이 없습니다.");
             return BaseNode.ENodeState.Failure;

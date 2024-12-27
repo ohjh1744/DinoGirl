@@ -11,7 +11,7 @@ public class PriorityDisplayer : MonoBehaviour
     private void Start()
     {
         renderer = GetComponent<SpriteRenderer>();
-        checker = GetComponentInParent<BaseUnitController>().IsPriorityTargetFar;
+        checker = GetComponentInParent<BaseUnitController>().UnitModel.IsPriorityTargetFar;
         if (checker)
         {
             renderer.color = Color.red;

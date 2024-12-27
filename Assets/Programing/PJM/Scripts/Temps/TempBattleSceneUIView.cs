@@ -45,7 +45,7 @@ public class TempBattleSceneUIView : UIBInder
     {
         TempBattleContext.Instance.isAutoOn = !TempBattleContext.Instance.isAutoOn;
         GetUI<TMP_Text>("AutoText").text = TempBattleContext.Instance.isAutoOn ? " Auto : ON" : "Auto : OFF";
-        Debug.Log($"Auto : {TempBattleContext.Instance.isAutoOn}");
+        //Debug.Log($"Auto : {TempBattleContext.Instance.isAutoOn}");
     }
 
 }

@@ -7,9 +7,9 @@ public abstract class PlayableBaseUnitController : BaseUnitController
     //[SerializeField] BattleSceneUIView battleSceneUIView; // 임시 주입
     [SerializeField] private Skill _uniqueSkill;
     public Skill UniqueSkill {get => _uniqueSkill; protected set => _uniqueSkill = value; }
-    private float skillRange;
+    //private float skillRange;
 
-    public float SkillRange { get => skillRange; protected set => skillRange = value;}
+    //public float SkillRange { get => skillRange; protected set => skillRange = value;}
     
     private bool _isSkillRunning;
     public bool IsSkillRunning { get => _isSkillRunning; protected set => _isSkillRunning = value; }

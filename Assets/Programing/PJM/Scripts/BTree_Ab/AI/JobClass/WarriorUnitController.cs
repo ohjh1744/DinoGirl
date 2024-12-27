@@ -10,8 +10,8 @@ public class WarriorUnitController : BaseUnitController
     protected void Awake()
     {
         //DetectRange = 20.0f;
-        AttackRange = 2.0f;
-        MoveSpeed = 2.0f;
+        //AttackRange = 2.0f;
+        //MoveSpeed = 2.0f;
     }
 
     protected override void Start()

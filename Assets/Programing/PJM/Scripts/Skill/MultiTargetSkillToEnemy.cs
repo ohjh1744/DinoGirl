@@ -22,7 +22,7 @@ public class MultiTargetSkillToEnemy : Skill
         {
             float distanceA = Vector2.Distance(caster.transform.position, a.transform.position);
             float distanceB = Vector2.Distance(caster.transform.position, b.transform.position);
-            return caster.IsPriorityTargetFar ? distanceB.CompareTo(distanceA) : distanceA.CompareTo(distanceB);
+            return caster.UnitModel.IsPriorityTargetFar ? distanceB.CompareTo(distanceA) : distanceA.CompareTo(distanceB);
         });
 
         // 최대 타겟 수만큼 선택

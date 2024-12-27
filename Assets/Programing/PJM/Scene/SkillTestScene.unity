@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 42618110}
   - component: {fileID: 42618109}
   - component: {fileID: 42618112}
+  - component: {fileID: 42618113}
   m_Layer: 10
   m_Name: PlayerUnitNoProjectile_prototype
   m_TagString: Untagged
@@ -438,15 +439,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01eea04680ae1ed4da3a818a62a67f0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRange: 2
-  _moveSpeed: 2
   _allianceLayer:
     serializedVersion: 2
     m_Bits: 0
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  _isPriorityTargetFar: 0
   _uniqueSkill: {fileID: 11400000, guid: 16e37f40869171742b8188f55f920e2b, type: 2}
 --- !u!4 &42618111
 Transform:
@@ -480,6 +478,25 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 1}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &42618113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42618107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4b3f72c5fbdb74f88e2a7daafc3b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHp: 10
+  _hp: 0
+  _attackPoint: 2
+  _defensePoint: 1
+  _moveSpeed: 2
+  _attackRange: 2
+  _isPriorityTargetFar: 0
 --- !u!1 &56322083
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 223828994}
   - component: {fileID: 223828993}
+  - component: {fileID: 223828995}
   m_Layer: 11
   m_Name: ScarecrowEnemy
   m_TagString: Untagged
@@ -894,8 +912,27 @@ Transform:
   m_Children:
   - {fileID: 968371216}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &223828995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223828992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4b3f72c5fbdb74f88e2a7daafc3b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHp: 1000
+  _hp: 0
+  _attackPoint: 0
+  _defensePoint: 0
+  _moveSpeed: 0
+  _attackRange: 0
+  _isPriorityTargetFar: 0
 --- !u!1 &471728817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,15 +1212,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01eea04680ae1ed4da3a818a62a67f0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRange: 10
-  _moveSpeed: 0
   _allianceLayer:
     serializedVersion: 2
     m_Bits: 0
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  _isPriorityTargetFar: 1
   _uniqueSkill: {fileID: 11400000, guid: 16e37f40869171742b8188f55f920e2b, type: 2}
 --- !u!1 &663978198
 GameObject:
@@ -2312,6 +2346,7 @@ GameObject:
   - component: {fileID: 1167114203}
   - component: {fileID: 1167114202}
   - component: {fileID: 1167114201}
+  - component: {fileID: 1167114205}
   m_Layer: 11
   m_Name: EnemyUnitNoProjectile_prototype
   m_TagString: Untagged
@@ -2344,15 +2379,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0eddb2f5a232064584799c749466853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRange: 1.5
-  _moveSpeed: 2
   _allianceLayer:
     serializedVersion: 2
     m_Bits: 0
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  _isPriorityTargetFar: 0
 --- !u!70 &1167114203
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2383,8 +2415,27 @@ Transform:
   m_Children:
   - {fileID: 663978204}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1167114205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167114200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4b3f72c5fbdb74f88e2a7daafc3b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHp: 8
+  _hp: 0
+  _attackPoint: 2
+  _defensePoint: 1
+  _moveSpeed: 2
+  _attackRange: 2
+  _isPriorityTargetFar: 0
 --- !u!1 &1223801911
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,15 +2838,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01eea04680ae1ed4da3a818a62a67f0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRange: 2
-  _moveSpeed: 0
   _allianceLayer:
     serializedVersion: 2
     m_Bits: 0
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  _isPriorityTargetFar: 0
   _uniqueSkill: {fileID: 11400000, guid: 16e37f40869171742b8188f55f920e2b, type: 2}
 --- !u!95 &1343386308
 Animator:
