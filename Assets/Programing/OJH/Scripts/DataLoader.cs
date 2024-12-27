@@ -38,8 +38,10 @@ public class DataLoader : MonoBehaviour
                 Debug.Log("snapshot null값임!");
             }
 
+            // 이름 가져오기
             PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
 
+            //최근나간시간 가져오기
             PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
 
             // int형 배열 items 가져오기
@@ -86,6 +88,7 @@ public class DataLoader : MonoBehaviour
                 PlayerDataManager.Instance.PlayerData.IsStageClear[i] = TypeCastManager.Instance.TryParseBool(isStageClearChildren[i].Value.ToString());
             }
 
+            // UnitData정보들 가져오기
             var unitDataChildren = snapShot.Child("_unitDatas").Children.ToList();
             CheckSnapSHot(unitDataChildren);
 
@@ -111,6 +114,11 @@ public class DataLoader : MonoBehaviour
         while (snapshotChildren == null || snapshotChildren.Count == 0)
         {
             Debug.Log("snapshot null값임!");
+        }
+
+        for(int i = 0; i < snapshotChildren.Count; i++)
+        {
+            Debug.Log(snapshotChildren[i].Key.ToString());
         }
     }
 }

@@ -59,7 +59,7 @@ public class UserListPanel : MonoBehaviour
                     continue;
                 }
 
-                GameObject userInfo = Instantiate(_othersInfoImage, _content);
+                GameObject userInfo = Instantiate(_userList, _content);
 
                 TextMeshProUGUI nameText = userInfo.GetComponentInChildren<TextMeshProUGUI>();
 
