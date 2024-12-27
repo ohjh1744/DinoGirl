@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class BattleSceneUIView : UIBInder
+public class SkillUIView : UIBInder
 {
     // 글로벌 쿨타임
     [SerializeField] private float _globalCooldown = 0.5f;
@@ -23,7 +23,6 @@ public class BattleSceneUIView : UIBInder
     private void Awake()
     {
         Bind();
-        
     }
 
     private void Start()
