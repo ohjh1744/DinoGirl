@@ -142,6 +142,7 @@ public class LoginPanel : UIBInder
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(user.UserId);
 
+        Debug.Log(root);
 
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -161,6 +162,10 @@ public class LoginPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
 
             PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
+
+            PlayerDataManager.Instance.PlayerData.GiftCoin = TypeCastManager.Instance.TryParseInt(snapShot.Child("_giftCoin").Value.ToString());
+
+            PlayerDataManager.Instance.PlayerData.CanFollow = TypeCastManager.Instance.TryParseInt(snapShot.Child("_canFollow").Value.ToString());
 
             // int형 배열 items 가져오기
             var itemChildren = snapShot.Child("_items").Children.ToList();
@@ -205,6 +210,19 @@ public class LoginPanel : UIBInder
                 PlayerDataManager.Instance.PlayerData.IsStageClear[i] = TypeCastManager.Instance.TryParseBool(isStageClearChildren[i].Value.ToString());
             }
 
+
+            //string followid List로 가져오기
+            var followingIdChildren = snapShot.Child("_followingIds").Children.ToList();
+            CheckSnapSHot(followingIdChildren);
+
+            followingIdChildren = followingIdChildren.OrderBy(followingId => TypeCastManager.Instance.TryParseInt(followingId.Key)).ToList();
+            for (int i = 0; i < followingIdChildren.Count; i++)
+            {
+                PlayerDataManager.Instance.PlayerData.IsStageClear[i] = TypeCastManager.Instance.TryParseBool(followingIdChildren[i].Value.ToString());
+            }
+
+
+            //UniData가져오기
             var unitDataChildren = snapShot.Child("_unitDatas").Children.ToList();
             CheckSnapSHot(unitDataChildren);
 
@@ -231,6 +249,11 @@ public class LoginPanel : UIBInder
         while (snapshotChildren == null || snapshotChildren.Count == 0)
         {
             Debug.Log("snapshot null값임!");
+        }
+
+        for (int i = 0; i < snapshotChildren.Count; i++)
+        {
+            Debug.Log(snapshotChildren[i].Key.ToString());
         }
     }
     private void SetTrueWarningPanel(string textName)

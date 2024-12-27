@@ -19,6 +19,15 @@ public class PlayerData : MonoBehaviour
 
     public string ExitTime { get { return _exitTime; } set { _exitTime = value; } }
 
+    [SerializeField] private int _giftCoin;
+
+    public int GiftCoin { get { return _giftCoin; } set { _giftCoin = value; } }
+
+
+    [SerializeField] private int _canFollow;
+
+    public int CanFollow { get { return _canFollow; } set { _canFollow = value; } }
+
     [SerializeField] private int[] _items;
 
     public int[] Items { get { return _items; } private set {} }
@@ -52,6 +61,10 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private bool[] _isStageClear;   //스테이지 클리어 여부
 
     public bool[] IsStageClear { get { return _isStageClear; } private set { } }
+
+    [SerializeField] private List<string> _followingIds;
+
+    public List<string> FollowingIds { get { return _followingIds; } private set { } }
 
     [SerializeField] private List<PlayerUnitData> _unitDatas;
 
