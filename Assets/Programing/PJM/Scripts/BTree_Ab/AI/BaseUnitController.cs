@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class UnitController : MonoBehaviour
+public abstract class BaseUnitController : MonoBehaviour
 {
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
@@ -31,8 +31,8 @@ public abstract class UnitController : MonoBehaviour
     protected Vector2 _topRight;
     
     
-    [SerializeField] protected float _detectRange;
-    public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
+    //[SerializeField] protected float _detectRange;
+    //public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
     
     [SerializeField] protected float _attackRange;
     public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
@@ -121,7 +121,7 @@ public abstract class UnitController : MonoBehaviour
     
     protected BaseNode.ENodeState SetTargetToAttack()
     {
-        if (DetectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
             CurrentTarget = DetectedEnemy;
             return BaseNode.ENodeState.Success;
@@ -146,7 +146,8 @@ public abstract class UnitController : MonoBehaviour
         
         
         // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
-        if (CurrentTarget == null)
+        //if (CurrentTarget == null)
+        if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
             IsAttacking = false;
@@ -319,7 +320,7 @@ public abstract class UnitController : MonoBehaviour
 
     protected BaseNode.ENodeState ChaseTarget()
     {
-        if (DetectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
             float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
             if (sqrDistance > _attackRange * _attackRange) // 타겟이 공격 범위보다 멀때
@@ -352,16 +353,19 @@ public abstract class UnitController : MonoBehaviour
 
     protected bool CheckAttackRange()
     {
-        if (DetectedEnemy == null)
-            return false;
-        float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
-        return sqrDistance <= AttackRange * AttackRange;
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
+        {
+            float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.position - transform.position);
+            return sqrDistance <= AttackRange * AttackRange;
+        }
+        
+        return false;
     }
 
     protected BaseNode.ENodeState SetDetectedTarget()
     {
         // 이미 감지된 적이 있었을경우엔 수행할 필요 없음,  바로 chase로 전환
-        if (DetectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
             return BaseNode.ENodeState.Success;
         
         Collider2D[] detectedColliders = Physics2D.OverlapAreaAll(_bottomLeft,_topRight, _enemyLayer);
@@ -377,20 +381,20 @@ public abstract class UnitController : MonoBehaviour
         Transform closetEnemy = null;
         Transform farthestEnemy = null;
 
-        foreach (Collider2D collider in detectedColliders)
+        foreach (var col in detectedColliders)
         {
-            float distance = Vector2.Distance(transform.position, collider.transform.position);
+            float distance = Vector2.Distance(transform.position, col.transform.position);
 
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closetEnemy = collider.transform;
+                closetEnemy = col.transform;
             }
 
             if (distance > maxDistance)
             {
                 maxDistance = distance;
-                farthestEnemy = collider.transform;
+                farthestEnemy = col.transform;
             }
         }
         if (IsPriorityTargetFar)
@@ -425,7 +429,7 @@ public abstract class UnitController : MonoBehaviour
         Gizmos.color = (layerName == "UserCharacter") ? Color.green : Color.red;
         
         //Gizmos.color = Color.yellow;
-        if(_detectedEnemy != null)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
             Gizmos.DrawLine(transform.position, _detectedEnemy.position);
 
         Gizmos.color = Color.cyan;

@@ -33,10 +33,10 @@ public abstract class Skill : ScriptableObject
     }*/
 
     // 타겟 설정
-    protected abstract BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets);
+    protected abstract BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets);
 
     // 스킬 실행
-    protected abstract BaseNode.ENodeState Perform(UnitController caster, List<Transform> targets);
+    protected abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets);
 
     /*protected virtual void ResetTargets()
     {
@@ -46,7 +46,7 @@ public abstract class Skill : ScriptableObject
     // 스킬 행동 트리를 반환하는 메서드
     //public abstract SequenceNode CreateSkillBTree(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar, Animator unitAnimator);
     
-    public SequenceNode CreateSkillBTree(UnitController caster,List<Transform> targets)
+    public SequenceNode CreateSkillBTree(BaseUnitController caster,List<Transform> targets)
     {
         return new SequenceNode
         (
@@ -59,7 +59,7 @@ public abstract class Skill : ScriptableObject
         );
     }
 
-    public BaseNode CreatePerformNode(UnitController caster,List<Transform> targets)
+    public BaseNode CreatePerformNode(BaseUnitController caster,List<Transform> targets)
     {
         return new ActionNode(() => Perform(caster, targets));
     }

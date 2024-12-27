@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnitControllerNoProjectile : PlayableUnitController
+public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
 {
 
     //private List<Transform> _skillTargets;

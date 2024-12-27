@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridCell
 {
     private Vector2Int _position;
-    private UnitController _unit;
+    private BaseUnitController _unit;
     public Vector2Int Position { get => _position; private set => _position = value; }
     private bool _isDeployed;
     

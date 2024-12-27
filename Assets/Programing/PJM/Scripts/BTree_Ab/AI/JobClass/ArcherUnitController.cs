@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherUnitController : UnitController
+public class ArcherUnitController : BaseUnitController
 {
     protected void Awake()
     {

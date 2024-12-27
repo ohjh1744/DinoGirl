@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WarriorUnitController : UnitController
+public class WarriorUnitController : BaseUnitController
 {
     //[SerializeField] private bool _isAssassin;
     protected void Awake()

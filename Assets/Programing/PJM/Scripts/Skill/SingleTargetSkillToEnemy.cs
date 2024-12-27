@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SingleTargetSkillToEnemy", menuName = "Skills/SingleTargetSkillToEnemy")]
 public class SingleTargetSkillToEnemy : Skill
 {
-    protected override BaseNode.ENodeState SetTargets(UnitController caster, List<Transform> targets)
+    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets)
     {
         ResetTargets(targets); // 이거 나중에 문제될것으로 보임
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
@@ -50,7 +50,7 @@ public class SingleTargetSkillToEnemy : Skill
         return BaseNode.ENodeState.Failure;
     }
     
-    protected override BaseNode.ENodeState Perform(UnitController caster, List<Transform> targets)
+    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets)
     {
         if (targets[0] == null)
         {

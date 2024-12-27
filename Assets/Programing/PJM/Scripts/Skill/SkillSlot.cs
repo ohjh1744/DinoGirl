@@ -16,7 +16,7 @@ public class SkillSlot
     public float remainingTime; // 남은시간
     public bool isCooling; */
     
-    public PlayableUnitController skillOwner;
+    public PlayableBaseUnitController skillOwner;
     public Skill skillData;
 
 }

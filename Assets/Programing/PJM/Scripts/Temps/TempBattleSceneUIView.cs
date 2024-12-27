@@ -19,9 +19,8 @@ public class TempBattleSceneUIView : UIBInder
 
     private void InitializeButtons()
     {
-        
-        AddEvent("PauseButton", EventType.Click, (PointerEventData data) => ToggleTimeScale());
-        AddEvent("AutoButton", EventType.Click, (PointerEventData data) => ToggleAuto());
+        AddEvent("PauseButton", EventType.Click, _ => ToggleTimeScale());
+        AddEvent("AutoButton", EventType.Click, _ => ToggleAuto());
     }
     private void Update()
     {

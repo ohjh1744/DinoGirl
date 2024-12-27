@@ -11,7 +11,7 @@ public enum Parameter
 public class UnitView : MonoBehaviour
 {
 
-    public UnitController unit;
+    public BaseUnitController unit;
     private Animator _unitAnimator;
     public Animator UnitAnimator { get => _unitAnimator;}
 
@@ -39,8 +39,8 @@ public class UnitView : MonoBehaviour
 
     private void Start()
     {
-        unit = GetComponent<UnitController>();
-        _unitAnimator = GetComponent<Animator>();
+        unit = GetComponent<BaseUnitController>();
+        _unitAnimator = GetComponentInChildren<Animator>();
     }
     
     public bool IsAnimationRunning(string stateName)

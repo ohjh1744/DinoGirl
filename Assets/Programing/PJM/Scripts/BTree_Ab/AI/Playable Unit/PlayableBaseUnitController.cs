@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayableUnitController : UnitController
+public abstract class PlayableBaseUnitController : BaseUnitController
 {
     //[SerializeField] BattleSceneUIView battleSceneUIView; // 임시 주입
     [SerializeField] private Skill _uniqueSkill;

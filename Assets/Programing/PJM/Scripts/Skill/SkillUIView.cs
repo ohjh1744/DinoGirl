@@ -102,19 +102,10 @@ public class SkillUIView : UIBInder
             slot.isCooling = true;*/
 
             var index = slotIndex;
-            AddEvent($"Skill{slotIndex}Button",EventType.Click,(PointerEventData data) =>
-            {
-                OnSkillButtonTouched(index);
-            });
+            AddEvent($"Skill{slotIndex}Button",EventType.Click, _ => OnSkillButtonTouched(index));
             
             SkillSlots.Add(slot);
             slotIndex++;
-            
-        }
-        
-        
-        for (int i = 1; i <= _maxSkillUINum; i++)
-        {
             
         }
     }

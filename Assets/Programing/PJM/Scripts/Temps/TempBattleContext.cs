@@ -5,7 +5,7 @@ public class TempBattleContext : MonoBehaviour
 {
     public static TempBattleContext Instance { get; private set; }
 
-    public List<PlayableUnitController> players = new List<PlayableUnitController>();
+    public List<PlayableBaseUnitController> players = new List<PlayableBaseUnitController>();
 
     public bool isAutoOn {get; set; }
     public bool isGamePaused {get; set; }
