@@ -142,6 +142,7 @@ public class LoginPanel : UIBInder
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(user.UserId);
 
+
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
@@ -150,16 +151,21 @@ public class LoginPanel : UIBInder
                 return;
             }
 
-
             DataSnapshot snapShot = task.Result;
+
+            while (snapShot == null)
+            {
+                Debug.Log("snapshot null값임!");
+            }
 
             PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
 
             PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
 
-        
             // int형 배열 items 가져오기
             var itemChildren = snapShot.Child("_items").Children.ToList();
+            CheckSnapSHot(itemChildren);
+
             itemChildren = itemChildren.OrderBy(item => TypeCastManager.Instance.TryParseInt(item.Key)).ToList();
             for (int i = 0; i < itemChildren.Count; i++)
             {
@@ -169,6 +175,8 @@ public class LoginPanel : UIBInder
 
             // int형 배열 storedItem가져오기
             var storedItemChildren = snapShot.Child("_storedItems").Children.ToList();
+            CheckSnapSHot(storedItemChildren);
+
             storedItemChildren = storedItemChildren.OrderBy(storedItem => TypeCastManager.Instance.TryParseInt(storedItem.Key)).ToList();
             for (int i = 0; i < storedItemChildren.Count; i++)
             {
@@ -178,6 +186,8 @@ public class LoginPanel : UIBInder
 
             // int형 배열 unitPos 가져오기
             var unitPosChildren = snapShot.Child("_unitPos").Children.ToList();
+            CheckSnapSHot(unitPosChildren);
+
             unitPosChildren = unitPosChildren.OrderBy(unitPos => TypeCastManager.Instance.TryParseInt(unitPos.Key)).ToList();
             for (int i = 0; i < unitPosChildren.Count; i++)
             {
@@ -187,6 +197,8 @@ public class LoginPanel : UIBInder
 
             //bool형 배열 isStageClear가져오기
             var isStageClearChildren = snapShot.Child("_isStageClear").Children.ToList();
+            CheckSnapSHot(isStageClearChildren);
+
             isStageClearChildren = isStageClearChildren.OrderBy(isStageClear => TypeCastManager.Instance.TryParseInt(isStageClear.Key)).ToList();
             for (int i = 0; i < isStageClearChildren.Count; i++)
             {
@@ -194,6 +206,8 @@ public class LoginPanel : UIBInder
             }
 
             var unitDataChildren = snapShot.Child("_unitDatas").Children.ToList();
+            CheckSnapSHot(unitDataChildren);
+
             unitDataChildren = unitDataChildren.OrderBy(unitData => TypeCastManager.Instance.TryParseInt(unitData.Key)).ToList();
 
             foreach (var unitChild in unitDataChildren)
@@ -211,6 +225,14 @@ public class LoginPanel : UIBInder
         });
     }
 
+    //Snapshot이 제대로 불러와졌는지 체크하는 함수 -> snapshot이 불러와지는데 지연시간이 약간 있는것으로 예상이 됨.
+    private void CheckSnapSHot(List<DataSnapshot> snapshotChildren)
+    {
+        while (snapshotChildren == null)
+        {
+            Debug.Log("snapshot null값임!");
+        }
+    }
     private void SetTrueWarningPanel(string textName)
     {
         GetUI<Image>("LoginWarningPanel").gameObject.SetActive(true);
