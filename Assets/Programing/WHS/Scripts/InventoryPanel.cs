@@ -60,6 +60,7 @@ public class InventoryPanel : MonoBehaviour
                 {
                     UnitId = int.Parse(childSnapshot.Child("_unitId").Value.ToString()),
                     UnitLevel = int.Parse(childSnapshot.Child("_unitLevel").Value.ToString())
+                    // 슬롯에 캐릭터 이미지는 ㅇ떻게 
                 };
 
                 GameObject slot = Instantiate(characterPrefab, content);

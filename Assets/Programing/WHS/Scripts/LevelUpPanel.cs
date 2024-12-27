@@ -130,44 +130,6 @@ public class LevelUpPanel : UIBInder
         return items;
     }
 
-    // 레벨에 따른 재화 요구량 계산
-    private int CalculateRequiredCoin(int levels)
-    {
-        int total = 0;
-        for (int i = 0; i < levels; i++)
-        {
-            total += 30 + (targetCharacter.UnitLevel + i - 1) * 60;
-        }
-        return total;
-    }
-
-    // 다이노블러드 요구량 계산
-    private int CalculateRequiredDinoBlood(int levels)
-    {
-        int total = 0;
-        for (int i = 0; i < levels; i++)
-        {
-            total += 90 + (targetCharacter.UnitLevel + i - 1) * 70;
-        }
-        return total;
-    }
-
-    // 레벨에 따른 본크리스탈 요구량 계산
-    private int CalculateRequiredBoneCrystal(int levels)
-    {
-        int total = 0;
-
-        for (int i = 0; i < levels; i++)
-        {
-            // 5레벨마다 본크리스탈 요구량
-            if ((targetCharacter.UnitLevel + i) % 5 == 4)
-            {
-                total += 10 + (((targetCharacter.UnitLevel + i + 1) / 5) * 40);
-            }
-        }
-        return total;
-    }
-
     // 레벨업 버튼
     private void OnConfirmButtonClick(PointerEventData eventData)
     {

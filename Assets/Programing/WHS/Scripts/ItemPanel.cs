@@ -10,9 +10,21 @@ public class ItemPanel : UIBInder
     private void Start()
     {
         BindAll();
-        UpdateCurrencyUI();
+        StartCoroutine(WaitForPlayerData());
 
         AddEvent("BackButton", EventType.Click, ItemTEST);
+    }
+
+    private IEnumerator WaitForPlayerData()
+    {
+        // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
+        yield return new WaitUntil(() =>
+            PlayerDataManager.Instance != null &&
+            PlayerDataManager.Instance.PlayerData != null &&
+            PlayerDataManager.Instance.PlayerData.UnitDatas != null &&
+            PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+
+        Init();
     }
 
     private void OnEnable()
@@ -39,6 +51,20 @@ public class ItemPanel : UIBInder
         }
     }
 
+    private void Init()
+    {
+        if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null)
+        {
+            UpdateCoinText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
+            UpdateDinoBloodText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
+            UpdateBoneCrystalText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
+            UpdateDinoStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerDataManager or PlayerData is null. Unable to load initial data.");
+        }
+    }
 
     private void UpdateCoinText(int newValue)
     {
@@ -60,15 +86,6 @@ public class ItemPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoStoneText").text = newValue.ToString();
     }
 
-    // 재화 UI 갱신
-    public void UpdateCurrencyUI()
-    {        
-        GetUI<TextMeshProUGUI>("CoinText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin].ToString();
-        GetUI<TextMeshProUGUI>("DinoBloodText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood].ToString();
-        GetUI<TextMeshProUGUI>("BoneCrystalText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal].ToString();
-        GetUI<TextMeshProUGUI>("DinoStoneText").text = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone].ToString();
-    }
-
     public void ItemTEST(PointerEventData eventData)
     {
         int currentCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
@@ -76,6 +93,5 @@ public class ItemPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, currentCoinAmount + 100000);
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, currentCoinAmount + 100000);
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, currentCoinAmount + 100000);
-        UpdateCurrencyUI();
     }
 }
