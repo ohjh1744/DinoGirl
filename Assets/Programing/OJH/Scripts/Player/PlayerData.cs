@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public enum E_Item { Coin, DinoBlood, BoneCrystal, DinoStone, Stone, Length }
 // 여러 컨텐츠쪽에서 직접적으로 바로 필요한 것들만 최소한으로 저장. 
 [System.Serializable]
-public class PlayerData : MonoBehaviour
+public class PlayerData 
 {
     [SerializeField] private string _playerName;
 

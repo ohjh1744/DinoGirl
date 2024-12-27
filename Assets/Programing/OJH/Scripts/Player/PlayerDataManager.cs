@@ -10,7 +10,7 @@ public class PlayerDataManager : MonoBehaviour
 
     [SerializeField] private PlayerData _playerData;
 
-    public PlayerData PlayerData {  get { return _playerData; } private set { } }
+    public PlayerData PlayerData {  get { return _playerData; } set { _playerData = value; } }
 
     private int[] _housingIDs = new int[(int)E_Item.Length];
 
