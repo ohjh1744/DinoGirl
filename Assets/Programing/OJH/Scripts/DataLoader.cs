@@ -22,7 +22,7 @@ public class DataLoader : MonoBehaviour
     //ÆÈ·Î¿ì origin °ª
     [SerializeField] private int _originFollowTime;
 
-    [ContextMenu("Test")]
+    [ContextMenu("LoadTest")]
     public void Test()
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
@@ -117,7 +117,7 @@ public class DataLoader : MonoBehaviour
             followingIdChildren = followingIdChildren.OrderBy(followingId => TypeCastManager.Instance.TryParseInt(followingId.Key)).ToList();
             for (int i = 0; i < followingIdChildren.Count; i++)
             {
-                PlayerDataManager.Instance.PlayerData.IsStageClear[i] = TypeCastManager.Instance.TryParseBool(followingIdChildren[i].Value.ToString());
+                PlayerDataManager.Instance.PlayerData.FollowingIds[i] = followingIdChildren[i].Value.ToString();
             }
 
 
