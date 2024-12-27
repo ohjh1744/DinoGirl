@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -38,6 +39,29 @@ public class LevelUpPanel : UIBInder
             Debug.Log($"Key: {key}, Value: {levelUpData[key]["500"]}, {levelUpData[key]["501"]}, {levelUpData[key]["502"]}");
         }
     }
+
+    private void OnEnable()
+    {
+        if (PlayerDataManager.Instance.PlayerData.OnItemChanged == null)
+        {
+            PlayerDataManager.Instance.PlayerData.OnItemChanged = new UnityAction<int>[System.Enum.GetValues(typeof(E_Item)).Length];
+        }
+
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoinText;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += UpdateDinoBloodText;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += UpdateBoneCrystalText;
+    }
+
+    private void OnDisable()
+    {
+        if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null)
+        {
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoinText;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] -= UpdateDinoBloodText;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= UpdateBoneCrystalText;
+        }
+    }
+
 
     public void Initialize(PlayerUnitData character)
     {
@@ -111,6 +135,7 @@ public class LevelUpPanel : UIBInder
 
         for (int i = 0; i < level; i++)
         {
+            // TODO : LevelUpID나 레어도에 따라 수정 필요
             int levelUpId = 4000 + ((targetCharacter.UnitLevel + i) * 10);
 
             if (levelUpData.TryGetValue(levelUpId, out Dictionary<string, string> data))
@@ -128,44 +153,6 @@ public class LevelUpPanel : UIBInder
             }
         }
         return items;
-    }
-
-    // 레벨에 따른 재화 요구량 계산
-    private int CalculateRequiredCoin(int levels)
-    {
-        int total = 0;
-        for (int i = 0; i < levels; i++)
-        {
-            total += 30 + (targetCharacter.UnitLevel + i - 1) * 60;
-        }
-        return total;
-    }
-
-    // 다이노블러드 요구량 계산
-    private int CalculateRequiredDinoBlood(int levels)
-    {
-        int total = 0;
-        for (int i = 0; i < levels; i++)
-        {
-            total += 90 + (targetCharacter.UnitLevel + i - 1) * 70;
-        }
-        return total;
-    }
-
-    // 레벨에 따른 본크리스탈 요구량 계산
-    private int CalculateRequiredBoneCrystal(int levels)
-    {
-        int total = 0;
-
-        for (int i = 0; i < levels; i++)
-        {
-            // 5레벨마다 본크리스탈 요구량
-            if ((targetCharacter.UnitLevel + i) % 5 == 4)
-            {
-                total += 10 + (((targetCharacter.UnitLevel + i + 1) / 5) * 40);
-            }
-        }
-        return total;
     }
 
     // 레벨업 버튼
@@ -190,9 +177,11 @@ public class LevelUpPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
             PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal)
         {
-            //PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
-            //PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
-            //PlayerDataManager.Instance.PlayerData.SetItem(null, (int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
+            PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
+            PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
+            PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
+
+            // TODO : 데이터베이스에 소모한 아이템 업데이트
 
             character.UnitLevel++;
             Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
@@ -202,7 +191,6 @@ public class LevelUpPanel : UIBInder
             }
 
             UpdateCharacters(character);
-            ItemPanel.instance.UpdateCurrencyUI();
             UpdateLevelData(character);
 
             return true;
@@ -224,7 +212,7 @@ public class LevelUpPanel : UIBInder
         return false;
     }
 
-    // 데이터 갱신
+    // db 레벨업 데이터 갱신
     private void UpdateLevelData(PlayerUnitData character)
     {
         string userID = BackendManager.Auth.CurrentUser.UserId;
@@ -275,10 +263,10 @@ public class LevelUpPanel : UIBInder
             characterPanel.UpdateCharacterInfo(character);
         }
 
-        InventoryPanel characterInventoryUI = FindObjectOfType<InventoryPanel>();
-        if (characterInventoryUI != null)
+        InventoryPanel inventoryPanel = FindObjectOfType<InventoryPanel>();
+        if (inventoryPanel != null)
         {
-            characterInventoryUI.UpdateCharacterUI(character);
+            inventoryPanel.UpdateCharacterUI(character);
         }
     }
 
@@ -300,5 +288,26 @@ public class LevelUpPanel : UIBInder
             UpdateUI();
             GetUI<Slider>("LevelUpSlider").value = curLevelUp;
         }
+    }
+
+    private void UpdateCoinText(int newValue)
+    {
+        GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {newValue}";
+        CalculateMaxLevelUp();
+        UpdateUI();
+    }
+
+    private void UpdateDinoBloodText(int newValue)
+    {
+        GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {newValue}";
+        CalculateMaxLevelUp();
+        UpdateUI();
+    }
+
+    private void UpdateBoneCrystalText(int newValue)
+    {
+        GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {newValue}";
+        CalculateMaxLevelUp();
+        UpdateUI();
     }
 }
