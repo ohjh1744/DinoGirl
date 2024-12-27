@@ -26,6 +26,16 @@ public class LobbyPanel : UIBInder
         //PlayerDataManager.Instance.LoadHousingIDs();
     }
 
+    private void OnEnable()
+    {
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] += UpdateDinoStone;
+    }
+
+    private void OnDisable()
+    {
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] -= UpdateDinoStone;
+    }
+
     private void ShowName()
     {
         StringBuilder _nameSb = new StringBuilder();
@@ -50,7 +60,14 @@ public class LobbyPanel : UIBInder
 
     }
 
-
+    // 친구목록에 버튼을 누럿을시 다이노스톤획득. 이를 위한 이벤트 연결함수 구현
+    private void UpdateDinoStone(int count)
+    {
+        StringBuilder _itemSb = new StringBuilder();
+        _itemSb.Clear();
+        _itemSb.Append(count);
+        GetUI<TextMeshProUGUI>("Item4Value").SetText(_itemSb);
+    }
 
 
 }
