@@ -16,6 +16,12 @@ public class DataLoader : MonoBehaviour
 
     [SerializeField] private string _uID;
 
+    //팔로우 리셋 시간
+    [SerializeField] private int _resetFollowTime;
+
+    //팔로우 origin 값
+    [SerializeField] private int _originFollowTime;
+
     [ContextMenu("Test")]
     public void Test()
     {
@@ -42,11 +48,23 @@ public class DataLoader : MonoBehaviour
 
             PlayerDataManager.Instance.PlayerData.PlayerName = snapShot.Child("_playerName").Value.ToString();
 
-            PlayerDataManager.Instance.PlayerData.ExitTime = snapShot.Child("_exitTime").Value.ToString();
+            PlayerDataManager.Instance.PlayerData.LastResetFollowTime = snapShot.Child("_lastResetFollowTime").Value.ToString();
+
+            PlayerDataManager.Instance.PlayerData.RoomExitTime = snapShot.Child("_roomExitTime").Value.ToString();
 
             PlayerDataManager.Instance.PlayerData.GiftCoin = TypeCastManager.Instance.TryParseInt(snapShot.Child("_giftCoin").Value.ToString());
 
             PlayerDataManager.Instance.PlayerData.CanFollow = TypeCastManager.Instance.TryParseInt(snapShot.Child("_canFollow").Value.ToString());
+
+            DateTime resetTime = DateTime.Parse(PlayerDataManager.Instance.PlayerData.LastResetFollowTime);
+
+            //날짜가 다르고, 8시 이상일때 _canFollow 초기화해주기
+            if (resetTime.Date != DateTime.Now.Date && DateTime.Now.Hour >= _resetFollowTime)
+            {
+                PlayerDataManager.Instance.PlayerData.CanFollow = _originFollowTime;
+                root.Child("_canFollow").SetValueAsync(_originFollowTime);
+            }
+
 
             // int형 배열 items 가져오기
             var itemChildren = snapShot.Child("_items").Children.ToList();
