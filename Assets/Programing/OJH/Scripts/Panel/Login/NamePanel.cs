@@ -92,7 +92,6 @@ public class NamePanel : UIBInder
             unitData.UnitLevel = 1;
 
             PlayerDataManager.Instance.PlayerData.UnitDatas.Add(unitData);
-            Debug.Log()
         }
 
         //Json으로 변환후 저장.
