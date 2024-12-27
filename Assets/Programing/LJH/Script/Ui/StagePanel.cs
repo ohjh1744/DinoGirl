@@ -10,12 +10,16 @@ public class StagePanel : MonoBehaviour
     [SerializeField] TMP_Text stageNameText; // 스테이지 이름 
     [SerializeField] TMP_Text timeLimitText; // 시간제한
 
+    [SerializeField] public RewardSlot[] rewards;
+
     [SerializeField] Dictionary<int,Dictionary<string, string>> stageDic;
     [SerializeField] Dictionary<int, Dictionary<string, string>> monsterGroupDic;
     [SerializeField] Dictionary<int, Dictionary<string, string>> monsterDic;
     [SerializeField] Dictionary<int, Dictionary<string, string>> stageRewardDic;
     [SerializeField] Dictionary<int, Dictionary<string, string>> itemDic;
      
+
+    // cur 붙은거는 고른 스테이지의 정보
     [SerializeField] List<string> curMobPos; // 현재 스테이지의 몬스터 위치
     [SerializeField] List<int> curmyPos;  // 현재 스테이지의 플레이어의 캐릭터 위치
    
@@ -32,17 +36,15 @@ public class StagePanel : MonoBehaviour
     [SerializeField] Image[] enemygrid;
 
     [SerializeField] Dictionary<int, int> itemValues = new Dictionary<int, int>();
-    [SerializeField] bool[] stageClear;
-    [SerializeField] PlayerUnitData[] playerData;   
+
+      
 
 
     // Monster, Stages, MontserGroup, StageReward, Item  08 ~ 12 나중에 합칠때 리스트 순서 수정해야함 
     public void setStageData(int stageNum) //  stages csv의 스테이지 순서대로(0번부터)
     {
         stageDic = CsvDataManager.Instance.DataLists[1]; //파싱한 순서(url 순서대로 들어감)
-
-       // curStageID = TypeCastManager.Instance.TryParseInt(stageDic[101]["StageID"]);// stageDic[stageNum]["StageID"];
-        curStageNames = stageDic[stageNum]["StageName"];// stageDic[stageNum]["StageName"];
+        curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["Limit"];
         BattleSceneManager.Instance._timeLimit = int.Parse(curTimeLimit);
 
@@ -72,17 +74,29 @@ public class StagePanel : MonoBehaviour
         itemDic = CsvDataManager.Instance.DataLists[4];
         foreach (string item in stageRewardDic[curRewardGroup].Keys) 
         {
-            itemValues.Add(int.Parse(item),int.Parse(stageRewardDic[curRewardGroup][item]));
-            BattleSceneManager.Instance.curItemValues.Add(int.Parse(item), int.Parse(stageRewardDic[curRewardGroup][item]));
+            if (stageRewardDic[curRewardGroup][item] != "0") 
+            {
+                itemValues[int.Parse(item)] = int.Parse(stageRewardDic[curRewardGroup][item]);
+                BattleSceneManager.Instance.curItemValues[int.Parse(item)] = int.Parse(stageRewardDic[curRewardGroup][item]);
+            }
         }
-
+        int count = 0; 
+        foreach (int id in itemValues.Keys) 
+        {
+            rewards[count].setRewardData(itemValues[id].ToString());
+            count++;  
+        }
+        for (int i = count; i < rewards.Length; i++) 
+        {
+            rewards[i].gameObject.SetActive(false);
+        }
+        count = 0;
         stageNumText.text = curStageID.ToString();
         stageNameText.text = curStageNames;
         timeLimitText.text =  "Time Limit : "+curTimeLimit+" sec";
       
     }
-
-
+ 
     private void gridClearing() 
     {
         curmyPos.Clear(); 
@@ -95,5 +109,4 @@ public class StagePanel : MonoBehaviour
             curmyPos.Add(0);
         }
     }
- 
 }

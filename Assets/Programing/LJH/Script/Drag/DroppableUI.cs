@@ -70,14 +70,12 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
     public void OnTransformChildrenChanged() // 자식의 수가 변경될때마다 호출
     {
 		if (transform.childCount == 0)
-		{
-			Debug.Log($"Grid {gridNum} is now empty!");
+		{			
             BattleSceneManager.Instance.inGridObject[gridNum] = null; //그리드에서 빠지면 빼기
 			isFull=false;
         }
 		else if (transform.childCount >= 1) 
 		{
-            Debug.Log($"Grid {gridNum} is now full");
             isFull = true;
         }
     }
