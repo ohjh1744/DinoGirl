@@ -57,7 +57,7 @@ public class PlayerData : MonoBehaviour
 
     public List<PlayerUnitData> UnitDatas { get { return _unitDatas; } private set { } }
 
-    public UnityAction<int>[] OnItemChanged;
+    public UnityAction<int>[] OnItemChanged = new UnityAction<int>[(int)E_Item.Length];
 
-    public UnityAction<int>[] OnStoredItemChanged;
+    public UnityAction<int>[] OnStoredItemChanged = new UnityAction<int>[(int)E_Item.Length];
 }
