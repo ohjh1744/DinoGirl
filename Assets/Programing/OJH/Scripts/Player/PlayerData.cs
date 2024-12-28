@@ -8,16 +8,20 @@ using UnityEngine.Events;
 public enum E_Item { Coin, DinoBlood, BoneCrystal, DinoStone, Stone, Length }
 // 여러 컨텐츠쪽에서 직접적으로 바로 필요한 것들만 최소한으로 저장. 
 [System.Serializable]
-public class PlayerData : MonoBehaviour
+public class PlayerData 
 {
     [SerializeField] private string _playerName;
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
 
+    [SerializeField] private string _lastResetFollowTime; // 최근접속시간
 
-    [SerializeField] private string _exitTime; // 게임종료시간 -> 추후 방치형보상쪽에서 사용할 예정.
+    public string LastResetFollowTime { get { return _lastResetFollowTime; } set { _lastResetFollowTime = value; } }
 
-    public string ExitTime { get { return _exitTime; } set { _exitTime = value; } }
+
+    [SerializeField] private string _roomExitTime; // 나만의방에서 나간시간 -> 추후 방치형보상쪽에서 사용할 예정.
+
+    public string RoomExitTime { get { return _roomExitTime; } set { _roomExitTime = value; } }
 
     [SerializeField] private int _giftCoin;
 

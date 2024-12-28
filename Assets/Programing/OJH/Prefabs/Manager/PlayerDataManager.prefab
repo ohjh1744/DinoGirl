@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5539110383984506928}
-  - component: {fileID: 5539110383984506929}
   - component: {fileID: 5539110383984506930}
   m_Layer: 0
   m_Name: PlayerDataManager
@@ -33,29 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5539110383984506929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5539110383984506931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a03438c1886b1f478dfd623994a920f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerName: 
-  _exitTime: 
-  _giftCoin: 0
-  _canFollow: 2
-  _items: 0000000000000000000000000000000000000000
-  _storedItems: 000000000000000000000000
-  _unitPos: 000000000000000000000000000000000000000000000000000000000000000000000000
-  _isStageClear: 000000000000000000000000000000000000000000
-  _followingIds:
-  - User
-  _unitDatas: []
 --- !u!114 &5539110383984506930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,4 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f2e73e8dea07446af6fbb18860d349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 5539110383984506929}
+  _playerData:
+    _playerName: 
+    _lastResetFollowTime: 
+    _roomExitTime: 
+    _giftCoin: 0
+    _canFollow: 2
+    _items: 0000000000000000000000000000000000000000
+    _storedItems: 000000000000000000000000
+    _unitPos: 000000000000000000000000000000000000000000000000000000000000000000000000
+    _isStageClear: 000000000000000000000000000000000000000000
+    _followingIds: []
+    _unitDatas: []

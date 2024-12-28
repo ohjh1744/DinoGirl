@@ -25,7 +25,7 @@ public class IdleReward : MonoBehaviour
     // 시간 계산하기
     public void CalculateIdleReward()
     {
-        string exitTimeStr = PlayerDataManager.Instance.PlayerData.ExitTime;
+        string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
         DateTime exitTime = DateTime.Parse(exitTimeStr);
         TimeSpan idleTime = DateTime.Now - exitTime;
 
@@ -59,7 +59,7 @@ public class IdleReward : MonoBehaviour
     {
         string curTime = DateTime.Now.ToString();
 
-        PlayerDataManager.Instance.PlayerData.ExitTime = curTime;
+        PlayerDataManager.Instance.PlayerData.RoomExitTime = curTime;
 
         // string userId = BackendManager.Auth.CurrentUser.UserId;
         string userId = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
