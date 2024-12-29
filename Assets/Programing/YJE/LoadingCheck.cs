@@ -14,16 +14,18 @@ public class LoadingCheck : MonoBehaviour
     private void Update()
     {
         // TODO : 임의의 테스트 용 주석처리 필요
-        if (PlayerDataManager.Instance.PlayerData.UnitDatas[0] != null)
-        {
             if (CsvDataManager.Instance.IsLoad)
             {
                 if (gachaSceneController.IsLoading) // 최종으로 남을 로딩 부분
                 {
+                    // TODO : 이벤트로 IsLoadingClear를 설정하여 실행시키기
+                    // - BaseGachaPanel을 활성화하고
+                    // - ChangeBaseGachaBtn 활성화
+                    // - ChangeEventGachaBtn 활성화
+                    // - ShopCharacter 활성화
                     gameObject.SetActive(false);
                 }
             }
-        }
         else
         {
             return;
