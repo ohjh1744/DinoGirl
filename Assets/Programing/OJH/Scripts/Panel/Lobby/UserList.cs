@@ -28,13 +28,21 @@ public class UserList : MonoBehaviour
 
         //Firebase에 추가
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_friendIds");
-
         root.SetValueAsync(PlayerDataManager.Instance.PlayerData.FriendIds);
 
+
         Debug.Log("친구추가!");
+        DecreaseCanFollow();
         GiveCoin();
     }
 
+    //canFollow 변수 감소 후 Firebase에 Update
+    private void DecreaseCanFollow()
+    {
+        PlayerDataManager.Instance.PlayerData.CanAddFriend--;
+        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_canAddFriend");
+        root.SetValueAsync(PlayerDataManager.Instance.PlayerData.CanAddFriend);
+    }
 
     // 친구 추가하면서 Coin 선물
     private void GiveCoin()

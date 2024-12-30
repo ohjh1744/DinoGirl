@@ -27,9 +27,9 @@ public class PlayerData
 
     public Dictionary<string, object> Gift { get { return _gift; } set { _gift = value; } }
 
-    [SerializeField] private int _canFollow;
+    [SerializeField] private int _canAddFriend;
 
-    public int CanFollow { get { return _canFollow; } set { _canFollow = value; } }
+    public int CanAddFriend { get { return _canAddFriend; } set { _canAddFriend = value; } }
 
     [SerializeField] private int[] _items;
 
