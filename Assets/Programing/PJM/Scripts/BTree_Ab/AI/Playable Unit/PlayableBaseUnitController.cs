@@ -14,11 +14,16 @@ public abstract class PlayableBaseUnitController : BaseUnitController
     private bool _isSkillRunning;
     public bool IsSkillRunning { get => _isSkillRunning; protected set => _isSkillRunning = value; }
     
-    private List<Transform> _skillTargets;
-    public List<Transform> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
+    private List<BaseUnitController> _skillTargets;
+    public List<BaseUnitController> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
 
     private bool _skillInputed;
     public bool SkillInputed { get => _skillInputed;  set => _skillInputed = value; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     
     protected override void Start()
     {
@@ -102,6 +107,9 @@ public abstract class PlayableBaseUnitController : BaseUnitController
     protected bool CheckAutoOn()
     {
         // Todo : 배틀매니저에서 오토전투가 On 되었는지 확인함
+        if(TempBattleContext.Instance == null)
+            return false;
+        
         return TempBattleContext.Instance.isAutoOn;
     }
 

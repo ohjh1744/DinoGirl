@@ -40,6 +40,8 @@ public class SkillUIView : UIBInder
         //Debug.Log($"{TempBattleContext.Instance.players[0].CoolTimeCounter} | {SkillSlots[0].remainingTime}");
     }
 
+
+
     private void InitializeSkillSlots()
     {
         SkillSlots = new List<SkillSlot>();
@@ -102,7 +104,11 @@ public class SkillUIView : UIBInder
             slot.isCooling = true;*/
 
             var index = slotIndex;
+            
             AddEvent($"Skill{slotIndex}Button",EventType.Click, _ => OnSkillButtonTouched(index));
+            
+            // 각 플레이어가 죽었을 때 버튼에도 처리가 필요함 ex) 비활성화
+            player.UnitModel.OnDeath += slot.HandleDeath;
             
             SkillSlots.Add(slot);
             slotIndex++;
@@ -130,18 +136,9 @@ public class SkillUIView : UIBInder
         //HideSkillSetting(slotIndex);
     }
 
-    public void HideSkillSetting(int slotIndex)
+    private void HandleDestroyed()
     {
-        /*// 잘못된 범위일경우 return
-        if (slotIndex < 0 || slotIndex >= SkillSlots.Count)
-        {
-            Debug.Log("잘못된 스킬 슬롯 인덱스");
-            return;
-        }
-        SkillSlots[slotIndex].hideImage.gameObject.SetActive(true);
-
-        SkillSlots[slotIndex].remainingTime = SkillSlots[slotIndex].skillTime;
-        SkillSlots[slotIndex].isCooling = true;*/
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -202,6 +199,20 @@ public class SkillUIView : UIBInder
                 
         }
     }*/
+    
+    public void HideSkillSetting(int slotIndex)
+    {
+        /*// 잘못된 범위일경우 return
+        if (slotIndex < 0 || slotIndex >= SkillSlots.Count)
+        {
+            Debug.Log("잘못된 스킬 슬롯 인덱스");
+            return;
+        }
+        SkillSlots[slotIndex].hideImage.gameObject.SetActive(true);
+
+        SkillSlots[slotIndex].remainingTime = SkillSlots[slotIndex].skillTime;
+        SkillSlots[slotIndex].isCooling = true;*/
+    }
 
 }
 

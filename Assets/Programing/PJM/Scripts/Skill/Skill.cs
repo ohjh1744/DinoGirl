@@ -13,8 +13,8 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private int maxTargetingNum;
     public int MaxTargetingNum {get => maxTargetingNum;}
     
-    [SerializeField] private int skillRatio;
-    public int SkillRatio {get => skillRatio; protected set => skillRatio = value; }
+    [SerializeField] private float skillRatio;
+    public float SkillRatio {get => skillRatio; protected set => skillRatio = value; }
     [SerializeField] private float cooltime;
     public float Cooltime {get => cooltime; protected set => cooltime = value; }
     
@@ -38,10 +38,10 @@ public abstract class Skill : ScriptableObject
     }*/
 
     // 타겟 설정
-    protected abstract BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets);
+    protected abstract BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets);
 
     // 스킬 실행
-    protected abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets);
+    protected abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets);
 
     /*protected virtual void ResetTargets()
     {
@@ -51,7 +51,7 @@ public abstract class Skill : ScriptableObject
     // 스킬 행동 트리를 반환하는 메서드
     //public abstract SequenceNode CreateSkillBTree(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar, Animator unitAnimator);
     
-    public SequenceNode CreateSkillBTree(BaseUnitController caster,List<Transform> targets)
+    public SequenceNode CreateSkillBTree(BaseUnitController caster,List<BaseUnitController> targets)
     {
         return new SequenceNode
         (
@@ -64,12 +64,12 @@ public abstract class Skill : ScriptableObject
         );
     }
 
-    public BaseNode CreatePerformNode(BaseUnitController caster,List<Transform> targets)
+    public BaseNode CreatePerformNode(BaseUnitController caster,List<BaseUnitController> targets)
     {
         return new ActionNode(() => Perform(caster, targets));
     }
 
-    protected void ResetTargets(List<Transform> targets)
+    protected void ResetTargets(List<BaseUnitController> targets)
     {
         targets.Clear();
     }

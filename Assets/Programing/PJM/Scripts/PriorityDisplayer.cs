@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PriorityDisplayer : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer renderer;
+    /*[SerializeField] SpriteRenderer renderer;
     [SerializeField] private bool checker;
     
     private void Start()
@@ -20,5 +20,5 @@ public class PriorityDisplayer : MonoBehaviour
         {
             renderer.color = Color.blue;
         }
-    }
+    }*/
 }
