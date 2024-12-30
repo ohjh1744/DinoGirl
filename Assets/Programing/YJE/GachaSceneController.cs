@@ -1,66 +1,125 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO : 
+// 1. Firebase에 저장된 플레이어 데이터를 확인하고
+//    - 다이노 스톤이 부족한 경우 뽑기 진행 x
+//    - 뽑기를 진행하는 경우 변경된 다이노 스톤 재화를 Firebase에 전송
+// 2. 뽑기 결과를 정리하여 Firebase에 변경된 값을 전송
+//    - Item의 경우 기존 플레이어의 데이터에 더한 값으로 전송
+//    - 캐릭터의 경우 기존 플레이어가 가지고 있는지 확인
+//      1. 플레이어가 가지고 있는 경우 아이템으로 반환하여 전송
+//      2. 플레이어가 가지고 있지 않은 경우 플레이어 데이터의 유닛에 추가로 전송
+
 /// <summary>
 /// GachaScene의 전체적인 관리를 하는 스크립트
+/// - CsvDataManager와 연결
+/// - PlayData와 연결
 /// - UIBInder를 사용하여 이벤트 선언 후 알맞게 이벤트로 각 UI의 활성화 설정
 /// </summary>
 public class GachaSceneController : UIBInder
 {
-    private bool isLoading = false;
-    public bool IsLoading { get { return isLoading; } set { isLoading = value; } }
+    GachaBtn gachaBtn;
+
     // csvDataManager.cs에서 가져올 특정 DataList를 받을 Disctionary
-    Dictionary<int, Dictionary<string, string>> gachaList = new Dictionary<int, Dictionary<string, string>>();
+    Dictionary<int, Dictionary<string, string>> dataBaseList = new Dictionary<int, Dictionary<string, string>>();
+
+    public Dictionary<int, GachaItem> ItemDictionary = new Dictionary<int, GachaItem>();
 
     [Header("Gacha Lists")]
-    [SerializeField] public List<Gacha> baseGachaList = new List<Gacha>();
-    [SerializeField] public List<Gacha> eventGachaList = new List<Gacha>();
+    public List<Gacha> baseGachaList = new List<Gacha>();
+    public List<Gacha> eventGachaList = new List<Gacha>();
+
+    [Header("UI")]
+    [SerializeField] RectTransform singleResultContent; // 1연차 결과 내역 프리팹이 생성 될 위치
+    [SerializeField] RectTransform tenResultContent; // 10연차 결과 내역 프리팹이 생성 될 위치
+    [SerializeField] GameObject resultCharPrefab; // 결과가 캐릭터인 경우 사용할 프리팹
+    [SerializeField] GameObject resultItemPrefab; // 결과가 아이템인 경우 사용할 프리팹
 
     private void Awake()
     {
+        gachaBtn = gameObject.GetComponent<GachaBtn>();
         BindAll();
-        //MakeGachaList();
-        ShowUIStart();
-        DisablePanel();
+        // SettingStartUI();
+        SettingStartPanel();
 
     }
-    private void Start()
+    /// <summary>
+    /// 시작 시 버튼의 문구 설정
+    /// - 버튼의 문구 변경 가능
+    //  - LoadingCheck.cs에서 이벤트로 사용
+    /// </summary>
+    public void SettingStartUI()
     {
-
+        // 각 Button 텍스트 설정
+        GetUI<TextMeshProUGUI>("BaseSingleText").SetText("1회 뽑기");
+        GetUI<TextMeshProUGUI>("BaseTenText").SetText("10회 뽑기");
+        GetUI<TextMeshProUGUI>("EventSingleText").SetText("1회 뽑기");
+        GetUI<TextMeshProUGUI>("EventTenText").SetText("10회 뽑기");
+        GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("상설");
+        GetUI<TextMeshProUGUI>("ChangeEventGacahText").SetText("이벤트");
+        UpdatePlayerUI();
+    }
+    /// <summary>
+    /// 각 Item 재화 상단 표시
+    /// - 변동 시 계속 업데이트가 필요하므로 함수로 제작하여 사용
+    /// </summary>
+    public void UpdatePlayerUI()
+    {
+        GetUI<TextMeshProUGUI>("CoinText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin].ToString());
+        GetUI<TextMeshProUGUI>("DinoBloodText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood].ToString());
+        GetUI<TextMeshProUGUI>("BoneCrystalText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal].ToString());
+        GetUI<TextMeshProUGUI>("DinoStoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone].ToString());
+        GetUI<TextMeshProUGUI>("StoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone].ToString());
+    }
+    /// <summary>
+    /// 시작 시 패널 활성화와 비활성화 설정
+    /// </summary>
+    private void SettingStartPanel()
+    {
+        GetUI<Image>("BaseGachaPanel").gameObject.SetActive(true);
+        GetUI<Image>("EventGachaPanel").gameObject.SetActive(false);
+        GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
+        GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
+        GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(true);
+        GetUI<Image>("ShopCharacter").gameObject.SetActive(false);
     }
 
     /// <summary>
     /// csv데이터로 알맞은 가차 리스트를 분리하는 함수
+    //  - LoadingCheck.cs에서 이벤트로 사용
     /// - 새로운 가챠 내용을 리스트를 추가하려는 경우
     ///     1. csv 파일에 GachaGroup을 묶어서 내용 수정
     ///     2. LoadingCheck 스크립트 앞에 GachaGroup의 종류만큼 리스트 선언
     ///     2. 함수의 switch문에 새로운 case로 GachaGroup 분기점 제작
     ///     3. 각 GachaGroup별 리스트 초기화
     /// </summary>
-    private void MakeGachaList()
+    public void MakeGachaList()
     {
-        gachaList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Gacha]; // csv데이터로 가챠리스트 가져오기
-        for (int i = 0; i < gachaList.Count; i++)
+        dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Gacha]; // csv데이터로 가챠리스트 가져오기
+        for (int i = 1; i < dataBaseList.Count; i++)
         {
+            Debug.Log(dataBaseList[i]["Check"]);
             Gacha gachatem = new Gacha();
-            gachatem.Check = TypeCastManager.Instance.TryParseInt(gachaList[i]["Check"]);
+            gachatem.Check = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Check"]);
             switch (gachatem.Check) // 종류를 확인
             {
                 case 1: // 종류가 Item인 경우
-                    gachatem.ItemId = TypeCastManager.Instance.TryParseInt(gachaList[i]["ItemID"]);
+                    gachatem.ItemId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["ItemID"]);
                     break;
                 case 2: // 종류가 Character인 경우
-                    gachatem.CharId = TypeCastManager.Instance.TryParseInt(gachaList[i]["CharID"]);
+                    gachatem.CharId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["CharID"]);
                     break;
                 default:
                     break;
             }
-            gachatem.Probability = TypeCastManager.Instance.TryParseInt(gachaList[i]["Probability"]); // 확률 저장
-            gachatem.Count = TypeCastManager.Instance.TryParseInt(gachaList[i]["Count"]); // 반환 갯수 저장
+            gachatem.Probability = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Probability"]); // 확률 저장
+            gachatem.Count = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Count"]); // 반환 갯수 저장
 
-            switch (gachaList[i]["GachaGroup"]) // GachaGroup을 확인하여 List에 저장
+            switch (dataBaseList[i]["GachaGroup"]) // GachaGroup을 확인하여 List에 저장
             {
                 case "1":
                     baseGachaList.Add(gachatem);
@@ -73,37 +132,217 @@ public class GachaSceneController : UIBInder
             }
 
         }
-        // 모든 리스트 세팅
-        isLoading = true;
     }
 
-    private void DisablePanel()
+    /// <summary>
+    /// DB에서 받아온 Item을 GachaItme 형식의 리스트에 사용할 수 있는 형태로 저장
+    /// - GachaBtn.cs 에서 아이템을 반환할 때 UI로 연동시켜서 제작하기 위해 사용
+    //  - LoadingCheck.cs에서 이벤트로 사용
+    /// - 의문
+    ///   1. UI를 GachaBtn에서 구현하는 게 맞는지
+    ///   2. DB를 연동하는 GachaSceneController.cs에서 하는 게 맞는 것 같은데, Item과 캐릭터 모두 일일히 지정하는게
+    ///      유지보수 + 확장성 측면에서 괜찮은지 확신이 없음
+    /// </summary>
+    public void MakeItemList()
+    {
+        dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Item];
+        GachaItem gold = new GachaItem();
+        gold.ItemId = 500;
+        gold.ItemName = dataBaseList[500]["ItemName"];
+        gold.ItemImage = Resources.Load<Sprite>("Lottery/TestG");
+        ItemDictionary.Add(gold.ItemId, gold);
+
+        GachaItem dinoBlood = new GachaItem();
+        dinoBlood.ItemId = 501;
+        dinoBlood.ItemName = dataBaseList[501]["ItemName"];
+        dinoBlood.ItemImage = Resources.Load<Sprite>("Lottery/TestDB");
+        ItemDictionary.Add(dinoBlood.ItemId, dinoBlood);
+
+        GachaItem boneCrystal = new GachaItem();
+        boneCrystal.ItemId = 502;
+        boneCrystal.ItemName = dataBaseList[502]["ItemName"];
+        boneCrystal.ItemImage = Resources.Load<Sprite>("Lottery/TestBC");
+        ItemDictionary.Add(boneCrystal.ItemId, boneCrystal);
+
+        GachaItem dinoStone = new GachaItem();
+        dinoStone.ItemId = 503;
+        dinoStone.ItemName = dataBaseList[503]["ItemName"];
+        dinoStone.ItemImage = Resources.Load<Sprite>("Lottery/TestDS");
+        ItemDictionary.Add(dinoStone.ItemId, dinoStone);
+
+        GachaItem stone = new GachaItem();
+        stone.ItemId = 504;
+        stone.ItemName = dataBaseList[504]["ItemName"];
+        stone.ItemImage = Resources.Load<Sprite>("Lottery/TestS");
+        ItemDictionary.Add(stone.ItemId, stone);
+
+    }
+
+    /// <summary>
+    /// UI버튼세팅
+    //  - LoadingCheck.cs에서 이벤트로 사용
+    /// </summary>
+    public void SettingBtn()
+    {
+        // 결과패널 버튼 클릭 시 패널 비활성화 함수 연결
+        GetUI<Button>("SingleResultPanel").onClick.AddListener(DisabledGachaResultPanel);
+        GetUI<Button>("TenResultPanel").onClick.AddListener(DisabledGachaResultPanel);
+        // GachaBtn 스크립트의 각 버튼별 함수 연결
+        GetUI<Button>("BaseSingleBtn").onClick.AddListener(gachaBtn.BaseSingleBtn);
+        GetUI<Button>("BaseTenBtn").onClick.AddListener(gachaBtn.BaseTenBtn);
+        GetUI<Button>("EventSingleBtn").onClick.AddListener(gachaBtn.EventSingleBtn);
+        GetUI<Button>("EventTenBtn").onClick.AddListener(gachaBtn.EventTenBtn);
+        // Gacha 종류 변경 버튼 함수 연동
+        GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(ShowBaseGachaPanel);
+        GetUI<Button>("ChangeEventGachaBtn").onClick.AddListener(ShowEventGachaPanel);
+    }
+
+    /// <summary>
+    /// BaseGachaPanel 활성화
+    /// - EventGachaPanel 비활성화
+    /// ChangeBaseGachaBtn에 설정
+    /// </summary>
+    private void ShowBaseGachaPanel()
     {
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(true);
         GetUI<Image>("EventGachaPanel").gameObject.SetActive(false);
-        GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// EventGachaPanel 활성화
+    /// - BaseGachaPanel 비활성화
+    /// ChangeEventGachaBtn에 설정
+    /// </summary>
+    private void ShowEventGachaPanel()
+    {
+        GetUI<Image>("EventGachaPanel").gameObject.SetActive(true);
+        GetUI<Image>("BaseGachaPanel").gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Single/TenResult Panel 활성화 시 비활성화 하는 UI
+    /// </summary>
+    private void ShowResultPanelDisable()
+    {
+        // 기본 뽑기 종류 변경 버튼 비활성화
+        GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(false);
+        GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(false);
+        // 각 아이템 재화 Text 비활성화
+        GetUI<TextMeshProUGUI>("CoinText").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("DinoBloodText").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("BoneCrystalText").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("DinoStoneText").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("StoneText").gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// SingleResultPanel 활성화
+    //  - GachaBtn.cs에서 사용
+    /// </summary>
+    public void ShowSingleResultPanel()
+    {
+        GetUI<Image>("GachaResultPanel").gameObject.SetActive(true);
+        GetUI<Image>("SingleResultPanel").gameObject.SetActive(true);
+        GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
+        ShowResultPanelDisable(); // 비활성화 함수
+    }
+    /// <summary>
+    /// TenResultPanel 활성화
+    //  - GachaBtn.cs에서 사용
+    /// </summary>
+    public void ShowTenResultPanel()
+    {
+        GetUI<Image>("GachaResultPanel").gameObject.SetActive(true);
+        GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
+        GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
+        ShowResultPanelDisable(); // 비활성화 함수
+    }
+ 
+
+    /// <summary>
+    /// GachaResultPanel 비활성화
+    /// - 결과 저장 리스트를 초기화
+    /// - 결과 패널을 비활성화
+    // - GachaBtn.cs에서도 사용
+    /// </summary>
+    public void DisabledGachaResultPanel()
+    {
+        gachaBtn.ClearResultList(); // 뽑기의 결과는 GachaBtn 스크립트에 저장되어있으로 초기화 필수
+        // 기본 뽑기 종류 변경 버튼 활성화
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
         GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(true);
-        GetUI<Image>("ShopCharacter").gameObject.SetActive(false);
+        // 결과 패널 비활성화
+        GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
+        GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
+        GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
+        // 각 아이템 재화 Text 활성화
+        GetUI<TextMeshProUGUI>("CoinText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("DinoBloodText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("BoneCrystalText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("DinoStoneText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("StoneText").gameObject.SetActive(true);
     }
-    private void ShowUIStart()
+
+    /// <summary>
+    /// 1회 뽑기 실행 시
+    /// GachaList와 index값을 받아서 해당하는 결과가 아이템/캐릭터인지 판단
+    /// 분류에 따른 Prefab으로 GameObject를 생성
+    /// 알맞은 결과를 UI로 출력
+    /// GameObject로 반환하는 함수
+    //  - GachaBtn.cs에서 사용
+    /// </summary>
+    /// <param name="GachaList"></param>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public GameObject GachaSingleResultUI(List<Gacha> GachaList, int index)
     {
-        GetUI<TextMeshProUGUI>("BaseSingleText").SetText("1회 뽑기");
-        GetUI<TextMeshProUGUI>("BaseTenText").SetText("10회 뽑기");
-        GetUI<TextMeshProUGUI>("EventSingleText").SetText("1회 뽑기");
-        GetUI<TextMeshProUGUI>("EventTenText").SetText("10회 뽑기");
-        GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("상설");
-        GetUI<TextMeshProUGUI>("ChangeEventGacahText").SetText("이벤트");
+        switch (GachaList[index].Check)
+        {
+            case 1: // 반환이 아이템인 경우
+                GachaItem result = ItemDictionary[GachaList[index].ItemId];
+                GameObject resultUI = Instantiate(resultItemPrefab, singleResultContent);
+
+                // 알맞은 UI 출력
+                resultUI.transform.GetChild(0).GetComponent<Image>().sprite = result.ItemImage;
+                resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = result.ItemName;
+                resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = GachaList[index].Count.ToString();
+                return resultUI;
+            case 2:
+                // TODO : 반환이 캐릭터인 경우
+                return null;
+            default:
+                return null;
+        }
     }
 
-    private void SettingList()
+    /// <summary>
+    /// 10회 뽑기 실행 시
+    /// GachaList와 index값을 받아서 해당하는 결과가 아이템/캐릭터인지 판단
+    /// 분류에 따른 Prefab으로 GameObject를 생성
+    /// 알맞은 결과를 UI로 출력
+    /// GameObject로 반환하는 함수
+    //  - GachaBtn.cs에서 사용
+    /// </summary>
+    /// <param name="GachaList"></param>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public GameObject GachaTenResultUI(List<Gacha> GachaList, int index)
     {
+        switch (GachaList[index].Check)
+        {
+            case 1: // 반환이 아이템인 경우
+                GachaItem result = ItemDictionary[GachaList[index].ItemId];
+                GameObject resultUI = Instantiate(resultItemPrefab, tenResultContent);
 
+                // 알맞은 UI 출력
+                resultUI.transform.GetChild(0).GetComponent<Image>().sprite = result.ItemImage;
+                resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = result.ItemName;
+                resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = GachaList[index].Count.ToString();
+                return resultUI;
+            case 2:
+                // TODO : 반환이 캐릭터인 경우
+                return null;
+            default:
+                return null;
+        }
     }
-
-    private void SettingBtn()
-    {
-
-    }
-
 }
