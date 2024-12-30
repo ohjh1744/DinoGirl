@@ -65,9 +65,9 @@ public class PlayerData
 
     public bool[] IsStageClear { get { return _isStageClear; } private set { } }
 
-    [SerializeField] private List<string> _followingIds;
+    [SerializeField] private List<string> _friendIds;
 
-    public List<string> FollowingIds { get { return _followingIds; } private set { } }
+    public List<string> FriendIds { get { return _friendIds; } private set { } }
 
     [SerializeField] private List<PlayerUnitData> _unitDatas;
 
