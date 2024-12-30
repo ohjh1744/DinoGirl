@@ -13,8 +13,8 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private int maxTargetingNum;
     public int MaxTargetingNum {get => maxTargetingNum;}
     
-    [SerializeField] private int skillRatio;
-    public int SkillRatio {get => skillRatio; protected set => skillRatio = value; }
+    [SerializeField] private float skillRatio;
+    public float SkillRatio {get => skillRatio; protected set => skillRatio = value; }
     [SerializeField] private float cooltime;
     public float Cooltime {get => cooltime; protected set => cooltime = value; }
     

@@ -73,7 +73,26 @@ public class UnitModel : MonoBehaviour
         
         Hp -= calcDamage;
         
-        Debug.Log($"{damage} 받음. 현재 hp : {Hp}/{MaxHp}");
+        Debug.Log($"데미지 : {damage} 받음. 현재 hp : {Hp}/{MaxHp}");
+    }
+
+    public void TakeHeal(int heal)
+    {
+        if (Hp <= 0)
+        {
+            Debug.LogWarning("이미 hp가 0입니다.");
+            return;
+        }
+
+        int calcHeal = heal; // 치유 감소가 있을경우 추가 로직 구현
+        if (Hp + heal >= MaxHp)
+        {
+            calcHeal = MaxHp - Hp;
+        }
+        
+        Hp += calcHeal;
+        
+        Debug.Log($"힐 : {heal} 받음. 현재 hp : {Hp}/{MaxHp}");
     }
 
     private void Die()
