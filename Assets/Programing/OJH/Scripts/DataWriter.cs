@@ -8,7 +8,6 @@ public class DataWriter : MonoBehaviour
 {
     [SerializeField] private int _baseUnitNum; //계정 생성후 갖고있는 캐릭터 개수.
 
-
     [SerializeField] private int[] _baseUnitIds;// 캐릭터 ID
 
     [SerializeField] private string _uID;
