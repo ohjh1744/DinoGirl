@@ -2,6 +2,7 @@ using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UserList : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class UserList : MonoBehaviour
     public string OtherId { get { return _otherId; } set { _otherId = value; } }
 
     [SerializeField] private int _giveCoin;
+
+    [SerializeField] private Button _button;
 
     public void AddFriend()
     {
@@ -33,7 +36,11 @@ public class UserList : MonoBehaviour
 
         Debug.Log("친구추가!");
         DecreaseCanFollow();
+        GetCoin();
         GiveCoin();
+
+        //친구 추가 성공적으로 끝났다면 상호작용 false.
+        _button.interactable = false;
     }
 
     //canFollow 변수 감소 후 Firebase에 Update
@@ -42,6 +49,23 @@ public class UserList : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.CanAddFriend--;
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_canAddFriend");
         root.SetValueAsync(PlayerDataManager.Instance.PlayerData.CanAddFriend);
+    }
+
+    // 친구 추가시 본인도 Coin 받기
+    private void GetCoin()
+    {
+        //Coin 값 변경
+        int coin = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] + _giveCoin;
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, coin);
+
+        //Backend에서도 변경
+        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic[$"/{(int)E_Item.Coin}"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
+        root.UpdateChildrenAsync(dic);
+
+        Debug.Log("bbbb");
+        
     }
 
     // 친구 추가하면서 Coin 선물
