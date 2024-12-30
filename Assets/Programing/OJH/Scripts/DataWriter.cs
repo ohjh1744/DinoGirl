@@ -23,6 +23,7 @@ public class DataWriter : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.PlayerName = _name;
         PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("o");
         PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("o");
+        PlayerDataManager.Instance.PlayerData.Gift.Add("Player", 0); // Dictionary를 Db에 저장하기 위해 임시 초기값 설정
 
         for (int i = 0; i < _baseUnitNum; i++)
         {
@@ -37,8 +38,8 @@ public class DataWriter : MonoBehaviour
         //Json으로 변환후 저장.
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
-
-
+        //Dictionary는 List처럼 json 불가?
+        root.Child("_gift").SetValueAsync(PlayerDataManager.Instance.PlayerData.Gift);
     }
 
 
