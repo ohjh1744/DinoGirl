@@ -62,6 +62,8 @@ public class IdleReward : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.SetStoredItem((int)E_Item.BoneCrystal, boneCrystalReward);
 
         Debug.Log($"Gold: {goldReward} DinoBlood: {dinoBloodReward} BoneCrystal: {boneCrystalReward}");
+
+        UpdateStoredItemsInDatabase();
     }
 
     // 아이템 계산
@@ -76,6 +78,34 @@ public class IdleReward : MonoBehaviour
         return 0;
     }
 
+    // 데이터베이스에 방치형 아이템 저장
+    private void UpdateStoredItemsInDatabase()
+    {
+        // string userId = BackendManager.Auth.CurrentUser.UserId;
+        string userId = "sinEKs9IWRPuWNbboKov1fKgmab2";
+        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId).Child("_storedItems");
+
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            ["0"] = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.Coin],
+            ["1"] = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.DinoBlood],
+            ["2"] = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.BoneCrystal],
+        };
+
+        userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.Log($"방치형 아이템 갱신 실패 {task.Exception}");
+            }
+            if (task.IsCanceled)
+            {
+                Debug.LogError($"방치형 아이템 갱신 중단됨 {task.Exception}");
+            }
+            Debug.Log("방치형 보상 저장됨");
+        });
+    }
+
     // 종료 시간 저장
     public void SaveExitTime()
     {
@@ -87,7 +117,7 @@ public class IdleReward : MonoBehaviour
         string userId = "sinEKs9IWRPuWNbboKov1fKgmab2";
         DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
 
-        userRef.Child("_exitTime").SetValueAsync(curTime).ContinueWithOnMainThread(task =>
+        userRef.Child("_roomExitTime").SetValueAsync(curTime).ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
             {
