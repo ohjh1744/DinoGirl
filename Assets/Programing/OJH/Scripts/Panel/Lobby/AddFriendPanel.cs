@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UserListPanel : MonoBehaviour
+public class AddFriendPanel : MonoBehaviour
 {
     [SerializeField] private GameObject _userList;
 
@@ -20,10 +20,10 @@ public class UserListPanel : MonoBehaviour
 
     private void Start()
     {
-        GetOthersData();
+        GetUserData();
     }
 
-    private void GetOthersData()
+    private void GetUserData()
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
 
@@ -54,9 +54,19 @@ public class UserListPanel : MonoBehaviour
                     break;
                 }
 
+                // 본인은 제외.
                 if (userChildren[i].Key.ToString() == user.UserId)
                 {
                     continue;
+                }
+
+                // 이미 친구면 제외.
+                foreach(string friendId in PlayerDataManager.Instance.PlayerData.FriendIds)
+                {
+                    if(userChildren[i].Key.ToString() == friendId)
+                    {
+                        continue;
+                    }
                 }
 
                 GameObject userInfo = Instantiate(_userList, _content);
