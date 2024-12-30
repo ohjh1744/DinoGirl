@@ -3,6 +3,7 @@ using Firebase.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class IdleReward : MonoBehaviour
@@ -68,8 +69,12 @@ public class IdleReward : MonoBehaviour
     {
         if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
-            float rewardPerHour = float.Parse(data["PerHour"]);
+            // 스테이지에 따른 시간당 보상
+            int rewardPerHour = GetRewardPerHour(housingId);
+                       
             int reward = Mathf.FloorToInt(rewardPerHour * seconds / 1f);
+            // int hours = seconds / 3600;
+            // int reward = Mathf.FloorToInt(rewardPerHour * hours);
             return reward;
         }
         return 0;
@@ -140,10 +145,45 @@ public class IdleReward : MonoBehaviour
         return idleSeconds >= 3600;
     }
 
+    // 방치한 시간
     public TimeSpan GetIdleTime()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
         DateTime exitTime = DateTime.Parse(exitTimeStr);
         return DateTime.Now - exitTime;
+    }
+
+    // 스테이지 진행에 따른 보상
+    private int GetRewardPerHour(int housingId)
+    {
+        if(housingData.TryGetValue(housingId, out Dictionary<string, string> data))
+        {
+            int baseReward = int.Parse(data["PerHour"]);
+
+            // 클리어한 스테이지의 수
+            int clearedStages = PlayerDataManager.Instance.PlayerData.IsStageClear.Count(x => x);
+
+            if (clearedStages >= 7 && data.TryGetValue("2MaxStorage", out string storage2))
+            {
+                Debug.Log("storage2");
+                return int.Parse(storage2);
+            }
+            else if (clearedStages >= 5 && data.TryGetValue("1MaxStorage", out string storage1))
+            {
+                Debug.Log("storage1");
+                return int.Parse(storage1);
+            }
+            else if(clearedStages >= 2 && data.TryGetValue("0MaxStorage", out string storage0))
+            {
+                Debug.Log("storage0");
+                return int.Parse(storage0);
+            }
+            else
+            {
+                Debug.Log("basereward");
+                return baseReward;
+            }
+        }
+        return 0;
     }
 }

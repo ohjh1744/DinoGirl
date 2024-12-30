@@ -131,12 +131,19 @@ public class RoomPanel : UIBInder
     // 방치시간 타이머 텍스트
     private IEnumerator UpdateIdleTimeCoroutine()
     {
+        TimeSpan lastCalcTime = TimeSpan.Zero;
+
         while (true)
         {
-            idleReward.CalculateIdleReward();
-
             TimeSpan idleTime = idleReward.GetIdleTime();
+
             GetUI<TextMeshProUGUI>("IdleTimeText").text = $"{idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+
+            if(idleTime.Seconds > lastCalcTime.Seconds)
+            {
+                idleReward.CalculateIdleReward();
+                lastCalcTime = idleTime;
+            }
 
             yield return new WaitForSeconds(1f);
         }
