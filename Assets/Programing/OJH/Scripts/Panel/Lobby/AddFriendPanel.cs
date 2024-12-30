@@ -20,10 +20,11 @@ public class AddFriendPanel : MonoBehaviour
 
     private bool _isFriend;
 
-    private void OnEnable()
+    private void Start()
     {
         GetUserData();
     }
+
 
     private void GetUserData()
     {
