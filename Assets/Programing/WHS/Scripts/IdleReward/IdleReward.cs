@@ -17,11 +17,7 @@ public class IdleReward : MonoBehaviour
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() =>
-            PlayerDataManager.Instance != null &&
-            PlayerDataManager.Instance.PlayerData != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
         Debug.Log($"{housingData.Count}");
@@ -43,7 +39,7 @@ public class IdleReward : MonoBehaviour
     }
     */
 
-    // 시간 계산하기
+    // 방치시간 계산하기
     public void CalculateIdleReward()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
@@ -63,11 +59,12 @@ public class IdleReward : MonoBehaviour
 
         Debug.Log($"Gold: {goldReward} DinoBlood: {dinoBloodReward} BoneCrystal: {boneCrystalReward}");
 
+        // 데이터베이스에 방치형 아이템 저장
         UpdateStoredItemsInDatabase();
     }
 
     // 아이템 계산
-    private int CalculateReward(int housingId, int seconds)
+    public int CalculateReward(int housingId, int seconds)
     {
         if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
@@ -132,6 +129,7 @@ public class IdleReward : MonoBehaviour
         });
     }
 
+    // 타이머 1시간 이상부터 수령버튼 활성화
     public bool HasIdleReward()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
@@ -140,5 +138,12 @@ public class IdleReward : MonoBehaviour
 
         int idleSeconds = (int)idleTime.TotalSeconds;
         return idleSeconds >= 3600;
+    }
+
+    public TimeSpan GetIdleTime()
+    {
+        string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
+        DateTime exitTime = DateTime.Parse(exitTimeStr);
+        return DateTime.Now - exitTime;
     }
 }
