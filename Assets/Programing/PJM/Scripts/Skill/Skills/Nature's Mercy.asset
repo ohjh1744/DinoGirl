@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
-  m_Name: WarningShot
+  m_Script: {fileID: 11500000, guid: 6ce3950f69c3c2f45b875ffcae4ca404, type: 3}
+  m_Name: Nature's Mercy
   m_EditorClassIdentifier: 
   _skillName: 
-  _skillRange: 5
-  skillRatio: 0
-  cooltime: 3
-  _skillIcon: {fileID: -1547655838456603242, guid: b4e22c5c0b3f4e044b24ced64a629856, type: 3}
+  _skillRange: 10
+  maxTargetingNum: 1
+  skillRatio: 0.5
+  cooltime: 12
+  _skillIcon: {fileID: 21300000, guid: 5917647fadeb0fe448c7b34ade7d73d6, type: 3}

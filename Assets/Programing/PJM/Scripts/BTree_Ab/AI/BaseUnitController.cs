@@ -57,14 +57,18 @@ public abstract class BaseUnitController : MonoBehaviour
     public float CoolTimeCounter { get; set; }
     public bool IsSkillRunning { get; set; }
 
+    protected virtual void Awake()
+    {
+        UnitViewer = GetComponent<UnitView>();
+        UnitModel = GetComponent<UnitModel>();
+    }
 
     protected virtual void Start()
     {
         SetLayer();
         SetDetectingArea();
         //UnitAnimator = GetComponent<Animator>();
-        UnitViewer = GetComponent<UnitView>();
-        UnitModel = GetComponent<UnitModel>();
+
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }

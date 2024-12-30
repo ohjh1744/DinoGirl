@@ -12,9 +12,10 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
     public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }*/
 
     //[SerializeField] private bool _isAssassin;
-    protected void Awake()
+    protected override void Awake()
     {
-        SkillTargets = new List<Transform>();
+        base.Awake();
+        SkillTargets = new List<BaseUnitController>();
         //DetectRange = 20.0f;
         //AttackRange = 2.0f;
         //MoveSpeed = 2.0f;
@@ -60,18 +61,6 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
                                 UniqueSkill.CreateSkillBTree(this, SkillTargets)
                             }
                         ),
-                   
-
-                        /*new SequenceNode // Use Skill
-                            // 아군,적대상, 거리체크, 대상체크, ...
-                        (
-                            new List<BaseNode>()
-                            {
-                                new ConditionNode(CheckSkillRange),
-                                new ActionNode(SetTargetToSkill),
-                                new ActionNode(() => PerformSkill("UsingSkill"))
-                            }
-                        ),*/
                     }
                 ),
 
@@ -89,6 +78,7 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
                     new List<BaseNode>
                     {
                         new ActionNode(SetDetectedTarget),
+                        // CheckMoveable ?
                         new ActionNode(ChaseTarget)
                     }
                 ),

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -11,18 +12,41 @@ using UnityEngine;
 public class LoadingCheck : MonoBehaviour
 {
     [SerializeField] GachaSceneController gachaSceneController;
+    private bool isLoading = false;
+
+    // GachaSceneController에서 Scene를 시작하기 전 필요한 Setting을 하는 이벤트 제작
+    private event Action OnStartSetting;
+
+    private void OnEnable()
+    {
+        OnStartSetting += gachaSceneController.SettingStartUI; // PlayerData까지 전부 불러온 후 재화 설정
+        OnStartSetting += gachaSceneController.MakeGachaList; // 그룹별로 뽑기 List Setting
+        OnStartSetting += gachaSceneController.MakeItemList; // 사용하는 Item을 GachaItme형식의 Dictionary Setting
+        OnStartSetting += gachaSceneController.SettingBtn; // 각 버튼에 알맞은 함수 할당
+    }
+    private void OnDisable()
+    {
+        // GameObject 비활성화 시 이벤트 정리
+        OnStartSetting -= gachaSceneController.SettingStartUI;
+        OnStartSetting -= gachaSceneController.MakeGachaList;
+        OnStartSetting -= gachaSceneController.MakeItemList;
+        OnStartSetting -= gachaSceneController.SettingBtn;
+    }
+
     private void Update()
     {
-        // TODO : 임의의 테스트 용 주석처리 필요
-        if (PlayerDataManager.Instance.PlayerData.UnitDatas[0] != null)
+        // CsvDataManger의 로딩이 완료되었는지 확인 - 통합테스트 시 if문 필요 x
+        // Setting 완료를 확인해서 LoadingCheck로 변경
+        if (CsvDataManager.Instance.IsLoad)
         {
-            if (CsvDataManager.Instance.IsLoad)
+            if (!isLoading)
             {
-                if (gachaSceneController.IsLoading) // 최종으로 남을 로딩 부분
-                {
-                    gameObject.SetActive(false);
-                }
+                OnStartSetting?.Invoke();
+                isLoading = true;
+                gameObject.SetActive(false);
             }
+            else
+                gameObject.SetActive(false);
         }
         else
         {

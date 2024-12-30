@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridContext : MonoBehaviour
 {
@@ -8,51 +11,139 @@ public class GridContext : MonoBehaviour
     // 배틀씬 매니저에있는 배치정보를 사용할것 
     // ui 에 보여주는건 따로?
     // 놓았을 때 주변 그리드 색이 바뀌게 
-   
-    // 기준 : 0 ~ 8 기준으로 4를 중앙으로 두고 사용 
-    private int[] Diagonal_2 = {-4,2};
-    private int[] Type_D = {-3,-2,1,3,4};
-    private int[] Bak_1 = {-1};
-    private int[] T_Spine = { -3, -1, 1 };
-    private int[] Diagonal_1 = {-2};
-    private int[] Front_3 = {-2,1,4};
-    private int[] Back_2 = {-1,2};
 
-    
+    private Vector2Int[] Diagonal_2 = { new Vector2Int(-1, -1), new Vector2Int(1, -1) };
+    private Vector2Int[] Type_D = { new Vector2Int(-1, 0), new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 0), new Vector2Int(1, 1) };
+    private Vector2Int[] Diagonal_1 = { new Vector2Int(-1, 1) };
+    private Vector2Int[] Bak_1 = { new Vector2Int(0, -1) };
+    private Vector2Int[] T_Spine = { new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
+    private Vector2Int[] Front_3 = { new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 1) };
+    private Vector2Int[] Back_2 = { new Vector2Int(-1, 0), new Vector2Int(-1, 1) };
 
 
-    
-    public void selectGridBuff(string name,int curPos) // 이름 csv 기준 그리드 버프 이름  curPos 는 0~8 기준 현재 위치 -4 한 값을 넣을 것
-                                                       //  ex 현재 위치 0  -4  = -4 
-                                                       //               7  -4  = 3 
-    {   
+    [SerializeField] Image[] myGrids;
+    [SerializeField] Color[] highLightColors;
+
+    private bool mybuff;
+    public void UpdateBuffsList(int num) 
+    {
         
+        for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++) 
+        {
+            if (BattleSceneManager.Instance.inGridObject[i] != null)
+            {
+                BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().buffs.Clear();
+            }
+        }
+        for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++)
+        {
+            if (BattleSceneManager.Instance.inGridObject[i] != null)
+            {
+                if (i == num) 
+                {
+                    mybuff = true;
+
+                    Debug.Log($"{i}:{num}");
+                }
+                showGridArea(i, BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Id);
+
+            }
+            mybuff = false;
+        }
+        
+         
+    }
+    public void showGridArea(int gridnum, int id) // 이벤트로 실행됨
+    {
+        string girdshapeName = CsvDataManager.Instance.DataLists[5][id]["Grid"];
+        selectGridBuff(girdshapeName, gridnum - 1, id); //그리드 모양(이름), 현재 위치 , 캐릭터 아이디 
+
+    }
+    public void selectGridBuff(string name, int curPos, int id) // 이름 csv 기준 그리드 버프 이름  curPos 는 0~8 기준 현재 위치 -4 한 값을 넣을 것                                                     
+    {
+        Debug.Log($"{name}:{curPos}");
         switch (name)
         {
             case "Diagonal_2":
-                applyGridBuff(curPos);
-                    break;
+                applyGridBuff(Diagonal_2, curPos, id);
+                break;
             case "Type_D":
-
-                    break;
+                applyGridBuff(Type_D, curPos, id);
+                break;
             case "T_Spine":
-
-                    break;
+                applyGridBuff(T_Spine, curPos, id);
+                break;
+            case "Bak_1":
+                applyGridBuff(Bak_1, curPos, id);
+                break;
+            case "Diagonal_1":
+                applyGridBuff(Diagonal_1, curPos, id);
+                break;
+            case "Front_3":
+                applyGridBuff(Front_3, curPos, id);
+                break;
+            case "Back_2":
+                applyGridBuff(Back_2, curPos, id);
+                break;
         }
     }
-    public void applyGridBuff(int curPos) 
+    public void applyGridBuff(Vector2Int[] gridList, int curPos, int id) // 현재 위치를 2차원으로 변경하기, 그리드에 포함된지 확인하기
     {
-        for (int i = 0; i < 9; i++) { }
+        Vector2Int Pos = ConvertTo2D(curPos);
+        for (int i = 0; i < gridList.Length; i++)
+        {
+            int x = Pos.x + gridList[i].x;
+            int y = Pos.y + gridList[i].y;
+            if (isInIndex(x, y) == true)
+            {
+                int index = ConvertTo1D(x, y);
+                if (mybuff== true) 
+                {
+                    StartCoroutine(highLightingColor(index));
+                }
+                
+                if (BattleSceneManager.Instance.inGridObject[index + 1] != null)
+                {
+                    buffeffect(id, index + 1);
+                }
+
+            }
+        }
+    }
+    private void buffeffect(int id, int index)  // 1 체력 2 공격력 3 방어력
+    {
+        int statid = int.Parse(CsvDataManager.Instance.DataLists[5][id]["StatID"]);
+        int increase = int.Parse(CsvDataManager.Instance.DataLists[5][id]["PercentIncrease"]);
+        Vector3Int item = new Vector3Int(id,statid, increase);
+        BattleSceneManager.Instance.inGridObject[index].GetComponent<UnitStat>().buffs.Add(item);
+
+    }
+    Vector2Int ConvertTo2D(int index)
+    {
+        int row = index / 3;
+        int column = index % 3;
+        return new Vector2Int(row, column);
+    }
+    int ConvertTo1D(int row, int column)
+    {
+        return row * 3 + column;
     }
 
-    private bool isInIndex(int[] PosList, int index)  // 배열 범위 안에 인덱스가 포함인지 검사 , 유닛 위치 배열
+    IEnumerator highLightingColor(int index)
     {
-        if (index >= 0 && PosList.Length > index) 
+        myGrids[index].color = highLightColors[0];
+        yield return new WaitForSeconds(0.3f);
+        myGrids[index].color = Color.black;
+    }
+    private bool isInIndex(int row, int column)
+    {
+        if (row >= 0 && row < 3 && column >= 0 && column < 3)
         {
-            return true;  
+            return true;
         }
         else
+        {
             return false;
-
+        }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UnitModel : MonoBehaviour
 {
-    public event Action<int> OnHPChanged;
+    public event Action<int> OnHpChanged;
     public event Action OnDeath;
     public event Action<int> OnHealed;
     public event Action<int> OnDamaged; 
@@ -24,7 +24,7 @@ public class UnitModel : MonoBehaviour
             if (_hp != value) //&& oldValue != 0)
             {
                 _hp = Mathf.Clamp(value, 0, MaxHp);
-                OnHPChanged?.Invoke(_hp);
+                OnHpChanged?.Invoke(_hp);
                 if (_hp < oldValue)
                     OnDamaged?.Invoke(oldValue - _hp);
                 if (_hp > oldValue)
@@ -46,11 +46,16 @@ public class UnitModel : MonoBehaviour
     [SerializeField] private bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; private set => _isPriorityTargetFar = value; }
 
-    private void Start()
+    private void Awake()
     {
         //임시
         Debug.Log("HP 초기화 시작");
         Hp = MaxHp;
+    }
+
+    private void Start()
+    {
+
     }
 
     public void TakeDamage(int damage)
@@ -68,7 +73,26 @@ public class UnitModel : MonoBehaviour
         
         Hp -= calcDamage;
         
-        Debug.Log($"{damage} 받음. 현재 hp : {Hp}/{MaxHp}");
+        Debug.Log($"데미지 : {damage} 받음. 현재 hp : {Hp}/{MaxHp}");
+    }
+
+    public void TakeHeal(int heal)
+    {
+        if (Hp <= 0)
+        {
+            Debug.LogWarning("이미 hp가 0입니다.");
+            return;
+        }
+
+        int calcHeal = heal; // 치유 감소가 있을경우 추가 로직 구현
+        if (Hp + heal >= MaxHp)
+        {
+            calcHeal = MaxHp - Hp;
+        }
+        
+        Hp += calcHeal;
+        
+        Debug.Log($"힐 : {heal} 받음. 현재 hp : {Hp}/{MaxHp}");
     }
 
     private void Die()
@@ -76,5 +100,19 @@ public class UnitModel : MonoBehaviour
         Debug.Log($"{gameObject.name} 죽음");
         OnDeath?.Invoke();
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeTemp();
+    }
+
+    private void UnsubscribeTemp()
+    {
+        OnHpChanged = null;
+        OnDeath = null;
+        OnHealed = null;
+        OnDamaged = null;
+        
     }
 }

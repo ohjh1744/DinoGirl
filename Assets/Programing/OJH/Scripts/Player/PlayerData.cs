@@ -23,14 +23,13 @@ public class PlayerData
 
     public string RoomExitTime { get { return _roomExitTime; } set { _roomExitTime = value; } }
 
-    [SerializeField] private int _giftCoin;
+    private Dictionary<string, object> _gift = new Dictionary<string, object>(); // 선물한사람 및 coin 1000개
 
-    public int GiftCoin { get { return _giftCoin; } set { _giftCoin = value; } }
+    public Dictionary<string, object> Gift { get { return _gift; } set { _gift = value; } }
 
+    [SerializeField] private int _canAddFriend;
 
-    [SerializeField] private int _canFollow;
-
-    public int CanFollow { get { return _canFollow; } set { _canFollow = value; } }
+    public int CanAddFriend { get { return _canAddFriend; } set { _canAddFriend = value; } }
 
     [SerializeField] private int[] _items;
 
@@ -66,9 +65,9 @@ public class PlayerData
 
     public bool[] IsStageClear { get { return _isStageClear; } private set { } }
 
-    [SerializeField] private List<string> _followingIds;
+    [SerializeField] private List<string> _friendIds;
 
-    public List<string> FollowingIds { get { return _followingIds; } private set { } }
+    public List<string> FriendIds { get { return _friendIds; } private set { } }
 
     [SerializeField] private List<PlayerUnitData> _unitDatas;
 

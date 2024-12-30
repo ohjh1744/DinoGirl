@@ -20,12 +20,12 @@ public class LobbyPanel : UIBInder
 
     private void OnEnable()
     {
-        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] += UpdateDinoStone;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoin;
     }
 
     private void OnDisable()
     {
-        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] -= UpdateDinoStone;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoin;
     }
 
     private void Start()
@@ -58,13 +58,13 @@ public class LobbyPanel : UIBInder
 
     }
 
-    // 친구목록에 버튼을 누럿을시 다이노스톤획득. 이를 위한 이벤트 연결함수 구현
-    private void UpdateDinoStone(int count)
+    // 친구목록에 버튼을 누럿을시 Coin획득. 이를 위한 이벤트 연결함수 구현
+    private void UpdateCoin(int count)
     {
         StringBuilder itemSb = new StringBuilder();
         itemSb.Clear();
         itemSb.Append(count);
-        GetUI<TextMeshProUGUI>("Item4Value").SetText(itemSb);
+        GetUI<TextMeshProUGUI>("Item1Value").SetText(itemSb);
     }
 
 
