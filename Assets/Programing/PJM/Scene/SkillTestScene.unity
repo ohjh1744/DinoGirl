@@ -928,7 +928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4b3f72c5fbdb74f88e2a7daafc3b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHp: 1000
+  _maxHp: 20
   _hp: 0
   _attackPoint: 0
   _defensePoint: 0
@@ -1011,8 +1011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb9e6a75ee8104c8fa2e0f0d796b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  checker: 0
 --- !u!212 &303029622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1591,7 +1589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &763657179
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1963,7 +1961,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.792, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2247,6 +2245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9621c28b16d39b04bba171eca6d3ba80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpBarPrefab: {fileID: 8942492971469128812, guid: 7334a087ad2d3ec4c89597b0b5ea90b4, type: 3}
 --- !u!1 &1038695319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,8 +2425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb9e6a75ee8104c8fa2e0f0d796b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  checker: 0
 --- !u!212 &1039556232
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2525,8 +2522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb9e6a75ee8104c8fa2e0f0d796b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  checker: 0
 --- !u!212 &1063445010
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2701,8 +2696,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb9e6a75ee8104c8fa2e0f0d796b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  checker: 0
 --- !u!212 &1115503672
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3428,7 +3421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287562915}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.51, y: -3.49, z: 0}
+  m_LocalPosition: {x: 9.87, y: -4.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4167,8 +4160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb9e6a75ee8104c8fa2e0f0d796b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  checker: 0
 --- !u!212 &1524047250
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4356,7 +4347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4b3f72c5fbdb74f88e2a7daafc3b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHp: 100
+  _maxHp: 10
   _hp: 0
   _attackPoint: 2
   _defensePoint: 1
@@ -4681,6 +4672,11 @@ MonoBehaviour:
   players:
   - {fileID: 42618110}
   - {fileID: 1629696290}
+  enemies:
+  - {fileID: 1167114202}
+  - {fileID: 1287562918}
+  - {fileID: 223828996}
+  hpBarPrefab: {fileID: 0}
 --- !u!4 &1802699515
 Transform:
   m_ObjectHideFlags: 0
@@ -5118,8 +5114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb9e6a75ee8104c8fa2e0f0d796b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  checker: 0
 --- !u!1 &2876463699891809974
 GameObject:
   m_ObjectHideFlags: 0

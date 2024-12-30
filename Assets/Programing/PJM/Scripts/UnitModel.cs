@@ -46,11 +46,16 @@ public class UnitModel : MonoBehaviour
     [SerializeField] private bool _isPriorityTargetFar;
     public bool IsPriorityTargetFar { get => _isPriorityTargetFar; private set => _isPriorityTargetFar = value; }
 
-    private void Start()
+    private void Awake()
     {
         //임시
         Debug.Log("HP 초기화 시작");
         Hp = MaxHp;
+    }
+
+    private void Start()
+    {
+
     }
 
     public void TakeDamage(int damage)

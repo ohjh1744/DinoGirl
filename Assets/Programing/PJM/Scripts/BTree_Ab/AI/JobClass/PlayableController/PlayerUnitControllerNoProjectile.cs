@@ -12,8 +12,9 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
     public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }*/
 
     //[SerializeField] private bool _isAssassin;
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         SkillTargets = new List<Transform>();
         //DetectRange = 20.0f;
         //AttackRange = 2.0f;

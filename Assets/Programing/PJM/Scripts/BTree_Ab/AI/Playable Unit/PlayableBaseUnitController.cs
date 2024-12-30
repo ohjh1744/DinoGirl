@@ -19,6 +19,11 @@ public abstract class PlayableBaseUnitController : BaseUnitController
 
     private bool _skillInputed;
     public bool SkillInputed { get => _skillInputed;  set => _skillInputed = value; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     
     protected override void Start()
     {
