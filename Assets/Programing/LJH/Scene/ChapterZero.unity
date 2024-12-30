@@ -1051,6 +1051,7 @@ GameObject:
   - component: {fileID: 133866155}
   - component: {fileID: 133866157}
   - component: {fileID: 133866156}
+  - component: {fileID: 133866158}
   m_Layer: 5
   m_Name: stagePanel
   m_TagString: Untagged
@@ -1123,6 +1124,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133866154}
   m_CullTransparentMesh: 1
+--- !u!114 &133866158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133866154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b149bae0116fb1459ac7f3040ce0c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myGrids:
+  - {fileID: 1790742002}
+  - {fileID: 1617051697}
+  - {fileID: 449873285}
+  - {fileID: 279098062}
+  - {fileID: 1601877464}
+  - {fileID: 540757626}
+  - {fileID: 764734856}
+  - {fileID: 743209856}
+  - {fileID: 2008089066}
+  highLightColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.75736976, b: 0, a: 0.11764706}
+  - {r: 1, g: 0.9960657, b: 0, a: 0.11764706}
+  - {r: 0.042523384, g: 1, b: 0, a: 0.11764706}
+  - {r: 0, g: 0.5240238, b: 1, a: 0.11764706}
+--- !u!1 &136310695 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 1683436808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &136310702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136310695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &154415757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1416,6 +1469,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172989053}
   m_CullTransparentMesh: 1
+--- !u!1 &189213399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 279520903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &189213406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189213399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &226480925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,7 +1904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1865,6 +1942,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 4
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &279520903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2483,6 +2575,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc0fc852465f9e4a8f72d28d6416d74, type: 3}
+--- !u!1 &432945488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 3053503696210751905}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &432945495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432945488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &440712773
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,7 +2727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2649,6 +2765,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 3
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &453531525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3323,6 +3454,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &522139455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 2073548109}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &522139462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522139455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!114 &524152086 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3053503696148432014, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
@@ -3386,7 +3541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3424,6 +3579,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 6
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &545321474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3952,6 +4122,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700624859}
   m_CullTransparentMesh: 1
+--- !u!1 &736417105 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 545321474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &736417112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736417105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &743209854
 GameObject:
   m_ObjectHideFlags: 0
@@ -4004,7 +4198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4042,6 +4236,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 8
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &744513566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4208,7 +4417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4246,6 +4455,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 7
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &766512339 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5463585639309087583, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
@@ -5298,6 +5522,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.0000076293945, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1123538219 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 610725970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1123538226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123538219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &1125937989
 GameObject:
   m_ObjectHideFlags: 0
@@ -5444,6 +5692,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1182958315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 1346695730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1182958322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182958315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &1183420271
 GameObject:
   m_ObjectHideFlags: 0
@@ -5530,6 +5802,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   inGridObject: []
+  myUnits: []
+  enemyUnits: []
   enemyGridObject: []
   _timeLimit: 0
 --- !u!1 &1263817458
@@ -5718,7 +5992,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec2f93d17defbe42b7bf1bbaa8172f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uID: 1ESdjKQ3zcfhZGZSSGBWgSgtrzI2
+  _uID: ERpzNAOqvJZqPHUBWOhRyCPOWwh2
+  _resetFollowTime: 0
+  _originFollowTime: 0
 --- !u!4 &1313111820
 Transform:
   m_ObjectHideFlags: 0
@@ -6167,6 +6443,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360736123}
   m_CullTransparentMesh: 1
+--- !u!1 &1393613394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 848004292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1393613401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393613394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!114 &1396494296 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5463585639309087583, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
@@ -6178,6 +6478,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1406534901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 2042916515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1406534908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406534901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!114 &1410684753 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3053503696148432014, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
@@ -6460,7 +6784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6498,6 +6822,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 5
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1604868641
 GameObject:
   m_ObjectHideFlags: 0
@@ -6833,7 +7172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6871,6 +7210,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 2
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1621097075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5390988153695778396, guid: 749be854fecb7264a8aa56ec7f28e889, type: 3}
@@ -7195,6 +7549,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1681034993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 364671093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1681035000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681034993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1001 &1683436808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7505,6 +7883,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1716273143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 985583105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1716273150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716273143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!114 &1730090314 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3053503696148432014, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
@@ -7634,6 +8036,30 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 911964077879580468, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
   m_PrefabInstance: {fileID: 1759534605}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1766038459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 1759534605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1766038466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766038459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!114 &1773962297 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5390988153695778396, guid: 749be854fecb7264a8aa56ec7f28e889, type: 3}
@@ -7645,6 +8071,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d4514d4c68d5f4fae2c18499dc2d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1786529831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+  m_PrefabInstance: {fileID: 1949691696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1786529838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786529831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
+  buffs: []
 --- !u!1 &1790742000
 GameObject:
   m_ObjectHideFlags: 0
@@ -7697,7 +8147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7735,6 +8185,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 1
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1799397911 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5463585639309087583, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
@@ -8442,7 +8907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8480,6 +8945,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridNum: 9
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 9
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2011507561 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5390988153695778396, guid: 749be854fecb7264a8aa56ec7f28e889, type: 3}

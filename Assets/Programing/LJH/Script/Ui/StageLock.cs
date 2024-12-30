@@ -28,7 +28,7 @@ public class StageLock : MonoBehaviour
     }
     public void StageLocking() 
     {
-        StartCoroutine(delayLocking());
+        //StartCoroutine(delayLocking());
     }
 
     IEnumerator delayLocking() // 인덱스 벗어나는거 해결해야 함 

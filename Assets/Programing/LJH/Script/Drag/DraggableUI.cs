@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -46,6 +47,8 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	/// <summary>
 	/// 현재 오브젝트의 드래그를 종료할 때 1회 호출
 	/// </summary>
+	/// 
+	
 	public void OnEndDrag(PointerEventData eventData)
 	{
 		// 드래그를 시작하면 부모가 canvas로 설정되기 때문에

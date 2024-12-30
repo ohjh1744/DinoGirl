@@ -1,6 +1,7 @@
 using ExitGames.Client.Photon;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -41,10 +42,9 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		//image.color = Color.black;
 	}
 
-	/// <summary>
-	/// 현재 아이템 슬롯 영역 내부에서 드롭을 했을 때 1회 호출
-	/// </summary>
-	public void OnDrop(PointerEventData eventData)
+  
+    public UnityEvent DropinGrid; 
+    public void OnDrop(PointerEventData eventData)
 	{
 		if (isFull == true)  
 		{
@@ -64,6 +64,7 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 			BattleSceneManager.Instance.inGridObject[gridNum] = eventData.pointerDrag;
 			isFull = true;
 		}
+		DropinGrid?.Invoke();
 	}
 
 

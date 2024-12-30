@@ -11,11 +11,14 @@ public class BattleSceneManager : MonoBehaviour
 
 
     [SerializeField] private DraggableUI[] Draggables;
-    
 
+
+    //BaseUnitController 로 전달이 가능해야 함 
     [SerializeField] public GameObject[] inGridObject; // 아군 정보 배열 나중에 타입을 바꾸면 될듯
+    [SerializeField] public List<BaseUnitController> myUnits;
+    [SerializeField] public List<BaseUnitController> enemyUnits;
 
-    [SerializeField] public string[] enemyGridObject;// 적 정보 배열
+    [SerializeField] public string[] enemyGridObject;// 적 정보 배열 배열의 인덱스가 위치임 , id 저장 
 
     [SerializeField] public int _timeLimit; // private 프로퍼티로 바꿀 예정
 
@@ -34,7 +37,8 @@ public class BattleSceneManager : MonoBehaviour
 
         inGridObject = new GameObject[10]; // 캐릭터 목록이 0번 
         enemyGridObject = new string[9];
-        
+        myUnits = new List<BaseUnitController>();
+        enemyUnits = new List<BaseUnitController>();
     }
 
     public void StageStart()
@@ -56,6 +60,7 @@ public class BattleSceneManager : MonoBehaviour
         {
             Debug.Log("5인 초과 출발 불가");  // 0 인 출발도 못하게 해야함
         }
+        
     }
     public void BackStage()
     {
@@ -77,7 +82,7 @@ public class BattleSceneManager : MonoBehaviour
         {
             if (Draggables[i] == null)
             {
-                Debug.Log("Slot" + i.ToString());
+              
                 Draggables[i] = GameObject.Find("Slot" + i.ToString()).GetComponent<DraggableUI>();
                 Draggables[i].gameObject.SetActive(false);
 
@@ -85,16 +90,22 @@ public class BattleSceneManager : MonoBehaviour
 
         }
         Debug.Log(PlayerDataManager.Instance.PlayerData.UnitDatas.Count);
-        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++)
+        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db 에서 유닛 보유수 만큼만 보이게 
         {
             Draggables[i].gameObject.SetActive(true);
 
             int id = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitId;
+            int maxHp = int.Parse(CsvDataManager.Instance.DataLists[5][id]["BaseHp"]);
+            int atk = int.Parse(CsvDataManager.Instance.DataLists[5][id]["BaseATK"]);
+            int def = int.Parse(CsvDataManager.Instance.DataLists[5][id]["BaseDef"]);
+            string element = CsvDataManager.Instance.DataLists[5][id]["ElementID"];
+
             string name = CsvDataManager.Instance.DataLists[5][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_"+id.ToString());
-            Draggables[i].GetComponent<CharSlot>().setCharSlotData(name, level,sprite); // 이미지는 리소스 파일기준으로 사용하자
-                                                                                 // 리소스 파일 이름에 id 같은거 포함 시키면 될듯함 
+            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id,name, level,sprite); // 이미지는 리소스 파일기준으로 사용하자
+                                                                                           // 리소스 파일 이름에 id 같은거 포함 시키면 될듯함
+            Draggables[i].GetComponent<UnitStat>().setStats(maxHp,atk,def,int.Parse(level),id,element);
             // 지금 형태는 csv에서 바로 가져오는 형태임 ,이걸 여기서 하는게 맞나 ?   
         }
 
