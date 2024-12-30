@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UserListPanel : MonoBehaviour
+public class AddFriendPanel : MonoBehaviour
 {
     [SerializeField] private GameObject _userList;
 
@@ -18,12 +18,15 @@ public class UserListPanel : MonoBehaviour
 
     [SerializeField] private int _listNum; //LIst에 보이는 User 수
 
+    private bool _isFriend;
+
     private void Start()
     {
-        GetOthersData();
+        GetUserData();
     }
 
-    private void GetOthersData()
+
+    private void GetUserData()
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
 
@@ -49,17 +52,40 @@ public class UserListPanel : MonoBehaviour
 
             for (int i = 0; i < userChildren.Count; i++)
             {
+                // 다음 User 검색시 초기화 
+                _isFriend = false;
+
                 if(i == _listNum)
                 {
                     break;
                 }
 
+                // 본인은 제외.
                 if (userChildren[i].Key.ToString() == user.UserId)
                 {
                     continue;
                 }
 
+                // 이미 친구면 제외.
+                foreach(string friendId in PlayerDataManager.Instance.PlayerData.FriendIds)
+                {
+                    if(userChildren[i].Key.ToString() == friendId)
+                    {
+                        _isFriend = true;
+                        break;
+                    }
+                }
+
+                if(_isFriend == true)
+                {
+                    continue;
+                }
+
                 GameObject userInfo = Instantiate(_userList, _content);
+
+                UserList userList = userInfo.GetComponent<UserList>();
+
+                userList.OtherId = userChildren[i].Key.ToString();
 
                 TextMeshProUGUI nameText = userInfo.GetComponentInChildren<TextMeshProUGUI>();
 
