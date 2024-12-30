@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class MultiTargetSkillToEnemy : Skill
     public int maxTargets; // 최대 타겟 수
     // 전체 타겟일 경우 배틀매니저에서 전체 리스트를 가져옴?
 
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<Transform> targets)
+    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
@@ -41,7 +42,7 @@ public class MultiTargetSkillToEnemy : Skill
             
     }
 
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets)
+    /*protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<Transform> targets)
     {
         if (targets.Count == 0)
         {
@@ -57,6 +58,7 @@ public class MultiTargetSkillToEnemy : Skill
         }
 
         return BaseNode.ENodeState.Running;
-    }
+    }#1#
 }
+*/
 

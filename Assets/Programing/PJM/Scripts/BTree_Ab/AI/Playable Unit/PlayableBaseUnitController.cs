@@ -14,8 +14,8 @@ public abstract class PlayableBaseUnitController : BaseUnitController
     private bool _isSkillRunning;
     public bool IsSkillRunning { get => _isSkillRunning; protected set => _isSkillRunning = value; }
     
-    private List<Transform> _skillTargets;
-    public List<Transform> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
+    private List<BaseUnitController> _skillTargets;
+    public List<BaseUnitController> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
 
     private bool _skillInputed;
     public bool SkillInputed { get => _skillInputed;  set => _skillInputed = value; }

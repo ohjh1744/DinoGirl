@@ -15,7 +15,7 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
     protected override void Awake()
     {
         base.Awake();
-        SkillTargets = new List<Transform>();
+        SkillTargets = new List<BaseUnitController>();
         //DetectRange = 20.0f;
         //AttackRange = 2.0f;
         //MoveSpeed = 2.0f;
