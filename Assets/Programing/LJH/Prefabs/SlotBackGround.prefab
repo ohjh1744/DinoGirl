@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 2794425371256226812}
   - component: {fileID: 2794425371256226755}
   - component: {fileID: 2794425371256226813}
-  - component: {fileID: 8751909089659658014}
   m_Layer: 5
   m_Name: SlotBackGround
   m_TagString: Untagged
@@ -226,19 +225,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b37e3686ad6a643bd44f7bf2b3e6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8751909089659658014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2794425371256226753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9592f47f30d3e64197468c4cef93ee4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 2362801090578430534}
+  gridNum: 0
+  DropinGrid:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2794425371351584933
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +242,7 @@ GameObject:
   - component: {fileID: 2794425371351584929}
   - component: {fileID: 2794425371351584928}
   - component: {fileID: 2794425371351584935}
+  - component: {fileID: 7847704568059867860}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -342,3 +333,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6af6006255523545b5be4fd40362b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7847704568059867860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2794425371351584933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9931fb02464b7fe4f892cda2c2f5ef67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHp: 0
+  Atk: 0
+  Def: 0
+  Level: 0
+  Id: 0
+  Elemente: 
