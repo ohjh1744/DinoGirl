@@ -97,8 +97,6 @@ public class NamePanel : UIBInder
         //Json으로 변환후 저장.
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
-        //Dictionary는 이상하게 저장이 같이 안돼서 따로 저장 처리 해줌.
-        //root.Child("_gift").SetValueAsync(PlayerDataManager.Instance.PlayerData.Gift);
 
 
         // 정상적으로 함수 동작시 씬 전환.

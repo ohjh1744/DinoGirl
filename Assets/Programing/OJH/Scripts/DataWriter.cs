@@ -22,6 +22,7 @@ public class DataWriter : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.PlayerName = _name;
         PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("o");
         PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("o");
+        //PlayerDataManager.Instance.PlayerData.Gift["ruru"] = 1000;
 
         for (int i = 0; i < _baseUnitNum; i++)
         {
@@ -36,6 +37,9 @@ public class DataWriter : MonoBehaviour
         //Json으로 변환후 저장.
         string json = JsonUtility.ToJson(PlayerDataManager.Instance.PlayerData);
         root.SetRawJsonValueAsync(json);
+
+        //Dictionary는 JsonUtility.TOJson이 불가능해서 필요시 따로 해줘야함.
+        //root.Child("_gift").SetValueAsync(PlayerDataManager.Instance.PlayerData.Gift);
     }
 
 

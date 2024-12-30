@@ -42,8 +42,13 @@ public class DataLoader : MonoBehaviour
             string json = snapShot.GetRawJsonValue();
             Debug.Log(json);
             PlayerDataManager.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(json);
-            Debug.Log(PlayerDataManager.Instance.PlayerData.PlayerName);
 
+            //dictionary는 JsonUtility를 통해서 못불러와 따로 불러와야함.
+            var giftsnapShot = snapShot.Child("_gift");
+            if(giftsnapShot != null)
+            {
+                PlayerDataManager.Instance.PlayerData.Gift = (Dictionary<string, object>)giftsnapShot.Value;
+            }
         });
 
     }
