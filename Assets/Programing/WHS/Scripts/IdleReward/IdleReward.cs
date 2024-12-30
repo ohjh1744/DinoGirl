@@ -131,4 +131,14 @@ public class IdleReward : MonoBehaviour
             Debug.Log($"exittime ÀúÀåµÊ {curTime}");
         });
     }
+
+    public bool HasIdleReward()
+    {
+        string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
+        DateTime exitTime = DateTime.Parse(exitTimeStr);
+        TimeSpan idleTime = DateTime.Now - exitTime;
+
+        int idleSeconds = (int)idleTime.TotalSeconds;
+        return idleSeconds >= 3600;
+    }
 }

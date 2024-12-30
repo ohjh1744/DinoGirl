@@ -19,12 +19,26 @@ public class RoomPanel : UIBInder
     private void Start()
     {
         idleReward = GetComponent<IdleReward>();
+
+        UpdateClaimButtonState();
+    }
+
+    private void OnEnable()
+    {
+        // 1시간이 지나야 수령 버튼 활성화
+        // GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
     }
 
     // Room 떠날 때 RoomExitTime 서버에 저장
     private void OnDisable()
     {
         idleReward.SaveExitTime();
+    }
+
+    public void UpdateClaimButtonState()
+    {
+        // ClaimButton의 상호작용 가능 여부를 idleReward의 결과에 따라 설정
+        GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
     }
 
     private void OnApplicationQuit()
@@ -34,6 +48,9 @@ public class RoomPanel : UIBInder
 
     public void ClaimIdleRewards(PointerEventData eventData)
     {
+        if (GetUI<UnityEngine.UI.Button>("ClaimButton").interactable == false)
+            return;
+
         int storedGold = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.Coin];
         int storedDinoBlood = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.DinoBlood];
         int storedBoneCrystal = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.BoneCrystal];
@@ -53,6 +70,8 @@ public class RoomPanel : UIBInder
 
         // 방치형보상 수령 후 종료시간 저장
         idleReward.SaveExitTime();
+
+        UpdateClaimButtonState();
     }
 
     // 데이터베이스에 아이템 저장
