@@ -15,7 +15,7 @@ public class UnitHealthBarController : MonoBehaviour
 
     [SerializeField] private Transform _target; // 체력바가 따라다닐 타겟
     public Transform Target { get { return _target; } set { _target = value; } }
-    public Vector3 barTransformOffset = new Vector3(0,-0.5f,0); // 체력바 위치 조정용 오프셋
+    public Vector3 barTransformOffset = new Vector3(0, 0 , 0); // 체력바 위치 조정용 오프셋
     private Vector3 _screenPosition;
     private Camera _mainCam;
 
@@ -47,7 +47,7 @@ public class UnitHealthBarController : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        Unit.OnHPChanged += UpdateHealthBar;
+        Unit.OnHpChanged += UpdateHealthBar;
         Unit.OnDeath += HandleDeath;
     }
 

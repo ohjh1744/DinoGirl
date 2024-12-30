@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UnitModel : MonoBehaviour
 {
-    public event Action<int> OnHPChanged;
+    public event Action<int> OnHpChanged;
     public event Action OnDeath;
     public event Action<int> OnHealed;
     public event Action<int> OnDamaged; 
@@ -24,7 +24,7 @@ public class UnitModel : MonoBehaviour
             if (_hp != value) //&& oldValue != 0)
             {
                 _hp = Mathf.Clamp(value, 0, MaxHp);
-                OnHPChanged?.Invoke(_hp);
+                OnHpChanged?.Invoke(_hp);
                 if (_hp < oldValue)
                     OnDamaged?.Invoke(oldValue - _hp);
                 if (_hp > oldValue)
@@ -100,5 +100,19 @@ public class UnitModel : MonoBehaviour
         Debug.Log($"{gameObject.name} 죽음");
         OnDeath?.Invoke();
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeTemp();
+    }
+
+    private void UnsubscribeTemp()
+    {
+        OnHpChanged = null;
+        OnDeath = null;
+        OnHealed = null;
+        OnDamaged = null;
+        
     }
 }

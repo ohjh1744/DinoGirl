@@ -19,4 +19,9 @@ public class SkillSlot
     public PlayableBaseUnitController skillOwner;
     public Skill skillData;
 
+    public void HandleDeath()
+    {
+       skillRoot.SetActive(false);
+    }
+
 }
