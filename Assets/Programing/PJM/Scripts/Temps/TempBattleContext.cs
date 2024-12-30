@@ -8,10 +8,6 @@ public class TempBattleContext : MonoBehaviour
     public List<PlayableBaseUnitController> players = new List<PlayableBaseUnitController>();
     public List<BaseUnitController> enemies = new List<BaseUnitController>();
     
-    //public List<UnitHealthBarController> healthBars = new List<UnitHealthBarController>();
-
-    public GameObject hpBarPrefab;
-    
     public bool isAutoOn {get; set; }
     public bool isGamePaused {get; set; }
     

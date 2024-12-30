@@ -61,18 +61,6 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
                                 UniqueSkill.CreateSkillBTree(this, SkillTargets)
                             }
                         ),
-                   
-
-                        /*new SequenceNode // Use Skill
-                            // 아군,적대상, 거리체크, 대상체크, ...
-                        (
-                            new List<BaseNode>()
-                            {
-                                new ConditionNode(CheckSkillRange),
-                                new ActionNode(SetTargetToSkill),
-                                new ActionNode(() => PerformSkill("UsingSkill"))
-                            }
-                        ),*/
                     }
                 ),
 
@@ -90,6 +78,7 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
                     new List<BaseNode>
                     {
                         new ActionNode(SetDetectedTarget),
+                        // CheckMoveable ?
                         new ActionNode(ChaseTarget)
                     }
                 ),
