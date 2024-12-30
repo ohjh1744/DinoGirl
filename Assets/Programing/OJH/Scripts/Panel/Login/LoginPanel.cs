@@ -167,10 +167,16 @@ public class LoginPanel : UIBInder
 
             //dictionary는 JsonUtility를 통해서 못불러와 따로 불러와야함.
             var giftsnapShot = snapShot.Child("_gift");
-            if (giftsnapShot != null)
+
+            if (giftsnapShot.Exists == false)
             {
-                PlayerDataManager.Instance.PlayerData.Gift = (Dictionary<string, object>)giftsnapShot.Value;
+                Debug.Log("gift가 없습니다.");
+                _sceneChanger.CanChangeSceen = true;
+                return;
             }
+
+            PlayerDataManager.Instance.PlayerData.Gift = (Dictionary<string, object>)giftsnapShot.Value;
+            Debug.Log(PlayerDataManager.Instance.PlayerData.Gift.Count);
 
             _sceneChanger.CanChangeSceen = true;
         });
