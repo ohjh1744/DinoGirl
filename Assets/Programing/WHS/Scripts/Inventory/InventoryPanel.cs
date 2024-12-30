@@ -40,7 +40,7 @@ public class InventoryPanel : MonoBehaviour
 
         // Firebase에서 UnitDatas를 가져와 스크롤뷰에 캐릭터 정렬
         // string userID = BackendManager.Auth.CurrentUser.UserId;
-        string userID = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
+        string userID = "sinEKs9IWRPuWNbboKov1fKgmab2";
 
         DatabaseReference unitDatasRef = BackendManager.Database.RootReference
             .Child("UserData").Child(userID).Child("_unitDatas");

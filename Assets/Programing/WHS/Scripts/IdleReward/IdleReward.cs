@@ -7,20 +7,41 @@ using UnityEngine;
 
 public class IdleReward : MonoBehaviour
 {
-    // TimeSpan 방치된 시간 = 현재 시간 - 종료 시간
-    // TotalSeconds로 초단위로 변환
-    // CSV Housing 시트에서 시간당 HousingID 1골드 2다이노블러드 3본크리스탈에 따라 보상
-
     private Dictionary<int, Dictionary<string, string>> housingData;
 
+    private void Start()
+    {
+        StartCoroutine(WaitForPlayerData());
+    }
+
+    private IEnumerator WaitForPlayerData()
+    {
+        // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
+        yield return new WaitUntil(() =>
+            PlayerDataManager.Instance != null &&
+            PlayerDataManager.Instance.PlayerData != null &&
+            PlayerDataManager.Instance.PlayerData.UnitDatas != null &&
+            PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+
+        housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
+        Debug.Log($"{housingData.Count}");
+        foreach (var key in housingData.Keys)
+        {
+            Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}");
+        }
+    }
+    /*
     private void Awake()
     {
         housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
-        if (housingData != null)
+
+        Debug.Log($"{housingData.Count}");
+        foreach (var key in housingData.Keys)
         {
-            Debug.Log("housingData LOADED");
+            Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}");
         }
     }
+    */
 
     // 시간 계산하기
     public void CalculateIdleReward()
@@ -30,6 +51,7 @@ public class IdleReward : MonoBehaviour
         TimeSpan idleTime = DateTime.Now - exitTime;
 
         int idleSeconds = (int)idleTime.TotalSeconds;
+        Debug.Log(idleSeconds);
 
         int goldReward = CalculateReward(1, idleSeconds);
         int dinoBloodReward = CalculateReward(2, idleSeconds);
@@ -48,9 +70,9 @@ public class IdleReward : MonoBehaviour
         if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
             float rewardPerHour = float.Parse(data["PerHour"]);
-            return Mathf.FloorToInt(rewardPerHour * seconds / 3600f);
+            int reward = Mathf.FloorToInt(rewardPerHour * seconds / 1f);
+            return reward;
         }
-
         return 0;
     }
 
@@ -62,7 +84,7 @@ public class IdleReward : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.RoomExitTime = curTime;
 
         // string userId = BackendManager.Auth.CurrentUser.UserId;
-        string userId = "poZb90DRTiczkoC5TpHOpaJ5AXR2";
+        string userId = "sinEKs9IWRPuWNbboKov1fKgmab2";
         DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
 
         userRef.Child("_exitTime").SetValueAsync(curTime).ContinueWithOnMainThread(task =>
