@@ -18,6 +18,8 @@ public class AddFriendPanel : MonoBehaviour
 
     [SerializeField] private int _listNum; //LIst에 보이는 User 수
 
+    private bool _isFriend;
+
     private void Start()
     {
         GetUserData();
@@ -49,6 +51,9 @@ public class AddFriendPanel : MonoBehaviour
 
             for (int i = 0; i < userChildren.Count; i++)
             {
+                // 다음 User 검색시 초기화 
+                _isFriend = false;
+
                 if(i == _listNum)
                 {
                     break;
@@ -65,11 +70,21 @@ public class AddFriendPanel : MonoBehaviour
                 {
                     if(userChildren[i].Key.ToString() == friendId)
                     {
-                        continue;
+                        _isFriend = true;
+                        break;
                     }
                 }
 
+                if(_isFriend == true)
+                {
+                    continue;
+                }
+
                 GameObject userInfo = Instantiate(_userList, _content);
+
+                UserList userList = userInfo.GetComponent<UserList>();
+
+                userList.OtherId = userChildren[i].Key.ToString();
 
                 TextMeshProUGUI nameText = userInfo.GetComponentInChildren<TextMeshProUGUI>();
 
