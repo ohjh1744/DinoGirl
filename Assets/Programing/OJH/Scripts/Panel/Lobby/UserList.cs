@@ -16,6 +16,12 @@ public class UserList : MonoBehaviour
 
     public void AddFriend()
     {
+        if(PlayerDataManager.Instance.PlayerData.CanAddFriend <= 0)
+        {
+            Debug.Log("하루 친구추가 횟수 0");
+            return;
+        }
+
         //이미 친구인 경우 return
         foreach(string id in PlayerDataManager.Instance.PlayerData.FriendIds)
         {
