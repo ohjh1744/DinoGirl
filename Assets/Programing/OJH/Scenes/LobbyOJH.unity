@@ -2547,7 +2547,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1002794519}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1592868134}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1002794519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4159,7 +4171,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.2, y: 0.00012207031}
-  m_SizeDelta: {x: -1, y: 0}
+  m_SizeDelta: {x: -1, y: -863.19995}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1501491885
 MonoBehaviour:
@@ -4354,14 +4366,14 @@ GameObject:
   - component: {fileID: 1592868135}
   - component: {fileID: 1592868138}
   - component: {fileID: 1592868137}
-  - component: {fileID: 1592868136}
+  - component: {fileID: 1592868139}
   m_Layer: 5
   m_Name: MailPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1592868135
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4384,21 +4396,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -0.000061035156}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1592868136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592868134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 741057a747a6be84d896de1cf6b385e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _userList: {fileID: 2214283211875335665, guid: 2d865c2fcc400aa46aca3d355eb43624, type: 3}
-  _content: {fileID: 1501491884}
-  _listNum: 5
 --- !u!114 &1592868137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4437,6 +4434,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592868134}
   m_CullTransparentMesh: 1
+--- !u!114 &1592868139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592868134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13243d3dc09b3dd4f91255256d535d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mailList: {fileID: 2214283211875335665, guid: ddd5efcf78750fd4babf772a7db3353c, type: 3}
+  _content: {fileID: 1501491884}
 --- !u!1 &1605482195
 GameObject:
   m_ObjectHideFlags: 0

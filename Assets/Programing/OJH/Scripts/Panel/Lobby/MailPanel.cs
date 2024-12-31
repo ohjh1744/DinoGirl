@@ -3,37 +3,27 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class FriendsPanel : MonoBehaviour
+public class MailPanel : MonoBehaviour
 {
-    [SerializeField] private GameObject _friendList;
+    [SerializeField] private GameObject _mailList;
 
     [SerializeField] private Transform _content; // content 자식으로 넣기 위함.
 
-    [SerializeField] private ListObjectPull _pull;
 
-    private List<GameObject> _infoLists;
-
-    private void Awake()
+    private void Start()
     {
-        _infoLists = new List<GameObject>();
-    }
-    private void OnEnable()
-    {
-        GetFriendData();
+        GetGiftData();
     }
 
-    private void OnDisable()
-    {
-        Clear();
-    }
 
-    private void GetFriendData()
+    private void GetGiftData()
     {
+        Debug.Log("hi");
         FirebaseUser user = BackendManager.Auth.CurrentUser;
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
@@ -51,40 +41,35 @@ public class FriendsPanel : MonoBehaviour
             var userIds = snapShot.Children.ToList();
             CheckSnapSHot(userIds);
 
-            for (int i = 0; i < PlayerDataManager.Instance.PlayerData.FriendIds.Count; i++)
-            {
-                string friendId = PlayerDataManager.Instance.PlayerData.FriendIds[i];
-                string name = snapShot.Child(friendId).Child("_playerName").Value.ToString();
+            Debug.Log(userIds.Count);
+            List<string> ids = new List<string>(PlayerDataManager.Instance.PlayerData.Gift.Keys);
 
-                GameObject friendInfo = _pull.Get((int)E_List.Friend, _content);
-                _infoLists.Add(friendInfo);
+            Debug.Log(ids.Count);
+
+            for (int i = 0; i < ids.Count; i++)
+            {
+                string id = ids[i];
+                string name = snapShot.Child(id).Child("_playerName").Value.ToString();
+                int coin = int.Parse(PlayerDataManager.Instance.PlayerData.Gift[id].ToString());
+
+                GameObject friendInfo = Instantiate(_mailList, _content);
                 TextMeshProUGUI nameText = friendInfo.GetComponentInChildren<TextMeshProUGUI>();
-                FriendList friendList = friendInfo.GetComponent<FriendList>();
-                friendList.FriendId = friendId;
-                SetNameTag(name, friendId, nameText);
+                SetNameTag(name, coin, id, nameText);
             }
 
         });
 
     }
-
-    private void Clear()
-    {
-        for(int i = 0; i < _infoLists.Count; i++)
-        {
-            _infoLists[i].SetActive(false);
-        }
-        _infoLists.Clear();
-    }
-
-    private void SetNameTag(string name, string id, TextMeshProUGUI text)
+    private void SetNameTag(string name, int coin, string id, TextMeshProUGUI text)
     {
         StringBuilder nameSb = new StringBuilder();
         nameSb.Append(name);
         nameSb.Append("#");
         nameSb.Append(id.Substring(0, 4));
+        nameSb.Append($" Give {coin}coins");
         text.SetText(nameSb);
     }
+
 
     private void CheckSnapSHot(List<DataSnapshot> snapshotChildren)
     {
@@ -93,5 +78,6 @@ public class FriendsPanel : MonoBehaviour
             Debug.Log("snapshot null값임!");
         }
     }
+
 
 }
