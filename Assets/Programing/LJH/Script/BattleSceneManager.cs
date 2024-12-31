@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BattleSceneManager : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class BattleSceneManager : MonoBehaviour
         myUnits = new List<BaseUnitController>();
         enemyUnits = new List<BaseUnitController>();
     }
-
+    public UnityEvent startStage;
     public void StageStart()
     {
         string datas = "";
@@ -106,7 +107,7 @@ public class BattleSceneManager : MonoBehaviour
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id,name, level,sprite); // 이미지는 리소스 파일기준으로 사용하자
                                                                                            // 리소스 파일 이름에 id 같은거 포함 시키면 될듯함
             Draggables[i].GetComponent<UnitStat>().setStats(maxHp,atk,def,int.Parse(level),id,element);
-            // 지금 형태는 csv에서 바로 가져오는 형태임 ,이걸 여기서 하는게 맞나 ?   
+            //지금 형태는 csv에서 바로 가져오는 형태임 ,이걸 여기서 하는게 맞나 ?   
         }
 
     }

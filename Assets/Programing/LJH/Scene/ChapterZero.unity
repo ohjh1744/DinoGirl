@@ -822,6 +822,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &114323271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1964,6 +1976,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot11
@@ -2403,6 +2479,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot3
@@ -3601,6 +3741,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot7
@@ -3741,6 +3945,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot9
@@ -4488,6 +4756,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot4
@@ -5129,6 +5461,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot1
@@ -5806,6 +6202,21 @@ MonoBehaviour:
   enemyUnits: []
   enemyGridObject: []
   _timeLimit: 0
+  startStage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 133866158}
+        m_TargetAssemblyTypeName: GridContext, Assembly-CSharp
+        m_MethodName: UpdateBuffsList
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1263817458
 GameObject:
   m_ObjectHideFlags: 0
@@ -6060,6 +6471,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot2
@@ -7580,6 +8055,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot12
@@ -7925,6 +8464,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot5
@@ -8451,6 +9054,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot10
@@ -9124,6 +9791,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot8
@@ -9253,6 +9984,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077683426387, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Name
       value: Slot6
@@ -9522,6 +10317,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1423333077}
     m_Modifications:
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 133866158}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateBuffsList
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridContext, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 911964077683426385, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
+      propertyPath: DragonList.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 911964077879580468, guid: 80371aa10b9e44a4a902e4061b8cf59f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

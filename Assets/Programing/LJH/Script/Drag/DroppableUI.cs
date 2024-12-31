@@ -52,7 +52,8 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		}
 		if (gridNum == 0) 
 		{
-			return;
+            
+            return; 
 		}
 		// pointerDrag는 현재 드래그하고 있는 대상(=아이템)
 		if ( eventData.pointerDrag != null )

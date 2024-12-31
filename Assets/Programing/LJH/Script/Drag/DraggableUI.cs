@@ -44,13 +44,14 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		rect.position = eventData.position;
 	}
 
-	/// <summary>
-	/// 현재 오브젝트의 드래그를 종료할 때 1회 호출
-	/// </summary>
-	/// 
-	
-	public void OnEndDrag(PointerEventData eventData)
+    /// <summary>
+    /// 현재 오브젝트의 드래그를 종료할 때 1회 호출
+    /// </summary>
+    /// 
+    public UnityEvent DragOnList;
+    public void OnEndDrag(PointerEventData eventData)
 	{
+		DragOnList?.Invoke();
 		// 드래그를 시작하면 부모가 canvas로 설정되기 때문에
 		// 드래그를 종료할 때 부모가 canvas이면 아이템 슬롯이 아닌 엉뚱한 곳에
 		// 드롭을 했다는 뜻이기 때문에 드래그 직전에 소속되어 있던 아이템 슬롯으로 아이템 이동

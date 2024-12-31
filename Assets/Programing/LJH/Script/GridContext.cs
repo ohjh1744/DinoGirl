@@ -27,7 +27,7 @@ public class GridContext : MonoBehaviour
     private bool mybuff;
     public void UpdateBuffsList(int num) 
     {
-        
+        Debug.Log("버프 리스트 초기화");
         for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++) 
         {
             if (BattleSceneManager.Instance.inGridObject[i] != null)

@@ -31,7 +31,7 @@ public class StageLock : MonoBehaviour
         //StartCoroutine(delayLocking());
     }
 
-    IEnumerator delayLocking() // 인덱스 벗어나는거 해결해야 함 
+    IEnumerator delayLocking()
     {
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < PlayerDataManager.Instance.PlayerData.IsStageClear.Length; i++)
