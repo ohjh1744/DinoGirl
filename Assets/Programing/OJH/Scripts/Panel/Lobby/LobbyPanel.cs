@@ -11,7 +11,7 @@ public class LobbyPanel : UIBInder
 
     [SerializeField] private SceneChanger _sceneChanger;
 
-    private static string[] _itemValueTexts = { "Item1Value", "Item2Value", "Item3Value", "Item4Value", "Item5Value" };
+    private static string[] _itemValueTexts = { "LobbyItem1Value", "LobbyItem2Value", "LobbyItem3Value", "LobbyItem4Value", "LobbyItem5Value" };
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class LobbyPanel : UIBInder
         nameSb.Append("#");
         nameSb.Append(BackendManager.Auth.CurrentUser.UserId.Substring(0, 4));
         GetUI<TextMeshProUGUI>("LobbyPlayerNameText").SetText(nameSb);
-        GetUI<TextMeshProUGUI>("PlayerPanelPlayerNameText").SetText(nameSb);
+        GetUI<TextMeshProUGUI>("PlayerPlayerNameText").SetText(nameSb);
     }
 
     private void ShowItems()
@@ -64,7 +64,7 @@ public class LobbyPanel : UIBInder
         StringBuilder itemSb = new StringBuilder();
         itemSb.Clear();
         itemSb.Append(count);
-        GetUI<TextMeshProUGUI>("Item1Value").SetText(itemSb);
+        GetUI<TextMeshProUGUI>(_itemValueTexts[0]).SetText(itemSb);
     }
 
 

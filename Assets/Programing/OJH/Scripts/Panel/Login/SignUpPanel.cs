@@ -91,7 +91,7 @@ public class SignUpPanel : UIBInder
         GetUI<Image>("CreateWarningPanel").gameObject.SetActive(true);
         _sb.Clear();
         _sb.Append(textName);
-        GetUI<TextMeshProUGUI>("WarningText").SetText(_sb);
+        GetUI<TextMeshProUGUI>("CreateWarningText").SetText(_sb);
     }
 
     private void ResetInputField()
