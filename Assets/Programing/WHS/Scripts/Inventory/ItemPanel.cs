@@ -18,11 +18,7 @@ public class ItemPanel : UIBInder
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() =>
-            PlayerDataManager.Instance != null &&
-            PlayerDataManager.Instance.PlayerData != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         Init();
     }
@@ -93,5 +89,13 @@ public class ItemPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, currentCoinAmount + 100000);
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, currentCoinAmount + 100000);
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, currentCoinAmount + 100000);
+    }
+
+    public void UpdateItems()
+    {
+        UpdateCoinText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
+        UpdateDinoBloodText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
+        UpdateBoneCrystalText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
+        UpdateDinoStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]);
     }
 }
