@@ -9,28 +9,28 @@ public class Spawner : MonoBehaviour
     [SerializeField] Transform[] enemyGrid;
     public void SpawnUnits()
     {
-        for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++)
+        
+        for (int i = 0; i < BattleSceneManager.Instance.myUnitData.Count; i++)
         {
-            if (BattleSceneManager.Instance.inGridObject[i] != null)
-            {
-                int id = BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Id;
-                float atk = BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Atk;
-                GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Characters_" + id.ToString()), myGrid[i].position, Quaternion.identity);
-                UnitModel unit = obj.GetComponent<UnitModel>();
-                //unit.AttackPoint = BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Atk;
-                //BattleSceneManager.Instance.myUnits.Add()
-            }
+
+            int id = BattleSceneManager.Instance.myUnitData[i].Id;
+            int pos = BattleSceneManager.Instance.myUnitData[i].Pos;
+            GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Character_" + id.ToString()), myGrid[pos-1].position, Quaternion.identity);
+            
+            PlayableBaseUnitController unit = obj.GetComponent<PlayableBaseUnitController>();
+            UnitModel model = obj.GetComponent<UnitModel>();
+            //model.AttackPoint = BattleSceneManager.Instance.myUnitData[i].Atk; //이 부분에서 스탯계산 들어가면 될듯
+            BattleSceneManager.Instance.myUnits.Add(unit);
+
 
         }
-        for (int i = 0; i < BattleSceneManager.Instance.enemyGridObject.Length; i++)
+        for (int i = 0; i < BattleSceneManager.Instance.enemyUnitData.Count; i++)
         {
-            if (BattleSceneManager.Instance.enemyGridObject[i] != null)
-            {   
-                GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Enemy_" + BattleSceneManager.Instance.enemyGridObject[i]), enemyGrid[i].position, Quaternion.identity);
-                
-            }
-            
-
+            int id = BattleSceneManager.Instance.enemyUnitData[i].Id;
+            int pos = BattleSceneManager.Instance.enemyUnitData[i].Pos;
+            GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Enemy_" + id.ToString()), enemyGrid[pos-1].position, Quaternion.identity);
+            BaseUnitController unit = obj.GetComponent<BaseUnitController>();
+            BattleSceneManager.Instance.enemyUnits.Add(unit);
         }
     }
 }

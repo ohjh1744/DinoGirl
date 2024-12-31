@@ -27,7 +27,6 @@ public class GridContext : MonoBehaviour
     private bool mybuff;
     public void UpdateBuffsList(int num) 
     {
-        Debug.Log("버프 리스트 초기화");
         for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++) 
         {
             if (BattleSceneManager.Instance.inGridObject[i] != null)
@@ -42,11 +41,8 @@ public class GridContext : MonoBehaviour
                 if (i == num) 
                 {
                     mybuff = true;
-
-                    Debug.Log($"{i}:{num}");
                 }
                 showGridArea(i, BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Id);
-
             }
             mybuff = false;
         }
@@ -57,11 +53,9 @@ public class GridContext : MonoBehaviour
     {
         string girdshapeName = CsvDataManager.Instance.DataLists[0][id]["Grid"];
         selectGridBuff(girdshapeName, gridnum - 1, id); //그리드 모양(이름), 현재 위치 , 캐릭터 아이디 
-
     }
     public void selectGridBuff(string name, int curPos, int id) // 이름 csv 기준 그리드 버프 이름  curPos 는 0~8 기준 현재 위치 -4 한 값을 넣을 것                                                     
     {
-        Debug.Log($"{name}:{curPos}");
         switch (name)
         {
             case "Diagonal_2":
@@ -101,7 +95,6 @@ public class GridContext : MonoBehaviour
                 {
                     StartCoroutine(highLightingColor(index));
                 }
-                
                 if (BattleSceneManager.Instance.inGridObject[index + 1] != null)
                 {
                     buffeffect(id, index + 1);
@@ -116,7 +109,6 @@ public class GridContext : MonoBehaviour
         int increase = int.Parse(CsvDataManager.Instance.DataLists[0][id]["PercentIncrease"]);
         Vector3Int item = new Vector3Int(id,statid, increase);
         BattleSceneManager.Instance.inGridObject[index].GetComponent<UnitStat>().buffs.Add(item);
-
     }
     Vector2Int ConvertTo2D(int index)
     {
@@ -128,7 +120,6 @@ public class GridContext : MonoBehaviour
     {
         return row * 3 + column;
     }
-
     IEnumerator highLightingColor(int index)
     {
         myGrids[index].color = highLightColors[0];
