@@ -23,7 +23,6 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		}
 
     }
-
 	/// <summary>
 	/// 마우스 포인트가 현재 아이템 슬롯 영역 내부로 들어갈 때 1회 호출
 	/// </summary>
@@ -32,7 +31,6 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		// 아이템 슬롯의 색상을 노란색으로 변경
 		//image.color = Color.green;
 	}
-
 	/// <summary>
 	/// 마우스 포인트가 현재 아이템 슬롯 영역을 빠져나갈 때 1회 호출
 	/// </summary>
@@ -40,9 +38,7 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 	{
 		// 아이템 슬롯의 색상을 하얀색으로 변경
 		//image.color = Color.black;
-	}
-
-  
+	}  
     public UnityEvent DropinGrid; 
     public void OnDrop(PointerEventData eventData)
 	{
@@ -52,7 +48,8 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		}
 		if (gridNum == 0) 
 		{
-			return;
+           
+           return; 
 		}
 		// pointerDrag는 현재 드래그하고 있는 대상(=아이템)
 		if ( eventData.pointerDrag != null )
@@ -66,8 +63,6 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		}
 		DropinGrid?.Invoke();
 	}
-
-
     public void OnTransformChildrenChanged() // 자식의 수가 변경될때마다 호출
     {
 		if (transform.childCount == 0)

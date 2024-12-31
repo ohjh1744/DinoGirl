@@ -27,7 +27,6 @@ public class GridContext : MonoBehaviour
     private bool mybuff;
     public void UpdateBuffsList(int num) 
     {
-        
         for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++) 
         {
             if (BattleSceneManager.Instance.inGridObject[i] != null)
@@ -42,11 +41,8 @@ public class GridContext : MonoBehaviour
                 if (i == num) 
                 {
                     mybuff = true;
-
-                    Debug.Log($"{i}:{num}");
                 }
                 showGridArea(i, BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Id);
-
             }
             mybuff = false;
         }
@@ -55,13 +51,11 @@ public class GridContext : MonoBehaviour
     }
     public void showGridArea(int gridnum, int id) // 이벤트로 실행됨
     {
-        string girdshapeName = CsvDataManager.Instance.DataLists[5][id]["Grid"];
+        string girdshapeName = CsvDataManager.Instance.DataLists[0][id]["Grid"];
         selectGridBuff(girdshapeName, gridnum - 1, id); //그리드 모양(이름), 현재 위치 , 캐릭터 아이디 
-
     }
     public void selectGridBuff(string name, int curPos, int id) // 이름 csv 기준 그리드 버프 이름  curPos 는 0~8 기준 현재 위치 -4 한 값을 넣을 것                                                     
     {
-        Debug.Log($"{name}:{curPos}");
         switch (name)
         {
             case "Diagonal_2":
@@ -101,7 +95,6 @@ public class GridContext : MonoBehaviour
                 {
                     StartCoroutine(highLightingColor(index));
                 }
-                
                 if (BattleSceneManager.Instance.inGridObject[index + 1] != null)
                 {
                     buffeffect(id, index + 1);
@@ -112,11 +105,10 @@ public class GridContext : MonoBehaviour
     }
     private void buffeffect(int id, int index)  // 1 체력 2 공격력 3 방어력
     {
-        int statid = int.Parse(CsvDataManager.Instance.DataLists[5][id]["StatID"]);
-        int increase = int.Parse(CsvDataManager.Instance.DataLists[5][id]["PercentIncrease"]);
+        int statid = int.Parse(CsvDataManager.Instance.DataLists[0][id]["StatID"]);
+        int increase = int.Parse(CsvDataManager.Instance.DataLists[0][id]["PercentIncrease"]);
         Vector3Int item = new Vector3Int(id,statid, increase);
         BattleSceneManager.Instance.inGridObject[index].GetComponent<UnitStat>().buffs.Add(item);
-
     }
     Vector2Int ConvertTo2D(int index)
     {
@@ -128,7 +120,6 @@ public class GridContext : MonoBehaviour
     {
         return row * 3 + column;
     }
-
     IEnumerator highLightingColor(int index)
     {
         myGrids[index].color = highLightColors[0];
