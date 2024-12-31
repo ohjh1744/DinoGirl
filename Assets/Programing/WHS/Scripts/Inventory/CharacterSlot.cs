@@ -36,7 +36,7 @@ public class CharacterSlot : UIBInder
             GetUI<TextMeshProUGUI>("NameText").text = unitData.UnitId.ToString();
         }
         GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
-        //GetUI<Image>("Character").sprite = character.image;
+        // TODO : 캐릭터 스프라이트 이미지
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )

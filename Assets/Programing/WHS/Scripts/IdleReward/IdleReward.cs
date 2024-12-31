@@ -67,13 +67,13 @@ public class IdleReward : MonoBehaviour
     // 아이템 계산
     public int CalculateReward(int housingId, int seconds)
     {
-        // 최대 누적 시간(24시간)
+        // 최대 누적 시간(24시간 86400초)
         int maxIdleTime = Mathf.Min(seconds, 86400);
         float idleMinutes = maxIdleTime / 60f;
 
         if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
-            // 스테이지에 따른 시간당 보상
+            // 스테이지 진행도에 따른 시간당 보상
             int rewardPerHour = GetRewardPerHour(housingId);
             int reward = Mathf.FloorToInt(rewardPerHour * idleMinutes);
 
@@ -136,7 +136,7 @@ public class IdleReward : MonoBehaviour
         });
     }
 
-    // 타이머 1시간 이상부터 수령버튼 활성화
+    // 수령할 보상이 있을 때 버튼 활성화 
     public bool HasIdleReward()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;

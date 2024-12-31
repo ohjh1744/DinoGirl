@@ -37,7 +37,8 @@ public class CharacterPanel : UIBInder
         int level = character.UnitLevel;
         if (characterData.TryGetValue(character.UnitId, out var data))
         {
-            GetUI<TextMeshProUGUI>("unitid").text = character.UnitId.ToString();
+            // TODO : 캐릭터의 각종 스탯 정보 ( 이름, ID 외 나머지 스텟 가져와야함)
+            GetUI<TextMeshProUGUI>("UnitIdText").text = character.UnitId.ToString();
             GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
 
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
@@ -109,7 +110,7 @@ public class CharacterPanel : UIBInder
             levelUpPanel.gameObject.SetActive(true);
 
             LevelUpPanel levelUp = levelUpPanel.GetComponent<LevelUpPanel>();
-            levelUp.Initialize(curCharacter);
+            levelUp.Init(curCharacter);
         }
     }
 
