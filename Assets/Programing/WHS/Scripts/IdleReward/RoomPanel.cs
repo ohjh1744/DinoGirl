@@ -41,23 +41,13 @@ public class RoomPanel : UIBInder
         }
         */
     }
-
-    // Room 떠날 때 RoomExitTime 서버에 저장
     private void OnDisable()
     {
-        idleReward.SaveExitTime();
-
         if (updateIdleTimeCoroutine != null)
         {
             StopCoroutine(updateIdleTimeCoroutine);
             updateIdleTimeCoroutine = null;
         }
-    }
-
-    // 게임 종료 시 RoomExitTime 서버에 저장
-    private void OnApplicationQuit()
-    {
-        idleReward.SaveExitTime();
     }
 
     public void TESTESTS()
@@ -131,18 +121,21 @@ public class RoomPanel : UIBInder
     // 방치시간 타이머 텍스트
     private IEnumerator UpdateIdleTimeCoroutine()
     {
-        TimeSpan lastCalcTime = TimeSpan.Zero;
+        DateTime lastTime = DateTime.Now;
 
         while (true)
         {
             TimeSpan idleTime = idleReward.GetIdleTime();
 
             GetUI<TextMeshProUGUI>("IdleTimeText").text = $"{idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+            GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
-            if(idleTime.Seconds > lastCalcTime.Seconds)
+            TimeSpan elapsedTime = DateTime.Now - lastTime;
+
+            if (elapsedTime.TotalSeconds >= 10)
             {
                 idleReward.CalculateIdleReward();
-                lastCalcTime = idleTime;
+                lastTime = DateTime.Now;
             }
 
             yield return new WaitForSeconds(1f);
