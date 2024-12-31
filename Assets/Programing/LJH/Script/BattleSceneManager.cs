@@ -121,7 +121,6 @@ public class BattleSceneManager : MonoBehaviour
             int atk = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseATK"]);
             int def = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseDef"]);
             string element = CsvDataManager.Instance.DataLists[0][id]["ElementID"];
-
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
@@ -129,29 +128,22 @@ public class BattleSceneManager : MonoBehaviour
                                                                                              // 리소스 파일 이름에 id 같은거 포함 시키면 될듯함
             Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element);
         }
-
     }
-
     private void BattleSceneStart()
     {
-
-        StartCoroutine(BattleSceneStartDelaying());
-        
+        StartCoroutine(BattleSceneStartDelaying()); 
     }
     IEnumerator BattleSceneStartDelaying() 
     {
         yield return new WaitForSeconds(2f);
-        //for (int i = 0; i < myUnitData.Count; i++) 
-        //{
-        //    Debug.Log($" id : {myUnitData[i].Id} Lv : {myUnitData[i].Level} Pos : {myUnitData[i].Pos} hp :{myUnitData[i].MaxHp}");
-        //}
-        //for (int i = 0; i < enemyUnitData.Count; i++)
-        //{
-        //    Debug.Log($" id : {enemyUnitData[i].Id} Pos : {enemyUnitData[i].Pos} hp :{enemyUnitData[i].MaxHp}");
-        //}
-
         Spawner spawner = GameObject.Find("Spawner").GetComponent<Spawner>();
         spawner.SpawnUnits();
+
+        foreach (int i in curItemValues.Keys) 
+        {
+            Debug.Log($"아이디 : {i} 수량 : {curItemValues[i]}");
+        }
+        
     }
 
 
