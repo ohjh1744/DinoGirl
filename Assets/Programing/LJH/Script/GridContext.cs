@@ -55,7 +55,7 @@ public class GridContext : MonoBehaviour
     }
     public void showGridArea(int gridnum, int id) // 이벤트로 실행됨
     {
-        string girdshapeName = CsvDataManager.Instance.DataLists[5][id]["Grid"];
+        string girdshapeName = CsvDataManager.Instance.DataLists[0][id]["Grid"];
         selectGridBuff(girdshapeName, gridnum - 1, id); //그리드 모양(이름), 현재 위치 , 캐릭터 아이디 
 
     }
@@ -112,8 +112,8 @@ public class GridContext : MonoBehaviour
     }
     private void buffeffect(int id, int index)  // 1 체력 2 공격력 3 방어력
     {
-        int statid = int.Parse(CsvDataManager.Instance.DataLists[5][id]["StatID"]);
-        int increase = int.Parse(CsvDataManager.Instance.DataLists[5][id]["PercentIncrease"]);
+        int statid = int.Parse(CsvDataManager.Instance.DataLists[0][id]["StatID"]);
+        int increase = int.Parse(CsvDataManager.Instance.DataLists[0][id]["PercentIncrease"]);
         Vector3Int item = new Vector3Int(id,statid, increase);
         BattleSceneManager.Instance.inGridObject[index].GetComponent<UnitStat>().buffs.Add(item);
 

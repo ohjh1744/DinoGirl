@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StagePanel : MonoBehaviour
@@ -40,10 +41,10 @@ public class StagePanel : MonoBehaviour
       
 
 
-    // Monster, Stages, MontserGroup, StageReward, Item  08 ~ 12 나중에 합칠때 리스트 순서 수정해야함 
+    //캐릭터 0 몬스터 5 스테이지6 몬스터그룹7 리워드그룹8 아이템9 
     public void setStageData(int stageNum) //  stages csv의 스테이지 순서대로(0번부터)
     {
-        stageDic = CsvDataManager.Instance.DataLists[1]; //파싱한 순서(url 순서대로 들어감)
+        stageDic = CsvDataManager.Instance.DataLists[6]; //파싱한 순서(url 순서대로 들어감)
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["Limit"];
         BattleSceneManager.Instance._timeLimit = int.Parse(curTimeLimit);
@@ -51,7 +52,7 @@ public class StagePanel : MonoBehaviour
         curMobGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["MonsterGroupID"]);
         curRewardGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["StageRewardID"]); 
 
-        monsterGroupDic = CsvDataManager.Instance.DataLists[2];
+        monsterGroupDic = CsvDataManager.Instance.DataLists[7];
 
         gridClearing();
 
@@ -60,7 +61,7 @@ public class StagePanel : MonoBehaviour
             curMobPos[i] = monsterGroupDic[curMobGroup]["MonsterLocation" + (i+1).ToString()];
         }
 
-        monsterDic = CsvDataManager.Instance.DataLists[0];
+        monsterDic = CsvDataManager.Instance.DataLists[5];
         for (int i = 0; i < curMobPos.Count; i++)
         {
             if (curMobPos[i] != "0") 
@@ -70,8 +71,8 @@ public class StagePanel : MonoBehaviour
             }
         }
 
-        stageRewardDic = CsvDataManager.Instance.DataLists[3]; // 스테이지 클리어시 받을 보상 불러오기 
-        itemDic = CsvDataManager.Instance.DataLists[4];
+        stageRewardDic = CsvDataManager.Instance.DataLists[8]; // 스테이지 클리어시 받을 보상 불러오기 
+        itemDic = CsvDataManager.Instance.DataLists[9];
         foreach (string item in stageRewardDic[curRewardGroup].Keys) 
         {
             if (stageRewardDic[curRewardGroup][item] != "0") 
@@ -109,4 +110,5 @@ public class StagePanel : MonoBehaviour
             curmyPos.Add(0);
         }
     }
+
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -44,30 +45,45 @@ public class BattleSceneManager : MonoBehaviour
     public UnityEvent startStage;
     public void StageStart()
     {
-        string datas = "";
-        int count = 0;
-        Debug.Log("스테이지 시작");
-        // 씬만 넘어가게 해도 될듯 이미 매니저에 데이터가 있으니 
-        for (int i = 0; i < inGridObject.Length; i++)
+        // 1 ~ 5인만 출발 가능
+        for (int i = 1; i < inGridObject.Length; i++) 
         {
-            if (inGridObject[i] != null)
+            if (inGridObject[i] != null) 
             {
-                datas += i.ToString();
-                count++;
+                UnitStat unitStat = inGridObject[i].GetComponent<UnitStat>();
+                string x =" ";
+                for (int j = 0; j < unitStat.buffs.Count; j++) // 적용 방식은 고민해봐야 할듯
+                {
+                    x += unitStat.buffs[j].y.ToString() + ":" + unitStat.buffs[j].y.ToString() + " , ";
+                }
+                Debug.Log($"위치 : {i} id :  {unitStat.Id} 레벨 {unitStat.Level} 적용된 버프종류 : {x}"); //나중에 적용된 버프들 ui에 뜨면 좋을듯 리스트는 실시간으로 적용중이니 
             }
         }
-        Debug.Log(datas);
-        if (count > 5)
+        for (int i = 0; i < enemyGridObject.Length; i++) 
         {
-            Debug.Log("5인 초과 출발 불가");  // 0 인 출발도 못하게 해야함
+            if (enemyGridObject[i] != null) 
+            {
+                int id = int.Parse(enemyGridObject[i]);
+                string name = CsvDataManager.Instance.DataLists[5][id]["MonsterName"];
+                string damage = CsvDataManager.Instance.DataLists[5][id]["Damage"];
+                string armor = CsvDataManager.Instance.DataLists[5][id]["Armor"];
+                string hp = CsvDataManager.Instance.DataLists[5][id]["MonsterHP"];
+                Debug.Log($"위치 :  {i+1} id : {id} 이름 : {name} 공 : {damage} 방 :{armor} 체 : {hp}");
+            }
         }
         
     }
     public void BackStage()
-    {
+    {   
+         
         // 스테이지패널 , 배틀씬 매니저정보 초기화 해야함
         for (int i = 0; i < inGridObject.Length; i++)
         {
+            
+            if (inGridObject[i] != null) 
+            {
+               // inGridObject[i].GetComponent<DraggableUI>().ResetDragables();
+            }
             inGridObject[i] = null;
 
         }
@@ -75,6 +91,7 @@ public class BattleSceneManager : MonoBehaviour
         {
             enemyGridObject[i] = null;
         }
+
     }
     public void GetDraggables()
     {
@@ -96,12 +113,12 @@ public class BattleSceneManager : MonoBehaviour
             Draggables[i].gameObject.SetActive(true);
 
             int id = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitId;
-            int maxHp = int.Parse(CsvDataManager.Instance.DataLists[5][id]["BaseHp"]);
-            int atk = int.Parse(CsvDataManager.Instance.DataLists[5][id]["BaseATK"]);
-            int def = int.Parse(CsvDataManager.Instance.DataLists[5][id]["BaseDef"]);
-            string element = CsvDataManager.Instance.DataLists[5][id]["ElementID"];
+            int maxHp = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseHp"]);
+            int atk = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseATK"]);
+            int def = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseDef"]);
+            string element = CsvDataManager.Instance.DataLists[0][id]["ElementID"];
 
-            string name = CsvDataManager.Instance.DataLists[5][id]["Name"];
+            string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_"+id.ToString());
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id,name, level,sprite); // 이미지는 리소스 파일기준으로 사용하자
