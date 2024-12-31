@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +28,8 @@ public class GachaSceneController : UIBInder
     Dictionary<int, Dictionary<string, string>> dataBaseList = new Dictionary<int, Dictionary<string, string>>();
 
     public Dictionary<int, GachaItem> ItemDictionary = new Dictionary<int, GachaItem>();
+    public Dictionary<int, GachaChar> CharDictionary = new Dictionary<int, GachaChar>();
+    public Dictionary<int, GachaItemReturn> CharReturnItemDic = new Dictionary<int, GachaItemReturn>();
 
     [Header("Gacha Lists")]
     public List<Gacha> baseGachaList = new List<Gacha>();
@@ -38,14 +40,14 @@ public class GachaSceneController : UIBInder
     [SerializeField] RectTransform tenResultContent; // 10연차 결과 내역 프리팹이 생성 될 위치
     [SerializeField] GameObject resultCharPrefab; // 결과가 캐릭터인 경우 사용할 프리팹
     [SerializeField] GameObject resultItemPrefab; // 결과가 아이템인 경우 사용할 프리팹
+    [SerializeField] RectTransform returnContent; // 중복캐릭터 아이템 반환 프리팹이 생성 될 위치
+    [SerializeField] GameObject returnPrefab; // 중복캐릭터 아이템 반환 프리팹
 
     private void Awake()
     {
         gachaBtn = gameObject.GetComponent<GachaBtn>();
         BindAll();
-        // SettingStartUI();
         SettingStartPanel();
-
     }
     /// <summary>
     /// 시작 시 버튼의 문구 설정
@@ -135,47 +137,81 @@ public class GachaSceneController : UIBInder
     }
 
     /// <summary>
-    /// DB에서 받아온 Item을 GachaItme 형식의 리스트에 사용할 수 있는 형태로 저장
+    /// DB에서 받아온 Item을 GachaItem 형식의 리스트에 사용할 수 있는 형태로 저장
     /// - GachaBtn.cs 에서 아이템을 반환할 때 UI로 연동시켜서 제작하기 위해 사용
-    //  - LoadingCheck.cs에서 이벤트로 사용
-    /// - 의문
-    ///   1. UI를 GachaBtn에서 구현하는 게 맞는지
-    ///   2. DB를 연동하는 GachaSceneController.cs에서 하는 게 맞는 것 같은데, Item과 캐릭터 모두 일일히 지정하는게
-    ///      유지보수 + 확장성 측면에서 괜찮은지 확신이 없음
+    //  - LoadingCheck.cs에서 이벤트로 설정
     /// </summary>
-    public void MakeItemList()
+    public void MakeItemDic()
     {
         dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Item];
         GachaItem gold = new GachaItem();
-        gold.ItemId = 500;
-        gold.ItemName = dataBaseList[500]["ItemName"];
-        gold.ItemImage = Resources.Load<Sprite>("Lottery/TestG");
+        gold = gold.MakeItemList(dataBaseList, gold, 500);
         ItemDictionary.Add(gold.ItemId, gold);
 
         GachaItem dinoBlood = new GachaItem();
-        dinoBlood.ItemId = 501;
-        dinoBlood.ItemName = dataBaseList[501]["ItemName"];
-        dinoBlood.ItemImage = Resources.Load<Sprite>("Lottery/TestDB");
+        dinoBlood = dinoBlood.MakeItemList(dataBaseList, dinoBlood, 501);
         ItemDictionary.Add(dinoBlood.ItemId, dinoBlood);
 
         GachaItem boneCrystal = new GachaItem();
-        boneCrystal.ItemId = 502;
-        boneCrystal.ItemName = dataBaseList[502]["ItemName"];
-        boneCrystal.ItemImage = Resources.Load<Sprite>("Lottery/TestBC");
+        boneCrystal = boneCrystal.MakeItemList(dataBaseList, boneCrystal, 502);
         ItemDictionary.Add(boneCrystal.ItemId, boneCrystal);
 
         GachaItem dinoStone = new GachaItem();
-        dinoStone.ItemId = 503;
-        dinoStone.ItemName = dataBaseList[503]["ItemName"];
-        dinoStone.ItemImage = Resources.Load<Sprite>("Lottery/TestDS");
+        dinoStone = dinoStone.MakeItemList(dataBaseList, dinoStone, 503);
         ItemDictionary.Add(dinoStone.ItemId, dinoStone);
 
         GachaItem stone = new GachaItem();
-        stone.ItemId = 504;
-        stone.ItemName = dataBaseList[504]["ItemName"];
-        stone.ItemImage = Resources.Load<Sprite>("Lottery/TestS");
+        stone = stone.MakeItemList(dataBaseList, stone, 504);
         ItemDictionary.Add(stone.ItemId, stone);
 
+    }
+
+    /// <summary>
+    /// DB에서 받아온 Character를 GachaChar 형식의 리스트에서 사용할 수 있는 형태로 저장
+    /// - GachaBtn.cs 에서 아이템을 반환할 때 UI로 연동시켜서 제작하기 위해 사용
+    /// - 캐릭터 목록 추가 시 추가 필요
+    //  - LoadingCheck.cs에서 이벤트로 설정
+    /// </summary>
+    public void MakeCharDic()
+    {
+        dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        GachaChar tricia = new GachaChar();
+        tricia = tricia.MakeCharList(dataBaseList, tricia, 1);
+        CharDictionary.Add(tricia.CharId, tricia);
+        GachaChar celes = new GachaChar();
+        celes = celes.MakeCharList(dataBaseList, celes, 2);
+        CharDictionary.Add(celes.CharId, celes);
+        GachaChar regina = new GachaChar();
+        regina = regina.MakeCharList(dataBaseList, regina, 3);
+        CharDictionary.Add(regina.CharId, regina);
+        GachaChar spinne = new GachaChar();
+        spinne = spinne.MakeCharList(dataBaseList, spinne, 4);
+        CharDictionary.Add(spinne.CharId, spinne);
+        GachaChar aila = new GachaChar();
+        aila = aila.MakeCharList(dataBaseList, aila, 5);
+        CharDictionary.Add(aila.CharId, aila);
+        GachaChar quezna = new GachaChar();
+        quezna = quezna.MakeCharList(dataBaseList, quezna, 6);
+        CharDictionary.Add(quezna.CharId, quezna);
+        GachaChar uloro = new GachaChar();
+        uloro = uloro.MakeCharList(dataBaseList, uloro, 7);
+        CharDictionary.Add(uloro.CharId, uloro);
+    }
+    /// <summary>
+    /// DB에서 받아온 GachaReturn를 GachaItemReturn 형식의 리스트에서 사용할 수 있는 형태로 저장
+    /// - GachaBtn.cs 에서 중복캐릭터를 아이템으로 반환할 때 사용
+    //  - LoadingCheck.cs에서 이벤트로 설정
+    /// </summary>
+    public void MakeCharReturnItemDic()
+    {
+        dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.GachaReturn];
+        for (int i = 1; i <= dataBaseList.Count; i++)
+        {
+            GachaItemReturn gachaItemReturn = new GachaItemReturn();
+            gachaItemReturn.ItemId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["ItemID"]);
+            gachaItemReturn.Count= TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Count"]);
+            CharReturnItemDic.Add(i, gachaItemReturn);
+        }
     }
 
     /// <summary>
@@ -256,7 +292,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
         ShowResultPanelDisable(); // 비활성화 함수
     }
- 
+
 
     /// <summary>
     /// GachaResultPanel 비활성화
@@ -298,17 +334,18 @@ public class GachaSceneController : UIBInder
         switch (GachaList[index].Check)
         {
             case 1: // 반환이 아이템인 경우
-                GachaItem result = ItemDictionary[GachaList[index].ItemId];
-                GameObject resultUI = Instantiate(resultItemPrefab, singleResultContent);
+                GachaItem result = ItemDictionary[GachaList[index].ItemId]; // GachaItem 설정
+                result.Amount = GachaList[index].Count; // GachaItem의 Amount를 정해진 수량으로 설정
 
-                // 알맞은 UI 출력
-                resultUI.transform.GetChild(0).GetComponent<Image>().sprite = result.ItemImage;
-                resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = result.ItemName;
-                resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = GachaList[index].Count.ToString();
+                GameObject resultUI = Instantiate(resultItemPrefab, singleResultContent); // Prefab으로 정해진 위치에 생성 - 한개
+                resultUI = result.SetGachaItemUI(result, resultUI); // GachaItem을 적용한 UI Setting
                 return resultUI;
-            case 2:
-                // TODO : 반환이 캐릭터인 경우
-                return null;
+            case 2: // 반환이 캐릭터인 경우
+                GachaChar resultChar = CharDictionary[GachaList[index].CharId];
+                resultChar.Amount = GachaList[index].Count;
+                GameObject resultCharUI = Instantiate(resultCharPrefab, singleResultContent);
+                resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
+                return resultCharUI;
             default:
                 return null;
         }
@@ -330,19 +367,43 @@ public class GachaSceneController : UIBInder
         switch (GachaList[index].Check)
         {
             case 1: // 반환이 아이템인 경우
-                GachaItem result = ItemDictionary[GachaList[index].ItemId];
-                GameObject resultUI = Instantiate(resultItemPrefab, tenResultContent);
+                GachaItem result = ItemDictionary[GachaList[index].ItemId]; // GachaItem 설정
+                result.Amount = GachaList[index].Count; // GachaItem의 Amount를 정해진 수량으로 설정
 
-                // 알맞은 UI 출력
-                resultUI.transform.GetChild(0).GetComponent<Image>().sprite = result.ItemImage;
-                resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = result.ItemName;
-                resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = GachaList[index].Count.ToString();
+                GameObject resultUI = Instantiate(resultItemPrefab, tenResultContent); // Prefab으로 정해진 위치에 생성 - 열개
+                resultUI = result.SetGachaItemUI(result, resultUI); // GachaItem을 적용한 UI Setting
+
                 return resultUI;
             case 2:
                 // TODO : 반환이 캐릭터인 경우
-                return null;
+                GachaChar resultChar = CharDictionary[GachaList[index].CharId];
+                resultChar.Amount = GachaList[index].Count;
+                GameObject resultCharUI = Instantiate(resultCharPrefab, tenResultContent);
+                resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
+                return resultCharUI;
             default:
                 return null;
         }
+    }
+
+    /// <summary>
+    /// 이미 뽑아서 제작한 resultList의 캐릭터 프리팹 오브젝트 resultListObj
+    /// </summary>
+    /// <param name="UnitId"></param>
+    /// <param name="resultListObj"></param>
+    public GameObject CharReturnItem(int UnitId, GameObject resultListObj)
+    {
+        returnContent = resultListObj.transform.GetChild(3).GetComponent<RectTransform>();
+        GameObject resultObjUI = Instantiate(returnPrefab, returnContent); // 그 위치에 새로운 프리팹으로 생성
+
+        GachaItem resultItem = resultObjUI.gameObject.GetComponent<GachaItem>();
+        resultItem.ItemId = CharReturnItemDic[UnitId].ItemId;
+        resultItem.Amount = CharReturnItemDic[UnitId].Count;
+        resultItem.ItemName = ItemDictionary[CharReturnItemDic[UnitId].ItemId].ItemName;
+        resultItem.ItemImage = ItemDictionary[CharReturnItemDic[UnitId].ItemId].ItemImage;
+
+        resultObjUI = resultItem.SetGachaReturnItemUI(resultItem, resultObjUI);
+
+        return resultObjUI;
     }
 }
