@@ -187,7 +187,7 @@ public class LoginPanel : UIBInder
         GetUI<Image>("LoginWarningPanel").gameObject.SetActive(true);
         _sb.Clear();
         _sb.Append(textName);
-        GetUI<TextMeshProUGUI>("WarningText").SetText(_sb);
+        GetUI<TextMeshProUGUI>("LoginWarningText").SetText(_sb);
     }
 
     private void ResetInputField()

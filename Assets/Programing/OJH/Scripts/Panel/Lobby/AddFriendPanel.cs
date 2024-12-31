@@ -18,6 +18,8 @@ public class AddFriendPanel : MonoBehaviour
 
     [SerializeField] private int _listNum; //LIst에 보이는 User 수
 
+    [SerializeField] private AutoFalseSetter _getCoinImage; // userList에 참조해줄 Image
+
     private bool _isFriend;
 
     private void Start()
@@ -86,6 +88,8 @@ public class AddFriendPanel : MonoBehaviour
                 UserList userList = userInfo.GetComponent<UserList>();
 
                 userList.OtherId = userChildren[i].Key.ToString();
+
+                userList.GetCoinImage = _getCoinImage;
 
                 TextMeshProUGUI nameText = userInfo.GetComponentInChildren<TextMeshProUGUI>();
 

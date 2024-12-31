@@ -14,6 +14,10 @@ public class UserList : MonoBehaviour
 
     [SerializeField] private Button _button;
 
+    private AutoFalseSetter _getCoinImage;
+
+    public AutoFalseSetter GetCoinImage { get { return _getCoinImage; } set { _getCoinImage = value; } }
+
     public void AddFriend()
     {
         if(PlayerDataManager.Instance.PlayerData.CanAddFriend <= 0)
@@ -47,6 +51,8 @@ public class UserList : MonoBehaviour
 
         //친구 추가 성공적으로 끝났다면 상호작용 false.
         _button.interactable = false;
+        _getCoinImage.gameObject.SetActive(true);
+        _getCoinImage.ResetCurrentTime();
     }
 
     //canFollow 변수 감소 후 Firebase에 Update

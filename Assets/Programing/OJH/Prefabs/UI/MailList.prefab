@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6480935751746286789}
   - component: {fileID: 2432698293145635593}
   m_Layer: 5
-  m_Name: FriendListButton
+  m_Name: MailGetButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5559778519313018906}
-        m_TargetAssemblyTypeName: FriendList, Assembly-CSharp
-        m_MethodName: DeleteFriend
+      - m_Target: {fileID: 5747879934408771175}
+        m_TargetAssemblyTypeName: MailList, Assembly-CSharp
+        m_MethodName: CheckMail
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -145,9 +145,9 @@ GameObject:
   - component: {fileID: 6152401369692150958}
   - component: {fileID: 2839505878364638629}
   - component: {fileID: 681254994579121570}
-  - component: {fileID: 5559778519313018906}
+  - component: {fileID: 5747879934408771175}
   m_Layer: 5
-  m_Name: FriendList
+  m_Name: MailList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5559778519313018906
+--- !u!114 &5747879934408771175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,10 +222,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2214283211875335665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ddfcc4502f93d64aac3116a2e6549c0, type: 3}
+  m_Script: {fileID: 11500000, guid: bc272672778dc5645be356dec2d70fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _friendId: 
+  _otherId: 
 --- !u!1 &3095505167423304311
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,9 +292,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'X
-
-'
+  m_text: Get
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -321,8 +319,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -375,7 +373,7 @@ GameObject:
   - component: {fileID: 8524803057267607767}
   - component: {fileID: 6105938315081864130}
   m_Layer: 5
-  m_Name: FriendNameText
+  m_Name: MailText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

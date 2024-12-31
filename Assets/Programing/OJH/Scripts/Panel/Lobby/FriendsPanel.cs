@@ -14,12 +14,24 @@ public class FriendsPanel : MonoBehaviour
 
     [SerializeField] private Transform _content; // content 자식으로 넣기 위함.
 
-    void Start() 
+    [SerializeField] private ListObjectPull _pull;
+
+    private List<GameObject> _infoLists;
+
+    private void Awake()
+    {
+        _infoLists = new List<GameObject>();
+    }
+    private void OnEnable()
     {
         GetFriendData();
     }
 
-    
+    private void OnDisable()
+    {
+        Clear();
+    }
+
     private void GetFriendData()
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
@@ -37,19 +49,32 @@ public class FriendsPanel : MonoBehaviour
 
             // ID값들 가져오고 SnapShot의 List 잘가져왔는지 확인.
             var userIds = snapShot.Children.ToList();
+            CheckSnapSHot(userIds);
 
             for (int i = 0; i < PlayerDataManager.Instance.PlayerData.FriendIds.Count; i++)
             {
                 string friendId = PlayerDataManager.Instance.PlayerData.FriendIds[i];
                 string name = snapShot.Child(friendId).Child("_playerName").Value.ToString();
 
-                GameObject friendList = Instantiate(_friendList, _content);
-                TextMeshProUGUI nameText = friendList.GetComponentInChildren<TextMeshProUGUI>();
+                GameObject friendInfo = _pull.Get((int)E_List.Friend, _content);
+                _infoLists.Add(friendInfo);
+                TextMeshProUGUI nameText = friendInfo.GetComponentInChildren<TextMeshProUGUI>();
+                FriendList friendList = friendInfo.GetComponent<FriendList>();
+                friendList.FriendId = friendId;
                 SetNameTag(name, friendId, nameText);
             }
 
         });
 
+    }
+
+    private void Clear()
+    {
+        for(int i = 0; i < _infoLists.Count; i++)
+        {
+            _infoLists[i].SetActive(false);
+        }
+        _infoLists.Clear();
     }
 
     private void SetNameTag(string name, string id, TextMeshProUGUI text)
@@ -59,6 +84,14 @@ public class FriendsPanel : MonoBehaviour
         nameSb.Append("#");
         nameSb.Append(id.Substring(0, 4));
         text.SetText(nameSb);
+    }
+
+    private void CheckSnapSHot(List<DataSnapshot> snapshotChildren)
+    {
+        while (snapshotChildren == null || snapshotChildren.Count == 0)
+        {
+            Debug.Log("snapshot null값임!");
+        }
     }
 
 }
