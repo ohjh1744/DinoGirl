@@ -67,14 +67,16 @@ public class IdleReward : MonoBehaviour
     // 아이템 계산
     public int CalculateReward(int housingId, int seconds)
     {
+        // 최대 누적 시간(24시간 86400초)
+        int maxIdleTime = Mathf.Min(seconds, 86400);
+        float idleMinutes = maxIdleTime / 60f;
+
         if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
-            // 스테이지에 따른 시간당 보상
+            // 스테이지 진행도에 따른 시간당 보상
             int rewardPerHour = GetRewardPerHour(housingId);
-                       
-            int reward = Mathf.FloorToInt(rewardPerHour * seconds / 1f);
-            // int hours = seconds / 3600;
-            // int reward = Mathf.FloorToInt(rewardPerHour * hours);
+            int reward = Mathf.FloorToInt(rewardPerHour * idleMinutes);
+
             return reward;
         }
         return 0;
@@ -134,7 +136,7 @@ public class IdleReward : MonoBehaviour
         });
     }
 
-    // 타이머 1시간 이상부터 수령버튼 활성화
+    // 수령할 보상이 있을 때 버튼 활성화 
     public bool HasIdleReward()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
@@ -142,7 +144,7 @@ public class IdleReward : MonoBehaviour
         TimeSpan idleTime = DateTime.Now - exitTime;
 
         int idleSeconds = (int)idleTime.TotalSeconds;
-        return idleSeconds >= 3600;
+        return idleSeconds >= 60;
     }
 
     // 방치한 시간
@@ -156,7 +158,7 @@ public class IdleReward : MonoBehaviour
     // 스테이지 진행에 따른 보상
     private int GetRewardPerHour(int housingId)
     {
-        if(housingData.TryGetValue(housingId, out Dictionary<string, string> data))
+        if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
             int baseReward = int.Parse(data["PerHour"]);
 
@@ -173,7 +175,7 @@ public class IdleReward : MonoBehaviour
                 Debug.Log("storage1");
                 return int.Parse(storage1);
             }
-            else if(clearedStages >= 2 && data.TryGetValue("0MaxStorage", out string storage0))
+            else if (clearedStages >= 2 && data.TryGetValue("0MaxStorage", out string storage0))
             {
                 Debug.Log("storage0");
                 return int.Parse(storage0);

@@ -1,3 +1,5 @@
+using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +9,22 @@ using UnityEngine.EventSystems;
 
 public class ItemPanel : UIBInder
 {
+    private static ItemPanel _instance;
+    public static ItemPanel Instance { get { return _instance; } set { _instance = value; } }
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         BindAll();
@@ -18,11 +36,7 @@ public class ItemPanel : UIBInder
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() =>
-            PlayerDataManager.Instance != null &&
-            PlayerDataManager.Instance.PlayerData != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         Init();
     }
@@ -69,29 +83,74 @@ public class ItemPanel : UIBInder
     private void UpdateCoinText(int newValue)
     {
         GetUI<TextMeshProUGUI>("CoinText").text = newValue.ToString();
+        UpdateItemsInDatabase();
     }
 
     private void UpdateDinoBloodText(int newValue)
     {
         GetUI<TextMeshProUGUI>("DinoBloodText").text = newValue.ToString();
+        UpdateItemsInDatabase();
     }
 
     private void UpdateBoneCrystalText(int newValue)
     {
         GetUI<TextMeshProUGUI>("BoneCrystalText").text = newValue.ToString();
+        UpdateItemsInDatabase();
     }
 
     private void UpdateDinoStoneText(int newValue)
     {
         GetUI<TextMeshProUGUI>("DinoStoneText").text = newValue.ToString();
+        UpdateItemsInDatabase();
     }
 
     public void ItemTEST(PointerEventData eventData)
     {
-        int currentCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, currentCoinAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, currentCoinAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, currentCoinAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, currentCoinAmount + 100000);
+        int curCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
+        int curDinoBloodAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood];
+        int curBoneCrystalAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal];
+        int curDinoStoneAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone];
+
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, curCoinAmount + 100000);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, curDinoBloodAmount + 100000);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, curBoneCrystalAmount + 100000);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, curDinoStoneAmount + 100000);
+
+        UpdateItems();
+        UpdateItemsInDatabase();
+    }
+
+    public void UpdateItems()
+    {
+        UpdateCoinText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
+        UpdateDinoBloodText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
+        UpdateBoneCrystalText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
+        UpdateDinoStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]);
+    }
+
+    private void UpdateItemsInDatabase()
+    {
+        string userId = BackendManager.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            ["_items/0"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin],
+            ["_items/1"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood],
+            ["_items/2"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal],
+            ["_items/3"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]
+        };
+
+        userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"아이템 업데이트 실패: {task.Exception}");
+            }
+            else if (task.IsCompleted)
+            {
+                Debug.Log("아이템이 성공적으로 업데이트되었습니다.");
+            }
+        });
     }
 }

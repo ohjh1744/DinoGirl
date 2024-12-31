@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class RoomPanel : UIBInder
 {
     private IdleReward idleReward;
     [SerializeField] private GameObject idleRewardPanel;
+    [SerializeField] private ItemPanel itemPanel;
 
     private Coroutine updateIdleTimeCoroutine;
 
@@ -41,23 +43,13 @@ public class RoomPanel : UIBInder
         }
         */
     }
-
-    // Room 떠날 때 RoomExitTime 서버에 저장
     private void OnDisable()
     {
-        idleReward.SaveExitTime();
-
         if (updateIdleTimeCoroutine != null)
         {
             StopCoroutine(updateIdleTimeCoroutine);
             updateIdleTimeCoroutine = null;
         }
-    }
-
-    // 게임 종료 시 RoomExitTime 서버에 저장
-    private void OnApplicationQuit()
-    {
-        idleReward.SaveExitTime();
     }
 
     public void TESTESTS()
@@ -88,6 +80,8 @@ public class RoomPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.SetStoredItem((int)E_Item.DinoBlood, 0);
         PlayerDataManager.Instance.PlayerData.SetStoredItem((int)E_Item.BoneCrystal, 0);
 
+        ShowPopup(storedGold, storedDinoBlood, storedBoneCrystal);
+
         // Firebase에 업데이트된 아이템 정보 저장
         UpdateItemsInDatabase();
 
@@ -95,6 +89,8 @@ public class RoomPanel : UIBInder
         idleReward.SaveExitTime();
 
         idleRewardPanel.SetActive(false);
+
+        itemPanel.UpdateItems();
     }
 
     // 데이터베이스에 아이템 저장
@@ -131,18 +127,21 @@ public class RoomPanel : UIBInder
     // 방치시간 타이머 텍스트
     private IEnumerator UpdateIdleTimeCoroutine()
     {
-        TimeSpan lastCalcTime = TimeSpan.Zero;
+        DateTime lastTime = DateTime.Now;
 
         while (true)
         {
             TimeSpan idleTime = idleReward.GetIdleTime();
 
             GetUI<TextMeshProUGUI>("IdleTimeText").text = $"{idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+            GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
-            if(idleTime.Seconds > lastCalcTime.Seconds)
+            TimeSpan elapsedTime = DateTime.Now - lastTime;
+
+            if (elapsedTime.TotalSeconds >= 10)
             {
                 idleReward.CalculateIdleReward();
-                lastCalcTime = idleTime;
+                lastTime = DateTime.Now;
             }
 
             yield return new WaitForSeconds(1f);
@@ -164,6 +163,13 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
 
-        GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+        GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+    }
+
+    private void ShowPopup(int gold, int dinoBlood, int boneCrystal)
+    {
+        GetUI<TextMeshProUGUI>("GoldClaimText").text = $"Gold : {gold}";
+        GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Gold : {dinoBlood}";
+        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Gold : {boneCrystal}";        
     }
 }

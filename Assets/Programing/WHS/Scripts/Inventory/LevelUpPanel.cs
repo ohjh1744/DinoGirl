@@ -2,7 +2,9 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -62,8 +64,7 @@ public class LevelUpPanel : UIBInder
         }
     }
 
-
-    public void Initialize(PlayerUnitData character)
+    public void Init(PlayerUnitData character)
     {
         targetCharacter = character;
         CalculateMaxLevelUp();
@@ -105,8 +106,7 @@ public class LevelUpPanel : UIBInder
     private void CalculateMaxLevelUp()
     {
         maxLevelUp = 0;
-        while (CanLevelUp(maxLevelUp + 1)
-            && (targetCharacter.UnitLevel + maxLevelUp + 1) <= MAXLEVEL)
+        while (CanLevelUp(maxLevelUp + 1) && (targetCharacter.UnitLevel + maxLevelUp + 1) <= MAXLEVEL)
         {
             maxLevelUp++;
         }
@@ -122,7 +122,7 @@ public class LevelUpPanel : UIBInder
 
         RequiredItems items = CalculateRequiredItems(level);
 
-        // 레벨업에 충분한 양을 가지고 있으면 true
+        // 레벨업에 충분한 아이템 보유중일때 true
         return PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
                PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
                PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal;
@@ -131,88 +131,151 @@ public class LevelUpPanel : UIBInder
     // 요구 재화량 계산
     private RequiredItems CalculateRequiredItems(int level)
     {
-        RequiredItems items = new RequiredItems();  
+        RequiredItems items = new RequiredItems();
+        int rarity = GetRarity(); // 캐릭터의 레어도 가져와야함, 일단 4
 
         for (int i = 0; i < level; i++)
         {
-            // TODO : LevelUpID나 레어도에 따라 수정 필요
-            int levelUpId = 4000 + ((targetCharacter.UnitLevel + i) * 10);
+            int curLevel = targetCharacter.UnitLevel + i;
+            int levelUpId = FindLevelUpId(rarity, curLevel);
+
+            if (curLevel > MAXLEVEL)
+            {
+                break;
+            }
 
             if (levelUpData.TryGetValue(levelUpId, out Dictionary<string, string> data))
             {
-                items.coin += int.Parse(data["500"].Replace(",", ""));
-                items.dinoBlood += int.Parse(data["501"].Replace(",", ""));
-                if (data.ContainsKey("502") && !string.IsNullOrEmpty(data["502"]))
+                if (int.TryParse(data["500"], out int coin))
                 {
-                    items.boneCrystal += int.Parse(data["502"].Replace(",", ""));
+                    items.coin += coin;
+                }
+                if (int.TryParse(data["501"], out int dinoBlood))
+                {
+                    items.dinoBlood += dinoBlood;
+                }
+                if (data.ContainsKey("502") && int.TryParse(data["502"], out int boneCrystal))
+                {
+                    items.boneCrystal += boneCrystal;
                 }
             }
             else
             {
                 Debug.LogError($"레벨업 데이터를 찾을 수 없습니다. LevelUpID: {levelUpId}");
+                return new RequiredItems();
             }
         }
         return items;
     }
 
+    private int GetRarity()
+    {
+        // 캐릭터의 레어도 받아와야함
+        // TODO : UnitID에 따라 레어도를 찾아와야 할텐데 일단 4
+        return 4;
+    }
+
+    private int FindLevelUpId(int rarity, int level)
+    {
+        if(level > MAXLEVEL)
+        {
+            return -1;
+        }
+
+        foreach(var entry in levelUpData)
+        {
+            // 레어도와 레벨이 같을 때의 키 = LevelUpID 받아오기
+            if (int.Parse(entry.Value["Rarity"]) == rarity &&
+                int.Parse(entry.Value["Level"]) == level)
+            {
+                return entry.Key;
+            }
+        }
+
+        Debug.Log($"LevelUpId 찾지 못함 Rarity {rarity}, Level {level}");
+
+        return -1;
+    }
+
     // 레벨업 버튼
     private void OnConfirmButtonClick(PointerEventData eventData)
     {
-        for (int i = 0; i < curLevelUp; i++)
+        if(targetCharacter.UnitLevel + curLevelUp > MAXLEVEL)
         {
-            if (LevelUp(targetCharacter) == false)
-            {
-                break;
-            }
+            return;
         }
-        gameObject.SetActive(false);
+
+        RequiredItems items = CalculateRequiredItems(curLevelUp);
+
+        // 아이템이 충분한지 확인하고 레벨업 진행
+        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
+            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
+            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal)
+        {
+            for (int i = 0; i < curLevelUp; i++)
+            {
+                LevelUp(targetCharacter);
+            }
+
+            // UI 및 데이터베이스 업데이트
+            UpdateItemsData(items);
+            UpdateCharacters(targetCharacter);
+            UpdateLevelData(targetCharacter);
+
+            gameObject.SetActive(false);
+        }
     }
 
     // 레벨업
     private bool LevelUp(PlayerUnitData character)
     {
-        RequiredItems items = CalculateRequiredItems(1);
+        RequiredItems items = CalculateRequiredItems(1); // 단일 레벨업에 대한 아이템 계산
 
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
-            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
-            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal)
+        if (items.coin == 0 && items.dinoBlood == 0 && items.boneCrystal == 0)
         {
-            PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
-            PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
-            PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
-
-            // TODO : 데이터베이스에 소모한 아이템 업데이트
-
-            character.UnitLevel++;
-            Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
-            if (items.boneCrystal > 0)
-            {
-                Debug.Log($"본 크리스탈 {items.boneCrystal} 소모");
-            }
-
-            UpdateCharacters(character);
-            UpdateLevelData(character);
-
-            return true;
+            Debug.Log("요구 아이템 정보를 찾을 수 없습니다.");
+            return false;
         }
 
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] < items.coin)
-        {
-            Debug.Log($"코인이 {items.coin - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]} 부족합니다.");
-        }
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] < items.dinoBlood)
-        {
-            Debug.Log($"다이노블러드가 {items.dinoBlood - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]} 부족합니다");
-        }
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] < items.boneCrystal)
-        {
-            Debug.Log($"본크리스탈이 {items.boneCrystal - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]} 부족합니다");
-        }
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
 
-        return false;
+        character.UnitLevel++;
+        Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
+
+        return true;
     }
 
-    // db 레벨업 데이터 갱신
+    // db에 소모한 아이템 갱신
+    private void UpdateItemsData(RequiredItems items)
+    {
+        string userId = BackendManager.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            ["_items/0"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin],
+            ["_items/1"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood],
+            ["_items/2"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]
+        };
+
+        userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"아이템 업데이트 실패 {task.Exception}");
+            }
+            if (task.IsCanceled)
+            {
+                Debug.Log($"아이템 업데이트 중단됨 {task.Exception}");
+            }
+
+            Debug.Log("소모한 아이템 갱신");
+        });
+    }
+
+    // db에 레벨업 데이터 갱신
     private void UpdateLevelData(PlayerUnitData character)
     {
         string userID = BackendManager.Auth.CurrentUser.UserId;
@@ -257,17 +320,22 @@ public class LevelUpPanel : UIBInder
     // UI 갱신
     private void UpdateCharacters(PlayerUnitData character)
     {
+        // 캐릭터 정보에 보여지는 레벨 갱신
         CharacterPanel characterPanel = FindObjectOfType<CharacterPanel>();
         if (characterPanel != null)
         {
             characterPanel.UpdateCharacterInfo(character);
         }
 
+        // 인벤토리 슬롯에 보여지는 레벨 갱신
         InventoryPanel inventoryPanel = FindObjectOfType<InventoryPanel>();
         if (inventoryPanel != null)
         {
             inventoryPanel.UpdateCharacterUI(character);
         }
+
+        // 아이템패널 갱신
+        ItemPanel.Instance.UpdateItems();
     }
 
     private void OnDecreaseButtonClick(PointerEventData eventData)
