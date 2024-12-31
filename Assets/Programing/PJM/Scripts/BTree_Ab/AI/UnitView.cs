@@ -60,6 +60,24 @@ public class UnitView : MonoBehaviour
         return false;
     }
 
+    public void CheckNeedFlip(Transform unit1, Transform unit2)
+    {
+        if ((unit1.position.x > unit2.position.x && unit1.localScale.x < 0) || // 오른쪽을 봐야 하지만 왼쪽을 보고 있는 경우
+            (unit1.position.x < unit2.position.x && unit1.localScale.x > 0))   // 왼쪽을 봐야 하지만 오른쪽을 보고 있는 경우
+        {
+            Vector3 newScale = unit1.localScale;
+            newScale.x *= -1;
+            unit1.localScale = newScale;
+        }
+    }
+    
+    private void FlipScaleX(bool boolValue)
+    {
+        Vector3 newScale = transform.localScale; // 현재 로컬 스케일 가져오기
+        newScale.x = boolValue ? -Mathf.Abs(newScale.x) : Mathf.Abs(newScale.x); // X 값을 양수/음수로 설정
+        transform.localScale = newScale; // 수정된 스케일 다시 적용
+    }
+
     /*public void PlayAnimation(int animationHash)
     {
         if (animationHash >= 0 && animationHash < animationHash.Length)

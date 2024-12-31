@@ -28,9 +28,13 @@ public abstract class BaseUnitController : MonoBehaviour
     protected int unitID;
     public int UnitID { get { return unitID; } }
 
+    private float _minZ = -1.0f;
+    private float _maxZ = 1.0f;
+    
     // 카메라 범위
     protected Vector2 _bottomLeft;
     protected Vector2 _topRight;
+    
     
     
     //[SerializeField] protected float _detectRange;
@@ -131,6 +135,7 @@ public abstract class BaseUnitController : MonoBehaviour
         if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
             CurrentTarget = DetectedEnemy;
+            //UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
             return BaseNode.ENodeState.Success;
         }
         return BaseNode.ENodeState.Failure;
@@ -149,11 +154,13 @@ public abstract class BaseUnitController : MonoBehaviour
         /*if (_inAttackDelay)
             return BaseNode.ENodeState.Failure;*/
         
-        // Attack 파라미터를 False로 바꿔주더라도 바로 다음 행동트리를 돌 때 True로 바꿔서 제대로 된 애니메이션 전환이 일어나지 않나?
-        
-        
         // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
         //if (CurrentTarget == null)
+        
+        
+        
+        
+        
         if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
@@ -162,6 +169,8 @@ public abstract class BaseUnitController : MonoBehaviour
             return BaseNode.ENodeState.Failure;
         }
         
+
+        UnitViewer.CheckNeedFlip(transform, DetectedEnemy.transform);
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
@@ -188,6 +197,10 @@ public abstract class BaseUnitController : MonoBehaviour
         
         
         //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
+        
+        
+        
+        //기존
         {
             var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
             if (stateInfo.IsName("Attacking"))
@@ -217,6 +230,8 @@ public abstract class BaseUnitController : MonoBehaviour
                 return BaseNode.ENodeState.Running;
             }
         }
+        
+        
         
         // 공격을 끝내야 할 경우, AttackRoutine 코루틴에서 애니메이션 길이 이후 IsAttacking을 false로 바꿔줬을 때
         // Attack 파라미터는 아직 True 상태
@@ -332,12 +347,17 @@ public abstract class BaseUnitController : MonoBehaviour
     {
         if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
+            UnitViewer.CheckNeedFlip(transform, DetectedEnemy.transform);
             float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.gameObject.transform.position - transform.position);
             if (sqrDistance > UnitModel.AttackRange * UnitModel.AttackRange) // 타겟이 공격 범위보다 멀때
             {
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false); // 임시
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.gameObject.transform.position, UnitModel.Movespeed * Time.deltaTime);
-                
+                // 수정필요
+                float curY = transform.position.y;
+                float newZ = Mathf.Lerp(_minZ,_maxZ,Mathf.InverseLerp(-10f,10f,curY));
+                transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
             }
@@ -357,6 +377,9 @@ public abstract class BaseUnitController : MonoBehaviour
     protected BaseNode.ENodeState StayIdle()
     {
         Debug.Log("Idle 상태");
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Skill], false);
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
         //UnitAnimator.SetTrigger("Idle");
         return BaseNode.ENodeState.Success;
     }
@@ -424,6 +447,8 @@ public abstract class BaseUnitController : MonoBehaviour
             // 가장 가까운 타겟을 DetectedEnemy로 설정
             DetectedEnemy = closetEnemy;
         }
+        
+        UnitViewer.CheckNeedFlip(transform, DetectedEnemy.transform);
 
         return BaseNode.ENodeState.Success;
         
