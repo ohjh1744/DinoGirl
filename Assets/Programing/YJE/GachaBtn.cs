@@ -133,6 +133,24 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 새로운 Unit을 저장
+                            PlayerUnitData newUnit = new PlayerUnitData();
+                            newUnit.UnitId = resultList[i].GetComponent<GachaChar>().CharId;
+                            newUnit.UnitLevel = 1;
+                            PlayerDataManager.Instance.PlayerData.UnitDatas.Add(newUnit);
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for(int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
@@ -225,6 +243,19 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
@@ -311,6 +342,19 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
@@ -400,6 +444,19 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
