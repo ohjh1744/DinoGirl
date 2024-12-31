@@ -16,8 +16,12 @@ public class Gacha
     public int Count { get { return count; } set { count = value; } }
 }
 
-
-public class GachaChar
+public class GachaItemReturn
 {
+    private int itemId;
+    public int ItemId { get { return itemId; } set { itemId = value; } }
+    private int count;
+    public int Count { get { return count; } set { count = value; } }
 
 }
+

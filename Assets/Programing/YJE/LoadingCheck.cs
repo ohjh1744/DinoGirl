@@ -21,7 +21,9 @@ public class LoadingCheck : MonoBehaviour
     {
         OnStartSetting += gachaSceneController.SettingStartUI; // PlayerData까지 전부 불러온 후 재화 설정
         OnStartSetting += gachaSceneController.MakeGachaList; // 그룹별로 뽑기 List Setting
-        OnStartSetting += gachaSceneController.MakeItemList; // 사용하는 Item을 GachaItme형식의 Dictionary Setting
+        OnStartSetting += gachaSceneController.MakeItemDic; // 사용하는 Item을 GachaItem형식의 Dictionary Setting
+        OnStartSetting += gachaSceneController.MakeCharDic; // 사용하는 캐릭터를 GachaChar형식의 Dictionary Setting
+        OnStartSetting += gachaSceneController.MakeCharReturnItemDic; // 중복 캐릭터 뽑기 시 GachaItemReturn형식의 Dictionary Setting
         OnStartSetting += gachaSceneController.SettingBtn; // 각 버튼에 알맞은 함수 할당
     }
     private void OnDisable()
@@ -29,7 +31,8 @@ public class LoadingCheck : MonoBehaviour
         // GameObject 비활성화 시 이벤트 정리
         OnStartSetting -= gachaSceneController.SettingStartUI;
         OnStartSetting -= gachaSceneController.MakeGachaList;
-        OnStartSetting -= gachaSceneController.MakeItemList;
+        OnStartSetting -= gachaSceneController.MakeItemDic;
+        OnStartSetting -= gachaSceneController.MakeCharDic;
         OnStartSetting -= gachaSceneController.SettingBtn;
     }
 

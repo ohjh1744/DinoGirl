@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 가챠 데이터 테이블 수정 시 요청할 사항
 /// 1. Gacha 시트에서 Count 제거 후 GachaReturn 시트에서 Count 사용 가능할지 확인
-/// 2. GachaReturn 시트에서 CharID와 ItmeID를 통일해서 GachaID로 사용하되 내용은 CharID와 ItemID로 설정
+/// 2. GachaReturn 시트에서 CharID와 ItemID를 통일해서 GachaID로 사용하되 내용은 CharID와 ItemID로 설정
 ///    이후 Check(?)로 캐릭터인 경우 0 / 아이템인 경우 1 로 표현이 가능할지 확인
 /// </summary>
 

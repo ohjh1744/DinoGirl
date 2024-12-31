@@ -759,6 +759,7 @@ GameObject:
   - component: {fileID: 327574266}
   - component: {fileID: 327574269}
   - component: {fileID: 327574270}
+  - component: {fileID: 327574271}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -850,6 +851,8 @@ MonoBehaviour:
   tenResultContent: {fileID: 1945634722}
   resultCharPrefab: {fileID: 2298539639125983063, guid: c36d47d2ab4402e4fa764153132985ec, type: 3}
   resultItemPrefab: {fileID: 2298539639125983063, guid: 1f2b175afcc386f4290a0b1a5fdd917f, type: 3}
+  returnContent: {fileID: 0}
+  returnPrefab: {fileID: 1412415766962408000, guid: 16244f5fd2fb95f4981624cfa8d042da, type: 3}
 --- !u!114 &327574270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,7 +865,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b8fa521e4bf8b4d9a74f5149754c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gachaCost: 100
+  gachaCostItem: DinoStone
   resultList: []
+--- !u!114 &327574271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327574262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e0250f7614bd148b2accc240148b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &381164811
 GameObject:
   m_ObjectHideFlags: 0
