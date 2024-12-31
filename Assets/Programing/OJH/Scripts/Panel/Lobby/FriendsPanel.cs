@@ -14,12 +14,24 @@ public class FriendsPanel : MonoBehaviour
 
     [SerializeField] private Transform _content; // content 자식으로 넣기 위함.
 
-    void Start() 
+    [SerializeField] private ListObjectPull _pull;
+
+    private List<GameObject> _infoLists;
+
+    private void Awake()
+    {
+        _infoLists = new List<GameObject>();
+    }
+    private void OnEnable()
     {
         GetFriendData();
     }
 
-    
+    private void OnDisable()
+    {
+        Clear();
+    }
+
     private void GetFriendData()
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
@@ -43,13 +55,25 @@ public class FriendsPanel : MonoBehaviour
                 string friendId = PlayerDataManager.Instance.PlayerData.FriendIds[i];
                 string name = snapShot.Child(friendId).Child("_playerName").Value.ToString();
 
-                GameObject friendList = Instantiate(_friendList, _content);
-                TextMeshProUGUI nameText = friendList.GetComponentInChildren<TextMeshProUGUI>();
+                GameObject friendInfo = _pull.Get((int)E_List.Friend, _content);
+                _infoLists.Add(friendInfo);
+                TextMeshProUGUI nameText = friendInfo.GetComponentInChildren<TextMeshProUGUI>();
+                FriendList friendList = friendInfo.GetComponent<FriendList>();
+                friendList.FriendId = friendId;
                 SetNameTag(name, friendId, nameText);
             }
 
         });
 
+    }
+
+    private void Clear()
+    {
+        for(int i = 0; i < _infoLists.Count; i++)
+        {
+            _infoLists[i].SetActive(false);
+        }
+        _infoLists.Clear();
     }
 
     private void SetNameTag(string name, string id, TextMeshProUGUI text)
