@@ -23,10 +23,6 @@ public class PlayerData
 
     public string RoomExitTime { get { return _roomExitTime; } set { _roomExitTime = value; } }
 
-    private Dictionary<string, object> _gift = new Dictionary<string, object>(); // 선물한사람 및 coin 1000개
-
-    public Dictionary<string, object> Gift { get { return _gift; } set { _gift = value; } }
-
     [SerializeField] private int _canAddFriend;
 
     public int CanAddFriend { get { return _canAddFriend; } set { _canAddFriend = value; } }

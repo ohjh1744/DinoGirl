@@ -40,7 +40,6 @@ public class LoginPanel : UIBInder
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
     }
 
-
     private void Login()
     {
         Debug.Log("로그인 성공");
@@ -164,19 +163,6 @@ public class LoginPanel : UIBInder
             string json = snapShot.GetRawJsonValue();
             Debug.Log(json);
             PlayerDataManager.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(json);
-
-            //dictionary는 JsonUtility를 통해서 못불러와 따로 불러와야함.
-            var giftsnapShot = snapShot.Child("_gift");
-
-            if (giftsnapShot.Exists == false)
-            {
-                Debug.Log("gift가 없습니다.");
-                _sceneChanger.CanChangeSceen = true;
-                return;
-            }
-
-            PlayerDataManager.Instance.PlayerData.Gift = (Dictionary<string, object>)giftsnapShot.Value;
-            Debug.Log(PlayerDataManager.Instance.PlayerData.Gift.Count);
 
             _sceneChanger.CanChangeSceen = true;
         });
