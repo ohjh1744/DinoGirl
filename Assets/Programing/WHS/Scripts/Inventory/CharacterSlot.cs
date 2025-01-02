@@ -35,8 +35,19 @@ public class CharacterSlot : UIBInder
         {
             GetUI<TextMeshProUGUI>("NameText").text = unitData.UnitId.ToString();
         }
+
         GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
+
         // TODO : 캐릭터 스프라이트 이미지
+        string path = $"Portrait/portrait_{unitData.UnitId}";
+        if(path != null)
+        {
+            GetUI<Image>("Character(Clone)").sprite = Resources.Load<Sprite>(path);
+        }
+        else
+        {
+            Debug.Log($"이미지를 찾을 수 없음 {path}");
+        }
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )

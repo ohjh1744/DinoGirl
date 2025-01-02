@@ -12,6 +12,8 @@ public class ItemPanel : UIBInder
     private static ItemPanel _instance;
     public static ItemPanel Instance { get { return _instance; } set { _instance = value; } }
 
+    [SerializeField] private SceneChanger _sceneChanger;
+
     private void Awake()
     {
         if (_instance == null)
@@ -31,6 +33,7 @@ public class ItemPanel : UIBInder
         StartCoroutine(WaitForPlayerData());
 
         AddEvent("BackButton", EventType.Click, ItemTEST);
+        AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
     private IEnumerator WaitForPlayerData()
@@ -152,5 +155,11 @@ public class ItemPanel : UIBInder
                 Debug.Log("아이템이 성공적으로 업데이트되었습니다.");
             }
         });
+    }
+
+    public void GoLobby(PointerEventData eventData)
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("LobbyOJH");
     }
 }

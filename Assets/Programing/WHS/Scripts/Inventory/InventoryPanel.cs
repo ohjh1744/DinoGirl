@@ -20,11 +20,7 @@ public class InventoryPanel : MonoBehaviour
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() =>
-            PlayerDataManager.Instance != null &&
-            PlayerDataManager.Instance.PlayerData != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas != null &&
-            PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         PopulateGrid();
     }
@@ -39,8 +35,7 @@ public class InventoryPanel : MonoBehaviour
         }
 
         // Firebase에서 UnitDatas를 가져와 스크롤뷰에 캐릭터 정렬
-        // string userID = BackendManager.Auth.CurrentUser.UserId;
-        string userID = "sinEKs9IWRPuWNbboKov1fKgmab2";
+        string userID = BackendManager.Auth.CurrentUser.UserId;
 
         DatabaseReference unitDatasRef = BackendManager.Database.RootReference
             .Child("UserData").Child(userID).Child("_unitDatas");
