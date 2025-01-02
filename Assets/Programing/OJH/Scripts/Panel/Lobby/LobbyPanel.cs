@@ -35,6 +35,7 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyChapterButton").onClick.AddListener(ChangeChapterScene);
         GetUI<Button>("LobbyCharacterButton").onClick.AddListener(ChangeCharacterScene);
         GetUI<Button>("LobbyRoomButton").onClick.AddListener(ChangeRoomScene);
+        GetUI<Button>("LobbyGachaButton").onClick.AddListener(ChangeGachaScene);
     }
 
     private void OnDisable()
@@ -53,6 +54,7 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(ChangeChapterScene);
         GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(ChangeCharacterScene);
         GetUI<Button>("LobbyRoomButton").onClick.RemoveListener(ChangeRoomScene);
+        GetUI<Button>("LobbyGachaButton").onClick.RemoveListener(ChangeGachaScene);
     }
 
     private void Start()
@@ -136,6 +138,12 @@ public class LobbyPanel : UIBInder
     {
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("RoomScene_WHS");
+    }
+
+    private void ChangeGachaScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("GachaScene_YJE");
     }
 
 
