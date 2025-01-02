@@ -55,7 +55,7 @@ public class UnitModel : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 
     public void TakeDamage(int damage)

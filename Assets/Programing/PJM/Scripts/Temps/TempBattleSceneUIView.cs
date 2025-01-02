@@ -38,7 +38,7 @@ public class TempBattleSceneUIView : UIBInder
     }
     public void ToggleTimeScale()
     {
-        if (TempBattleContext.Instance.isGamePaused)
+        if (BattleSceneManager.Instance.isGamePaused)
         {
             Time.timeScale = 1;
         }
@@ -47,20 +47,20 @@ public class TempBattleSceneUIView : UIBInder
             Time.timeScale = 0;
         }
         
-        TempBattleContext.Instance.isGamePaused = !TempBattleContext.Instance.isGamePaused;
-        GetUI<TMP_Text>("PauseText").text = TempBattleContext.Instance.isGamePaused ? " Pause : ON" : "Pause : OFF";
+        BattleSceneManager.Instance.isGamePaused = !BattleSceneManager.Instance.isGamePaused;
+        GetUI<TMP_Text>("PauseText").text = BattleSceneManager.Instance.isGamePaused ? " Pause : ON" : "Pause : OFF";
     }
     
     public void ToggleAuto()
     {
-        TempBattleContext.Instance.isAutoOn = !TempBattleContext.Instance.isAutoOn;
-        GetUI<TMP_Text>("AutoText").text = TempBattleContext.Instance.isAutoOn ? " Auto : ON" : "Auto : OFF";
+        BattleSceneManager.Instance.isAutoOn = !BattleSceneManager.Instance.isAutoOn;
+        GetUI<TMP_Text>("AutoText").text = BattleSceneManager.Instance.isAutoOn ? " Auto : ON" : "Auto : OFF";
         //Debug.Log($"Auto : {TempBattleContext.Instance.isAutoOn}");
     }
 
     private void InstantiateHPBars()
     {
-        foreach (var playerUnit in TempBattleContext.Instance.players)
+        foreach (var playerUnit in BattleSceneManager.Instance.myUnits)
         {
             GameObject barObject = Instantiate(hpBarPrefab, transform);
             UnitHealthBarController hpBar = barObject.GetComponent<UnitHealthBarController>();
@@ -73,7 +73,7 @@ public class TempBattleSceneUIView : UIBInder
                 Debug.Log("유닛없음");
         }
 
-        foreach (var enemyUnit in TempBattleContext.Instance.enemies)
+        foreach (var enemyUnit in BattleSceneManager.Instance.enemyUnits)
         {
             GameObject barObject = Instantiate(hpBarPrefab, transform);
             UnitHealthBarController hpBar = barObject.GetComponent<UnitHealthBarController>();

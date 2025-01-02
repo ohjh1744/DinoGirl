@@ -14,10 +14,12 @@ public class BattleSceneManager : MonoBehaviour
 
     [SerializeField] private DraggableUI[] Draggables;
      
+    public bool isAutoOn {get; set; }
+    public bool isGamePaused {get; set; }
 
-    //BaseUnitController ·Î Àü´ÞÀÌ °¡´ÉÇØ¾ß ÇÔ 
-    [SerializeField] public GameObject[] inGridObject; // ¾Æ±º Á¤º¸ ¹è¿­ ³ªÁß¿¡ Å¸ÀÔÀ» ¹Ù²Ù¸é µÉµí
-    [SerializeField] public string[] enemyGridObject;// Àû Á¤º¸ ¹è¿­ ¹è¿­ÀÇ ÀÎµ¦½º°¡ À§Ä¡ÀÓ , id ÀúÀå 
+    //BaseUnitController ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½ 
+    [SerializeField] public GameObject[] inGridObject; // ï¿½Æ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ß¿ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù¸ï¿½ ï¿½Éµï¿½
+    [SerializeField] public string[] enemyGridObject;// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½è¿­ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ , id ï¿½ï¿½ï¿½ï¿½ 
 
     [SerializeField] public List<PlayableBaseUnitController> myUnits;
     [SerializeField] public List<BaseUnitController> enemyUnits;
@@ -26,7 +28,7 @@ public class BattleSceneManager : MonoBehaviour
 
     [SerializeField] public float _timeLimit; //
 
-    [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();// Å¬¸®¾î º¸»ó
+    [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [SerializeField] public BattleState curBattleState;
     public enum BattleState  
@@ -47,7 +49,7 @@ public class BattleSceneManager : MonoBehaviour
         }
         curBattleState = BattleState.Ready;
 
-        inGridObject = new GameObject[10]; // Ä³¸¯ÅÍ ¸ñ·ÏÀÌ 0¹ø 
+        inGridObject = new GameObject[10]; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ 
         enemyGridObject = new string[9];
         myUnits = new List<PlayableBaseUnitController>();
         enemyUnits = new List<BaseUnitController>();
@@ -58,7 +60,7 @@ public class BattleSceneManager : MonoBehaviour
     public UnityEvent startStage;
     public void StageStart()
     {
-        // 1 ~ 5ÀÎ¸¸ Ãâ¹ß °¡´É
+        // 1 ~ 5ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 1; i < inGridObject.Length; i++)
         {
             if (inGridObject[i] != null)
@@ -96,7 +98,7 @@ public class BattleSceneManager : MonoBehaviour
     }
     public void BackStage()
     {
-        // ½ºÅ×ÀÌÁöÆÐ³Î , ¹èÆ²¾À ¸Å´ÏÀúÁ¤º¸ ÃÊ±âÈ­ ÇØ¾ßÇÔ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ , ï¿½ï¿½Æ²ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ø¾ï¿½ï¿½ï¿½
         for (int i = 0; i < inGridObject.Length; i++)
         {
             inGridObject[i] = null;
@@ -121,7 +123,7 @@ public class BattleSceneManager : MonoBehaviour
 
         }
         Debug.Log(PlayerDataManager.Instance.PlayerData.UnitDatas.Count);
-        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db ¿¡¼­ À¯´Ö º¸À¯¼ö ¸¸Å­¸¸ º¸ÀÌ°Ô 
+        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ 
         {
             Draggables[i].gameObject.SetActive(true);
             int id = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitId;
@@ -132,8 +134,8 @@ public class BattleSceneManager : MonoBehaviour
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
-            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // ÀÌ¹ÌÁö´Â ¸®¼Ò½º ÆÄÀÏ±âÁØÀ¸·Î »ç¿ëÇÏÀÚ
-                                                                                             // ¸®¼Ò½º ÆÄÀÏ ÀÌ¸§¿¡ id °°Àº°Å Æ÷ÇÔ ½ÃÅ°¸é µÉµíÇÔ
+            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                                                                             // ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ id ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Éµï¿½ï¿½ï¿½
             Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element);
         }
     }
@@ -149,7 +151,7 @@ public class BattleSceneManager : MonoBehaviour
 
         foreach (int i in curItemValues.Keys) 
         {
-            Debug.Log($"¾ÆÀÌµð : {i} ¼ö·® : {curItemValues[i]}");
+            Debug.Log($"ï¿½ï¿½ï¿½Ìµï¿½ : {i} ï¿½ï¿½ï¿½ï¿½ : {curItemValues[i]}");
         }
         
     }

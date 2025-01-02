@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] Transform[] myGrid;
     [SerializeField] Transform[] enemyGrid;
+    public static event Action OnSpawnCompleted;
     public void SpawnUnits()
     {
         Time.timeScale = 0f;
@@ -19,11 +21,11 @@ public class Spawner : MonoBehaviour
             
             PlayableBaseUnitController unit = obj.GetComponent<PlayableBaseUnitController>();
             UnitModel model = obj.GetComponent<UnitModel>();
-            model.AttackPoint = BattleSceneManager.Instance.myUnitData[i].Atk; //ÀÌ ºÎºÐ¿¡¼­ ½ºÅÈ°è»ê µé¾î°¡¸é µÉµí
-            model.DefensePoint = BattleSceneManager.Instance.myUnitData[i].Def; //ÀÌ ºÎºÐ¿¡¼­ ½ºÅÈ°è»ê µé¾î°¡¸é µÉµí
-            model.MaxHp = BattleSceneManager.Instance.myUnitData[i].MaxHp; //ÀÌ ºÎºÐ¿¡¼­ ½ºÅÈ°è»ê µé¾î°¡¸é µÉµí
+            model.AttackPoint = BattleSceneManager.Instance.myUnitData[i].Atk; //ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È°ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Éµï¿½
+            model.DefensePoint = BattleSceneManager.Instance.myUnitData[i].Def; //ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È°ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Éµï¿½
+            model.MaxHp = BattleSceneManager.Instance.myUnitData[i].MaxHp; //ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È°ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Éµï¿½
 
-            model.Hp = BattleSceneManager.Instance.myUnitData[i].MaxHp; //ÀÌ ºÎºÐ¿¡¼­ ½ºÅÈ°è»ê µé¾î°¡¸é µÉµí
+            model.Hp = BattleSceneManager.Instance.myUnitData[i].MaxHp; //ï¿½ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È°ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Éµï¿½
             BattleSceneManager.Instance.myUnits.Add(unit);
 
 
@@ -43,6 +45,7 @@ public class Spawner : MonoBehaviour
         }
     
         BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Battle;
+        OnSpawnCompleted?.Invoke();
         StartCoroutine(TimeDelaystart());
     }
 

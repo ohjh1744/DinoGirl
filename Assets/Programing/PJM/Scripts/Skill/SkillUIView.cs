@@ -29,43 +29,52 @@ public class SkillUIView : UIBInder
         //Bind();
     }
 
+    private void OnEnable()
+    {
+        Spawner.OnSpawnCompleted += InitializeSkillSlots; // 스태틱 이벤트라 나중에 바꿀거 생각해야함
+    }
+
     private void Start()
     {
-        InitializeSkillSlots();
+        
+        //InitializeSkillSlots();
         
     }
 
     private void Update()
     {
-        if(TempBattleContext.Instance.isGamePaused)
+        if(BattleSceneManager.Instance.isGamePaused)
             return;
-        
-        UpdateCooldown();
+
+        if(BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Battle)
+            UpdateCooldown();
         //Debug.Log($"{TempBattleContext.Instance.players[0].CoolTimeCounter}");
         //Debug.Log($"{TempBattleContext.Instance.players[0].CoolTimeCounter} | {SkillSlots[0].remainingTime}");
     }
 
+    private void OnDisable()
+    {
+        Spawner.OnSpawnCompleted -= InitializeSkillSlots;
+    }
 
 
     private void InitializeSkillSlots()
     {
-        
-        if (TempBattleContext.Instance == null)
+        if (BattleSceneManager.Instance == null)
         {
             Debug.LogError("TempBattleContext 인스턴스가 없다.");
             return;
         }
-        if (TempBattleContext.Instance.players.Count <= 0)
+        if (BattleSceneManager.Instance.myUnits.Count <= 0)
         {
             Debug.LogWarning("플레이어가 배틀씬에 없다.");
             return;
         }
-
         
         SkillSlots = new List<SkillSlot>();
         int slotIndex = 0;
 
-        foreach (var player in TempBattleContext.Instance.players)
+        foreach (var player in BattleSceneManager.Instance.myUnits)
         {
             if (player.UniqueSkill == null)
             {
@@ -165,15 +174,6 @@ public class SkillUIView : UIBInder
             float remainingTime = slot.SkillOwner.CoolTimeCounter;
             float totalTime = slot.SkillData != null ? slot.SkillData.Cooltime : 0f;
 
-            /*if (slot.skillData != null)
-            {
-                totalTime = slot.skillData.Cooltime;
-            }
-            else
-            {
-                totalTime = 0f;
-            }*/
-            
             slot.CooldownText.text = remainingTime.ToString("0.0");
             
             float ratio = (totalTime > 0f) ? (remainingTime / totalTime) : 0f;

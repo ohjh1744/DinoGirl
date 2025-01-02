@@ -1,15 +1,15 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 
 public class TempBattleContext : MonoBehaviour
 {
-    public static TempBattleContext Instance { get; private set; }
+    //public static TempBattleContext Instance { get; private set; }
 
-    public List<PlayableBaseUnitController> players = new List<PlayableBaseUnitController>();
-    public List<BaseUnitController> enemies = new List<BaseUnitController>();
+    //public List<PlayableBaseUnitController> players = new List<PlayableBaseUnitController>();
+   // public List<BaseUnitController> enemies = new List<BaseUnitController>();
     
-    public bool isAutoOn {get; set; }
-    public bool isGamePaused {get; set; }
+    public bool IsAutoOn {get; set; }
+    public bool IsGamePaused {get; set; }
     
 
     private void Awake()
@@ -40,7 +40,7 @@ public class TempBattleContext : MonoBehaviour
     
     public void ToggleAuto()
     {
-        isAutoOn = !isAutoOn;
-        Debug.Log($"Auto : {isAutoOn}");
+        IsAutoOn = !IsAutoOn;
+        Debug.Log($"Auto : {IsAutoOn}");
     }
-}
+}*/
