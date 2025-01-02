@@ -35,16 +35,16 @@ public class UnitModel : MonoBehaviour
         }
     }
     [SerializeField] private int _attackPoint;
-    public int AttackPoint { get => _attackPoint; private set => _attackPoint = value; }
+    public int AttackPoint { get => _attackPoint;  set => _attackPoint = value; }
     [SerializeField] private int _defensePoint;
-    public int DefensePoint { get => _defensePoint; private set => _defensePoint = value; }
+    public int DefensePoint { get => _defensePoint; set => _defensePoint = value; }
     [SerializeField] private float _moveSpeed;
     public float Movespeed { get => _moveSpeed; set => _moveSpeed = value; }
     [SerializeField] private float _attackRange;
     public float AttackRange { get => _attackRange; set => _attackRange = value; }
 
     [SerializeField] private bool _isPriorityTargetFar;
-    public bool IsPriorityTargetFar { get => _isPriorityTargetFar; private set => _isPriorityTargetFar = value; }
+    public bool IsPriorityTargetFar { get => _isPriorityTargetFar;  set => _isPriorityTargetFar = value; }
 
     private void Awake()
     {

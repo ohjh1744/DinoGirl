@@ -24,10 +24,15 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] public List<UnitsDatas> myUnitData;
     [SerializeField] public List<UnitsDatas> enemyUnitData;
 
-    [SerializeField] public int _timeLimit; // private 프로퍼티로 바꿀 예정
+    [SerializeField] public float _timeLimit; //
 
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();// 클리어 보상
 
+    [SerializeField] public BattleState curBattleState;
+    public enum BattleState  
+    {
+        Ready , Battle ,Win , Lose, Stop , size
+    }
    
     private void Awake()
     {
@@ -40,6 +45,8 @@ public class BattleSceneManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        curBattleState = BattleState.Ready;
+
         inGridObject = new GameObject[10]; // 캐릭터 목록이 0번 
         enemyGridObject = new string[9];
         myUnits = new List<PlayableBaseUnitController>();
@@ -82,6 +89,7 @@ public class BattleSceneManager : MonoBehaviour
                enemyUnitData.Add(unit); 
             }
         }
+        
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("StageBattleScene");
         BattleSceneStart();

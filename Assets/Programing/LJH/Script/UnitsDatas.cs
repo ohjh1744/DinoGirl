@@ -6,9 +6,9 @@ using UnityEngine;
 public class UnitsDatas
 { 
     [SerializeField] public int Pos;
-    [SerializeField] public float MaxHp;
-    [SerializeField] public float Atk;
-    [SerializeField] public float Def;
+    [SerializeField] public int MaxHp;
+    [SerializeField] public int Atk;
+    [SerializeField] public int Def;
     [SerializeField] public int Level;
     [SerializeField] public int Id;
     [SerializeField] public string Elemente;

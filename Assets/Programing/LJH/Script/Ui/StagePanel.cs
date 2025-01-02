@@ -44,7 +44,7 @@ public class StagePanel : MonoBehaviour
         stageDic = CsvDataManager.Instance.DataLists[6]; //파싱한 순서(url 순서대로 들어감)
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["Limit"];
-        BattleSceneManager.Instance._timeLimit = int.Parse(curTimeLimit);
+        BattleSceneManager.Instance._timeLimit = float.Parse(curTimeLimit);
 
         curMobGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["MonsterGroupID"]);
         curRewardGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["StageRewardID"]); 
