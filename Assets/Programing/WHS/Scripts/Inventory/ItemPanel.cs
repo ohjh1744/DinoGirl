@@ -32,7 +32,6 @@ public class ItemPanel : UIBInder
         BindAll();
         StartCoroutine(WaitForPlayerData());
 
-        AddEvent("BackButton", EventType.Click, ItemTEST);
         AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
@@ -104,22 +103,6 @@ public class ItemPanel : UIBInder
     private void UpdateDinoStoneText(int newValue)
     {
         GetUI<TextMeshProUGUI>("DinoStoneText").text = newValue.ToString();
-        UpdateItemsInDatabase();
-    }
-
-    public void ItemTEST(PointerEventData eventData)
-    {
-        int curCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
-        int curDinoBloodAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood];
-        int curBoneCrystalAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal];
-        int curDinoStoneAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone];
-
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, curCoinAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, curDinoBloodAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, curBoneCrystalAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, curDinoStoneAmount + 100000);
-
-        UpdateItems();
         UpdateItemsInDatabase();
     }
 
