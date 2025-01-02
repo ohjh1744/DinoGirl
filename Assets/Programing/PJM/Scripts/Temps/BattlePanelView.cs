@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
-public class TempBattleSceneUIView : UIBInder
+public class BattlePanelView : UIBInder
 {
     [SerializeField] private GameObject hpBarPrefab;
     private void Awake()
@@ -18,13 +18,8 @@ public class TempBattleSceneUIView : UIBInder
 
     private void OnEnable()
     {
-        
-    }
-
-    private void Start()
-    {
-        InstantiateHPBars();
-        InitializeButtons();
+        Spawner.OnSpawnCompleted += InstantiateHPBars;
+        Spawner.OnSpawnCompleted += InitializeButtons;
     }
 
     private void InitializeButtons()
@@ -32,13 +27,14 @@ public class TempBattleSceneUIView : UIBInder
         AddEvent("PauseButton", EventType.Click, _ => ToggleTimeScale());
         AddEvent("AutoButton", EventType.Click, _ => ToggleAuto());
     }
-    private void Update()
+    private void OnDisable()
     {
-        
+        Spawner.OnSpawnCompleted -= InstantiateHPBars;
+        Spawner.OnSpawnCompleted -= InitializeButtons;
     }
     public void ToggleTimeScale()
     {
-        if (TempBattleContext.Instance.isGamePaused)
+        if (BattleSceneManager.Instance.isGamePaused)
         {
             Time.timeScale = 1;
         }
@@ -47,20 +43,19 @@ public class TempBattleSceneUIView : UIBInder
             Time.timeScale = 0;
         }
         
-        TempBattleContext.Instance.isGamePaused = !TempBattleContext.Instance.isGamePaused;
-        GetUI<TMP_Text>("PauseText").text = TempBattleContext.Instance.isGamePaused ? " Pause : ON" : "Pause : OFF";
+        BattleSceneManager.Instance.isGamePaused = !BattleSceneManager.Instance.isGamePaused;
+        GetUI<TMP_Text>("PauseText").text = BattleSceneManager.Instance.isGamePaused ? " Pause : ON" : "Pause : OFF";
     }
     
     public void ToggleAuto()
     {
-        TempBattleContext.Instance.isAutoOn = !TempBattleContext.Instance.isAutoOn;
-        GetUI<TMP_Text>("AutoText").text = TempBattleContext.Instance.isAutoOn ? " Auto : ON" : "Auto : OFF";
-        //Debug.Log($"Auto : {TempBattleContext.Instance.isAutoOn}");
+        BattleSceneManager.Instance.isAutoOn = !BattleSceneManager.Instance.isAutoOn;
+        GetUI<TMP_Text>("AutoText").text = BattleSceneManager.Instance.isAutoOn ? " Auto : ON" : "Auto : OFF";
     }
 
     private void InstantiateHPBars()
     {
-        foreach (var playerUnit in TempBattleContext.Instance.players)
+        foreach (var playerUnit in BattleSceneManager.Instance.myUnits)
         {
             GameObject barObject = Instantiate(hpBarPrefab, transform);
             UnitHealthBarController hpBar = barObject.GetComponent<UnitHealthBarController>();
@@ -73,7 +68,7 @@ public class TempBattleSceneUIView : UIBInder
                 Debug.Log("유닛없음");
         }
 
-        foreach (var enemyUnit in TempBattleContext.Instance.enemies)
+        foreach (var enemyUnit in BattleSceneManager.Instance.enemyUnits)
         {
             GameObject barObject = Instantiate(hpBarPrefab, transform);
             UnitHealthBarController hpBar = barObject.GetComponent<UnitHealthBarController>();

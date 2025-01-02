@@ -106,11 +106,15 @@ public abstract class PlayableBaseUnitController : BaseUnitController
 
     protected bool CheckAutoOn()
     {
-        // Todo : 배틀매니저에서 오토전투가 On 되었는지 확인함
-        if(TempBattleContext.Instance == null)
+        if (BattleSceneManager.Instance == null)
+        {
             return false;
+        }
+        /*// Todo : 배틀매니저에서 오토전투가 On 되었는지 확인함
+        if(TempBattleContext.Instance == null)
+            return false;*/
         
-        return TempBattleContext.Instance.isAutoOn;
+        return BattleSceneManager.Instance.isAutoOn;
     }
 
     protected bool CheckUserInput()
