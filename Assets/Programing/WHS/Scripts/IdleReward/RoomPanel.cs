@@ -35,6 +35,7 @@ public class RoomPanel : UIBInder
     {
         GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
+      
         if (updateIdleTimeCoroutine == null)
         {
             updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());

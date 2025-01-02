@@ -93,7 +93,7 @@ public class BattleSceneManager : MonoBehaviour
         }
         
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("StageBattleScene");
+        _sceneChanger.ChangeScene("StageBattleScene_LJH");
         BattleSceneStart();
     }
     public void BackStage()
