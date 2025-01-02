@@ -32,6 +32,9 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("FriendsExitButton").onClick.AddListener(SetInteractableTrue);
         GetUI<Button>("MailExitButton").onClick.AddListener(SetInteractableTrue);
 
+        GetUI<Button>("LobbyChapterButton").onClick.AddListener(ChangeChapterScene);
+        GetUI<Button>("LobbyCharacterButton").onClick.AddListener(ChangeCharacterScene);
+        GetUI<Button>("LobbyRoomButton").onClick.AddListener(ChangeRoomScene);
     }
 
     private void OnDisable()
@@ -46,6 +49,10 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(SetInteractableTrue);
         GetUI<Button>("FriendsExitButton").onClick.RemoveListener(SetInteractableTrue);
         GetUI<Button>("MailExitButton").onClick.RemoveListener(SetInteractableTrue);
+
+        GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(ChangeChapterScene);
+        GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(ChangeCharacterScene);
+        GetUI<Button>("LobbyRoomButton").onClick.RemoveListener(ChangeRoomScene);
     }
 
     private void Start()
@@ -111,6 +118,24 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyAddFriendButton").interactable = true;
         GetUI<Button>("LobbyMailButton").interactable = true;
         GetUI<Button>("LobbyFriendsButton").interactable = true;
+    }
+
+    private void ChangeChapterScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("ChapterSelect_LJH");
+    }
+
+    private void ChangeCharacterScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("InventoryScene_WHS");
+    }
+
+    private void ChangeRoomScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("RoomScene_WHS");
     }
 
 
