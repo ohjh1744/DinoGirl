@@ -109,11 +109,11 @@ public class GachaSceneController : UIBInder
             gachatem.Check = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Check"]);
             switch (gachatem.Check) // 종류를 확인
             {
+                case 0: // 종류가 Character인 경우
+                    gachatem.CharId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["CharID"]);
+                    break;
                 case 1: // 종류가 Item인 경우
                     gachatem.ItemId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["ItemID"]);
-                    break;
-                case 2: // 종류가 Character인 경우
-                    gachatem.CharId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["CharID"]);
                     break;
                 default:
                     break;
@@ -333,6 +333,12 @@ public class GachaSceneController : UIBInder
     {
         switch (GachaList[index].Check)
         {
+            case 0: // 반환이 캐릭터인 경우
+                GachaChar resultChar = CharDictionary[GachaList[index].CharId];
+                resultChar.Amount = GachaList[index].Count;
+                GameObject resultCharUI = Instantiate(resultCharPrefab, singleResultContent);
+                resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
+                return resultCharUI;
             case 1: // 반환이 아이템인 경우
                 GachaItem result = ItemDictionary[GachaList[index].ItemId]; // GachaItem 설정
                 result.Amount = GachaList[index].Count; // GachaItem의 Amount를 정해진 수량으로 설정
@@ -340,12 +346,6 @@ public class GachaSceneController : UIBInder
                 GameObject resultUI = Instantiate(resultItemPrefab, singleResultContent); // Prefab으로 정해진 위치에 생성 - 한개
                 resultUI = result.SetGachaItemUI(result, resultUI); // GachaItem을 적용한 UI Setting
                 return resultUI;
-            case 2: // 반환이 캐릭터인 경우
-                GachaChar resultChar = CharDictionary[GachaList[index].CharId];
-                resultChar.Amount = GachaList[index].Count;
-                GameObject resultCharUI = Instantiate(resultCharPrefab, singleResultContent);
-                resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
-                return resultCharUI;
             default:
                 return null;
         }
@@ -366,6 +366,13 @@ public class GachaSceneController : UIBInder
     {
         switch (GachaList[index].Check)
         {
+            case 0:
+                // TODO : 반환이 캐릭터인 경우
+                GachaChar resultChar = CharDictionary[GachaList[index].CharId];
+                resultChar.Amount = GachaList[index].Count;
+                GameObject resultCharUI = Instantiate(resultCharPrefab, tenResultContent);
+                resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
+                return resultCharUI;
             case 1: // 반환이 아이템인 경우
                 GachaItem result = ItemDictionary[GachaList[index].ItemId]; // GachaItem 설정
                 result.Amount = GachaList[index].Count; // GachaItem의 Amount를 정해진 수량으로 설정
@@ -374,13 +381,6 @@ public class GachaSceneController : UIBInder
                 resultUI = result.SetGachaItemUI(result, resultUI); // GachaItem을 적용한 UI Setting
 
                 return resultUI;
-            case 2:
-                // TODO : 반환이 캐릭터인 경우
-                GachaChar resultChar = CharDictionary[GachaList[index].CharId];
-                resultChar.Amount = GachaList[index].Count;
-                GameObject resultCharUI = Instantiate(resultCharPrefab, tenResultContent);
-                resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
-                return resultCharUI;
             default:
                 return null;
         }

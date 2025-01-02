@@ -1,7 +1,5 @@
 using Firebase.Database;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GachaBtn : MonoBehaviour
@@ -24,31 +22,7 @@ public class GachaBtn : MonoBehaviour
         gachaSceneController = gameObject.GetComponent<GachaSceneController>();
         gachaCheck = gameObject.GetComponent<GachaCheck>();
     }
-    /*
-/// <summary>
-/// Gacha를 위해 사용한 Cost(DinoStone)변경
-/// - PlayerData.SetItem()을 통해 로컬 값 변경
-/// - 변경된 값을 firebase에 전송
-/// </summary>
-private void ChangeGachaCost()
-{
 
-}
-
-/// <summary>
-/// Gacha의 결과를 비교하여 변경값을 서버에 전송
-/// - 아이템의 경우 PlayerData.SetItem()을 통해 로컬 값 변경 후 firebase에 전송
-/// - 캐릭터의 경우 PlayerData의 UnitData와 비교 후
-///     - 중복되는 경우
-///       csvData의 GachaReturn과 비교하여 변환 후 전송
-///     - 중복되지 않는 경우
-///       UnitData로 전송
-/// </summary>
-private void ApplyGachaResult()
-{
-
-}
-*/
     /// <summary>
     /// 결과 패널 비활성화 시
     /// resultList 를 초기화
@@ -103,21 +77,22 @@ private void ApplyGachaResult()
             // firebase 기본 UserData 루트
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
 
-            gachaCheck.SendChangeValue(gachaCostItem, gachaCost, root, PlayerDataManager.Instance.PlayerData);
+            gachaCheck.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
 
             // 뽑기에 성공한 재화값 PlayerData 수정
             for (int i = 0; i < resultList.Count; i++)
             {
                 if (resultList[i].gameObject.GetComponent<GachaItem>()) // GachaItem이 존재하는 Item인 경우
                 {
-                    gachaCheck.SendChangeValue(resultList[i].gameObject.GetComponent<GachaItem>().ItemName, 
-                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount,
+                    gachaCheck.SendChangeValue(resultList[i].gameObject.GetComponent<GachaItem>().ItemName,
+                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount, true,
                                                root, PlayerDataManager.Instance.PlayerData);
                 }
                 else if (resultList[i].GetComponent<GachaChar>()) // GachaChar가 존재하는 캐릭터인 경우
                 {
+                  // TODO : 제대로 탐색 x 수정 필요
                     // PlayerData의 UnitDatas에 동일한 캐릭터 아이디가 있는지 여부를 확인
-                    for(int j = 0; j < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; j++)
+                    for (int j = 0; j < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; j++)
                     {
                         if (PlayerDataManager.Instance.PlayerData.UnitDatas[j].UnitId == resultList[i].gameObject.GetComponent<GachaChar>().CharId)
                         {
@@ -125,7 +100,7 @@ private void ApplyGachaResult()
                             Debug.Log("이미 소유한 캐릭터");
                             GameObject resultItem = gachaSceneController.CharReturnItem(resultList[i].gameObject.GetComponent<GachaChar>().CharId, resultList[i].gameObject);
                             gachaCheck.SendChangeValue(resultItem.gameObject.GetComponent<GachaItem>().ItemName,
-                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount,
+                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount, true,
                                                        root, PlayerDataManager.Instance.PlayerData);
                             break;
                         }
@@ -133,6 +108,24 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 새로운 Unit을 저장
+                            PlayerUnitData newUnit = new PlayerUnitData();
+                            newUnit.UnitId = resultList[i].GetComponent<GachaChar>().CharId;
+                            newUnit.UnitLevel = 1;
+                            PlayerDataManager.Instance.PlayerData.UnitDatas.Add(newUnit);
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
@@ -195,7 +188,7 @@ private void ApplyGachaResult()
             } while (count < 10);
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
-            gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, root, PlayerDataManager.Instance.PlayerData);
+            gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
 
             // 뽑기에 성공한 재화값 PlayerData 수정
             for (int i = 0; i < resultList.Count; i++)
@@ -203,7 +196,7 @@ private void ApplyGachaResult()
                 if (resultList[i].gameObject.GetComponent<GachaItem>()) // GachaItem이 존재하는 Item인 경우
                 {
                     gachaCheck.SendChangeValue(resultList[i].gameObject.GetComponent<GachaItem>().ItemName,
-                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount,
+                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount, true,
                                                root, PlayerDataManager.Instance.PlayerData);
                 }
                 else if (resultList[i].GetComponent<GachaChar>()) // GachaChar가 존재하는 캐릭터인 경우
@@ -217,7 +210,7 @@ private void ApplyGachaResult()
                             Debug.Log("이미 소유한 캐릭터");
                             GameObject resultItem = gachaSceneController.CharReturnItem(resultList[i].gameObject.GetComponent<GachaChar>().CharId, resultList[i].gameObject);
                             gachaCheck.SendChangeValue(resultItem.gameObject.GetComponent<GachaItem>().ItemName,
-                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount,
+                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount, true,
                                                        root, PlayerDataManager.Instance.PlayerData);
                             break;
                         }
@@ -225,6 +218,23 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            PlayerUnitData newData = new PlayerUnitData();
+                            newData.UnitId = resultList[i].gameObject.GetComponent<GachaChar>().CharId;
+                            newData.UnitLevel = 1;
+                            PlayerDataManager.Instance.PlayerData.UnitDatas.Add(newData);
+
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
@@ -237,7 +247,7 @@ private void ApplyGachaResult()
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
-    
+
 
     }
 
@@ -281,7 +291,7 @@ private void ApplyGachaResult()
             // 서버에서 플레이어의 데이터 값 수정
             // firebase 기본 UserData 루트
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
-            gachaCheck.SendChangeValue(gachaCostItem, gachaCost, root, PlayerDataManager.Instance.PlayerData);
+            gachaCheck.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
 
             // 뽑기에 성공한 재화값 PlayerData 수정
             for (int i = 0; i < resultList.Count; i++)
@@ -289,7 +299,7 @@ private void ApplyGachaResult()
                 if (resultList[i].gameObject.GetComponent<GachaItem>()) // GachaItem이 존재하는 Item인 경우
                 {
                     gachaCheck.SendChangeValue(resultList[i].gameObject.GetComponent<GachaItem>().ItemName,
-                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount,
+                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount, true,
                                                root, PlayerDataManager.Instance.PlayerData);
                 }
                 else if (resultList[i].GetComponent<GachaChar>()) // GachaChar가 존재하는 캐릭터인 경우
@@ -303,7 +313,7 @@ private void ApplyGachaResult()
                             Debug.Log("이미 소유한 캐릭터");
                             GameObject resultItem = gachaSceneController.CharReturnItem(resultList[i].gameObject.GetComponent<GachaChar>().CharId, resultList[i].gameObject);
                             gachaCheck.SendChangeValue(resultItem.gameObject.GetComponent<GachaItem>().ItemName,
-                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount,
+                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount, true,
                                                        root, PlayerDataManager.Instance.PlayerData);
                             break;
                         }
@@ -311,6 +321,19 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
@@ -370,7 +393,7 @@ private void ApplyGachaResult()
             } while (count < 10);
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
-            gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, root, PlayerDataManager.Instance.PlayerData);
+            gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
 
             // 뽑기에 성공한 재화값 PlayerData 수정
             for (int i = 0; i < resultList.Count; i++)
@@ -378,7 +401,7 @@ private void ApplyGachaResult()
                 if (resultList[i].gameObject.GetComponent<GachaItem>()) // GachaItem이 존재하는 Item인 경우
                 {
                     gachaCheck.SendChangeValue(resultList[i].gameObject.GetComponent<GachaItem>().ItemName,
-                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount,
+                                               resultList[i].gameObject.GetComponent<GachaItem>().Amount, true,
                                                root, PlayerDataManager.Instance.PlayerData);
                 }
                 else if (resultList[i].GetComponent<GachaChar>()) // GachaChar가 존재하는 캐릭터인 경우
@@ -392,7 +415,7 @@ private void ApplyGachaResult()
                             Debug.Log("이미 소유한 캐릭터");
                             GameObject resultItem = gachaSceneController.CharReturnItem(resultList[i].gameObject.GetComponent<GachaChar>().CharId, resultList[i].gameObject);
                             gachaCheck.SendChangeValue(resultItem.gameObject.GetComponent<GachaItem>().ItemName,
-                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount,
+                                                       resultItem.gameObject.GetComponent<GachaItem>().Amount, true,
                                                        root, PlayerDataManager.Instance.PlayerData);
                             break;
                         }
@@ -400,6 +423,19 @@ private void ApplyGachaResult()
                         {
                             // TODO : 없는 캐릭터이므로 UnitId와 UnitLevel을 저장
                             Debug.Log("없는 캐릭터");
+                            // 실제 빌드 시 사용 - UserId불러오기 
+                            // DatabaseReference Unitroot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                            // Test 용
+                            DatabaseReference unitRoot = root.Child("Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2").Child("_unitDatas");
+
+                            for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
+                            {
+                                PlayerUnitData nowData = new PlayerUnitData();
+                                nowData.UnitId = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitId;
+                                nowData.UnitLevel = PlayerDataManager.Instance.PlayerData.UnitDatas[num].UnitLevel;
+                                unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
+                                unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
+                            }
                             break;
                         }
                     }
