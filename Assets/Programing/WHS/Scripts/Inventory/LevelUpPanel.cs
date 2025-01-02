@@ -269,6 +269,17 @@ public class LevelUpPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
 
         character.UnitLevel++;
+
+        // 레벨업 후 PlayerDataManager 업데이트
+        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++)
+        {
+            if (PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitId == character.UnitId)
+            {
+                PlayerDataManager.Instance.PlayerData.UnitDatas[i] = character;
+                break;
+            }
+        }
+
         Debug.Log($"{character.UnitId} 레벨업 {character.UnitLevel}");
 
         return true;
