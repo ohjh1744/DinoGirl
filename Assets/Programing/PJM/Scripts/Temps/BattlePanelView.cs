@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
-public class TempBattleSceneUIView : UIBInder
+public class BattlePanelView : UIBInder
 {
     [SerializeField] private GameObject hpBarPrefab;
     private void Awake()
@@ -18,13 +18,8 @@ public class TempBattleSceneUIView : UIBInder
 
     private void OnEnable()
     {
-        
-    }
-
-    private void Start()
-    {
-        InstantiateHPBars();
-        InitializeButtons();
+        Spawner.OnSpawnCompleted += InstantiateHPBars;
+        Spawner.OnSpawnCompleted += InitializeButtons;
     }
 
     private void InitializeButtons()
@@ -32,9 +27,10 @@ public class TempBattleSceneUIView : UIBInder
         AddEvent("PauseButton", EventType.Click, _ => ToggleTimeScale());
         AddEvent("AutoButton", EventType.Click, _ => ToggleAuto());
     }
-    private void Update()
+    private void OnDisable()
     {
-        
+        Spawner.OnSpawnCompleted -= InstantiateHPBars;
+        Spawner.OnSpawnCompleted -= InitializeButtons;
     }
     public void ToggleTimeScale()
     {
@@ -55,7 +51,6 @@ public class TempBattleSceneUIView : UIBInder
     {
         BattleSceneManager.Instance.isAutoOn = !BattleSceneManager.Instance.isAutoOn;
         GetUI<TMP_Text>("AutoText").text = BattleSceneManager.Instance.isAutoOn ? " Auto : ON" : "Auto : OFF";
-        //Debug.Log($"Auto : {TempBattleContext.Instance.isAutoOn}");
     }
 
     private void InstantiateHPBars()

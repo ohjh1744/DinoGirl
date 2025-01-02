@@ -355,9 +355,9 @@ public abstract class BaseUnitController : MonoBehaviour
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.gameObject.transform.position, UnitModel.Movespeed * Time.deltaTime);
                 // 수정필요
-                float curY = transform.position.y;
+                /*float curY = transform.position.y;
                 float newZ = Mathf.Lerp(_minZ,_maxZ,Mathf.InverseLerp(-10f,10f,curY));
-                transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
+                transform.position = new Vector3(transform.position.x, transform.position.y, newZ);*/
                 Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
             }
