@@ -20,8 +20,8 @@ public class DataWriter : MonoBehaviour
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(_uID);
         PlayerDataManager.Instance.PlayerData.PlayerName = _name;
-        PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("o");
-        PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("o");
+        PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
+        PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
         //PlayerDataManager.Instance.PlayerData.Gift["ruru"] = 1000;
 
         for (int i = 0; i < _baseUnitNum; i++)

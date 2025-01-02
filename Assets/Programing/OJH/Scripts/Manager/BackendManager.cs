@@ -58,7 +58,7 @@ public class BackendManager : MonoBehaviour
                 app = FirebaseApp.DefaultInstance;
                 auth = FirebaseAuth.DefaultInstance;
                 database = FirebaseDatabase.DefaultInstance;
-
+                database.SetPersistenceEnabled(false);
                 Debug.Log("Firebase dependencies check success");
 
             }

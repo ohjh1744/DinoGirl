@@ -150,6 +150,8 @@ public class LoginPanel : UIBInder
 
         Debug.Log(root);
 
+        root.KeepSynced(true);
+
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
