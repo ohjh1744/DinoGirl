@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -68,12 +69,14 @@ public class LevelUpPanel : UIBInder
     {
         targetCharacter = character;
         CalculateMaxLevelUp();
-        UpdateUI();
 
         Slider slider = GetUI<Slider>("LevelUpSlider");
-        slider.minValue = 0;
+        slider.minValue = 1;
         slider.maxValue = maxLevelUp;
-        slider.value = 0;
+        slider.value = 1;
+        curLevelUp = 1;
+
+        UpdateUI();
     }
 
     // 슬라이더 값 갱신
@@ -88,11 +91,33 @@ public class LevelUpPanel : UIBInder
     {
         RequiredItems items = CalculateRequiredItems(curLevelUp);
 
-        GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {items.coin}";
-        GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.dinoBlood}";
-        GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.boneCrystal}";
+        int notEnoughCoin = Mathf.Max(0, items.coin - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
+        int notEnoughDinoBlood = Mathf.Max(0, items.dinoBlood - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
+        int notEnoughBoneCrystal = Mathf.Max(0, items.boneCrystal - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
 
-        if (targetCharacter.UnitLevel + curLevelUp >= MAXLEVEL)
+        bool canLevelUp = (notEnoughCoin == 0 && notEnoughDinoBlood == 0 && notEnoughBoneCrystal == 0);
+        Debug.Log($"{notEnoughCoin}, {notEnoughDinoBlood}, {notEnoughBoneCrystal}");
+
+        GetUI<Button>("DecreaseButton").interactable = (curLevelUp > 1);
+
+        if (canLevelUp)
+        {
+            GetUI<Button>("DecreaseButton").interactable = true;
+            GetUI<Button>("IncreaseButton").interactable = true;
+            GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {items.coin}";
+            GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.dinoBlood}";
+            GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.boneCrystal}";
+        }
+        else
+        {
+            GetUI<Button>("DecreaseButton").interactable = false;
+            GetUI<Button>("IncreaseButton").interactable = false;
+            GetUI<TextMeshProUGUI>("CoinText").text = $"Coin {notEnoughCoin} 부족";
+            GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood {notEnoughDinoBlood} 부족";
+            GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal {notEnoughBoneCrystal} 부족";
+        }
+
+        if (targetCharacter.UnitLevel + curLevelUp > MAXLEVEL)
         {
             GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.UnitLevel} -> Lv.{MAXLEVEL} (MAX)";
         }
@@ -100,6 +125,8 @@ public class LevelUpPanel : UIBInder
         {
             GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.UnitLevel} -> Lv.{targetCharacter.UnitLevel + curLevelUp}";
         }
+
+        GetUI<Button>("LevelUpConfirm").interactable = canLevelUp;
     }
 
     // 레벨업 할 최대치
@@ -340,16 +367,27 @@ public class LevelUpPanel : UIBInder
 
     private void OnDecreaseButtonClick(PointerEventData eventData)
     {
+        if (GetUI<Button>("DecreaseButton").interactable == false)
+        {
+            return;
+
+        }
         if (curLevelUp > 0)
         {
             curLevelUp--;
             UpdateUI();
             GetUI<Slider>("LevelUpSlider").value = curLevelUp;
         }
+
     }
 
     private void OnIncreaseButtonClick(PointerEventData eventData)
     {
+        if (GetUI<Button>("IncreaseButton").interactable == false)
+        {
+            return;
+
+        }
         if (curLevelUp < maxLevelUp && (targetCharacter.UnitLevel + curLevelUp) + 1 <= MAXLEVEL)
         {
             curLevelUp++;
