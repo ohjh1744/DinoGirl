@@ -7,9 +7,9 @@ using UnityEngine;
 public class UnitStat : MonoBehaviour   
 {
     [SerializeField] public int Pos;
-    [SerializeField] public float MaxHp;
-    [SerializeField] public float Atk;
-    [SerializeField] public float Def;
+    [SerializeField] public int MaxHp;
+    [SerializeField] public int Atk;
+    [SerializeField] public int Def;
     [SerializeField] public int Level;
     [SerializeField] public int Id;
     [SerializeField] public string Elemente;
@@ -17,7 +17,7 @@ public class UnitStat : MonoBehaviour
 
 
     
-    public void setStats(int pos , float maxhp, float atk, float def, int level, int id, string elemente)
+    public void setStats(int pos , int maxhp, int atk, int def, int level, int id, string elemente)
     {
         Pos = pos;
         MaxHp = maxhp;
