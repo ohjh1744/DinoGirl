@@ -232,6 +232,8 @@ public class GachaSceneController : UIBInder
         // Gacha 종류 변경 버튼 함수 연동
         GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(ShowBaseGachaPanel);
         GetUI<Button>("ChangeEventGachaBtn").onClick.AddListener(ShowEventGachaPanel);
+        // Lobby로 돌아가기 버튼 함수 연동
+        GetUI<Button>("BackBtn").onClick.AddListener(gachaBtn.BackToRobby);
     }
 
     /// <summary>
@@ -243,6 +245,8 @@ public class GachaSceneController : UIBInder
     {
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(true);
         GetUI<Image>("EventGachaPanel").gameObject.SetActive(false);
+        // 돌아가는 버튼 활성화
+        GetUI<Image>("BackBtn").gameObject.SetActive(true);
     }
     /// <summary>
     /// EventGachaPanel 활성화
@@ -253,6 +257,8 @@ public class GachaSceneController : UIBInder
     {
         GetUI<Image>("EventGachaPanel").gameObject.SetActive(true);
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(false);
+        // 돌아가는 버튼 활성화
+        GetUI<Image>("BackBtn").gameObject.SetActive(true);
     }
 
     /// <summary>

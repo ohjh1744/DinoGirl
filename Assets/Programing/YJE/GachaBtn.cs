@@ -6,6 +6,7 @@ public class GachaBtn : MonoBehaviour
 {
     GachaSceneController gachaSceneController;
     GachaCheck gachaCheck;
+    SceneChanger sceneChanger;
 
     [SerializeField] int gachaCost;
     [SerializeField] string gachaCostItem;
@@ -21,7 +22,15 @@ public class GachaBtn : MonoBehaviour
     {
         gachaSceneController = gameObject.GetComponent<GachaSceneController>();
         gachaCheck = gameObject.GetComponent<GachaCheck>();
+        sceneChanger = gameObject.GetComponent<SceneChanger>();
     }
+
+    public void BackToRobby()
+    {
+        sceneChanger.CanChangeSceen = true;
+        sceneChanger.ChangeScene("Lobby_OJH");
+    }
+
 
     /// <summary>
     /// 결과 패널 비활성화 시
