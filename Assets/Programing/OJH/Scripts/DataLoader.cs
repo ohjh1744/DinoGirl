@@ -29,6 +29,8 @@ public class DataLoader : MonoBehaviour
 
         Debug.Log(root);
 
+        root.KeepSynced(true);
+  
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)

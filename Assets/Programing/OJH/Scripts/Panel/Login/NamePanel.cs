@@ -83,8 +83,9 @@ public class NamePanel : UIBInder
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
-        PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("o");
-        PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("o");
+        PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
+        PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
+        
 
         for (int i = 0; i < _baseUnitNum; i++)
         {
