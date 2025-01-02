@@ -87,6 +87,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
         GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(true);
+        GetUI<Image>("BackBtn").gameObject.SetActive(true);
         GetUI<Image>("ShopCharacter").gameObject.SetActive(false);
     }
 
@@ -262,6 +263,8 @@ public class GachaSceneController : UIBInder
         // 기본 뽑기 종류 변경 버튼 비활성화
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(false);
         GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(false);
+        // 돌아가는 버튼 비활성화
+        GetUI<Image>("BackBtn").gameObject.SetActive(false);
         // 각 아이템 재화 Text 비활성화
         GetUI<TextMeshProUGUI>("CoinText").gameObject.SetActive(false);
         GetUI<TextMeshProUGUI>("DinoBloodText").gameObject.SetActive(false);
