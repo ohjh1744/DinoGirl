@@ -2,6 +2,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -37,17 +38,28 @@ public class CharacterPanel : UIBInder
         int level = character.UnitLevel;
         if (characterData.TryGetValue(character.UnitId, out var data))
         {
-            // TODO : 캐릭터의 각종 스탯 정보 ( 이름, ID 외 나머지 스텟 가져와야함)
+            // TODO : 캐릭터의 각종 스탯 정보 ( 레벨에 따른 스탯, 이미지 )
+
+            string path = $"Portrait/portrait_{character.UnitId}";
+            if (path != null)
+            {   // 캐릭터 이미지
+                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(path);
+            }
+
             GetUI<TextMeshProUGUI>("UnitIdText").text = character.UnitId.ToString();
             GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
-
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
+
+            // TODO : base스탯 말고 레벨에 따라 증가한 스탯
             GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(TypeCastManager.Instance.TryParseInt(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
+
             GetUI<TextMeshProUGUI>("ClassText").text = "Class : " + data["Class"];
             GetUI<TextMeshProUGUI>("ElementText").text = "Element : " + data["ElementName"];
+            // 그리드 모양에 해당하는 이미지 
             GetUI<TextMeshProUGUI>("GridText").text = "Grid : " + data["Grid"];
+
             GetUI<TextMeshProUGUI>("StatIdText").text = "StatID : " + data["StatID"];
             GetUI<TextMeshProUGUI>("PercentIncreaseText").text = "PI : " + data["PercentIncrease"];
 
@@ -60,8 +72,7 @@ public class CharacterPanel : UIBInder
 
     private void UpdateCharacterData(PlayerUnitData character)
     {
-        // string userID = BackendManager.Auth.CurrentUser.UserId;
-        string userID = "sinEKs9IWRPuWNbboKov1fKgmab2";
+        string userID = BackendManager.Auth.CurrentUser.UserId;
         DatabaseReference characterRef = BackendManager.Database.RootReference
             .Child("UserData").Child(userID).Child("_unitDatas");
 
@@ -116,7 +127,7 @@ public class CharacterPanel : UIBInder
 
     private int CalculateStat(int stat, int level)
     {
-        // TODO : 레벨에 따른 스텟 계산 추가
+        // TODO : 레벨에 따른 스텟 계산
         return stat;
     }
 

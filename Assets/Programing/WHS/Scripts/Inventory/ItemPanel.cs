@@ -12,6 +12,8 @@ public class ItemPanel : UIBInder
     private static ItemPanel _instance;
     public static ItemPanel Instance { get { return _instance; } set { _instance = value; } }
 
+    [SerializeField] private SceneChanger _sceneChanger;
+
     private void Awake()
     {
         if (_instance == null)
@@ -30,7 +32,7 @@ public class ItemPanel : UIBInder
         BindAll();
         StartCoroutine(WaitForPlayerData());
 
-        AddEvent("BackButton", EventType.Click, ItemTEST);
+        AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
     private IEnumerator WaitForPlayerData()
@@ -104,22 +106,6 @@ public class ItemPanel : UIBInder
         UpdateItemsInDatabase();
     }
 
-    public void ItemTEST(PointerEventData eventData)
-    {
-        int curCoinAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
-        int curDinoBloodAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood];
-        int curBoneCrystalAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal];
-        int curDinoStoneAmount = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone];
-
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, curCoinAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, curDinoBloodAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, curBoneCrystalAmount + 100000);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, curDinoStoneAmount + 100000);
-
-        UpdateItems();
-        UpdateItemsInDatabase();
-    }
-
     public void UpdateItems()
     {
         UpdateCoinText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
@@ -152,5 +138,11 @@ public class ItemPanel : UIBInder
                 Debug.Log("아이템이 성공적으로 업데이트되었습니다.");
             }
         });
+    }
+
+    public void GoLobby(PointerEventData eventData)
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 }

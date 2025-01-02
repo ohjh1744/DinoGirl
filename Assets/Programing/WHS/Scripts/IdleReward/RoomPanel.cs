@@ -33,15 +33,12 @@ public class RoomPanel : UIBInder
 
     private void OnEnable()
     {
-        /*
-        // 1시간이 지나야 수령 버튼 활성화
         GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
         if (updateIdleTimeCoroutine == null)
         {
             updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
         }
-        */
     }
     private void OnDisable()
     {
@@ -52,6 +49,7 @@ public class RoomPanel : UIBInder
         }
     }
 
+    /*
     public void TESTESTS()
     {
         if (updateIdleTimeCoroutine == null)
@@ -59,11 +57,12 @@ public class RoomPanel : UIBInder
             updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
         }
     }
+    */
 
     // 보상 수령
     public void ClaimIdleRewards(PointerEventData eventData)
     {
-        if (GetUI<UnityEngine.UI.Button>("ClaimButton").interactable == false)
+        if (GetUI<Button>("ClaimButton").interactable == false)
             return;
 
         int storedGold = PlayerDataManager.Instance.PlayerData.StoredItems[(int)E_Item.Coin];
@@ -96,8 +95,7 @@ public class RoomPanel : UIBInder
     // 데이터베이스에 아이템 저장
     private void UpdateItemsInDatabase()
     {
-        // string userId = BackendManager.Auth.CurrentUser.UserId;
-        string userId = "sinEKs9IWRPuWNbboKov1fKgmab2";
+        string userId = BackendManager.Auth.CurrentUser.UserId;
         DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
 
         Dictionary<string, object> updates = new Dictionary<string, object>
@@ -134,7 +132,7 @@ public class RoomPanel : UIBInder
             TimeSpan idleTime = idleReward.GetIdleTime();
 
             GetUI<TextMeshProUGUI>("IdleTimeText").text = $"{idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
-            GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+            GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
             TimeSpan elapsedTime = DateTime.Now - lastTime;
 
@@ -170,6 +168,6 @@ public class RoomPanel : UIBInder
     {
         GetUI<TextMeshProUGUI>("GoldClaimText").text = $"Gold : {gold}";
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Gold : {dinoBlood}";
-        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Gold : {boneCrystal}";        
+        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Gold : {boneCrystal}";
     }
 }

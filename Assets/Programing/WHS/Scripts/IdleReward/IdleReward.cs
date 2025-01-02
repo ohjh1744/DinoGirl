@@ -10,6 +10,7 @@ public class IdleReward : MonoBehaviour
 {
     private Dictionary<int, Dictionary<string, string>> housingData;
 
+    
     private void Start()
     {
         StartCoroutine(WaitForPlayerData());
@@ -27,6 +28,7 @@ public class IdleReward : MonoBehaviour
             Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}");
         }
     }
+    
     /*
     private void Awake()
     {
@@ -85,8 +87,7 @@ public class IdleReward : MonoBehaviour
     // 데이터베이스에 방치형 아이템 저장
     private void UpdateStoredItemsInDatabase()
     {
-        // string userId = BackendManager.Auth.CurrentUser.UserId;
-        string userId = "sinEKs9IWRPuWNbboKov1fKgmab2";
+        string userId = BackendManager.Auth.CurrentUser.UserId;
         DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId).Child("_storedItems");
 
         Dictionary<string, object> updates = new Dictionary<string, object>
@@ -117,8 +118,7 @@ public class IdleReward : MonoBehaviour
 
         PlayerDataManager.Instance.PlayerData.RoomExitTime = curTime;
 
-        // string userId = BackendManager.Auth.CurrentUser.UserId;
-        string userId = "sinEKs9IWRPuWNbboKov1fKgmab2";
+        string userId = BackendManager.Auth.CurrentUser.UserId;
         DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
 
         userRef.Child("_roomExitTime").SetValueAsync(curTime).ContinueWithOnMainThread(task =>
