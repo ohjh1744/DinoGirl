@@ -160,6 +160,6 @@ public class ItemPanel : UIBInder
     public void GoLobby(PointerEventData eventData)
     {
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("LobbyOJH");
+        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 }
