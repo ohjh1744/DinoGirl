@@ -1,6 +1,9 @@
 using Firebase.Database;
+using Firebase.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -74,44 +77,26 @@ public class UserList : MonoBehaviour
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
         Dictionary<string, object> dic = new Dictionary<string, object>();
         dic[$"/{(int)E_Item.Coin}"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
-        root.UpdateChildrenAsync(dic);
-
-        Debug.Log("bbbb");
-        
+        root.UpdateChildrenAsync(dic);      
     }
 
     // 친구 추가하면서 Coin 선물
     private void GiveCoin()
     {
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(_otherId).Child("_gift");
+        string sendMailTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff") + DateTime.Now.Ticks.ToString("D19");
 
-        root.RunTransaction(mutableData =>
-        {
-            //_gift 딕셔너리가 없는 경우 
-            if(mutableData.Value == null)
-            {
-                Dictionary<string, object> newGift = new Dictionary<string, object>();
-                newGift.Add(BackendManager.Auth.CurrentUser.UserId, _giveCoin);
-                Debug.Log(newGift[BackendManager.Auth.CurrentUser.UserId]);
-                mutableData.Value = newGift;
-                return TransactionResult.Success(mutableData);
-            }
+        DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(_otherId).Child(sendMailTime);
 
-            Dictionary<string, object> gift = mutableData.Value as Dictionary<string, object>;
-            // Id가존재하다는 것은 기존에 팔로워가 준 선물을 안받은 상태.
-            if (gift.ContainsKey(BackendManager.Auth.CurrentUser.UserId))
-            {
-                gift[BackendManager.Auth.CurrentUser.UserId] = (int)gift[BackendManager.Auth.CurrentUser.UserId] + _giveCoin;
-            }
-            else
-            {
-                gift[BackendManager.Auth.CurrentUser.UserId] = _giveCoin;
-            }
+        MailData mailData = new MailData();
 
-            mutableData.Value = gift;
-            Debug.Log("bbb");
-            return TransactionResult.Success(mutableData);
+        mailData.Name = $"{PlayerDataManager.Instance.PlayerData.PlayerName}#{BackendManager.Auth.CurrentUser.UserId.Substring(0, 4)}";
 
-        });
+        mailData.ItemType = (int)E_Item.Coin;
+
+        mailData.ItemNum = _giveCoin;
+
+        string json = JsonUtility.ToJson(mailData);
+        root.SetRawJsonValueAsync(json);
+
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum E_List {User, Friend };
+public enum E_List {User, Friend , Mail};
 public class ListObjectPull : MonoBehaviour
 {
     [SerializeField] private  GameObject[] _lists;

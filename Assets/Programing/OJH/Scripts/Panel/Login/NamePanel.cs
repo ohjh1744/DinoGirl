@@ -19,6 +19,8 @@ public class NamePanel : UIBInder
 
     [SerializeField] private SceneChanger _sceneChanger;
 
+    [SerializeField] private int _nameLen; // 이름 제한 길이
+
     private void Awake()
     {
         BindAll();
@@ -35,9 +37,9 @@ public class NamePanel : UIBInder
         string nickName = GetUI<TMP_InputField>("NameInputField").text;
         
         // 이름이 없는 경우 팝업창 띄우기
-        if(nickName == "")
+        if(nickName == "" || nickName.Length > _nameLen)
         {
-            SetTrueWarningPanel("Please Input Name");
+            SetTrueWarningPanel("No Name or Too Long Name");
             ResetInputField();
             return;
         }

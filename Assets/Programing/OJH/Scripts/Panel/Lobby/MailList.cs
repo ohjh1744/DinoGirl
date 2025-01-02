@@ -1,49 +1,57 @@
 using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class MailList : MonoBehaviour
 {
-    [SerializeField] private string _otherId;
+    [SerializeField] private TextMeshProUGUI _mailText;
 
-    public string OtherId { get { return _otherId; } set { _otherId = value; } }
+    public TextMeshProUGUI MailText {  get { return _mailText; } set { _mailText = value; } }
+
+    [SerializeField] private string _mailTime;
+
+    public string MailTime { get { return _mailTime; } set { _mailTime = value; } }
+
+    [SerializeField] private int _itemType;
+
+    public int ItemType { get { return _itemType; } set { _itemType = value; } }
+
+    [SerializeField] private int _itemNum;
+
+    public int ItemNum {  get { return _itemNum; } set { _itemNum = value; } }
+
 
     public void CheckMail()
     {
-        UpdateCoin();
-        UpdateGift();
+        UpdateItem();
+        DeleteMail();
 
         gameObject.SetActive(false);
     }
 
-    private void UpdateCoin()
+    // 코인 업데이트
+    private void UpdateItem()
     {
         //PlayerData Coin 수 Update.
-        int getCoin = TypeCastManager.Instance.TryParseInt(PlayerDataManager.Instance.PlayerData.Gift[_otherId].ToString());
-        int sum = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] + getCoin;
+        int sum = PlayerDataManager.Instance.PlayerData.Items[_itemType] + _itemNum;
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, sum);
 
-        //Backend에서 Coin 수  변경
+        //백엔드에도 저장
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
         Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic[$"/{(int)E_Item.Coin}"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
+        dic[$"/{_itemType}"] = PlayerDataManager.Instance.PlayerData.Items[_itemType];
         root.UpdateChildrenAsync(dic);
-        Debug.Log("코인업뎃 성공");
-
     }
 
-    private void UpdateGift()
+    //수령받은 메일 삭제
+    private void DeleteMail()
     {
+        DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(BackendManager.Auth.CurrentUser.UserId);
+        root.Child(_mailTime).RemoveValueAsync();
 
-        //PlayerData에서 gift Update
-        PlayerDataManager.Instance.PlayerData.Gift.Remove(_otherId);
-
-        //Backend에서 gift도 변경
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_gift");
-        root.SetValueAsync(PlayerDataManager.Instance.PlayerData.Gift);
-        Debug.Log("기프트업뎃 성공");
     }
 }
