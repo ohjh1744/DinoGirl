@@ -21,10 +21,17 @@ public class UserList : MonoBehaviour
 
     public AutoFalseSetter GetCoinImage { get { return _getCoinImage; } set { _getCoinImage = value; } }
 
+
+    private AutoFalseSetter _cantAddImage;
+
+    public AutoFalseSetter CantAddImage { get { return _cantAddImage; } set { _cantAddImage = value; } }
+
     public void AddFriend()
     {
         if(PlayerDataManager.Instance.PlayerData.CanAddFriend <= 0)
         {
+            _cantAddImage.ResetCurrentTime();
+            _cantAddImage.gameObject.SetActive(true);
             Debug.Log("하루 친구추가 횟수 0");
             return;
         }

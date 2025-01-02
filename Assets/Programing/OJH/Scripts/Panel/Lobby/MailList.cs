@@ -24,11 +24,26 @@ public class MailList : MonoBehaviour
 
     public int ItemNum {  get { return _itemNum; } set { _itemNum = value; } }
 
+    [SerializeField] private AutoFalseSetter _checkedImage;
+
+    public AutoFalseSetter CheckedImage { get { return _checkedImage; } set { _checkedImage = value; } }
+
+    [SerializeField] private Sprite _checkedImageSprite;
+    public Sprite CheckedImageSprite { get { return _checkedImageSprite; } set { _checkedImageSprite = value; } }
+
+    [SerializeField] private Image _checkcedItemImage;
+    public Image CheckedItemImage { get { return _checkcedItemImage; } set { _checkcedItemImage = value; } }
+
+    [SerializeField] private TextMeshProUGUI _checkcedItemText;
+
+    public TextMeshProUGUI CheckedItemText { get { return _checkcedItemText; } set { _checkcedItemText = value; } }
+
 
     public void CheckMail()
     {
         UpdateItem();
         DeleteMail();
+        ShowCheckedImage();
 
         gameObject.SetActive(false);
     }
@@ -52,6 +67,14 @@ public class MailList : MonoBehaviour
     {
         DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(BackendManager.Auth.CurrentUser.UserId);
         root.Child(_mailTime).RemoveValueAsync();
-
     }
+
+    private void ShowCheckedImage()
+    {
+        _checkcedItemImage.sprite = _checkedImageSprite;
+        _checkcedItemText.text = $"{ItemNum}";
+        _checkedImage.ResetCurrentTime();
+        _checkedImage.gameObject.SetActive(true);
+    }
+
 }
