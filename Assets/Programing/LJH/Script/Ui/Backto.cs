@@ -8,6 +8,6 @@ public class Backto : MonoBehaviour
     public void BacktoLobby() 
     {
         SceneManager.LoadScene("Lobby_OJH");
-        Destroy(BattleSceneManager.Instance);
+        Destroy(BattleSceneManager.Instance.gameObject);
     }
 }
