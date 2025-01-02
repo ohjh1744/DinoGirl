@@ -134,7 +134,7 @@ public class LoginPanel : UIBInder
         else
         {
             //TODO :  로비씬으로 비동기 씬 전환 
-            _sceneChanger.ChangeScene("LobbyOJH");
+            _sceneChanger.ChangeScene("Lobby_OJH");
 
             //ToDo: DB에서 PlayerData 불러오기 
             GetPlayerData();

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using Firebase.Auth;
 using Firebase.Extensions;
+using UnityEngine.UI;
 
 public class LobbyPanel : UIBInder
 {
@@ -21,11 +22,37 @@ public class LobbyPanel : UIBInder
     private void OnEnable()
     {
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoin;
+        GetUI<Button>("LobbyPlayerButton").onClick.AddListener(SetInteractableFalse);
+        GetUI<Button>("LobbyMailButton").onClick.AddListener(SetInteractableFalse);
+        GetUI<Button>("LobbyAddFriendButton").onClick.AddListener(SetInteractableFalse);
+        GetUI<Button>("LobbyFriendsButton").onClick.AddListener(SetInteractableFalse);
+
+        GetUI<Button>("PlayerExitButton").onClick.AddListener(SetInteractableTrue);
+        GetUI<Button>("AddFriendExitButton").onClick.AddListener(SetInteractableTrue);
+        GetUI<Button>("FriendsExitButton").onClick.AddListener(SetInteractableTrue);
+        GetUI<Button>("MailExitButton").onClick.AddListener(SetInteractableTrue);
+
+        GetUI<Button>("LobbyChapterButton").onClick.AddListener(ChangeChapterScene);
+        GetUI<Button>("LobbyCharacterButton").onClick.AddListener(ChangeCharacterScene);
+        GetUI<Button>("LobbyRoomButton").onClick.AddListener(ChangeRoomScene);
     }
 
     private void OnDisable()
     {
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoin;
+        GetUI<Button>("LobbyPlayerButton").onClick.RemoveListener(SetInteractableFalse);
+        GetUI<Button>("LobbyMailButton").onClick.RemoveListener(SetInteractableFalse);
+        GetUI<Button>("LobbyAddFriendButton").onClick.RemoveListener(SetInteractableFalse);
+        GetUI<Button>("LobbyFriendsButton").onClick.RemoveListener(SetInteractableFalse);
+
+        GetUI<Button>("PlayerExitButton").onClick.RemoveListener(SetInteractableTrue);
+        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(SetInteractableTrue);
+        GetUI<Button>("FriendsExitButton").onClick.RemoveListener(SetInteractableTrue);
+        GetUI<Button>("MailExitButton").onClick.RemoveListener(SetInteractableTrue);
+
+        GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(ChangeChapterScene);
+        GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(ChangeCharacterScene);
+        GetUI<Button>("LobbyRoomButton").onClick.RemoveListener(ChangeRoomScene);
     }
 
     private void Start()
@@ -65,6 +92,50 @@ public class LobbyPanel : UIBInder
         itemSb.Clear();
         itemSb.Append(count);
         GetUI<TextMeshProUGUI>(_itemValueTexts[0]).SetText(itemSb);
+    }
+
+    private void SetInteractableFalse()
+    {
+        GetUI<Button>("LobbyPlayerButton").interactable = false;
+        GetUI<Button>("LobbyChapterButton").interactable = false;
+        GetUI<Button>("LobbyContentButton").interactable = false;
+        GetUI<Button>("LobbyRoomButton").interactable = false;
+        GetUI<Button>("LobbyCharacterButton").interactable = false;
+        GetUI<Button>("LobbyGachaButton").interactable = false;
+        GetUI<Button>("LobbyAddFriendButton").interactable = false;
+        GetUI<Button>("LobbyMailButton").interactable = false;
+        GetUI<Button>("LobbyFriendsButton").interactable = false;
+    }
+
+    private void SetInteractableTrue()
+    {
+        GetUI<Button>("LobbyPlayerButton").interactable = true;
+        GetUI<Button>("LobbyChapterButton").interactable = true;
+        GetUI<Button>("LobbyContentButton").interactable = true;
+        GetUI<Button>("LobbyRoomButton").interactable = true;
+        GetUI<Button>("LobbyCharacterButton").interactable = true;
+        GetUI<Button>("LobbyGachaButton").interactable = true;
+        GetUI<Button>("LobbyAddFriendButton").interactable = true;
+        GetUI<Button>("LobbyMailButton").interactable = true;
+        GetUI<Button>("LobbyFriendsButton").interactable = true;
+    }
+
+    private void ChangeChapterScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("ChapterSelect_LJH");
+    }
+
+    private void ChangeCharacterScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("InventoryScene_WHS");
+    }
+
+    private void ChangeRoomScene()
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("RoomScene_WHS");
     }
 
 
