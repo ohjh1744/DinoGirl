@@ -33,6 +33,7 @@ public class LoadingCheck : MonoBehaviour
         OnStartSetting -= gachaSceneController.MakeGachaList;
         OnStartSetting -= gachaSceneController.MakeItemDic;
         OnStartSetting -= gachaSceneController.MakeCharDic;
+        OnStartSetting -= gachaSceneController.MakeCharReturnItemDic;
         OnStartSetting -= gachaSceneController.SettingBtn;
     }
 
