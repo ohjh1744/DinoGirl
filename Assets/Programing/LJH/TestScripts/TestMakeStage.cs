@@ -1,5 +1,5 @@
 
-using Photon.Realtime;
+
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
@@ -26,7 +26,7 @@ public class TestMakeStage : MonoBehaviour
     [SerializeField] int curMobCount;
     
 
-    [SerializeField] List<int> curMobPos;
+    [SerializeField] List<int> curMobPos; 
     [SerializeField] List<int> curmyPos;
 
     [SerializeField] GameObject monster;
