@@ -6,13 +6,11 @@ using UnityEngine.UI;
 
 public class GachaItem : MonoBehaviour
 {
-    [SerializeField] private int itemId;
+    private int itemId;
     public int ItemId { get { return itemId; } set { itemId = value; } }
-    [SerializeField] private string itemName;
+    private string itemName;
     public string ItemName { get { return itemName; } set { itemName = value; } }
-    /*[SerializeField] private string itemNameText;
-    public string ItemNameText { get { return itemNameText; } set { itemNameText = value; } }*/
-    [SerializeField] private int amount;
+    private int amount;
     public int Amount { get { return amount; } set { amount = value; } }
     private Sprite itemImage;
     public Sprite ItemImage { get { return itemImage; } set { itemImage = value; } }
@@ -33,31 +31,26 @@ public class GachaItem : MonoBehaviour
             case 500:
                 result.ItemId = index;
                 result.ItemName = dataBaseList[index]["ItemName"];
-                //result.itemNameText = "코인";
                 result.ItemImage = Resources.Load<Sprite>("Lottery/TestG");
                 break;
             case 501:
                 result.ItemId = index;
                 result.ItemName = dataBaseList[index]["ItemName"];
-                //result.itemNameText = "다이노블러드";
                 result.ItemImage = Resources.Load<Sprite>("Lottery/TestDB");
                 break;
             case 502:
                 result.ItemId = index;
                 result.ItemName = dataBaseList[index]["ItemName"];
-                //result.itemNameText = "본크리스탈";
                 result.ItemImage = Resources.Load<Sprite>("Lottery/TestBC");
                 break;
             case 503:
                 result.ItemId = index;
                 result.ItemName = dataBaseList[index]["ItemName"];
-                //result.itemNameText = "다이노스톤";
                 result.ItemImage = Resources.Load<Sprite>("Lottery/TestDS");
                 break;
             case 504:
                 result.ItemId = index;
                 result.ItemName = dataBaseList[index]["ItemName"];
-                //result.itemNameText = "스톤";
                 result.ItemImage = Resources.Load<Sprite>("Lottery/TestS");
                 break;
         }
@@ -84,6 +77,14 @@ public class GachaItem : MonoBehaviour
         return resultUI;
     }
 
+    /// <summary>
+    /// 이미 소유한 Character를 뽑은 경우
+    /// 전환되는 아이템을 보여주는 UI Setting 함수
+    //  - GachaSceneController.cs에서 사용
+    /// </summary>
+    /// <param name="gachaItem"></param>
+    /// <param name="resultUI"></param>
+    /// <returns></returns>
     public GameObject SetGachaReturnItemUI(GachaItem gachaItem, GameObject resultUI)
     {
         resultUI.gameObject.GetComponent<GachaItem>().ItemId = gachaItem.ItemId;

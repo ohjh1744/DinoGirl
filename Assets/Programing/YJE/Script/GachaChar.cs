@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 public class GachaChar : MonoBehaviour
 {
-    [SerializeField] private int charId;
+    private int charId;
     public int CharId { get { return charId; } set { charId = value; } }
 
-    [SerializeField] private string charName;
+    private string charName;
     public string CharName { get { return charName; } set { charName = value; } }
 
-    [SerializeField]
     private int rarity;
     public int Rarity { get { return rarity; } set { rarity = value; } }
 
@@ -19,10 +18,12 @@ public class GachaChar : MonoBehaviour
     public Sprite CharImageProfile { get { return charImageProfile; } set { charImageProfile = value; } }
 
     // 뽑기 시 출력할 이미지
+    // Resources 폴더에 있는 이미지를 연동하여 사용함
+    // Resources.Load<Sprite>("파일경로/파일명");
     private Sprite charGachaImage;
     public Sprite CharGachaImage { get { return charGachaImage; } set { charGachaImage = value; } }
 
-    [SerializeField] private int amount;
+    private int amount;
     public int Amount { get { return amount; } set { amount = value; } }
 
 
