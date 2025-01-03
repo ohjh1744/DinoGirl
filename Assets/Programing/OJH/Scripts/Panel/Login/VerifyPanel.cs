@@ -76,10 +76,14 @@ public class VerifyPanel : MonoBehaviour
                 //리로드해야 갱신이 됨.
                 if (BackendManager.Auth.CurrentUser.IsEmailVerified == true)
                 {
-                    Debug.Log("인증 확인");
+                    Debug.Log("인증 확인aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     // 인증Panel로 넘어왔다는 것은 첫 로그인이라는 것이므로, 이름 설정으로 자연스럽게 넘어가기
                     _namePanel.gameObject.SetActive(true);
                     gameObject.SetActive(false);
+                }
+                else
+                {
+                    Debug.Log("인증 안됨aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 }
 
             });
