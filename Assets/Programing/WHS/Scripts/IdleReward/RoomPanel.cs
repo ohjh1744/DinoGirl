@@ -27,19 +27,23 @@ public class RoomPanel : UIBInder
     private void Start()
     {
         idleReward = GetComponent<IdleReward>();
+        if(idleReward == null)
+        {
+            Debug.Log("idleReward없음");
+        }
 
         idleReward.CalculateIdleReward();
-    }
 
-    private void OnEnable()
-    {
-        GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
-
-      
         if (updateIdleTimeCoroutine == null)
         {
             updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
         }
+    }
+
+    private void OnEnable()
+    {
+
+      
     }
     private void OnDisable()
     {
@@ -49,16 +53,6 @@ public class RoomPanel : UIBInder
             updateIdleTimeCoroutine = null;
         }
     }
-
-    /*
-    public void TESTESTS()
-    {
-        if (updateIdleTimeCoroutine == null)
-        {
-            updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
-        }
-    }
-    */
 
     // 보상 수령
     public void ClaimIdleRewards(PointerEventData eventData)
@@ -132,7 +126,7 @@ public class RoomPanel : UIBInder
         {
             TimeSpan idleTime = idleReward.GetIdleTime();
 
-            GetUI<TextMeshProUGUI>("IdleTimeText").text = $"{idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+            GetUI<TextMeshProUGUI>("IdleTimeText").text = $"idleTime {idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
             GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
             TimeSpan elapsedTime = DateTime.Now - lastTime;
@@ -150,6 +144,8 @@ public class RoomPanel : UIBInder
     // 방치형보상 UI 패널
     private void ShowIdleRewardPanel(PointerEventData eventData)
     {
+        GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+
         idleReward.CalculateIdleReward();
 
         idleRewardPanel.SetActive(true);

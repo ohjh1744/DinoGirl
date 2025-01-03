@@ -10,7 +10,7 @@ public class IdleReward : MonoBehaviour
 {
     private Dictionary<int, Dictionary<string, string>> housingData;
 
-    
+    /*
     private void Start()
     {
         StartCoroutine(WaitForPlayerData());
@@ -28,8 +28,8 @@ public class IdleReward : MonoBehaviour
             Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}");
         }
     }
+    */
     
-    /*
     private void Awake()
     {
         housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
@@ -37,16 +37,17 @@ public class IdleReward : MonoBehaviour
         Debug.Log($"{housingData.Count}");
         foreach (var key in housingData.Keys)
         {
-            Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}");
+            Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}, " +
+                $"{housingData[key]["1MaxStorage"]}, {housingData[key]["2MaxStorage"]}, {housingData[key]["3MaxStorage"]}, ");
         }
     }
-    */
+    
 
     // 방치시간 계산하기
     public void CalculateIdleReward()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
-        DateTime exitTime = DateTime.Parse(exitTimeStr);
+        DateTime exitTime = DateTime.ParseExact(exitTimeStr, "yyyyMMdd_HHmmss_fff", null);
         TimeSpan idleTime = DateTime.Now - exitTime;
 
         int idleSeconds = (int)idleTime.TotalSeconds;
@@ -71,13 +72,13 @@ public class IdleReward : MonoBehaviour
     {
         // 최대 누적 시간(24시간 86400초)
         int maxIdleTime = Mathf.Min(seconds, 86400);
-        float idleMinutes = maxIdleTime / 60f;
+        float idleHours = maxIdleTime / 3600f;
 
         if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
             // 스테이지 진행도에 따른 시간당 보상
             int rewardPerHour = GetRewardPerHour(housingId);
-            int reward = Mathf.FloorToInt(rewardPerHour * idleMinutes);
+            int reward = Mathf.FloorToInt(rewardPerHour * idleHours);
 
             return reward;
         }
@@ -114,7 +115,7 @@ public class IdleReward : MonoBehaviour
     // 종료 시간 저장
     public void SaveExitTime()
     {
-        string curTime = DateTime.Now.ToString();
+        string curTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
 
         PlayerDataManager.Instance.PlayerData.RoomExitTime = curTime;
 
@@ -136,11 +137,11 @@ public class IdleReward : MonoBehaviour
         });
     }
 
-    // 수령할 보상이 있을 때 버튼 활성화 
+    // 수령할 보상이 있을 때 (idleTime 1분부터) 버튼 활성화 
     public bool HasIdleReward()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
-        DateTime exitTime = DateTime.Parse(exitTimeStr);
+        DateTime exitTime = DateTime.ParseExact(exitTimeStr, "yyyyMMdd_HHmmss_fff", null);
         TimeSpan idleTime = DateTime.Now - exitTime;
 
         int idleSeconds = (int)idleTime.TotalSeconds;
@@ -151,7 +152,7 @@ public class IdleReward : MonoBehaviour
     public TimeSpan GetIdleTime()
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
-        DateTime exitTime = DateTime.Parse(exitTimeStr);
+        DateTime exitTime = DateTime.ParseExact(exitTimeStr, "yyyyMMdd_HHmmss_fff", null);
         return DateTime.Now - exitTime;
     }
 
