@@ -36,6 +36,8 @@ public class AddFriendPanel : MonoBehaviour
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
 
+        root.KeepSynced(true);
+
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
