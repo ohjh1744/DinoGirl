@@ -4,6 +4,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -53,8 +54,9 @@ public class NamePanel : UIBInder
 
         UserProfile profile = new UserProfile();
         profile.DisplayName = nickName;
+        string name = nickName;
 
-
+        // 지금 user관련 기능들은 모바일에서 재로그인을 안하면 Update가 안되는거로 예상됨.
         user.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
@@ -72,17 +74,17 @@ public class NamePanel : UIBInder
 
 
             ResetInputField();
-            CreateDataBase();
+            CreateDataBase(nickName);
         });
     }
 
-    private void CreateDataBase()
+    private void CreateDataBase(string name)
     {
         // 성공시 비동기씬 진행.
         _sceneChanger.ChangeScene("Lobby_OJH");
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
-        PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
+        PlayerDataManager.Instance.PlayerData.PlayerName = name;
         PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
         PlayerDataManager.Instance.PlayerData.LastResetFollowTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
         

@@ -111,22 +111,22 @@ public class LoginPanel : UIBInder
 
     public void CheckUserInfo()
     {
-        Debug.Log("첫 로그인!!!!");
+        Debug.Log("로그인!!!!");
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         if (user == null)
         {
             return;
         }
 
-        // 첫 로그인 시 이메일 인증 및 닉네임 설정 진행
-        if (user.IsEmailVerified == false)
-        {
-            //TODO : 이메일 인증 진행
-            GetUI<VerifyPanel>("VerifyPanel").namePanel = GetUI("NamePanel").gameObject;
-            GetUI<VerifyPanel>("VerifyPanel").gameObject.SetActive(true);
+        //// 첫 로그인 시 이메일 인증 및 닉네임 설정 진행
+        //if (user.IsEmailVerified == false)
+        //{
+        //    //TODO : 이메일 인증 진행
+        //    GetUI<VerifyPanel>("VerifyPanel").namePanel = GetUI("NamePanel").gameObject;
+        //    GetUI<VerifyPanel>("VerifyPanel").gameObject.SetActive(true);
 
-        }
-        else if (user.DisplayName == "")  // 인증만하고 이름 설정안한 경우도 고려.
+        //}
+        if (user.DisplayName == "")  // 인증만하고 이름 설정안한 경우도 고려.
         {
             //TODO : 닉네임 설정 진행
             GetUI("NamePanel").SetActive(true);
