@@ -79,7 +79,7 @@ public class NamePanel : UIBInder
     private void CreateDataBase()
     {
         // 성공시 비동기씬 진행.
-        _sceneChanger.ChangeScene("LobbyOJH");
+        _sceneChanger.ChangeScene("Lobby_OJH");
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = BackendManager.Auth.CurrentUser.DisplayName;
