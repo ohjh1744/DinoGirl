@@ -1,8 +1,12 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
+using Firebase.Database;
+using Firebase.Extensions;
+using static UnityEditor.Progress;
 
 public class BattleSceneUi : MonoBehaviour
 {
@@ -10,7 +14,10 @@ public class BattleSceneUi : MonoBehaviour
     [SerializeField] private GameObject resultPanel;
     [SerializeField] private GameObject winUi;
     [SerializeField] private GameObject loseUi;
+    [SerializeField] private GameObject RewardUi;
 
+    [SerializeField] Button Lobbybtn;
+    [SerializeField] Button Stagebtn;
 
 
     [SerializeField] private float time;
@@ -22,12 +29,44 @@ public class BattleSceneUi : MonoBehaviour
     private void OnEnable()
     {
         time = BattleSceneManager.Instance._timeLimit;
-        //time = 120f;
 
-        StartCoroutine(startTimer());
+        Spawner.OnSpawnCompleted += startTimerTriger;
+
+    }
+    private void OnDisable()
+    {
+        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        Spawner.OnSpawnCompleted -= startTimerTriger;
+    }
+    IEnumerator Subscriber()
+    {
+        Debug.Log("ì´ë²¤íŠ¸ êµ¬ë…");
+
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath += WinorLose;
+        }
+        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath += WinorLose;
+        }
+
     }
 
-    IEnumerator startTimer() 
+    public void startTimerTriger()
+    {
+        StartCoroutine(startTimer());
+        StartCoroutine(Subscriber());
+    }
+    IEnumerator startTimer()
     {
         curTime = time;
         while (curTime > 0)
@@ -40,50 +79,145 @@ public class BattleSceneUi : MonoBehaviour
 
             if (curTime <= 0)
             {
-                Debug.Log("½Ã°£ Á¾·á");
+                Debug.Log("ì‹œê°„ ì¢…ë£Œ");
                 curTime = 0;
                 yield break;
             }
         }
     }
-    public void WinorLose() 
-    {   
-        
-        Debug.Log("Å×½ºÆ®");
-        if (BattleSceneManager.Instance.myUnits.All(item => item.gameObject.activeInHierarchy ==false)) // listÀÇ ³»¿ëÀÌ ÀüºÎ false¸é 
+    public void WinorLose()
+    {
+        if (BattleSceneManager.Instance.myUnits.All(item => item.UnitModel.Hp <= 0)) // ì „ë¶€ í”¼ê°€ 0ì´ë©´ 
         {
-            // ÆĞ¹è
-            Debug.Log("ÆĞ¹è");
+            // íŒ¨ë°°
+            Debug.Log("íŒ¨ë°°");
             BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Lose;
+            openResultPanel();
         }
-        else if (BattleSceneManager.Instance.enemyUnits.All(item => item.gameObject.activeInHierarchy == false)) 
+        else if (BattleSceneManager.Instance.enemyUnits.All(item => item.UnitModel.Hp <= 0))
         {
-            // ½Â¸®
-            Debug.Log("½Â¸®");
+            // ìŠ¹ë¦¬
+            Debug.Log("ìŠ¹ë¦¬");
             BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Win;
+            openResultPanel();
         }
         else if (curTime <= 0)
         {
-            // ½Ã°£Á¦ÇÑ ÆĞ¹è
-            Debug.Log("½Ã°£Á¦ÇÑ ÆĞ¹è");
+            // ì‹œê°„ì œí•œ íŒ¨ë°°
+            Debug.Log("ì‹œê°„ì œí•œ íŒ¨ë°°");
             BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Lose;
+            openResultPanel();
+        }
+        else
+        {
+            Debug.Log("ê²°ê³¼ì¡°ê±´ ë¯¸ ë„ë‹¬");
         }
 
     }
-    public void inToDbData() 
+    public void openResultPanel()
     {
-        // ½Â¸®½Ã È¹µæ ¾ÆÀÌÅÛ + ½Â¸® °á°ú(½ºÅ×ÀÌÁö Å¬¸®¾î ¿©ºÎ »ğÀÔ) , ÃßÈÄ¿¡ ·¹ÀÌµå Å¬¸®¾î °á°ú »ğÀÔµµ »ı°¢
-        // db ¼öÁ¤ + playerdatamanager ¼öÁ¤ÇØ¾ßÇÔ
-        Debug.Log("µ¥ÀÌÅÍ »ğÀÔ");
+        Time.timeScale = 0;
+        resultPanel.SetActive(true);
+        if (BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Win)
+        {
+            winUi.SetActive(true);
+            loseUi.SetActive(false);
+            UpdateItems();
+            updateClear(); // ìŠ¹ë¦¬ì‹œë§Œ ì—…ë°ì´íŠ¸ í•˜ë©´ ë¨
+        }
+        else if (BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Lose)
+        {
+            loseUi.SetActive(true);
+            winUi.SetActive(false);
+        }
+
+    }
+    private void updateClear()
+    {
+        string userId = BackendManager.Auth.CurrentUser.UserId;
+        DatabaseReference stageRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        Debug.Log(BattleSceneManager.Instance.curStageNum);
+        PlayerDataManager.Instance.PlayerData.IsStageClear[BattleSceneManager.Instance.curStageNum] = true;
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            ["_isStageClear/" + BattleSceneManager.Instance.curStageNum.ToString()] = true
+        };
+
+        stageRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"í´ë¦¬ì–´ ì—…ë°ì´íŠ¸ ì‹¤íŒ¨ {task.Exception}");
+            }
+            if (task.IsCanceled)
+            {
+                Debug.Log($"í´ë¦¬ì–´ ì—…ë°ì´íŠ¸ ì¤‘ë‹¨ë¨ {task.Exception}");
+            }
+
+            Debug.Log("í´ë¦¬ì–´  ê°±ì‹ ");
+        });
+    }
+    private void UpdateItems()
+    {   // Coin , DinoBlood ,BoneCrystal, DinoStone, Stone
+        string userId = BackendManager.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+
         
+        foreach (int i in BattleSceneManager.Instance.curItemValues.Keys)
+        {
+            Debug.Log($"{i}{BattleSceneManager.Instance.curItemValues[i]}");
+            switch (i)
+            {
+                case 500:
+                    PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] + BattleSceneManager.Instance.curItemValues[i]);
+                    break;
+                case 501:
+                    PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] + BattleSceneManager.Instance.curItemValues[i]);
+                    break;
+                case 502:
+                    PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] + BattleSceneManager.Instance.curItemValues[i]);
+                    break;
+                case 503:
+                    PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoStone, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] + BattleSceneManager.Instance.curItemValues[i]);
+                    break;
+                case 504:
+                    PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Stone, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone] + BattleSceneManager.Instance.curItemValues[i]);
+                    break;
 
+            }
+        }
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            ["_items/0"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin],
+            ["_items/1"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood],
+            ["_items/2"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal],
+            ["_items/3"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone],
+            ["_items/4"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone]
+        };
+
+        userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"ì•„ì´í…œ ì—…ë°ì´íŠ¸ ì‹¤íŒ¨ {task.Exception}");
+            }
+            if (task.IsCanceled)
+            {
+                Debug.Log($"ì•„ì´í…œ ì—…ë°ì´íŠ¸ ì¤‘ë‹¨ë¨ {task.Exception}");
+            }
+
+            Debug.Log("íšë“í•œ ì•„ì´í…œ ê°±ì‹ ");
+        });
     }
-    public void goToLobby() 
-    {   
-        inToDbData();
-        // ½Â¸®½Ã È¹µæ ¾ÆÀÌÅÛ + ½Â¸® °á°ú(½ºÅ×ÀÌÁö Å¬¸®¾î ¿©ºÎ »ğÀÔ)
 
+
+    public void goLobby()
+    {
+        BattleSceneManager.Instance.GoLobby();
     }
-
+    public void goChapter()
+    {
+        BattleSceneManager.Instance.GoChapter();
+    }
 
 }

@@ -21,11 +21,10 @@ public class Spawner : MonoBehaviour
             
             PlayableBaseUnitController unit = obj.GetComponent<PlayableBaseUnitController>();
             UnitModel model = obj.GetComponent<UnitModel>();
-            model.AttackPoint = BattleSceneManager.Instance.myUnitData[i].Atk; //�� �κп��� ���Ȱ�� ���� �ɵ�
-            model.DefensePoint = BattleSceneManager.Instance.myUnitData[i].Def; //�� �κп��� ���Ȱ�� ���� �ɵ�
-            model.MaxHp = BattleSceneManager.Instance.myUnitData[i].MaxHp; //�� �κп��� ���Ȱ�� ���� �ɵ�
-
-            model.Hp = BattleSceneManager.Instance.myUnitData[i].MaxHp; //�� �κп��� ���Ȱ�� ���� �ɵ�
+            model.AttackPoint = BattleSceneManager.Instance.myUnitData[i].Atk; 
+            model.DefensePoint = BattleSceneManager.Instance.myUnitData[i].Def;
+            model.MaxHp = BattleSceneManager.Instance.myUnitData[i].MaxHp;
+            model.Hp = BattleSceneManager.Instance.myUnitData[i].MaxHp; 
             BattleSceneManager.Instance.myUnits.Add(unit);
 
 

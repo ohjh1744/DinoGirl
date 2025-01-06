@@ -11,6 +11,7 @@ public class StagePanel : MonoBehaviour
     [SerializeField] TMP_Text stageNumText;  // 스테이지 번호 
     [SerializeField] TMP_Text stageNameText; // 스테이지 이름 
     [SerializeField] TMP_Text timeLimitText; // 시간제한
+    
 
     [SerializeField] public RewardSlot[] rewards;
 
@@ -45,7 +46,7 @@ public class StagePanel : MonoBehaviour
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["Limit"];
         BattleSceneManager.Instance._timeLimit = float.Parse(curTimeLimit);
-
+        BattleSceneManager.Instance.curStageNum = stageNum-101;
         curMobGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["MonsterGroupID"]);
         curRewardGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["StageRewardID"]); 
         monsterGroupDic = CsvDataManager.Instance.DataLists[7];
