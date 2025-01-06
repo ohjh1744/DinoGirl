@@ -6,13 +6,19 @@ using UnityEngine;
 using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine.UI;
+using System;
+using Firebase.Database;
 
 public class LobbyPanel : UIBInder
 {
 
     [SerializeField] private SceneChanger _sceneChanger;
 
+    [SerializeField] private int _resetAddFriendNum;
+  
     private static string[] _itemValueTexts = { "LobbyItem1Value", "LobbyItem2Value", "LobbyItem3Value", "LobbyItem4Value", "LobbyItem5Value" };
+
+    private bool _isCheckResetAddFriend;
 
     private void Awake()
     {
@@ -61,6 +67,69 @@ public class LobbyPanel : UIBInder
     {
         ShowName();
         ShowItems();
+        CheckResetAddFriend();
+    }
+
+    private void Update()
+    {
+        //하루종일 게임을 켜놨을때의 예외경우 생각.
+        if(DateTime.Now.Hour >= 8 && _isCheckResetAddFriend == false)
+        {
+            _isCheckResetAddFriend = true;
+            CheckResetAddFriend();
+        }
+    }
+
+    // 친구 추가 초기화 확인
+    private void CheckResetAddFriend()
+    {
+        string lastResetTime = PlayerDataManager.Instance.PlayerData.LastResetAddFriendTime;
+
+        DateTime parsedDateTime = DateTime.ParseExact(lastResetTime, "yyyyMMdd_HHmmss_fff", null);
+
+        Debug.Log(parsedDateTime.Year);
+        Debug.Log(parsedDateTime.Month);
+        Debug.Log(parsedDateTime.Day);
+        Debug.Log(parsedDateTime.Hour);
+
+        if (parsedDateTime.Year <= DateTime.Now.Year && parsedDateTime.Month <= DateTime.Now.Month)
+        {
+            //현재 날짜가 마지막으로 리셋한 날짜보다 최소한 다음날이여야함.
+            //하루차이인경우
+            if(parsedDateTime.Day+1 == DateTime.Now.Day)
+            {
+                if(DateTime.Now.Hour >= 8)
+                {
+                    ResetAddFriend();
+                }
+
+            }
+            //이틀이상인경우
+            else if(parsedDateTime.Day < DateTime.Now.Day)
+            {
+                ResetAddFriend();
+            }
+        }
+
+    }
+
+    private void ResetAddFriend()
+    {
+        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+
+        //canAddFriend 초기화
+        PlayerDataManager.Instance.PlayerData.CanAddFriend = _resetAddFriendNum;
+        dic[$"/_canAddFriend"] = _resetAddFriendNum;
+
+        //_lastResetAddFriendTime초기화
+        PlayerDataManager.Instance.PlayerData.LastResetAddFriendTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
+        dic[$"/_lastResetAddFriendTime"] = PlayerDataManager.Instance.PlayerData.LastResetAddFriendTime;
+
+        root.UpdateChildrenAsync(dic);
+
+        Debug.Log("AddFRiend 초기화!");
+
     }
 
     private void ShowName()

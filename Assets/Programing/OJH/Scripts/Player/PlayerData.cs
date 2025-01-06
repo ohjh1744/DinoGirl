@@ -14,9 +14,9 @@ public class PlayerData
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
 
-    [SerializeField] private string _lastResetFollowTime; // 최근접속시간
+    [SerializeField] private string _lastResetAddFriendTime; // 최근접속시간
 
-    public string LastResetFollowTime { get { return _lastResetFollowTime; } set { _lastResetFollowTime = value; } }
+    public string LastResetAddFriendTime { get { return _lastResetAddFriendTime; } set { _lastResetAddFriendTime = value; } }
 
 
     [SerializeField] private string _roomExitTime; // 나만의방에서 나간시간 -> 추후 방치형보상쪽에서 사용할 예정.
