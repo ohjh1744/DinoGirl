@@ -15,15 +15,27 @@ public class CharacterPanel : UIBInder
 
     private Dictionary<int, Dictionary<string, string>> characterData;
 
+    private SceneChanger _sceneChanger;
+
+    private int index;
+    private List<PlayerUnitData> characterList;
+
     private void Awake()
     {
         BindAll();
         AddEvent("LevelUpButton", EventType.Click, OnLevelUpButtonClick);
+        AddEvent("HomeButton", EventType.Click, GoLobby);
+        AddEvent("PreviousCharacterButton", EventType.Click, PreviousButton);
+        AddEvent("NextCharacterButton", EventType.Click, NextButton);
 
         Transform parent = GameObject.Find("CharacterPanel").transform;
         levelUpPanel = parent.Find("LevelUpPanel").gameObject;
 
         characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+
+        _sceneChanger = FindObjectOfType<SceneChanger>();
+
+        characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
     }
 
     private void Start()
@@ -35,33 +47,43 @@ public class CharacterPanel : UIBInder
     public void UpdateCharacterInfo(PlayerUnitData character)
     {
         curCharacter = character;
+        index = characterList.FindIndex(c => c.UnitId == character.UnitId);
+        Debug.Log($"{index} 현재 인덱스");
+
         int level = character.UnitLevel;
         if (characterData.TryGetValue(character.UnitId, out var data))
         {
             // TODO : 캐릭터의 각종 스탯 정보 ( 레벨에 따른 스탯, 이미지 )
 
+            // 캐릭터 이미지
             string path = $"Portrait/portrait_{character.UnitId}";
             if (path != null)
-            {   // 캐릭터 이미지
+            {
                 GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(path);
             }
 
-            GetUI<TextMeshProUGUI>("UnitIdText").text = character.UnitId.ToString();
-            GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
+            // 레벨, 이름
+            // GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
 
-            // TODO : base스탯 말고 레벨에 따라 증가한 스탯
+            // TODO : 속성 아이콘 이미지 
+            GetUI<Image>("ElementImage").sprite = null;
+
+            // 레어도에 따라 별 개수 ~5개 출력
+            if (int.TryParse(data["Rarity"], out int rarity))
+            {
+                UpdateStar(rarity);
+            }
+
+            // TODO : 스킬 정보 가져오기
+            GetUI<TextMeshProUGUI>("SkillNameText").text = "스킬 이름";
+            GetUI<TextMeshProUGUI>("CoolDownText").text = "쿨타임";
+            GetUI<TextMeshProUGUI>("SkillDescriptionText").text = "적에게 창을 던져 물리 피해를 입힙니다";
+
+            // TODO : 레벨에 따라 증가한 스탯
             GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(TypeCastManager.Instance.TryParseInt(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
-
-            GetUI<TextMeshProUGUI>("ClassText").text = "Class : " + data["Class"];
-            GetUI<TextMeshProUGUI>("ElementText").text = "Element : " + data["ElementName"];
-            // 그리드 모양에 해당하는 이미지 
-            GetUI<TextMeshProUGUI>("GridText").text = "Grid : " + data["Grid"];
-
-            GetUI<TextMeshProUGUI>("StatIdText").text = "StatID : " + data["StatID"];
-            GetUI<TextMeshProUGUI>("PercentIncreaseText").text = "PI : " + data["PercentIncrease"];
 
             GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
 
@@ -92,9 +114,6 @@ public class CharacterPanel : UIBInder
                     Dictionary<string, object> updates = new Dictionary<string, object>
                     {
                         ["_unitLevel"] = character.UnitLevel,
-                        // ["_hp"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseHp"]), character.UnitLevel),
-                        // ["_atk"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseATK"]), character.UnitLevel),
-                        // ["_def"] = CalculateStat(int.Parse(characterData[character.UnitId]["BaseDef"]), character.UnitLevel)
                     };
 
                     childSnapshot.Reference.UpdateChildrenAsync(updates).ContinueWithOnMainThread(updateTask =>
@@ -131,4 +150,60 @@ public class CharacterPanel : UIBInder
         return stat;
     }
 
+    private void PreviousButton(PointerEventData eventData)
+    {
+        // 이전 캐릭터 정보로 이동
+        if (index > 0)
+        {
+            index--;
+        }
+        else
+        {
+            index = characterList.Count - 1;
+        }
+
+        UpdateCharacterInfo(characterList[index]);
+    }
+
+    private void NextButton(PointerEventData eventData)
+    {
+        // 다음 캐릭터 정보로 이동
+        if (index < characterList.Count - 1)
+        {
+            index++;
+        }
+        else
+        {
+            index = 0;
+        }
+
+        UpdateCharacterInfo(characterList[index]);
+    }
+
+    private void UpdateStar(int rarity)
+    {
+        // rarity에 따라 별 개수를 출력
+        for (int i = 0; i < 5; i++)
+        {
+            Image starImage = GetUI<Image>($"Star_{i + 1}");
+            if (starImage != null)
+            {
+                if (i < rarity)
+                {
+                    starImage.gameObject.SetActive(true);
+                    starImage.sprite = Resources.Load<Sprite>("UI/icon_star");
+                }
+                else
+                {
+                    starImage.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private void GoLobby(PointerEventData eventData)
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("Lobby_OJH");
+    }
 }

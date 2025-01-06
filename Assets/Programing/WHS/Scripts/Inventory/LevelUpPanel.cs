@@ -18,6 +18,7 @@ public class LevelUpPanel : UIBInder
     private const int MAXLEVEL = 30;
 
     private Dictionary<int, Dictionary<string, string>> levelUpData;
+    private Dictionary<int, Dictionary<string, string>> characterData;
 
     private struct RequiredItems
     {
@@ -32,9 +33,11 @@ public class LevelUpPanel : UIBInder
         AddEvent("LevelUpConfirm", EventType.Click, OnConfirmButtonClick);
         GetUI<Slider>("LevelUpSlider").onValueChanged.AddListener(OnSliderValueChanged);
         AddEvent("DecreaseButton", EventType.Click, OnDecreaseButtonClick);
-        AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);
+        AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);        
 
         levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
+        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+
         Debug.Log($"levelUpData count: {levelUpData.Count}");
         foreach (var key in levelUpData.Keys)
         {
@@ -103,6 +106,9 @@ public class LevelUpPanel : UIBInder
         {
             GetUI<Button>("DecreaseButton").interactable = true;
             GetUI<Button>("IncreaseButton").interactable = true;
+            GetUI<Slider>("LevelUpSlider").interactable = true;
+            GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(true);
+
             GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {items.coin}";
             GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.dinoBlood}";
             GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.boneCrystal}";
@@ -111,6 +117,9 @@ public class LevelUpPanel : UIBInder
         {
             GetUI<Button>("DecreaseButton").interactable = false;
             GetUI<Button>("IncreaseButton").interactable = false;
+            GetUI<Slider>("LevelUpSlider").interactable = false;
+            GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(false);
+
             GetUI<TextMeshProUGUI>("CoinText").text = $"Coin {notEnoughCoin} 부족";
             GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood {notEnoughDinoBlood} 부족";
             GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal {notEnoughBoneCrystal} 부족";
@@ -158,7 +167,7 @@ public class LevelUpPanel : UIBInder
     private RequiredItems CalculateRequiredItems(int level)
     {
         RequiredItems items = new RequiredItems();
-        int rarity = GetRarity(); // 캐릭터의 레어도 가져와야함, 일단 4
+        int rarity = GetRarity();
 
         for (int i = 0; i < level; i++)
         {
@@ -196,9 +205,19 @@ public class LevelUpPanel : UIBInder
 
     private int GetRarity()
     {
-        // 캐릭터의 레어도 받아와야함
-        // TODO : UnitID에 따라 레어도를 찾아와야 할텐데 일단 4
-        return 4;
+        if (characterData.TryGetValue(targetCharacter.UnitId, out var data))
+        {
+            if (int.TryParse(data["Rarity"], out int rarity))
+            {
+                return rarity;
+            }
+        }
+        else
+        {
+            Debug.LogError($"ID 찾을 수 없음 {targetCharacter.UnitId}");
+        }
+
+        return -1;
     }
 
     private int FindLevelUpId(int rarity, int level)

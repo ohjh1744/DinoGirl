@@ -25,6 +25,8 @@ public class ItemPanel : UIBInder
         {
             Destroy(gameObject);
         }
+
+        _sceneChanger = FindObjectOfType<SceneChanger>();
     }
 
     private void Start()

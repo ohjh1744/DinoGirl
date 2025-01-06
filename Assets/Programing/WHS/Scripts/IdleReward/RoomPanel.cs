@@ -144,7 +144,7 @@ public class RoomPanel : UIBInder
     // 방치형보상 UI 패널
     private void ShowIdleRewardPanel(PointerEventData eventData)
     {
-        GetUI<UnityEngine.UI.Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+        GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
 
         idleReward.CalculateIdleReward();
 
@@ -154,17 +154,25 @@ public class RoomPanel : UIBInder
         int dinoBloodReward = idleReward.CalculateReward(2, (int)idleReward.GetIdleTime().TotalSeconds);
         int boneCrystalReward = idleReward.CalculateReward(3, (int)idleReward.GetIdleTime().TotalSeconds);
 
-        GetUI<TextMeshProUGUI>("GoldRewardText").text = $"Gold: {goldReward}";
+        GetUI<TextMeshProUGUI>("CoinRewardText").text = $"Coin: {goldReward}";
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
+
+        GetUI<Image>("CoinRewardImage").sprite = null;
+        GetUI<Image>("DinoBloodRewardImage").sprite = null;
+        GetUI<Image>("BoneCrystalRewardImage").sprite = null;
 
         GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
     }
 
     private void ShowPopup(int gold, int dinoBlood, int boneCrystal)
     {
-        GetUI<TextMeshProUGUI>("GoldClaimText").text = $"Gold : {gold}";
-        GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Gold : {dinoBlood}";
-        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Gold : {boneCrystal}";
+        GetUI<TextMeshProUGUI>("CoinClaimText").text = $"Coin : {gold}";
+        GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Dino Blood : {dinoBlood}";
+        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Bone Crystal : {boneCrystal}";
+
+        GetUI<Image>("CoinClaimImage").sprite = null;
+        GetUI<Image>("DinoBloodClaimImage").sprite = null;
+        GetUI<Image>("BoneCrystalClaimImage").sprite = null;
     }
 }
