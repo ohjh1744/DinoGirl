@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine.UI;
 using Firebase.Database;
 using Firebase.Extensions;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class BattleSceneUi : MonoBehaviour
 {
