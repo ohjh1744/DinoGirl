@@ -4,19 +4,31 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using TMPro;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryPanel : MonoBehaviour
+public class InventoryPanel : UIBInder
 {
     public GameObject characterPrefab;  // 캐릭터 칸 프리팹
     public Transform content;           // 스크롤뷰의 content
+
+    private void Awake()
+    {
+        BindAll();
+        AddEvent("AllElementButton", EventType.Click, AllElementButtonClicked);
+        AddEvent("FireElementButton", EventType.Click, FireElementButtonClicked);
+        AddEvent("WaterElementButton", EventType.Click, WaterElementButtonClicked);
+        AddEvent("GroundElementButton", EventType.Click, GroundElementButtonClicked);
+        AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
+    }
 
     private void Start()
     {
         StartCoroutine(WaitForPlayerData());
     }
-    
+
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
@@ -24,7 +36,7 @@ public class InventoryPanel : MonoBehaviour
 
         PopulateGrid();
     }
-    
+
     // 그리드에 가진 캐릭터 정렬
     private void PopulateGrid()
     {
@@ -77,5 +89,30 @@ public class InventoryPanel : MonoBehaviour
                 break;
             }
         }
-    }    
+    }
+
+    private void AllElementButtonClicked(PointerEventData eventData)
+    {
+        // 모든 캐릭터 표시
+    }
+
+    private void FireElementButtonClicked(PointerEventData eventData)
+    {
+        // 불원소 캐릭터 표시
+    }
+
+    private void WaterElementButtonClicked(PointerEventData eventData)
+    {
+        // 물원소 캐릭터 표시
+    }
+
+    private void GroundElementButtonClicked(PointerEventData eventData)
+    {
+        // 땅원소 캐릭터 표시
+    }
+
+    private void GrassElementButtonClicked(PointerEventData eventData)
+    {
+        // 풀원소 캐릭터 표시
+    }
 }
