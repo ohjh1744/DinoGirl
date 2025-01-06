@@ -46,7 +46,7 @@ public class StagePanel : MonoBehaviour
         curStageNames = stageDic[stageNum]["StageName"];
         curTimeLimit = stageDic[stageNum]["Limit"];
         BattleSceneManager.Instance._timeLimit = float.Parse(curTimeLimit);
-
+        BattleSceneManager.Instance.curStageNum = stageNum-101;
         curMobGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["MonsterGroupID"]);
         curRewardGroup = TypeCastManager.Instance.TryParseInt(stageDic[stageNum]["StageRewardID"]); 
         monsterGroupDic = CsvDataManager.Instance.DataLists[7];

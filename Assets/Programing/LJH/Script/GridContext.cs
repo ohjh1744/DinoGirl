@@ -27,6 +27,12 @@ public class GridContext : MonoBehaviour
     [SerializeField] Color[] highLightColors;
     [SerializeField] TMP_Text unitCount;
     private bool mybuff;
+
+    private void OnEnable()
+    {
+        unitCount.text = "0/5";
+    }
+
     public void UpdateBuffsList(int num) 
     {   
         for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++) 

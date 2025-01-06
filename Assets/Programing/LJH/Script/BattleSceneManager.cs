@@ -17,18 +17,19 @@ public class BattleSceneManager : MonoBehaviour
     public bool isAutoOn {get; set; }
     public bool isGamePaused {get; set; }
 
-    //BaseUnitController �� ������ �����ؾ� �� 
-    [SerializeField] public GameObject[] inGridObject; // �Ʊ� ���� �迭 ���߿� Ÿ���� �ٲٸ� �ɵ�
-    [SerializeField] public string[] enemyGridObject;// �� ���� �迭 �迭�� �ε����� ��ġ�� , id ���� 
+
+    [SerializeField] public GameObject[] inGridObject;
+    [SerializeField] public string[] enemyGridObject;
+    [SerializeField] public int curStageNum;
 
     [SerializeField] public List<PlayableBaseUnitController> myUnits;
     [SerializeField] public List<BaseUnitController> enemyUnits;
     [SerializeField] public List<UnitsDatas> myUnitData;
     [SerializeField] public List<UnitsDatas> enemyUnitData;
 
-    [SerializeField] public float _timeLimit; //
+    [SerializeField] public float _timeLimit;
 
-    [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();// Ŭ���� ����
+    [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 
     [SerializeField] public BattleState curBattleState;
     public enum BattleState  
@@ -49,7 +50,7 @@ public class BattleSceneManager : MonoBehaviour
         }
         curBattleState = BattleState.Ready;
 
-        inGridObject = new GameObject[10]; // ĳ���� ����� 0�� 
+        inGridObject = new GameObject[10];  
         enemyGridObject = new string[9];
         myUnits = new List<PlayableBaseUnitController>();
         enemyUnits = new List<BaseUnitController>();
@@ -60,7 +61,7 @@ public class BattleSceneManager : MonoBehaviour
     public UnityEvent startStage;
     public void StageStart()
     {
-        // 1 ~ 5�θ� ��� ����
+        
         inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
 
         if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
@@ -110,13 +111,14 @@ public class BattleSceneManager : MonoBehaviour
     }
     public void BackStage()
     {
-        // ���������г� , ��Ʋ�� �Ŵ������� �ʱ�ȭ �ؾ���
+        
         for (int i = 0; i < inGridObject.Length; i++)
         {
             inGridObject[i] = null;
         }
         for (int i = 0; i < enemyGridObject.Length; i++)
         {
+            Debug.Log(enemyGridObject[i]);
             enemyGridObject[i] = null;
         }
     }
@@ -157,26 +159,23 @@ public class BattleSceneManager : MonoBehaviour
     }
     IEnumerator BattleSceneStartDelaying() 
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         Spawner spawner = GameObject.Find("Spawner").GetComponent<Spawner>();
         spawner.SpawnUnits();
-
-        foreach (int i in curItemValues.Keys) 
-        {
-            Debug.Log($"���̵� : {i} ���� : {curItemValues[i]}");
-        }
-        
     }
 
     public void GoLobby() 
     {
+        _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("");
+        _sceneChanger.ChangeScene("Lobby_OJH");
+        Destroy(gameObject);
     }
-    public void ReturnStage() 
+    public void GoChapter() 
     {
+        _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("");
+        _sceneChanger.ChangeScene("ChapterSelect_LJH");
     }
 
 
