@@ -32,7 +32,7 @@ public class LevelUpPanel : UIBInder
         AddEvent("LevelUpConfirm", EventType.Click, OnConfirmButtonClick);
         GetUI<Slider>("LevelUpSlider").onValueChanged.AddListener(OnSliderValueChanged);
         AddEvent("DecreaseButton", EventType.Click, OnDecreaseButtonClick);
-        AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);
+        AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);        
 
         levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
         Debug.Log($"levelUpData count: {levelUpData.Count}");
@@ -103,6 +103,9 @@ public class LevelUpPanel : UIBInder
         {
             GetUI<Button>("DecreaseButton").interactable = true;
             GetUI<Button>("IncreaseButton").interactable = true;
+            GetUI<Slider>("LevelUpSlider").interactable = true;
+            GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(true);
+
             GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {items.coin}";
             GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.dinoBlood}";
             GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.boneCrystal}";
@@ -111,6 +114,9 @@ public class LevelUpPanel : UIBInder
         {
             GetUI<Button>("DecreaseButton").interactable = false;
             GetUI<Button>("IncreaseButton").interactable = false;
+            GetUI<Slider>("LevelUpSlider").interactable = false;
+            GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(false);
+
             GetUI<TextMeshProUGUI>("CoinText").text = $"Coin {notEnoughCoin} 부족";
             GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood {notEnoughDinoBlood} 부족";
             GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal {notEnoughBoneCrystal} 부족";

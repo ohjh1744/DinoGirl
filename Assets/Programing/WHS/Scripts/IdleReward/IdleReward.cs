@@ -38,7 +38,7 @@ public class IdleReward : MonoBehaviour
         foreach (var key in housingData.Keys)
         {
             Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}, " +
-                $"{housingData[key]["1MaxStorage"]}, {housingData[key]["2MaxStorage"]}, {housingData[key]["3MaxStorage"]}, ");
+                $"{housingData[key]["1MaxStorage"]}, {housingData[key]["2MaxStorage"]}, ");
         }
     }
     
