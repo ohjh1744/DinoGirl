@@ -158,6 +158,10 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
 
+        GetUI<Image>("CoinRewardImage").sprite = null;
+        GetUI<Image>("DinoBloodRewardImage").sprite = null;
+        GetUI<Image>("BoneCrystalRewardImage").sprite = null;
+
         GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
     }
 
@@ -166,5 +170,9 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("CoinClaimText").text = $"Coin : {gold}";
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Dino Blood : {dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Bone Crystal : {boneCrystal}";
+
+        GetUI<Image>("CoinClaimImage").sprite = null;
+        GetUI<Image>("DinoBloodClaimImage").sprite = null;
+        GetUI<Image>("BoneCrystalClaimImage").sprite = null;
     }
 }

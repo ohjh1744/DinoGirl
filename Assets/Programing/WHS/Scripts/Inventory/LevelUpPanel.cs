@@ -18,6 +18,7 @@ public class LevelUpPanel : UIBInder
     private const int MAXLEVEL = 30;
 
     private Dictionary<int, Dictionary<string, string>> levelUpData;
+    private Dictionary<int, Dictionary<string, string>> characterData;
 
     private struct RequiredItems
     {
@@ -35,6 +36,8 @@ public class LevelUpPanel : UIBInder
         AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);        
 
         levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
+        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+
         Debug.Log($"levelUpData count: {levelUpData.Count}");
         foreach (var key in levelUpData.Keys)
         {
@@ -164,7 +167,7 @@ public class LevelUpPanel : UIBInder
     private RequiredItems CalculateRequiredItems(int level)
     {
         RequiredItems items = new RequiredItems();
-        int rarity = GetRarity(); // 캐릭터의 레어도 가져와야함, 일단 4
+        int rarity = GetRarity();
 
         for (int i = 0; i < level; i++)
         {
@@ -202,9 +205,19 @@ public class LevelUpPanel : UIBInder
 
     private int GetRarity()
     {
-        // 캐릭터의 레어도 받아와야함
-        // TODO : UnitID에 따라 레어도를 찾아와야 할텐데 일단 4
-        return 4;
+        if (characterData.TryGetValue(targetCharacter.UnitId, out var data))
+        {
+            if (int.TryParse(data["Rarity"], out int rarity))
+            {
+                return rarity;
+            }
+        }
+        else
+        {
+            Debug.LogError($"ID 찾을 수 없음 {targetCharacter.UnitId}");
+        }
+
+        return -1;
     }
 
     private int FindLevelUpId(int rarity, int level)

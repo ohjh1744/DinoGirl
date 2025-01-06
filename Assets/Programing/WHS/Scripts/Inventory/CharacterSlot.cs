@@ -26,6 +26,7 @@ public class CharacterSlot : UIBInder
         unitData = newUnitData;
 
         Dictionary<int, Dictionary<string, string>> characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+
         if (characterData.TryGetValue(unitData.UnitId, out var data))
         {
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
@@ -37,7 +38,12 @@ public class CharacterSlot : UIBInder
 
         GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
 
-        // TODO : 캐릭터 스프라이트 이미지
+        if (int.TryParse(data["Rarity"], out int rarity))
+        {
+            Debug.Log(rarity);
+            UpdateStar(rarity);
+        }
+
         string path = $"Portrait/portrait_{unitData.UnitId}";
         if(path != null)
         {
@@ -62,4 +68,24 @@ public class CharacterSlot : UIBInder
         return unitData;
     }
 
+    private void UpdateStar(int rarity)
+    {
+        // rarity에 따라 별 개수를 출력
+        for (int i = 0; i < 5; i++)
+        {
+            Image starImage = GetUI<Image>($"Star_{i + 1}");
+            if (starImage != null)
+            {
+                if (i < rarity)
+                {
+                    starImage.gameObject.SetActive(true);
+                    starImage.sprite = Resources.Load<Sprite>("UI/icon_star");
+                }
+                else
+                {
+                    starImage.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
 }

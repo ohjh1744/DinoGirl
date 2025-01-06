@@ -49,6 +49,7 @@ public class CharacterPanel : UIBInder
         curCharacter = character;
         index = characterList.FindIndex(c => c.UnitId == character.UnitId);
         Debug.Log($"{index} 현재 인덱스");
+
         int level = character.UnitLevel;
         if (characterData.TryGetValue(character.UnitId, out var data))
         {
@@ -57,7 +58,7 @@ public class CharacterPanel : UIBInder
             // 캐릭터 이미지
             string path = $"Portrait/portrait_{character.UnitId}";
             if (path != null)
-            {   
+            {
                 GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(path);
             }
 
@@ -68,10 +69,16 @@ public class CharacterPanel : UIBInder
             // TODO : 속성 아이콘 이미지 
             GetUI<Image>("ElementImage").sprite = null;
 
+            // 레어도에 따라 별 개수 ~5개 출력
+            if (int.TryParse(data["Rarity"], out int rarity))
+            {
+                UpdateStar(rarity);
+            }
+
             // TODO : 스킬 정보 가져오기
-            GetUI<TextMeshProUGUI>("SkillNameText").text = null;
-            GetUI<TextMeshProUGUI>("CoolDownText").text = null;
-            GetUI<TextMeshProUGUI>("SkillDescriptionText").text = null;
+            GetUI<TextMeshProUGUI>("SkillNameText").text = "스킬 이름";
+            GetUI<TextMeshProUGUI>("CoolDownText").text = "쿨타임";
+            GetUI<TextMeshProUGUI>("SkillDescriptionText").text = "적에게 창을 던져 물리 피해를 입힙니다";
 
             // TODO : 레벨에 따라 증가한 스탯
             GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(TypeCastManager.Instance.TryParseInt(data["BaseHp"]), level);
@@ -171,6 +178,27 @@ public class CharacterPanel : UIBInder
         }
 
         UpdateCharacterInfo(characterList[index]);
+    }
+
+    private void UpdateStar(int rarity)
+    {
+        // rarity에 따라 별 개수를 출력
+        for (int i = 0; i < 5; i++)
+        {
+            Image starImage = GetUI<Image>($"Star_{i + 1}");
+            if (starImage != null)
+            {
+                if (i < rarity)
+                {
+                    starImage.gameObject.SetActive(true);
+                    starImage.sprite = Resources.Load<Sprite>("UI/icon_star");
+                }
+                else
+                {
+                    starImage.gameObject.SetActive(false);
+                }
+            }
+        }
     }
 
     private void GoLobby(PointerEventData eventData)
