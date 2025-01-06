@@ -26,6 +26,8 @@ public class GachaChar : MonoBehaviour
     private int amount;
     public int Amount { get { return amount; } set { amount = value; } }
 
+    private GameObject video;
+    public GameObject Video { get { return video; } set { video = value; } }
 
     /// <summary>
     /// Gacha에서 사용하는 CharacterList를 Dictionary로 사용할 때 사용
@@ -46,30 +48,37 @@ public class GachaChar : MonoBehaviour
             case 1:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/2_testCelesProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/1_testTricia");
+                result.video = Resources.Load<GameObject>("Characters/1_Tricia");
                 break;
             case 2:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/2_testCelesProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/2_testCeles");
+                result.video = Resources.Load<GameObject>("Characters/2_Celes");
                 break;
             case 3:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/3_testReginaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/3_testRegina");
+                result.video = Resources.Load<GameObject>("Characters/3_Regina");
                 break;
             case 4:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/4_testSpinneProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/4_testSpinne");
+                result.video = Resources.Load<GameObject>("Characters/4_Spinne");
                 break;
             case 5:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/5_testAila");
+                result.video = Resources.Load<GameObject>("Characters/5_Aila");
                 break;
             case 6:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/6_testQuezna.png");
+                result.video = Resources.Load<GameObject>("Characters/6_Quezna");
                 break;
             case 7:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/7_testUloro");
+                result.video = Resources.Load<GameObject>("Characters/7_Uloro");
                 break;
         }
         return result;
@@ -88,6 +97,7 @@ public class GachaChar : MonoBehaviour
         resultCharUI.gameObject.GetComponent<GachaChar>().charId = gachaChar.charId;
         resultCharUI.gameObject.GetComponent<GachaChar>().charName = gachaChar.CharName;
         resultCharUI.gameObject.GetComponent<GachaChar>().rarity = gachaChar.rarity;
+        resultCharUI.GetComponent<GachaChar>().video = gachaChar.video;
 
         // UI 출력 설정
         resultCharUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaChar.charImageProfile;
