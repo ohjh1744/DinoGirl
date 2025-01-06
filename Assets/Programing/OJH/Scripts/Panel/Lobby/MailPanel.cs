@@ -214,6 +214,7 @@ public class MailPanel : UIBInder
             GetUI<Image>($"MailItemImage{_imagePosPerItems[itemTypes.Count][i]}").sprite = _itemSprites[itemTypes[i]];
             GetUI<Image>($"MailItemImage{_imagePosPerItems[itemTypes.Count][i]}").gameObject.SetActive(true);
             _sb.Clear();
+            _sb.Append("+");
             _sb.Append(items[itemTypes[i]]);
             GetUI<TextMeshProUGUI>($"MailItemText{_imagePosPerItems[itemTypes.Count][i]}").SetText(_sb);
             GetUI<TextMeshProUGUI>($"MailItemText{_imagePosPerItems[itemTypes.Count][i]}").gameObject.SetActive(true);
