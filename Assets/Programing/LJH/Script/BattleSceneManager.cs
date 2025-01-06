@@ -61,40 +61,52 @@ public class BattleSceneManager : MonoBehaviour
     public void StageStart()
     {
         // 1 ~ 5�θ� ��� ����
-        for (int i = 1; i < inGridObject.Length; i++)
+        int inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
+
+        if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
         {
-            if (inGridObject[i] != null)
-            {   
-                 inGridObject[i].GetComponent<UnitStat>().Pos = i;
-                 UnitsDatas unit = new UnitsDatas();
-                 unit.Pos = i;
-                 unit.Id = inGridObject[i].GetComponent<UnitStat>().Id;
-                 unit.Level = inGridObject[i].GetComponent<UnitStat>().Level;
-                 unit.MaxHp = inGridObject[i].GetComponent<UnitStat>().MaxHp;
-                 unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
-                 unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
-                 unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
-                 myUnitData.Add(unit);
-            }
-        }
-        for (int i = 0; i < enemyGridObject.Length; i++)
-        {
-            if (enemyGridObject[i] != null)
+            Debug.Log($"출발 인원{inGridObjectCount}");
+
+
+            for (int i = 1; i < inGridObject.Length; i++)
             {
-               int id = int.Parse(enemyGridObject[i]);              
-               UnitsDatas unit = new UnitsDatas();
-               unit.Pos = i;
-               unit.Id = id;
-               unit.Atk = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Damage"]);
-               unit.Def = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Armor"]);
-               unit.MaxHp = int.Parse(CsvDataManager.Instance.DataLists[5][id]["MonsterHP"]);          
-               enemyUnitData.Add(unit); 
+                if (inGridObject[i] != null)
+                {
+                    inGridObject[i].GetComponent<UnitStat>().Pos = i;
+                    UnitsDatas unit = new UnitsDatas();
+                    unit.Pos = i;
+                    unit.Id = inGridObject[i].GetComponent<UnitStat>().Id;
+                    unit.Level = inGridObject[i].GetComponent<UnitStat>().Level;
+                    unit.MaxHp = inGridObject[i].GetComponent<UnitStat>().MaxHp;
+                    unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
+                    unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
+                    unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
+                    myUnitData.Add(unit);
+                }
             }
+            for (int i = 0; i < enemyGridObject.Length; i++)
+            {
+                if (enemyGridObject[i] != null)
+                {
+                    int id = int.Parse(enemyGridObject[i]);
+                    UnitsDatas unit = new UnitsDatas();
+                    unit.Pos = i;
+                    unit.Id = id;
+                    unit.Atk = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Damage"]);
+                    unit.Def = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Armor"]);
+                    unit.MaxHp = int.Parse(CsvDataManager.Instance.DataLists[5][id]["MonsterHP"]);
+                    enemyUnitData.Add(unit);
+                }
+            }
+
+            _sceneChanger.CanChangeSceen = true;
+            _sceneChanger.ChangeScene("StageBattleScene_LJH");
+            BattleSceneStart();
         }
-        
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("StageBattleScene_LJH");
-        BattleSceneStart();
+        else 
+        {
+            Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
+        }
     }
     public void BackStage()
     {
@@ -154,6 +166,17 @@ public class BattleSceneManager : MonoBehaviour
             Debug.Log($"���̵� : {i} ���� : {curItemValues[i]}");
         }
         
+    }
+
+    public void GoLobby() 
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("");
+    }
+    public void ReturnStage() 
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("");
     }
 
 

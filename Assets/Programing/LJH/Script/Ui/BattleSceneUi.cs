@@ -22,8 +22,7 @@ public class BattleSceneUi : MonoBehaviour
     private void OnEnable()
     {
         time = BattleSceneManager.Instance._timeLimit;
-        //time = 120f;
-
+     
         StartCoroutine(startTimer());
     }
 
@@ -48,8 +47,6 @@ public class BattleSceneUi : MonoBehaviour
     }
     public void WinorLose() 
     {   
-        
-        Debug.Log("테스트");
         if (BattleSceneManager.Instance.myUnits.All(item => item.gameObject.activeInHierarchy ==false)) // list의 내용이 전부 false면 
         {
             // 패배
@@ -68,8 +65,11 @@ public class BattleSceneUi : MonoBehaviour
             Debug.Log("시간제한 패배");
             BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Lose;
         }
-
+        openResultPanel();
     }
+    public void openResultPanel() { }
+
+
     public void inToDbData() 
     {
         // 승리시 획득 아이템 + 승리 결과(스테이지 클리어 여부 삽입) , 추후에 레이드 클리어 결과 삽입도 생각
@@ -78,12 +78,6 @@ public class BattleSceneUi : MonoBehaviour
         
 
     }
-    public void goToLobby() 
-    {   
-        inToDbData();
-        // 승리시 획득 아이템 + 승리 결과(스테이지 클리어 여부 삽입)
-
-    }
-
+   
 
 }
