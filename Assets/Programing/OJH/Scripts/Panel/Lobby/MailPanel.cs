@@ -46,8 +46,8 @@ public class MailPanel : UIBInder
         _imagePosPerItems[3].Add(2);
         _imagePosPerItems[3].Add(3);
         _imagePosPerItems[3].Add(4);
+        _imagePosPerItems[4].Add(1);
         _imagePosPerItems[4].Add(2);
-        _imagePosPerItems[4].Add(3);
         _imagePosPerItems[4].Add(4);
         _imagePosPerItems[4].Add(5);
         _imagePosPerItems[5].Add(1);
@@ -165,33 +165,41 @@ public class MailPanel : UIBInder
 
         int[] items = new int[(int)E_Item.Length];
 
+        bool isAllChecked = true;
+
         //모든 보상 확인하고 저장하기
         foreach(MailList mailList in _mailLists)
         {
-            // 단일수령으로 이미 확인한 maillist는 제외.
+            // 단일수령으로 이미 확인한 maillist는 제거.
             if(mailList.gameObject.activeSelf == false)
             {
                 continue;
             }
+            isAllChecked = false;
             items[mailList.ItemType] += mailList.ItemNum;
         }
 
-        //PlayerData의 보상 Update 해주기
-        for(int i = 0; i < (int)E_Item.Length; i++)
+        if(isAllChecked == true)
         {
-            int sum = PlayerDataManager.Instance.PlayerData.Items[i] + items[i];
-            PlayerDataManager.Instance.PlayerData.SetItem(i, sum);
+            ResetMailLists();
+            Debug.Log("이미체크해서 다 false되어있는 상태!");
+            return;
         }
 
-        //백엔드에도 Update해주기
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
         Dictionary<string, object> dic = new Dictionary<string, object>();
+
         for (int i = 0; i < (int)E_Item.Length; i++)
         {
+            //PlayerData의 보상 Update 해주기
+            int sum = PlayerDataManager.Instance.PlayerData.Items[i] + items[i];
+            PlayerDataManager.Instance.PlayerData.SetItem(i, sum);
+
+            //백엔드에도 Update해주기
             dic[$"/{i}"] = PlayerDataManager.Instance.PlayerData.Items[i];
         }
         root.UpdateChildrenAsync(dic);
-        Debug.Log("성공적으로 백엔드에도 items 업뎃됨");
+        Debug.Log("성공적으로 PlayerData, 백엔드 쪽에 Items 업뎃됨");
 
         //팝업 알람 띄우기
         //0.팝업초기화
@@ -214,6 +222,7 @@ public class MailPanel : UIBInder
             GetUI<Image>($"MailItemImage{_imagePosPerItems[itemTypes.Count][i]}").sprite = _itemSprites[itemTypes[i]];
             GetUI<Image>($"MailItemImage{_imagePosPerItems[itemTypes.Count][i]}").gameObject.SetActive(true);
             _sb.Clear();
+            _sb.Append("+");
             _sb.Append(items[itemTypes[i]]);
             GetUI<TextMeshProUGUI>($"MailItemText{_imagePosPerItems[itemTypes.Count][i]}").SetText(_sb);
             GetUI<TextMeshProUGUI>($"MailItemText{_imagePosPerItems[itemTypes.Count][i]}").gameObject.SetActive(true);
@@ -234,6 +243,7 @@ public class MailPanel : UIBInder
                 continue;
             }
             GetUI<Image>($"MailItemImage{i}").gameObject.SetActive(false);
+            GetUI<TextMeshProUGUI>($"MailItemText{i}").text = "";
             GetUI<TextMeshProUGUI>($"MailItemText{i}").gameObject.SetActive(false);
         }
     }

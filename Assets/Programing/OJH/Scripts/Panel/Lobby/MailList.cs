@@ -72,7 +72,7 @@ public class MailList : MonoBehaviour
     private void ShowCheckedImage()
     {
         _checkcedItemImage.sprite = _checkedImageSprite;
-        _checkcedItemText.text = $"{ItemNum}";
+        _checkcedItemText.text = $"+{ItemNum}";
         _checkedImage.ResetCurrentTime();
         _checkedImage.gameObject.SetActive(true);
     }
