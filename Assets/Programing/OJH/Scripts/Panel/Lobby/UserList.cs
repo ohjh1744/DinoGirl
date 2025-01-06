@@ -41,6 +41,7 @@ public class UserList : MonoBehaviour
             _maxFriendImage.ResetCurrentTime();
             _maxFriendImage.gameObject.SetActive(true);
             Debug.Log("이미 최대 친구수");
+            return;
         }
 
         //하루 친구 추가 횟수 0인경우

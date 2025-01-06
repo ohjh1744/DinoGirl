@@ -26,6 +26,8 @@ public class AddFriendPanel : MonoBehaviour
 
     private bool _isFriend;
 
+    private int _curUserListNum;
+
     private void Start()
     {
         GetUserData();
@@ -63,7 +65,7 @@ public class AddFriendPanel : MonoBehaviour
                 // 다음 User 검색시 초기화 
                 _isFriend = false;
 
-                if(i == _listNum)
+                if(_curUserListNum == _listNum)
                 {
                     break;
                 }
@@ -88,6 +90,8 @@ public class AddFriendPanel : MonoBehaviour
                 {
                     continue;
                 }
+
+                _curUserListNum++;
 
                 GameObject userInfo = Instantiate(_userList, _content);
 
