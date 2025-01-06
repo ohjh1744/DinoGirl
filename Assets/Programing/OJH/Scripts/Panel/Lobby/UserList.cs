@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class UserList : MonoBehaviour
 {
+    [SerializeField] private int _maxFriendNum; // 최대 친구 횟수
+
     [SerializeField] private string _otherId;
 
     public string OtherId { get { return _otherId; } set { _otherId = value; } }
@@ -26,8 +28,22 @@ public class UserList : MonoBehaviour
 
     public AutoFalseSetter CantAddImage { get { return _cantAddImage; } set { _cantAddImage = value; } }
 
+
+    private AutoFalseSetter _maxFriendImage;
+
+    public AutoFalseSetter MaxFriendImage { get { return _maxFriendImage; } set { _maxFriendImage = value; } }
+
     public void AddFriend()
     {
+        //친구 최대 인원수 채운경우
+        if(PlayerDataManager.Instance.PlayerData.FriendIds.Count == _maxFriendNum)
+        {
+            _maxFriendImage.ResetCurrentTime();
+            _maxFriendImage.gameObject.SetActive(true);
+            Debug.Log("이미 최대 친구수");
+        }
+
+        //하루 친구 추가 횟수 0인경우
         if(PlayerDataManager.Instance.PlayerData.CanAddFriend <= 0)
         {
             _cantAddImage.ResetCurrentTime();
@@ -45,6 +61,7 @@ public class UserList : MonoBehaviour
                 return;
             }
         }
+
 
         //PlayerData List에 추가
         PlayerDataManager.Instance.PlayerData.FriendIds.Add(_otherId);

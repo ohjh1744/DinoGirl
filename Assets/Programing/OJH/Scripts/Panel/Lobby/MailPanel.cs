@@ -46,8 +46,8 @@ public class MailPanel : UIBInder
         _imagePosPerItems[3].Add(2);
         _imagePosPerItems[3].Add(3);
         _imagePosPerItems[3].Add(4);
+        _imagePosPerItems[4].Add(1);
         _imagePosPerItems[4].Add(2);
-        _imagePosPerItems[4].Add(3);
         _imagePosPerItems[4].Add(4);
         _imagePosPerItems[4].Add(5);
         _imagePosPerItems[5].Add(1);

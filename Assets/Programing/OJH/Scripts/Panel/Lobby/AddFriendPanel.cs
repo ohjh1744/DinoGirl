@@ -22,6 +22,8 @@ public class AddFriendPanel : MonoBehaviour
 
     [SerializeField] private AutoFalseSetter _cantAddImage; //userList에 참조해줄 Image, 친구추가 횟수 이미 넘었따면 띄울 팝업
 
+    [SerializeField] private AutoFalseSetter _maxFriendImage; //userList에 참조해줄 Image, 최대친구인 경우 띄울 팝업
+
     private bool _isFriend;
 
     private void Start()
@@ -96,6 +98,8 @@ public class AddFriendPanel : MonoBehaviour
                 userList.GetCoinImage = _getCoinImage;
 
                 userList.CantAddImage = _cantAddImage;
+
+                userList.MaxFriendImage = _maxFriendImage;
 
                 TextMeshProUGUI nameText = userInfo.GetComponentInChildren<TextMeshProUGUI>();
 
