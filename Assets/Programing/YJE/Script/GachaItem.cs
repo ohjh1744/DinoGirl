@@ -19,6 +19,7 @@ public class GachaItem : MonoBehaviour
     /// ItemList를 Dictionary로 제작할 때 사용
     /// Item의 종류가 추가되는 경우 switch문에 추가하여 사용 가능
     // - GachaSceneController.cs의 MakeItemList()에서 참조하여 사용
+    // - 각 이미지 파일은 Resources.Load<Sprite>("경로/파일이름")으로 각자 지정 필요
     /// </summary>
     /// <param name="dataBaseList"></param>
     /// <param name="result"></param>
@@ -29,29 +30,29 @@ public class GachaItem : MonoBehaviour
         switch (index)
         {
             case 500:
-                result.ItemId = index;
-                result.ItemName = dataBaseList[index]["ItemName"];
-                result.ItemImage = Resources.Load<Sprite>("Lottery/TestG");
+                result.itemId = index;
+                result.itemName = dataBaseList[index]["ItemName"];
+                result.itemImage = Resources.Load<Sprite>("Lottery/TestG");
                 break;
             case 501:
-                result.ItemId = index;
-                result.ItemName = dataBaseList[index]["ItemName"];
-                result.ItemImage = Resources.Load<Sprite>("Lottery/TestDB");
+                result.itemId = index;
+                result.itemName = dataBaseList[index]["ItemName"];
+                result.itemImage = Resources.Load<Sprite>("Lottery/TestDB");
                 break;
             case 502:
-                result.ItemId = index;
-                result.ItemName = dataBaseList[index]["ItemName"];
-                result.ItemImage = Resources.Load<Sprite>("Lottery/TestBC");
+                result.itemId = index;
+                result.itemName = dataBaseList[index]["ItemName"];
+                result.itemImage = Resources.Load<Sprite>("Lottery/TestBC");
                 break;
             case 503:
-                result.ItemId = index;
-                result.ItemName = dataBaseList[index]["ItemName"];
-                result.ItemImage = Resources.Load<Sprite>("Lottery/TestDS");
+                result.itemId = index;
+                result.itemName = dataBaseList[index]["ItemName"];
+                result.itemImage = Resources.Load<Sprite>("Lottery/TestDS");
                 break;
             case 504:
-                result.ItemId = index;
-                result.ItemName = dataBaseList[index]["ItemName"];
-                result.ItemImage = Resources.Load<Sprite>("Lottery/TestS");
+                result.itemId = index;
+                result.itemName = dataBaseList[index]["ItemName"];
+                result.itemImage = Resources.Load<Sprite>("Lottery/TestS");
                 break;
         }
         return result;
@@ -66,14 +67,14 @@ public class GachaItem : MonoBehaviour
     /// <returns></returns>
     public GameObject SetGachaItemUI(GachaItem gachaItem, GameObject resultUI)
     {
-        resultUI.gameObject.GetComponent<GachaItem>().ItemId = gachaItem.ItemId;
-        resultUI.gameObject.GetComponent<GachaItem>().ItemName = gachaItem.ItemName;
-        resultUI.gameObject.GetComponent<GachaItem>().Amount = gachaItem.Amount;
+        resultUI.gameObject.GetComponent<GachaItem>().itemId = gachaItem.itemId;
+        resultUI.gameObject.GetComponent<GachaItem>().itemName = gachaItem.itemName;
+        resultUI.gameObject.GetComponent<GachaItem>().amount = gachaItem.amount;
 
         // 알맞은 UI 출력
-        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.ItemImage;
-        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.ItemName;
-        resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = gachaItem.Amount.ToString();
+        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;
+        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.itemName;
+        resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = gachaItem.amount.ToString();
         return resultUI;
     }
 
@@ -87,12 +88,12 @@ public class GachaItem : MonoBehaviour
     /// <returns></returns>
     public GameObject SetGachaReturnItemUI(GachaItem gachaItem, GameObject resultUI)
     {
-        resultUI.gameObject.GetComponent<GachaItem>().ItemId = gachaItem.ItemId;
-        resultUI.gameObject.GetComponent<GachaItem>().Amount = gachaItem.Amount;
+        resultUI.gameObject.GetComponent<GachaItem>().itemId = gachaItem.itemId;
+        resultUI.gameObject.GetComponent<GachaItem>().amount = gachaItem.amount;
 
         // 알맞은 UI 출력
-        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.ItemImage;
-        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.Amount.ToString();
+        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;
+        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.amount.ToString();
         return resultUI;
     }
 

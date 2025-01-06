@@ -15,6 +15,7 @@ public class GachaCheck : MonoBehaviour
     }
 
     /// <summary>
+    /// Item의 증감에 따라 PlayerData를 갱신
     /// itemName에 따라 switch문으로 분기하여 알맞은 root위치에 playerData를 갱신하는 함수
     /// - add : false 이면 감소 / ture이면 증가
     //  - GachaBtn.cs에서 사용
@@ -27,7 +28,7 @@ public class GachaCheck : MonoBehaviour
     {
         int result = 0;
         DatabaseReference setItemRoot;
-        if (add)
+        if (add) // 증가하는 경우
         {
             switch (itemName)
             {
@@ -46,7 +47,7 @@ public class GachaCheck : MonoBehaviour
                     // 실제 빌드 시 사용 - UserId불러오기
                     // setItemRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_items/1");
                     // Test용
-                     setItemRoot = root.Child("CHSmbrwghYNzZb7AIkdLRtvpHaW2").Child("_items/1");
+                    setItemRoot = root.Child("CHSmbrwghYNzZb7AIkdLRtvpHaW2").Child("_items/1");
                     setItemRoot.SetValueAsync(result); // firebase 값 변경
                     break;
                 case "BoneCrystal":
@@ -80,7 +81,7 @@ public class GachaCheck : MonoBehaviour
                     break;
             }
         }
-        else if (!add)
+        else if (!add) // 감소하는 경우
         {
             switch (itemName)
             {
@@ -137,64 +138,69 @@ public class GachaCheck : MonoBehaviour
     }
 
     /// <summary>
-    /// Character의 중복을 CharId를 통해서 확인하고 동일한 Character의 여부에 따라 알맞은 정보를 갱신
+    /// Character의 중복에 따라 PlayerData의 Units를 갱신하는 함수
+    /// CharId를 통해서 확인하고 동일한 Character의 여부에 따라 알맞은 정보를 갱신
     //  - GachaBtn.cs에서 사용
     /// </summary>
     public void CheckCharId(List<GameObject> resultList, DatabaseReference root, PlayerData playerData)
     {
-        for (int i = 0; i < resultList.Count; i++)
+        // 전체 가챠 결과를 확인하면서 Item인지 Character인지 확인
+        foreach (GameObject result in resultList) 
         {
-            if (resultList[i].GetComponent<GachaItem>()) // GachaItem이 존재하는 Item인 경우
+            if (result.GetComponent<GachaItem>()) // 아이템인 경우
             {
-                SendChangeValue(resultList[i].gameObject.GetComponent<GachaItem>().ItemName,
-                                           resultList[i].gameObject.GetComponent<GachaItem>().Amount, true,
-                                           root, playerData);
+                // 아이템 내용 갱신
+                SendChangeValue(result.GetComponent<GachaItem>().ItemName,
+                                result.GetComponent<GachaItem>().Amount, true,
+                                root, playerData);
             }
-            else if (resultList[i].GetComponent<GachaChar>()) // GachaChar가 존재하는 캐릭터인 경우
+            else if (result.GetComponent<GachaChar>()) // 캐릭터인 경우
             {
+                bool isChecked = false; // 중복 : true, 미중복 : false
 
-                int index = -1;
-
-                for (int j = 0; j < playerData.UnitDatas.Count; j++)
+                foreach(PlayerUnitData unit in playerData.UnitDatas) // 모든 playerData의 UnitDatas를 확인하면서 중복여부 확인
                 {
-                    if (resultList[i].GetComponent<GachaChar>().CharId == playerData.UnitDatas[j].UnitId)
+                    if(result.GetComponent<GachaChar>().CharId == unit.UnitId)
                     {
-                        index = j;
+                        isChecked = true; // 중복
                     }
                 }
-                // PlayerData의 UnitDatas에 동일한 캐릭터 아이디가 있는지 여부를 확인
-                if (index == -1)
+
+                if (isChecked == false) // 소유 캐릭터 미중복
                 {
-                    Debug.Log("없는 캐릭터");
                     // 새로운 Unit을 저장
                     PlayerUnitData newUnit = new PlayerUnitData();
-                    newUnit.UnitId = resultList[i].GetComponent<GachaChar>().CharId;
+                    newUnit.UnitId = result.GetComponent<GachaChar>().CharId;
                     newUnit.UnitLevel = 1;
                     playerData.UnitDatas.Add(newUnit);
                     // 실제 빌드 시 사용 - UserId불러오기 
                     // DatabaseReference unitRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
                     // Test 용
-                     DatabaseReference unitRoot = root.Child("CHSmbrwghYNzZb7AIkdLRtvpHaW2").Child("_unitDatas");
+                    DatabaseReference unitRoot = root.Child("CHSmbrwghYNzZb7AIkdLRtvpHaW2").Child("_unitDatas");
 
+                    // 모든 playerData.UnitDatas의 정보를 DB서버에 갱신
                     for (int num = 0; num < playerData.UnitDatas.Count; num++)
                     {
+                        // nowData로 PlayerUnitData 생성
                         PlayerUnitData nowData = new PlayerUnitData();
                         nowData.UnitId = playerData.UnitDatas[num].UnitId;
                         nowData.UnitLevel = playerData.UnitDatas[num].UnitLevel;
+
+                        // 지정된 위치에 순서대로 서버에 저장
                         unitRoot.Child($"{num}/_unitId").SetValueAsync(nowData.UnitId);
                         unitRoot.Child($"{num}/_unitLevel").SetValueAsync(nowData.UnitLevel);
                     }
                 }
-                else
+                else // 소유 캐릭터 중복
                 {
-                    Debug.Log("이미 소유한 캐릭터");
-                    GameObject resultItem = gachaSceneController.CharReturnItem(resultList[i].gameObject.GetComponent<GachaChar>().CharId, resultList[i].gameObject);
-                    SendChangeValue(resultItem.gameObject.GetComponent<GachaItem>().ItemName,
-                                               resultItem.gameObject.GetComponent<GachaItem>().Amount, true,
-                                               root, playerData);
+                    // 중복 시 아이템으로 변환하여 환산
+                    GameObject resultItem = gachaSceneController.CharReturnItem(result.GetComponent<GachaChar>().CharId, result);
+                    // 변동 값 서버에 저장
+                    SendChangeValue(resultItem.GetComponent<GachaItem>().ItemName,
+                                    resultItem.GetComponent<GachaItem>().Amount, true,
+                                    root, playerData);
                 }
             }
-
         }
     }
 }

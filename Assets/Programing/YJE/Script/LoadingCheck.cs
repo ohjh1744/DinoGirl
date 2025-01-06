@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// LoadingPanel의 활성화 여부를 판단하는 스크립트
 /// - GachaScene이 시작되면 활성화 상태로 시작
+/// - isLoading = true로 변경되면 LoadingCheck Panel 비활성화
 /// - 테스트 용도로 싱글톤인 DataManager의 Data와 PlayerDataManager에서 PlayerData가 제대로 불러와 진 것을 확인 후
 /// - (실제 사용) 각종 Setting을 하는 함수 실행
 /// - TODO : 병합 시에는 테스트 부분 주석처리 필수

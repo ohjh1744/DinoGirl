@@ -85,17 +85,17 @@ public class GachaChar : MonoBehaviour
     public GameObject SetGachaCharUI(GachaChar gachaChar, GameObject resultCharUI)
     {
         // 데이터 설정
-        resultCharUI.gameObject.GetComponent<GachaChar>().charId = gachaChar.CharId;
+        resultCharUI.gameObject.GetComponent<GachaChar>().charId = gachaChar.charId;
         resultCharUI.gameObject.GetComponent<GachaChar>().charName = gachaChar.CharName;
-        resultCharUI.gameObject.GetComponent<GachaChar>().rarity = gachaChar.Rarity;
+        resultCharUI.gameObject.GetComponent<GachaChar>().rarity = gachaChar.rarity;
 
         // UI 출력 설정
         resultCharUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaChar.charImageProfile;
-        resultCharUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaChar.CharName;
+        resultCharUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaChar.charName;
 
         GameObject rarities = resultCharUI.transform.GetChild(2).gameObject;
         // 별 개수 설정
-        for (int i = 0; i< gachaChar.Rarity; i++)
+        for (int i = 0; i< gachaChar.rarity; i++)
         {
             rarities.transform.GetChild(i).gameObject.SetActive(true);
         }

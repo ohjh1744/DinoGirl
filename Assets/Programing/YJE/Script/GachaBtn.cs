@@ -8,7 +8,7 @@ public class GachaBtn : MonoBehaviour
     GachaCheck gachaCheck;
     SceneChanger sceneChanger;
 
-    // 가챠 재화 비용과 아이템 종류 지정 - 인스펙터창에서 수정 가능
+    // 가챠 재화 비용과 아이템 종류 지정 - 인스펙터창에서 편하게 수정 가능
     [SerializeField] int gachaCost;
     [SerializeField] string gachaCostItem;
 
@@ -57,15 +57,15 @@ public class GachaBtn : MonoBehaviour
     {
         baseGachaList = gachaSceneController.BaseGachaList;
         // 기본 플레이어의 재화 DinoStone(3)이 100 이상인 경우에만 실행
+        // TODO : 유료 재화를 합친 값이 필요 - 유료 다이노스톤 아이템 추가
         if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] >= gachaCost)
         {
             // baseGachaList의 전체 Probability의 합산을 구하기
             int total = 0;
-            for (int i = 0; i < baseGachaList.Count; i++)
+            foreach (Gacha gacha in baseGachaList)
             {
-                total += baseGachaList[i].Probability;
+                total += gacha.Probability;
             }
-
             int weight = 0;
             int selectNum = 0;
             selectNum = Mathf.RoundToInt(total * Random.Range(0.0f, 1.0f)); // 랜덤 숫자 뽑기
@@ -83,17 +83,16 @@ public class GachaBtn : MonoBehaviour
                     break;
                 }
             }
+
             // 서버에서 플레이어의 데이터 값 수정
             // firebase 기본 UserData 루트
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
-
             // 뽑기에 성공한 재화값 PlayerData 수정
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
-
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-           
-            gachaSceneController.UpdatePlayerUI(); // UI 업데이트
+            // UI 업데이트
+            gachaSceneController.UpdatePlayerUI();
         }
         else
         {
@@ -102,7 +101,6 @@ public class GachaBtn : MonoBehaviour
         }
 
     }
-
     /// <summary>
     /// 기본 10연차 버튼 실행 시
     /// - baseGachaList에 저장된 확률로 출력
@@ -116,11 +114,10 @@ public class GachaBtn : MonoBehaviour
         {
             // baseGachaList의 전체 Probability의 합산을 구하기
             int total = 0;
-            for (int i = 0; i < baseGachaList.Count; i++)
+            foreach (Gacha gacha in baseGachaList)
             {
-                total += baseGachaList[i].Probability;
+                total += gacha.Probability;
             }
-
             gachaSceneController.ShowTenResultPanel(); // 10연차 결과패널 활성화
 
             int weight = 0; // 현재 위치의 가중치
@@ -141,7 +138,6 @@ public class GachaBtn : MonoBehaviour
                         // GachaSceneController.cs에 GachaResultUI()로 반환된 GameObject를 resultList에 저장
                         GameObject resultUI = gachaSceneController.GachaTenResultUI(baseGachaList, i);
                         resultList.Add(resultUI);
-                        Debug.Log($"반환한 GameObject : {baseGachaList[i].ItemId}");
                         count++;
                         weight = 0;
                         break;
@@ -151,21 +147,17 @@ public class GachaBtn : MonoBehaviour
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
-
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            
-            gachaSceneController.UpdatePlayerUI(); // UI 업데이트
+            // UI 업데이트
+            gachaSceneController.UpdatePlayerUI();
         }
         else
         {
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
-
-
     }
-
 
     /// <summary>
     /// 이벤트 1연차 버튼 실행 시
@@ -180,11 +172,10 @@ public class GachaBtn : MonoBehaviour
         {
             // eventGachaList의 전체 Probability의 합산을 구하기
             int total = 0;
-            for (int i = 0; i < eventGachaList.Count; i++)
+            foreach (Gacha gacha in eventGachaList)
             {
-                total += eventGachaList[i].Probability;
+                total += gacha.Probability;
             }
-
             int weight = 0;
             int selectNum = 0;
             selectNum = Mathf.RoundToInt(total * Random.Range(0.0f, 1.0f)); // 랜덤 숫자 뽑기
@@ -199,7 +190,6 @@ public class GachaBtn : MonoBehaviour
                     // GachaSceneController.cs에 GachaSingleResultUI()로 반환된 GameObject를 resultList에 저장
                     GameObject resultUI = gachaSceneController.GachaSingleResultUI(eventGachaList, i);
                     resultList.Add(resultUI);
-                    Debug.Log($"반환한 GameObject : {eventGachaList[i].ItemId}");
                     break;
                 }
             }
@@ -207,10 +197,10 @@ public class GachaBtn : MonoBehaviour
             // firebase 기본 UserData 루트
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
-
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            gachaSceneController.UpdatePlayerUI(); // UI 업데이트
+            // UI 업데이트
+            gachaSceneController.UpdatePlayerUI();
         }
         else
         {
@@ -231,9 +221,9 @@ public class GachaBtn : MonoBehaviour
         if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] >= gachaCost * 10)
         {
             int total = 0;
-            for (int i = 0; i < eventGachaList.Count; i++)
+            foreach(Gacha gacha in eventGachaList)
             {
-                total += eventGachaList[i].Probability;
+                total += gacha.Probability;
             }
             gachaSceneController.ShowTenResultPanel(); // 10연차 결과패널 활성화
 
@@ -265,10 +255,10 @@ public class GachaBtn : MonoBehaviour
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
-
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            gachaSceneController.UpdatePlayerUI(); // UI 업데이트
+            // UI 업데이트
+            gachaSceneController.UpdatePlayerUI();
         }
         else
         {
