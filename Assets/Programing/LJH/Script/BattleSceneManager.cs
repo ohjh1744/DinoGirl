@@ -35,7 +35,7 @@ public class BattleSceneManager : MonoBehaviour
     {
         Ready , Battle ,Win , Lose, Stop , size
     }
-   
+    public int inGridObjectCount { get;  set; }
     private void Awake()
     {
         if (_instance == null)
@@ -61,7 +61,7 @@ public class BattleSceneManager : MonoBehaviour
     public void StageStart()
     {
         // 1 ~ 5�θ� ��� ����
-        int inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
+        inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
 
         if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
         {

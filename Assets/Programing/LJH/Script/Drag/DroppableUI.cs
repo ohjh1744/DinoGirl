@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IPointerExitHandler
 {
@@ -59,7 +60,7 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 			eventData.pointerDrag.GetComponent<RectTransform>().position = rect.position;
 
 			BattleSceneManager.Instance.inGridObject[gridNum] = eventData.pointerDrag;
-			isFull = true;
+            isFull = true;
 		}
 		DropinGrid?.Invoke();
 	}

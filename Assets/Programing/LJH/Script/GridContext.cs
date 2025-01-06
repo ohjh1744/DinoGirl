@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,10 +25,10 @@ public class GridContext : MonoBehaviour
 
     [SerializeField] Image[] myGrids;
     [SerializeField] Color[] highLightColors;
-
+    [SerializeField] TMP_Text unitCount;
     private bool mybuff;
     public void UpdateBuffsList(int num) 
-    {
+    {   
         for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++) 
         {
             if (BattleSceneManager.Instance.inGridObject[i] != null)
@@ -46,8 +48,9 @@ public class GridContext : MonoBehaviour
             }
             mybuff = false;
         }
-        
-         
+
+        BattleSceneManager.Instance.inGridObjectCount = BattleSceneManager.Instance.inGridObject.Count(inGridObject => inGridObject != null);
+        unitCount.text = BattleSceneManager.Instance.inGridObjectCount.ToString() + "/5";
     }
     public void showGridArea(int gridnum, int id) // 이벤트로 실행됨
     {
