@@ -165,19 +165,29 @@ public class MailPanel : UIBInder
 
         int[] items = new int[(int)E_Item.Length];
 
+        bool isAllChecked = true;
+
         //모든 보상 확인하고 저장하기
         foreach(MailList mailList in _mailLists)
         {
-            // 단일수령으로 이미 확인한 maillist는 제외.
+            // 단일수령으로 이미 확인한 maillist는 제거.
             if(mailList.gameObject.activeSelf == false)
             {
                 continue;
             }
+            isAllChecked = false;
             items[mailList.ItemType] += mailList.ItemNum;
         }
 
+        if(isAllChecked == true)
+        {
+            ResetMailLists();
+            Debug.Log("이미체크해서 다 false되어있는 상태!");
+            return;
+        }
+
         //PlayerData의 보상 Update 해주기
-        for(int i = 0; i < (int)E_Item.Length; i++)
+        for (int i = 0; i < (int)E_Item.Length; i++)
         {
             int sum = PlayerDataManager.Instance.PlayerData.Items[i] + items[i];
             PlayerDataManager.Instance.PlayerData.SetItem(i, sum);
@@ -235,6 +245,7 @@ public class MailPanel : UIBInder
                 continue;
             }
             GetUI<Image>($"MailItemImage{i}").gameObject.SetActive(false);
+            GetUI<TextMeshProUGUI>($"MailItemText{i}").text = "";
             GetUI<TextMeshProUGUI>($"MailItemText{i}").gameObject.SetActive(false);
         }
     }
