@@ -7,6 +7,7 @@ using UnityEngine.UI;
 // TODO : 캐릭터 뽑기 시 DOTween으로 제작한 컷신 출력
 // 1. 컷신 출력 중 터치 시, 컷신 중단 / 비활성화
 // 2. 캐릭터에 알맞은 컷신 생성
+// 3. 10연차 시, 뽑힌 캐릭터 순서대로 재생이 필요
 
 /// <summary>
 /// GachaScene의 전체적인 관리를 하는 스크립트
@@ -20,7 +21,6 @@ public class GachaSceneController : UIBInder
 
     // csvDataManager.cs에서 가져올 특정 DataList를 받을 Disctionary
     private Dictionary<int, Dictionary<string, string>> dataBaseList = new Dictionary<int, Dictionary<string, string>>();
-
     private Dictionary<int, GachaItem> itemDictionary = new Dictionary<int, GachaItem>();
     private Dictionary<int, GachaChar> charDictionary = new Dictionary<int, GachaChar>();
     private Dictionary<int, GachaItemReturn> charReturnItemDic = new Dictionary<int, GachaItemReturn>();
@@ -45,6 +45,7 @@ public class GachaSceneController : UIBInder
         BindAll();
         SettingStartPanel();
     }
+
     /// <summary>
     /// 시작 시 버튼의 문구 설정
     /// - 버튼의 문구 변경 가능
@@ -61,6 +62,7 @@ public class GachaSceneController : UIBInder
         GetUI<TextMeshProUGUI>("ChangeEventGacahText").SetText("이벤트");
         UpdatePlayerUI();
     }
+
     /// <summary>
     /// 각 Item 재화 상단 표시
     /// - 변동 시 계속 업데이트가 필요하므로 함수로 제작하여 사용
@@ -73,6 +75,7 @@ public class GachaSceneController : UIBInder
         GetUI<TextMeshProUGUI>("DinoStoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone].ToString());
         GetUI<TextMeshProUGUI>("StoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone].ToString());
     }
+
     /// <summary>
     /// 시작 시 패널 활성화와 비활성화 설정
     /// </summary>
@@ -93,42 +96,43 @@ public class GachaSceneController : UIBInder
 
     /// <summary>
     /// csv데이터로 알맞은 가차 리스트를 분리하는 함수
-    //  - LoadingCheck.cs에서 이벤트로 사용
     /// - 새로운 가챠 내용을 리스트를 추가하려는 경우
     ///     1. csv 파일에 GachaGroup을 묶어서 내용 수정
     ///     2. LoadingCheck 스크립트 앞에 GachaGroup의 종류만큼 리스트 선언
     ///     2. 함수의 switch문에 새로운 case로 GachaGroup 분기점 제작
     ///     3. 각 GachaGroup별 리스트 초기화
+    //  - LoadingCheck.cs에서 이벤트로 사용
     /// </summary>
     public void MakeGachaList()
     {
         dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Gacha]; // csv데이터로 가챠리스트 가져오기
+
         for (int i = 1; i < dataBaseList.Count; i++)
         {
             Debug.Log(dataBaseList[i]["Check"]);
-            Gacha gachatem = new Gacha();
-            gachatem.Check = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Check"]);
-            switch (gachatem.Check) // 종류를 확인
+            Gacha gacha = new Gacha();
+            gacha.Check = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Check"]);
+            switch (gacha.Check) // 종류를 확인
             {
                 case 0: // 종류가 Character인 경우
-                    gachatem.CharId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["CharID"]);
+                    gacha.CharId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["CharID"]);
                     break;
                 case 1: // 종류가 Item인 경우
-                    gachatem.ItemId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["ItemID"]);
+                    gacha.ItemId = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["ItemID"]);
                     break;
                 default:
                     break;
             }
-            gachatem.Probability = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Probability"]); // 확률 저장
-            gachatem.Count = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Count"]); // 반환 갯수 저장
+            gacha.Probability = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Probability"]); // 확률 저장
+            gacha.Count = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Count"]); // 반환 갯수 저장
 
             switch (dataBaseList[i]["GachaGroup"]) // GachaGroup을 확인하여 List에 저장
             {
                 case "1":
-                    BaseGachaList.Add(gachatem);
+                    BaseGachaList.Add(gacha);
                     break;
                 case "2":
-                    EventGachaList.Add(gachatem);
+                    EventGachaList.Add(gacha);
                     break;
                 default:
                     break;
@@ -138,8 +142,9 @@ public class GachaSceneController : UIBInder
     }
 
     /// <summary>
-    /// DB에서 받아온 Item을 GachaItem 형식의 리스트에 사용할 수 있는 형태로 저장
+    /// DB에서 받아온 Item을 GachaItem 형식의 리스트에 사용할 수 있는 형태로 할당
     /// - GachaBtn.cs 에서 아이템을 반환할 때 UI로 연동시켜서 제작하기 위해 사용
+    /// - Item의 종류 추가시 내용을 수정해야하고 각 ItemId를 설정하여 사용해야하며 GachaItem.cs의 MakeItemList함수 분기 추가가 필요함
     //  - LoadingCheck.cs에서 이벤트로 설정
     /// </summary>
     public void MakeItemDic()
@@ -170,7 +175,7 @@ public class GachaSceneController : UIBInder
     /// <summary>
     /// DB에서 받아온 Character를 GachaChar 형식의 리스트에서 사용할 수 있는 형태로 저장
     /// - GachaBtn.cs 에서 아이템을 반환할 때 UI로 연동시켜서 제작하기 위해 사용
-    /// - 캐릭터 목록 추가 시 추가 필요
+    /// - Character의 종류 추가시 내용을 수정해야하고 각 CharId를 설정하여 사용해야하며 GachaChar.cs의 MakeCharList함수 분기 추가가 필요함
     //  - LoadingCheck.cs에서 이벤트로 설정
     /// </summary>
     public void MakeCharDic()
@@ -198,6 +203,7 @@ public class GachaSceneController : UIBInder
         uloro = uloro.MakeCharList(dataBaseList, uloro, 7);
         charDictionary.Add(uloro.CharId, uloro);
     }
+
     /// <summary>
     /// DB에서 받아온 GachaReturn를 GachaItemReturn 형식의 리스트에서 사용할 수 있는 형태로 저장
     /// - GachaBtn.cs 에서 중복캐릭터를 아이템으로 반환할 때 사용
@@ -251,6 +257,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("ShopCharacter").gameObject.SetActive(true);
 
     }
+
     /// <summary>
     /// EventGachaPanel 활성화
     /// - BaseGachaPanel 비활성화
@@ -297,6 +304,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
         ShowResultPanelDisable(); // 비활성화 함수
     }
+
     /// <summary>
     /// TenResultPanel 활성화
     //  - GachaBtn.cs에서 사용
@@ -308,7 +316,6 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
         ShowResultPanelDisable(); // 비활성화 함수
     }
-
 
     /// <summary>
     /// GachaResultPanel 비활성화
@@ -386,8 +393,7 @@ public class GachaSceneController : UIBInder
     {
         switch (GachaList[index].Check)
         {
-            case 0:
-                // TODO : 반환이 캐릭터인 경우
+            case 0: // 반환이 캐릭터인 경우
                 GachaChar resultChar = charDictionary[GachaList[index].CharId];
                 resultChar.Amount = GachaList[index].Count;
                 GameObject resultCharUI = Instantiate(resultCharPrefab, tenResultContent);
