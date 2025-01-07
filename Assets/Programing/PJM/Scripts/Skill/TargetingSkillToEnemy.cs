@@ -109,6 +109,10 @@ public class TargetingSkillToEnemy : Skill
                     {
                         target.UnitModel.TakeDamage((int)attackDamage); // 소숫점 버림, 반올림할지 선택 필요
                         Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
+                        if (CrowdControl != CrowdControls.None)
+                        {
+                            target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
+                        }
                     }
                         
                 }

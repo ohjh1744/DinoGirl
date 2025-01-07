@@ -4,9 +4,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
+public enum CrowdControls
+{
+    Taunt, Stun, None
+}
 public class UnitModel : MonoBehaviour
 {
+    private Coroutine _crowdControlRoutine;
+
+
     public event Action<int> OnHpChanged;
+    public event Action OnTaunted;
+    public event Action OnStun;
     public event Action OnDeath;
     public event Action<int> OnHealed;
     public event Action<int> OnDamaged; 
@@ -34,6 +43,8 @@ public class UnitModel : MonoBehaviour
             }
         }
     }
+    private bool _isTaunted = false;
+    public bool IsTaunted { get => _isTaunted; set => _isTaunted = value; }
     [SerializeField] private int _attackPoint;
     public int AttackPoint { get => _attackPoint;  set => _attackPoint = value; }
     [SerializeField] private int _defensePoint;
@@ -65,6 +76,9 @@ public class UnitModel : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (damage == 0)
+            return;
+        
         if (Hp <= 0)
         {
             Debug.LogWarning("이미 hp가 0입니다.");
@@ -79,6 +93,21 @@ public class UnitModel : MonoBehaviour
         Hp -= calcDamage;
         
         Debug.Log($"데미지 : {damage} 받음. 현재 hp : {Hp}/{MaxHp}");
+    }
+
+    public void TakeCrowdControl(CrowdControls crowdControl, float duration, BaseUnitController caster)
+    {
+        switch (crowdControl)
+        {
+            case CrowdControls.Taunt:
+                OnTaunted?.Invoke();
+                break;
+            case CrowdControls.Stun:
+                OnStun?.Invoke();
+                break;
+        }
+        
+        //StartCoroutine()
     }
 
     public void TakeHeal(int heal)
@@ -107,6 +136,11 @@ public class UnitModel : MonoBehaviour
         OnDeath?.Invoke();
         
         //gameObject.SetActive(false);
+    }
+
+    private IEnumerator RunningCrowdControlRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
     }
 
     private void OnDisable()

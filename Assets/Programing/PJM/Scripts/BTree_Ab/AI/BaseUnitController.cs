@@ -10,7 +10,7 @@ public abstract class BaseUnitController : MonoBehaviour
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
-    public bool IsDying { get; set; } = false;
+    private bool _isDying { get; set; } = false;
 
     private UnitView _unitViewer;
     public UnitView UnitViewer { get => _unitViewer; private set => _unitViewer = value; }
@@ -25,6 +25,9 @@ public abstract class BaseUnitController : MonoBehaviour
     
     protected BaseUnitController _currentTarget;
     public BaseUnitController CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+
+    private BaseUnitController _tauntSource;
+    public BaseUnitController TauntSource { get => _tauntSource; set => _tauntSource = value; }
     
     protected int unitID;
     public int UnitID { get { return unitID; } }
@@ -107,7 +110,7 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected BaseNode.ENodeState CheckDeath()
     {
-        if (!IsDying)
+        if (!_isDying)
             return BaseNode.ENodeState.Failure;
         
         var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
@@ -120,7 +123,7 @@ public abstract class BaseUnitController : MonoBehaviour
             }
             else if (stateInfo.normalizedTime >= 1.0f)
             {
-                IsDying = false;
+                _isDying = false;
                 gameObject.SetActive(false);
                 return BaseNode.ENodeState.Success;
             }
@@ -132,7 +135,7 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected BaseNode.ENodeState SetTargetToAttack()
     {
-        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf && !DetectedEnemy.IsDying)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
             CurrentTarget = DetectedEnemy;
             //UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
@@ -143,7 +146,7 @@ public abstract class BaseUnitController : MonoBehaviour
     
     protected BaseNode.ENodeState PerformAttack()
     {
-        if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf)
+        if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf && CurrentTarget._isDying)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
             IsAttacking = false;
@@ -152,7 +155,7 @@ public abstract class BaseUnitController : MonoBehaviour
         }
         
 
-        UnitViewer.CheckNeedFlip(transform, DetectedEnemy.transform);
+        UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
@@ -431,7 +434,7 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected void HandleDeath()
     {
-        IsDying = true;
+        _isDying = true;
         UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
     }
     protected void OnDrawGizmos()
