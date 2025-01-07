@@ -69,11 +69,11 @@ public class TargetingSkillToEnemy : Skill
 
         // 임시
         caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Attack], false);
+        //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Attack], false);
 
         // 스킬 시전 시작
-        if (!caster.IsSkillRunning)
-            //if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill]))
+        //if (!caster.IsSkillRunning)
+        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill]))
         {
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill], true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
@@ -81,19 +81,21 @@ public class TargetingSkillToEnemy : Skill
             caster.IsSkillRunning = true;
             return BaseNode.ENodeState.Running;
         }
-        else
-        {
+        
+        var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        
             //if (unitAnimator.GetCurrentAnimatorStateInfo(0).IsName("UsingSkill"))
-            var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+            
             //if(caster.UnitViewer.IsAnimationRunning("UsingSkill"))
             if (stateInfo.IsName("UsingSkill"))
             {
-                switch (stateInfo.normalizedTime)
+                if (stateInfo.normalizedTime < 1.0f)
                 {
-                    case < 1.0f:
-                        Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
-                        return BaseNode.ENodeState.Running;
-                    case >= 1.0f:
+                    Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
+                    return BaseNode.ENodeState.Running;
+                }
+                else if(stateInfo.normalizedTime >= 1.0f)
+                {
                     {
                         Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
                         caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill], false);
@@ -115,21 +117,19 @@ public class TargetingSkillToEnemy : Skill
                                 }
                             }
                         }
-                        
-
                         return BaseNode.ENodeState.Success;
                     }
                 }
             }
-            else
+            //else
             {
                 // 트랜지션에서 애니메이션이 블렌딩 될 때 출력됨 (해결)
                 // 스킬이 진행중 군중제어에 끊겼지만 애니메이터의 파라미터는 여전히 스킬시전중일경우
 
-                Debug.Log("IsUsingSkill이 True지만 현재 애니메이션 상태가 UsingSkill이 아님");
+                /*Debug.Log("IsUsingSkill이 True지만 현재 애니메이션 상태가 UsingSkill이 아님");
                 caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
                 caster.IsSkillRunning = false;
-                return BaseNode.ENodeState.Failure;
+                return BaseNode.ENodeState.Failure;*/
                 // 아래쪽과 구분할 필요가 없어질 경우 병합
 
 
@@ -148,10 +148,10 @@ public class TargetingSkillToEnemy : Skill
             }*/
 
             Debug.LogWarning("예외 상황");
-            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-            caster.IsSkillRunning = false;
+            //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
+            //caster.IsSkillRunning = false;
             return BaseNode.ENodeState.Failure;
-        }
+        
         
     }
 
