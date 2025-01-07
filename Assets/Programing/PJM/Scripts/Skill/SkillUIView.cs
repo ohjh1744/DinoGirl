@@ -200,20 +200,6 @@ public class SkillUIView : UIBInder
             slot.hideImage.fillAmount = ratio;*/
         }
     }
-
-    /*private void CheckAuto()
-    {
-        if (TempBattleContext.Instance.isAutoOn)
-        {
-            for (int i = 0; i < _maxSkillUINum; i++)
-            {
-                // 이렇게 하면안됨.. 쿨타임 무시하고 스킬을 계속 쓰게 될거라
-                OnSkillButtonTouched(i);
-            }
-                
-        }
-    }*/
-    
     public void HideSkillSetting(int slotIndex)
     {
         /*// 잘못된 범위일경우 return

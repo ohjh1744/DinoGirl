@@ -12,15 +12,29 @@ public abstract class Skill : ScriptableObject
     public float SkillRange {get => _skillRange; protected set => _skillRange = value; }
 
     [SerializeField] private int maxTargetingNum;
-    public int MaxTargetingNum {get => maxTargetingNum;}
+    public int MaxTargetingNum {get => maxTargetingNum; protected set => maxTargetingNum = value; }
     
     [SerializeField] private float skillRatio;
     public float SkillRatio {get => skillRatio; protected set => skillRatio = value; }
     [SerializeField] private float cooltime;
     public float Cooltime {get => cooltime; protected set => cooltime = value; }
-    
+    [SerializeField] private CrowdControls crowdControl = CrowdControls.None;
+    public CrowdControls CrowdControl {get => crowdControl;}
+    [SerializeField] float ccDuration;
+
+    public float CcDuration
+    {
+        get
+        {
+            if (crowdControl == CrowdControls.None)
+                return 0f;
+            return ccDuration;
+        }
+    }
+
     [SerializeField] private Sprite _skillIcon;
     public Sprite SkillIcon {get => _skillIcon;set => _skillIcon = value; }
+    
     
     
     
