@@ -13,9 +13,10 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private DraggableUI[] Draggables;
-     
-    public bool isAutoOn {get; set; }
-    public bool isGamePaused {get; set; }
+    [SerializeField] public int curChapterNum;
+
+    public bool isAutoOn { get; set; }
+    public bool isGamePaused { get; set; }
 
 
     [SerializeField] public GameObject[] inGridObject;
@@ -32,11 +33,11 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 
     [SerializeField] public BattleState curBattleState;
-    public enum BattleState  
+    public enum BattleState
     {
-        Ready , Battle ,Win , Lose, Stop , size
+        Ready, Battle, Win, Lose, Stop, size
     }
-    public int inGridObjectCount { get;  set; }
+    public int inGridObjectCount { get; set; }
     private void Awake()
     {
         if (_instance == null)
@@ -50,12 +51,12 @@ public class BattleSceneManager : MonoBehaviour
         }
         curBattleState = BattleState.Ready;
 
-        inGridObject = new GameObject[10];  
+        inGridObject = new GameObject[10];
         enemyGridObject = new string[9];
         myUnits = new List<PlayableBaseUnitController>();
         enemyUnits = new List<BaseUnitController>();
         myUnitData = new List<UnitsDatas>();
-        enemyUnitData = new List<UnitsDatas>(); 
+        enemyUnitData = new List<UnitsDatas>();
     }
 
     public UnityEvent startStage;
@@ -63,7 +64,7 @@ public class BattleSceneManager : MonoBehaviour
     {
         
         inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
-
+        Debug.Log($"시작버튼 눌림{inGridObjectCount}");
         if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
         {
             Debug.Log($"출발 인원{inGridObjectCount}");
@@ -99,19 +100,35 @@ public class BattleSceneManager : MonoBehaviour
                     enemyUnitData.Add(unit);
                 }
             }
-
             _sceneChanger.CanChangeSceen = true;
-            _sceneChanger.ChangeScene("StageBattleScene_LJH");
-            BattleSceneStart();
+            switch (curChapterNum)
+            {
+                case 0:
+                    _sceneChanger.ChangeScene("StageBattleScene_LJH");
+                    Debug.Log($"0번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 7:
+                    _sceneChanger.ChangeScene("StageBattleScene1_LJH");
+                    Debug.Log($"1번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 14:
+                    _sceneChanger.ChangeScene("StageBattleScene2_LJH");
+                    Debug.Log($"2번으로 이동");
+                    BattleSceneStart();
+                    break;
+            }
+            
         }
-        else 
+        else
         {
             Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
         }
     }
     public void BackStage()
     {
-        
+
         for (int i = 0; i < inGridObject.Length; i++)
         {
             inGridObject[i] = null;
@@ -155,23 +172,23 @@ public class BattleSceneManager : MonoBehaviour
     }
     private void BattleSceneStart()
     {
-        StartCoroutine(BattleSceneStartDelaying()); 
+        StartCoroutine(BattleSceneStartDelaying());
     }
-    IEnumerator BattleSceneStartDelaying() 
+    IEnumerator BattleSceneStartDelaying()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         Spawner spawner = GameObject.Find("Spawner").GetComponent<Spawner>();
         spawner.SpawnUnits();
     }
 
-    public void GoLobby() 
+    public void GoLobby()
     {
         _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("Lobby_OJH");
         Destroy(gameObject);
     }
-    public void GoChapter() 
+    public void GoChapter()
     {
         _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;

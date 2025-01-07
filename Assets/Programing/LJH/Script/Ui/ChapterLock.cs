@@ -35,16 +35,16 @@ public class ChapterLock : MonoBehaviour
     public void GoZero()
     {
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("");
+        _sceneChanger.ChangeScene("ChapterZero_LJH");
     }
     public void GoFirst()
     {
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("");
+        _sceneChanger.ChangeScene("ChapterFirst_LJH");
     }
     public void GoSecond()
     {
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("");
+        _sceneChanger.ChangeScene("ChapterSecond_LJH");
     }
 }

@@ -7,7 +7,7 @@ public class Backto : MonoBehaviour
 {
     public void BacktoLobby() 
     {
-        SceneManager.LoadScene("Lobby_OJH");
+        SceneManager.LoadScene("ChapterSelect_LJH");
         Destroy(BattleSceneManager.Instance.gameObject);
     }
 }

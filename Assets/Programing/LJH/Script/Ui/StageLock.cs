@@ -14,48 +14,34 @@ public class StageLock : MonoBehaviour
 
     private void OnEnable()
     {
+        StageLocking();
+    }
+    public void StageLocking()
+    {
+        StartCoroutine(delayLocking());
+    }
+
+    IEnumerator delayLocking()
+    {
+        yield return new WaitForSeconds(0.1f);
+        BattleSceneManager.Instance.curChapterNum = start;
         for (int i = 1; i < chapterButtons.Length; i++)
         {
             chapterButtons[i].interactable = false;
         }
-        for (int i = start; i < end; i++) 
+        for (int i = start; i < end; i++)
         {
             if (PlayerDataManager.Instance.PlayerData.IsStageClear[i] == true)
             {
-                if (i != end) 
+                if (i != end)
                 {
-                    chapterButtons[i + 1].interactable = true;
+                    Debug.Log(i);
+                    chapterButtons[i + 1-start].interactable = true;
                 }
-                
+
 
             }
         }
+      
     }
-    //public void StageLocking()
-    //{
-    //    StartCoroutine(delayLocking());
-    //}
-
-    //IEnumerator delayLocking()
-    //{
-    //    for (int i = 0; i < chapterButtons.Length; i++)
-    //    {
-    //        chapterButtons[i].interactable = false;
-    //    }
-
-    //    yield return new WaitForSeconds(1f);
-    //    for (int i = 0; i < PlayerDataManager.Instance.PlayerData.IsStageClear.Length; i++)
-    //    {
-    //        if (PlayerDataManager.Instance.PlayerData.IsStageClear[i] == false)
-    //        {
-    //            if (i + 1 < PlayerDataManager.Instance.PlayerData.IsStageClear.Length)
-    //            {
-    //                chapterButtons[i + 1].interactable = false;
-    //            }
-    //            else
-    //                break;
-
-    //        }
-    //    }
-    //}
 }
