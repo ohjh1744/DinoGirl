@@ -91,17 +91,17 @@ public class CharacterPanel : UIBInder
             GetUI<TextMeshProUGUI>("SkillDescriptionText").text = "적에게 창을 던져 물리 피해를 입힙니다";
 
             // TODO : 레벨에 따라 증가한 스탯
-            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
-            GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
-            GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
+            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level, "HP");
+            GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level, "ATK");
+            GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level, "DEF");
 
             GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
 
-            // db에 캐릭터 정보 갱신
             UpdateCharacterData(character);
         }
     }
 
+    // DB에 캐릭터 정보 갱신
     private void UpdateCharacterData(PlayerUnitData character)
     {
         string userID = BackendManager.Auth.CurrentUser.UserId;
@@ -154,10 +154,55 @@ public class CharacterPanel : UIBInder
         }
     }
 
-    private int CalculateStat(int stat, int level)
+    // 레벨당 스탯 계산
+    private int CalculateStat(int stat, int level, string statType)
     {
-        // TODO : 레벨에 따른 스텟 계산
-        return stat;
+        if (!characterData.TryGetValue(curCharacter.UnitId, out var data))
+        {
+            Debug.LogError($"캐릭터 데이터를 찾을 수 없음: {curCharacter.UnitId}");
+            return stat;
+        }
+
+        string characterClass = data["Class"];        
+        int levelIncrease = level - 1; // 레벨 증가량
+        int additionalIncrease = 0; // 스탯 증가량
+
+        switch (statType)
+        {
+            // 증가한 레벨 당 숫자만큼 스탯 증가
+            case "HP":
+                additionalIncrease = 100 * levelIncrease;
+                break;
+            case "ATK":
+                additionalIncrease = 10 * levelIncrease;
+                break;
+            case "DEF":
+                additionalIncrease = 1 * levelIncrease;
+                break;
+        }
+
+        // 클래스에 따라 추가 증가
+        switch (characterClass)
+        {
+            // 예를들어 탱커는 체력 추가 증가
+            case "탱커":
+                if (statType == "HP")
+                    additionalIncrease += 50 * levelIncrease;
+                break;
+            // 딜러는 공격력 추가 증가
+            case "어쌔신":
+            case "스나이퍼":
+                if (statType == "ATK")
+                    additionalIncrease += 5 * levelIncrease;
+                break;
+            // 나이트는 방어력 추가 증가
+            case "나이트":
+                if (statType == "DEF")
+                    additionalIncrease += 1 * levelIncrease;
+                break;
+        }
+
+        return stat + additionalIncrease;
     }
 
     private void PreviousButton(PointerEventData eventData)
