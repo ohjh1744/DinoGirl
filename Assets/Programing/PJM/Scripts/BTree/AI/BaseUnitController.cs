@@ -7,10 +7,13 @@ using UnityEngine.Serialization;
 
 public abstract class BaseUnitController : MonoBehaviour
 {
+    [SerializeField] private Transform _centerPosition;
+    public Transform CenterPosition => _centerPosition;
+    
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
-    private bool _isDying { get; set; } = false;
+    public bool isDying { get; set; } = false;
 
     private UnitView _unitViewer;
     public UnitView UnitViewer { get => _unitViewer; private set => _unitViewer = value; }
@@ -116,7 +119,7 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected BaseNode.ENodeState CheckUnitDying()
     {
-        if (!_isDying)
+        if (!isDying)
             return BaseNode.ENodeState.Failure;
         
         var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
@@ -129,7 +132,7 @@ public abstract class BaseUnitController : MonoBehaviour
             }
             else if (stateInfo.normalizedTime >= 1.0f)
             {
-                _isDying = false;
+                isDying = false;
                 gameObject.SetActive(false);
                 return BaseNode.ENodeState.Success;
             }
@@ -161,9 +164,9 @@ public abstract class BaseUnitController : MonoBehaviour
         return BaseNode.ENodeState.Failure;
     }
     
-    protected BaseNode.ENodeState PerformAttack()
+    protected virtual BaseNode.ENodeState PerformAttack()
     {
-        if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf && CurrentTarget._isDying)
+        if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf && CurrentTarget.isDying)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
             IsAttacking = false;
@@ -465,7 +468,7 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected void HandleDeath()
     {
-        _isDying = true;
+        isDying = true;
         UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
     }
     protected void OnDrawGizmos()
