@@ -37,10 +37,14 @@ public class DOTweenManager : MonoBehaviour
     public AudioClip clip2;         // 두 번째 사운드 클립
 
     // 게임 시작 시 호출되는 메서드
-    void Start()
+    private void OnEnable()
     {
         MakeSequence(); // 시퀀스 초기화
         DOVirtual.DelayedCall(2f, () => testSequence.Play()); // 2초 후 자동으로 시퀀스를 실행
+    }
+    private void OnDisable()
+    {
+        Destroy(gameObject);
     }
 
     // 시퀀스를 생성하고 애니메이션 설정

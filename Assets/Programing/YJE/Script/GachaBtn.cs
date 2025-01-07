@@ -10,8 +10,8 @@ public class GachaBtn : MonoBehaviour
     SceneChanger sceneChanger;
 
     [Header("UI")]
-    [SerializeField] RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
-    [SerializeField] RectTransform tenVideoContent; // 10연차 결과 내역 프리팹이 생성 될 위치
+    private RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
+    private RectTransform tenVideoContent; // 10연차 결과 내역 프리팹이 생성 될 위치
 
     // 가챠 재화 비용과 아이템 종류 지정 - 인스펙터창에서 편하게 수정 가능
     [SerializeField] int gachaCost;
@@ -30,6 +30,8 @@ public class GachaBtn : MonoBehaviour
         gachaSceneController = gameObject.GetComponent<GachaSceneController>();
         gachaCheck = gameObject.GetComponent<GachaCheck>();
         sceneChanger = gameObject.GetComponent<SceneChanger>();
+        singleVideoContent = gachaSceneController.GetUI<RectTransform>("SingleResultPanel");
+        tenVideoContent = gachaSceneController.GetUI<RectTransform>("TenResultPanel");
     }
 
     public void BackToRobby()
@@ -86,7 +88,7 @@ public class GachaBtn : MonoBehaviour
                     // GachaSceneController.cs에 GachaResultUI()로 반환된 GameObject를 resultList에 저장
                     resultUI = gachaSceneController.GachaSingleResultUI(baseGachaList, i);
                     resultList.Add(resultUI);
-                    //StartCoroutine(CharacterVideoR(resultUI));
+                    StartCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 실행
                     break;
                 }
             }
@@ -100,7 +102,7 @@ public class GachaBtn : MonoBehaviour
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
             // UI 업데이트
             gachaSceneController.UpdatePlayerUI();
-            //StopCoroutine(CharacterVideoR(resultUI));
+            StopCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 종료
         }
         else
         {
@@ -151,7 +153,7 @@ public class GachaBtn : MonoBehaviour
                     }
                 }
             } while (count < 10);
-            //StartCoroutine(CharacterTenVideoR());
+            StartCoroutine(CharacterTenVideoR());
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
@@ -165,7 +167,7 @@ public class GachaBtn : MonoBehaviour
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
-        //StopCoroutine(CharacterTenVideoR());
+        StopCoroutine(CharacterTenVideoR());
     }
 
     /// <summary>
@@ -175,6 +177,7 @@ public class GachaBtn : MonoBehaviour
     /// </summary>
     public void EventSingleBtn()
     {
+        GameObject resultUI = null;
         eventGachaList = gachaSceneController.EventGachaList;
         // 기본 플레이어의 재화 DinoStone(3)이 100 이상인 경우에만 실행
         if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] >= gachaCost)
@@ -197,8 +200,9 @@ public class GachaBtn : MonoBehaviour
                 {
                     // 아이템과 캐릭터에 따라서 결과값 출력
                     // GachaSceneController.cs에 GachaSingleResultUI()로 반환된 GameObject를 resultList에 저장
-                    GameObject resultUI = gachaSceneController.GachaSingleResultUI(eventGachaList, i);
+                    resultUI = gachaSceneController.GachaSingleResultUI(eventGachaList, i);
                     resultList.Add(resultUI);
+                    StartCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 실행
                     break;
                 }
             }
@@ -209,7 +213,8 @@ public class GachaBtn : MonoBehaviour
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
             // UI 업데이트
-            gachaSceneController.UpdatePlayerUI();
+            gachaSceneController.UpdatePlayerUI(); // 가챠 루틴 종료
+            StopCoroutine(CharacterVideoR(resultUI));
         }
         else
         {
@@ -261,6 +266,7 @@ public class GachaBtn : MonoBehaviour
                     }
                 }
             } while (count < 10);
+            StartCoroutine(CharacterTenVideoR()); // 가챠 루틴 실행
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
@@ -274,8 +280,9 @@ public class GachaBtn : MonoBehaviour
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
+        StopCoroutine(CharacterTenVideoR()); // 가챠 루틴 종료
     }
-    /*
+
     /// <summary>
     /// 가챠의 캐릭터 뽑기 시 실행할 영상
     /// </summary>
@@ -284,12 +291,13 @@ public class GachaBtn : MonoBehaviour
     {
         if (gameObj.GetComponent<GachaChar>())
         {
-            Debug.Log("인식완료");
             GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, singleVideoContent);
             obj.SetActive(true);
-            yield return new WaitUntil(() =>obj.GetComponent<DOTweenManager>().IsEnded == true);
+            // yield return new WaitUntil(() => obj.GetComponent<DOTweenManager>().IsEnded == true);
+            yield return new WaitUntil(() => obj.gameObject == false);
         }
     }
+
     /// <summary>
     /// 가챠의 캐릭터 10회 뽑기 시 실행할 영상
     /// </summary>
@@ -300,19 +308,18 @@ public class GachaBtn : MonoBehaviour
         {
             if (gameObj.GetComponent<GachaChar>())
             {
-                Debug.Log("인식완료"); 
                 GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, tenVideoContent);
                 obj.SetActive(true);
-                yield return new WaitUntil(() => obj.GetComponent<DOTweenManager>().IsEnded == true);
-                obj.SetActive(false);
+                // yield return new WaitUntil(() => obj.GetComponent<DOTweenManager>().IsEnded == true);
+                yield return new WaitUntil(() => obj.gameObject == false);
                 continue;
             }
             else
             {
-                break;
+                continue;
             }
         }
-    }*/
+    }
 }
 
 
