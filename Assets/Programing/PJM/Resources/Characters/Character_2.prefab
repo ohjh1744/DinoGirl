@@ -98,10 +98,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHp: 1000
   _hp: 0
+  _coolDownAcc: 1
   _attackPoint: 2
   _defensePoint: 1
   _moveSpeed: 2
-  _attackRange: 6
+  _attackRange: 2
   _isPriorityTargetFar: 0
 --- !u!1 &6474753677784287867
 GameObject:
