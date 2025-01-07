@@ -29,12 +29,13 @@ public class BattleSceneUi : MonoBehaviour
     private void OnEnable()
     {
         time = BattleSceneManager.Instance._timeLimit;
-
+        
         Spawner.OnSpawnCompleted += startTimerTriger;
 
     }
     private void OnDisable()
     {
+        
         for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
         {
             BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
@@ -116,6 +117,17 @@ public class BattleSceneUi : MonoBehaviour
     }
     public void openResultPanel()
     {
+        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        Spawner.OnSpawnCompleted -= startTimerTriger;
+        StopCoroutine("startTimer");
+        StopCoroutine("Subscriber");
         Time.timeScale = 0;
         resultPanel.SetActive(true);
         if (BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Win)
