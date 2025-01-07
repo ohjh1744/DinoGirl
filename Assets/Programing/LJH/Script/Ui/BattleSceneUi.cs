@@ -29,28 +29,15 @@ public class BattleSceneUi : MonoBehaviour
     private void OnEnable()
     {
         time = BattleSceneManager.Instance._timeLimit;
-        
+
         Spawner.OnSpawnCompleted += startTimerTriger;
 
-    }
-    private void OnDisable()
-    {
-        
-        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
-        {
-            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
-        }
-        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
-        {
-            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
-        }
-        Spawner.OnSpawnCompleted -= startTimerTriger;
     }
     IEnumerator Subscriber()
     {
         Debug.Log("이벤트 구독");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
         {
             BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath += WinorLose;
@@ -93,7 +80,10 @@ public class BattleSceneUi : MonoBehaviour
             // 패배
             Debug.Log("패배");
             BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Lose;
+
             openResultPanel();
+
+
         }
         else if (BattleSceneManager.Instance.enemyUnits.All(item => item.UnitModel.Hp <= 0))
         {
@@ -116,7 +106,7 @@ public class BattleSceneUi : MonoBehaviour
 
     }
     public void openResultPanel()
-    {
+    {   
         for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
         {
             BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
@@ -126,6 +116,7 @@ public class BattleSceneUi : MonoBehaviour
             BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
         }
         Spawner.OnSpawnCompleted -= startTimerTriger;
+
         StopCoroutine("startTimer");
         StopCoroutine("Subscriber");
         Time.timeScale = 0;
@@ -134,8 +125,11 @@ public class BattleSceneUi : MonoBehaviour
         {
             winUi.SetActive(true);
             loseUi.SetActive(false);
-            UpdateItems();
-            updateClear(); // 승리시만 업데이트 하면 됨
+            if (PlayerDataManager.Instance.PlayerData.IsStageClear[BattleSceneManager.Instance.curStageNum] == false)
+            {
+                UpdateItems();
+                updateClear();
+            } // 승리시만 업데이트 하면 됨 , 최초클리어만 보상
         }
         else if (BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Lose)
         {
@@ -174,7 +168,7 @@ public class BattleSceneUi : MonoBehaviour
         string userId = BackendManager.Auth.CurrentUser.UserId;
         DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
 
-        
+
         foreach (int i in BattleSceneManager.Instance.curItemValues.Keys)
         {
             Debug.Log($"{i}{BattleSceneManager.Instance.curItemValues[i]}");
