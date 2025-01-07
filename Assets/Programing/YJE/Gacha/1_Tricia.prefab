@@ -372,8 +372,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD2B8\uB9AC\uC0E4"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
-  m_sharedMaterial: {fileID: -5869306142683989769, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6a1698dbb80c38247aad0a899297f6d5, type: 2}
+  m_sharedMaterial: {fileID: -5212886852730863711, guid: 6a1698dbb80c38247aad0a899297f6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -585,8 +585,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
-  m_sharedMaterial: {fileID: -5869306142683989769, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6a1698dbb80c38247aad0a899297f6d5, type: 2}
+  m_sharedMaterial: {fileID: -5212886852730863711, guid: 6a1698dbb80c38247aad0a899297f6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -872,8 +872,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
-  m_sharedMaterial: {fileID: -5869306142683989769, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6a1698dbb80c38247aad0a899297f6d5, type: 2}
+  m_sharedMaterial: {fileID: -5212886852730863711, guid: 6a1698dbb80c38247aad0a899297f6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptBg: {fileID: 4621748715626910002}
   scriptText: {fileID: 4621748716085911350}
-  audioSource: {fileID: 4621748716197496620}
+  audioSource: {fileID: 0}
   scriptSd: {fileID: 8300000, guid: 543cb668e16a4524db8d7415998221b6, type: 3}
   pingSd: {fileID: 8300000, guid: 5885fc958a56f02469a4e963176da038, type: 3}
   getSd: {fileID: 8300000, guid: 0d0e754d023e70d45966218d6583213a, type: 3}
@@ -1235,19 +1235,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4621748716197496623}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &4621748716431741333
 GameObject:
   m_ObjectHideFlags: 0

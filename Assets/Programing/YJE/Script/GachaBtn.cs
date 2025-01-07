@@ -40,7 +40,6 @@ public class GachaBtn : MonoBehaviour
         sceneChanger.ChangeScene("Lobby_OJH");
     }
 
-
     /// <summary>
     /// 결과 패널 비활성화 시
     /// resultList 를 초기화
@@ -293,7 +292,6 @@ public class GachaBtn : MonoBehaviour
         {
             GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, singleVideoContent);
             obj.SetActive(true);
-            // yield return new WaitUntil(() => obj.GetComponent<DOTweenManager>().IsEnded == true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
     }
@@ -310,7 +308,6 @@ public class GachaBtn : MonoBehaviour
             {
                 GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, tenVideoContent);
                 obj.SetActive(true);
-                // yield return new WaitUntil(() => obj.GetComponent<DOTweenManager>().IsEnded == true);
                 yield return new WaitUntil(() => obj.gameObject == false);
                 continue;
             }
