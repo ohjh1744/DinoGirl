@@ -2,6 +2,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
@@ -10,8 +11,12 @@ using UnityEngine.UI;
 
 public class InventoryPanel : UIBInder
 {
-    public GameObject characterPrefab;  // 캐릭터 칸 프리팹
-    public Transform content;           // 스크롤뷰의 content
+    public GameObject characterPrefab;
+    public Transform content;
+
+    private List<PlayerUnitData> allCharacters = new List<PlayerUnitData>();
+
+    private Dictionary<int, Dictionary<string, string>> characterData;
 
     private void Awake()
     {
@@ -21,6 +26,8 @@ public class InventoryPanel : UIBInder
         AddEvent("WaterElementButton", EventType.Click, WaterElementButtonClicked);
         AddEvent("GroundElementButton", EventType.Click, GroundElementButtonClicked);
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
+
+        // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
     }
 
     private void Start()
@@ -34,6 +41,8 @@ public class InventoryPanel : UIBInder
         yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         PopulateGrid();
+
+        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
     }
 
     // 그리드에 가진 캐릭터 정렬
@@ -59,6 +68,7 @@ public class InventoryPanel : UIBInder
                 return;
             }
 
+            allCharacters.Clear();
             DataSnapshot snapshot = task.Result;
             foreach (var childSnapshot in snapshot.Children)
             {
@@ -66,13 +76,13 @@ public class InventoryPanel : UIBInder
                 {
                     UnitId = int.Parse(childSnapshot.Child("_unitId").Value.ToString()),
                     UnitLevel = int.Parse(childSnapshot.Child("_unitLevel").Value.ToString())
-                    // TODO : 슬롯에 캐릭터 이미지도 띄워야할것
                 };
 
-                GameObject slot = Instantiate(characterPrefab, content);
-                CharacterSlot slotUI = slot.GetComponent<CharacterSlot>();
-                slotUI.SetCharacter(unitData);
+                allCharacters.Add(unitData);
             }
+
+            DisplayCharacters(allCharacters);
+            Debug.Log($"캐릭터 {allCharacters.Count}개");
         });
     }
 
@@ -90,28 +100,62 @@ public class InventoryPanel : UIBInder
         }
     }
 
+    // 보유한 캐릭터 보여주기
+    private void DisplayCharacters(List<PlayerUnitData> characters)
+    {
+        foreach (Transform child in content)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var unitData in characters)
+        {
+            GameObject slot = Instantiate(characterPrefab, content);
+            CharacterSlot slotUI = slot.GetComponent<CharacterSlot>();
+            slotUI.SetCharacter(unitData);
+        }
+    }
+
+    private int GetElementId(int unitId)
+    {
+        if (characterData.TryGetValue(unitId, out var data))
+        {
+            int elementID = int.Parse(data["ElementID"]);
+            Debug.Log($"UnitID: {unitId}, ElementID: {elementID}");
+            return elementID;
+        }
+        Debug.LogWarning($"No data found for UnitID: {unitId}");
+        return 0;
+    }
+
+    // ElementID에 따라 정렬 1땅 2불 3물 4풀
     private void AllElementButtonClicked(PointerEventData eventData)
     {
-        // 모든 캐릭터 표시
+        Debug.Log("All");
+        DisplayCharacters(allCharacters);
     }
 
     private void FireElementButtonClicked(PointerEventData eventData)
     {
-        // 불원소 캐릭터 표시
+        Debug.Log("Fire");
+        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 2).ToList());
     }
 
     private void WaterElementButtonClicked(PointerEventData eventData)
     {
-        // 물원소 캐릭터 표시
+        Debug.Log("Water");
+        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 3).ToList());
     }
 
     private void GroundElementButtonClicked(PointerEventData eventData)
     {
-        // 땅원소 캐릭터 표시
+        Debug.Log("Ground");
+        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 1).ToList());
     }
 
     private void GrassElementButtonClicked(PointerEventData eventData)
     {
-        // 풀원소 캐릭터 표시
+        Debug.Log("grass");
+        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 4).ToList());
     }
 }
