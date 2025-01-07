@@ -161,6 +161,7 @@ public class ItemPanel : UIBInder
         });
     }
 
+    // 아이템 이미지 가져오기
     private void LoadItemImage(string imageName, E_Item itemType)
     {
         string itemPath = $"UI/item_{(int)itemType}";

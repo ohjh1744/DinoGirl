@@ -66,7 +66,8 @@ public class LevelUpPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= UpdateBoneCrystalText;
         }
     }
-
+ 
+    // 레벨업 패널이 열릴때 초기화
     public void Init(PlayerUnitData character)
     {
         targetCharacter = character;
@@ -98,7 +99,6 @@ public class LevelUpPanel : UIBInder
         int notEnoughBoneCrystal = Mathf.Max(0, items.boneCrystal - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
 
         bool canLevelUp = (notEnoughCoin == 0 && notEnoughDinoBlood == 0 && notEnoughBoneCrystal == 0);
-        Debug.Log($"{notEnoughCoin}, {notEnoughDinoBlood}, {notEnoughBoneCrystal}");
 
         GetUI<Button>("DecreaseButton").interactable = (curLevelUp > 1);
 
@@ -124,9 +124,30 @@ public class LevelUpPanel : UIBInder
             GetUI<Slider>("LevelUpSlider").interactable = false;
             GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(false);
 
-            GetUI<TextMeshProUGUI>("CoinText").text = $"Coin {notEnoughCoin} 부족";
-            GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood {notEnoughDinoBlood} 부족";
-            GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal {notEnoughBoneCrystal} 부족";
+            if (notEnoughCoin > 0) 
+            { 
+                GetUI<TextMeshProUGUI>("CoinText").text = $"Coin {notEnoughCoin} 부족";
+            }
+            else
+            {
+                GetUI<TextMeshProUGUI>("CoinText").text = $"Coin 충분함";
+            }
+            if (notEnoughDinoBlood > 0) 
+            { 
+                GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood {notEnoughDinoBlood} 부족";
+            }
+            else
+            {
+                GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood 충분함";
+            }
+            if (notEnoughBoneCrystal > 0)
+            {
+                GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal {notEnoughBoneCrystal} 부족";
+            }
+            else
+            {
+                GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal 충분함";
+            }
         }
 
         if (targetCharacter.UnitLevel + curLevelUp > MAXLEVEL)
@@ -207,6 +228,7 @@ public class LevelUpPanel : UIBInder
         return items;
     }
 
+    // 레어도 가져오기
     private int GetRarity()
     {
         if (characterData.TryGetValue(targetCharacter.UnitId, out var data))
@@ -224,6 +246,7 @@ public class LevelUpPanel : UIBInder
         return -1;
     }
 
+    // LevelUpID 가져오기
     private int FindLevelUpId(int rarity, int level)
     {
         if(level > MAXLEVEL)
@@ -246,7 +269,7 @@ public class LevelUpPanel : UIBInder
         return -1;
     }
 
-    // 레벨업 버튼
+    // 레벨업 확인 버튼
     private void OnConfirmButtonClick(PointerEventData eventData)
     {
         if(targetCharacter.UnitLevel + curLevelUp > MAXLEVEL)
@@ -377,7 +400,7 @@ public class LevelUpPanel : UIBInder
         });
     }
 
-    // UI 갱신
+    // 외부 UI 갱신
     private void UpdateCharacters(PlayerUnitData character)
     {
         // 캐릭터 정보에 보여지는 레벨 갱신
@@ -398,6 +421,7 @@ public class LevelUpPanel : UIBInder
         ItemPanel.Instance.UpdateItems();
     }
 
+    // 감소 버튼
     private void OnDecreaseButtonClick(PointerEventData eventData)
     {
         if (GetUI<Button>("DecreaseButton").interactable == false)
@@ -414,6 +438,7 @@ public class LevelUpPanel : UIBInder
 
     }
 
+    // 증가 버튼
     private void OnIncreaseButtonClick(PointerEventData eventData)
     {
         if (GetUI<Button>("IncreaseButton").interactable == false)

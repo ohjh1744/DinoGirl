@@ -68,8 +68,6 @@ public class CharacterSlot : UIBInder
         {
             Debug.Log($"이미지를 찾을 수 없음 {portraitPath}");
         }
-
-
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )

@@ -53,8 +53,6 @@ public class CharacterPanel : UIBInder
         int level = character.UnitLevel;
         if (characterData.TryGetValue(character.UnitId, out var data))
         {
-            // TODO : 캐릭터의 각종 스탯 정보 ( 레벨에 따른 스탯, 이미지 )
-
             // 캐릭터 이미지
             string portraitPath = $"Portrait/portrait_{character.UnitId}";
             if (portraitPath != null)
@@ -93,7 +91,7 @@ public class CharacterPanel : UIBInder
             GetUI<TextMeshProUGUI>("SkillDescriptionText").text = "적에게 창을 던져 물리 피해를 입힙니다";
 
             // TODO : 레벨에 따라 증가한 스탯
-            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(TypeCastManager.Instance.TryParseInt(data["BaseHp"]), level);
+            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
 
