@@ -92,9 +92,9 @@ public class CharacterPanel : UIBInder
             UpdateSkill(character.UnitId);
 
             // TODO : 레벨에 따라 증가한 스탯
-            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level, "HP");
-            GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level, "ATK");
-            GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level, "DEF");
+            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
+            GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
+            GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
 
             GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
 
@@ -156,56 +156,26 @@ public class CharacterPanel : UIBInder
     }
 
     // 레벨당 스탯 계산
-    private int CalculateStat(int stat, int level, string statType)
+    private int CalculateStat(int baseStat, int level)
     {
+        // TODO : Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
+
         if (!characterData.TryGetValue(curCharacter.UnitId, out var data))
         {
-            Debug.LogError($"캐릭터 데이터를 찾을 수 없음: {curCharacter.UnitId}");
-            return stat;
+            Debug.LogError($"캐릭터 데이터를 찾을 수 없음 {curCharacter.UnitId}");
+            return baseStat;
         }
 
-        // TODO : Stat 시트에서 StatID(1체 2공 3방)에 따라 레어도에 따라 해당하는 배율만큼 레벨마다 합증가
-
-        string characterClass = data["Class"];        
-        int levelIncrease = level - 1; // 레벨 증가량
-        int additionalIncrease = 0; // 스탯 증가량
-
-        switch (statType)
+        if (!int.TryParse(data["Increase"], out int increase))
         {
-            // 증가한 레벨 당 숫자만큼 스탯 증가
-            case "HP":
-                additionalIncrease = 100 * levelIncrease;
-                break;
-            case "ATK":
-                additionalIncrease = 10 * levelIncrease;
-                break;
-            case "DEF":
-                additionalIncrease = 1 * levelIncrease;
-                break;
+            Debug.LogError($"Increase 값 찾을 수 없음 {curCharacter.UnitId}");
+            return baseStat;
         }
 
-        // 클래스에 따라 추가 증가
-        switch (characterClass)
-        {
-            // 예를들어 탱커는 체력 추가 증가
-            case "탱커":
-                if (statType == "HP")
-                    additionalIncrease += 50 * levelIncrease;
-                break;
-            // 딜러는 공격력 추가 증가
-            case "어쌔신":
-            case "스나이퍼":
-                if (statType == "ATK")
-                    additionalIncrease += 5 * levelIncrease;
-                break;
-            // 나이트는 방어력 추가 증가
-            case "나이트":
-                if (statType == "DEF")
-                    additionalIncrease += 1 * levelIncrease;
-                break;
-        }
+        int levelIncrease = level - 1;
+        float totalIncrease = 1 + (increase * levelIncrease / 100f); // 1.n배 
 
-        return stat + additionalIncrease;
+        return Mathf.FloorToInt(baseStat * totalIncrease);
     }
 
     private void UpdateSkill(int unitId)
