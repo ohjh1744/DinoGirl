@@ -14,6 +14,7 @@ public class CharacterPanel : UIBInder
     private GameObject levelUpPanel;
 
     private Dictionary<int, Dictionary<string, string>> characterData;
+    private Dictionary<int, Dictionary<string, string>> skillData;
 
     private SceneChanger _sceneChanger;
 
@@ -32,10 +33,12 @@ public class CharacterPanel : UIBInder
         levelUpPanel = parent.Find("LevelUpPanel").gameObject;
 
         characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
 
         _sceneChanger = FindObjectOfType<SceneChanger>();
 
         characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
+
     }
 
     private void Start()
@@ -61,7 +64,7 @@ public class CharacterPanel : UIBInder
             }
 
             // 레벨, 이름
-            // GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
+            GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
 
             // 속성 아이콘 이미지 
@@ -86,9 +89,7 @@ public class CharacterPanel : UIBInder
             }
 
             // TODO : 스킬 정보 가져오기
-            GetUI<TextMeshProUGUI>("SkillNameText").text = "스킬 이름";
-            GetUI<TextMeshProUGUI>("CoolDownText").text = "쿨타임";
-            GetUI<TextMeshProUGUI>("SkillDescriptionText").text = "적에게 창을 던져 물리 피해를 입힙니다";
+            UpdateSkill(character.UnitId);
 
             // TODO : 레벨에 따라 증가한 스탯
             GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level, "HP");
@@ -163,6 +164,8 @@ public class CharacterPanel : UIBInder
             return stat;
         }
 
+        // TODO : Stat 시트에서 StatID(1체 2공 3방)에 따라 레어도에 따라 해당하는 배율만큼 레벨마다 합증가
+
         string characterClass = data["Class"];        
         int levelIncrease = level - 1; // 레벨 증가량
         int additionalIncrease = 0; // 스탯 증가량
@@ -203,6 +206,22 @@ public class CharacterPanel : UIBInder
         }
 
         return stat + additionalIncrease;
+    }
+
+    private void UpdateSkill(int unitId)
+    {
+        foreach (var value in skillData.Values)
+        {
+            if (int.Parse(value["CharID"]) == unitId)
+            {
+                GetUI<TextMeshProUGUI>("SkillNameText").text = value["SkillName"];
+                GetUI<TextMeshProUGUI>("CoolDownText").text = $"쿨타임: {value["Cooldown"]}초";
+                GetUI<TextMeshProUGUI>("SkillDescriptionText").text = value["SkillDescription"];
+                return;
+            }
+        }
+
+        Debug.LogWarning($"스킬 정보를 찾을 수 없음: CharID {unitId}");
     }
 
     private void PreviousButton(PointerEventData eventData)
