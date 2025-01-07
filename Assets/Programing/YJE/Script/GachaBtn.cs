@@ -86,7 +86,7 @@ public class GachaBtn : MonoBehaviour
                     // GachaSceneController.cs에 GachaResultUI()로 반환된 GameObject를 resultList에 저장
                     resultUI = gachaSceneController.GachaSingleResultUI(baseGachaList, i);
                     resultList.Add(resultUI);
-                    StartCoroutine(CharacterVideoR(resultUI));
+                    //StartCoroutine(CharacterVideoR(resultUI));
                     break;
                 }
             }
@@ -100,7 +100,7 @@ public class GachaBtn : MonoBehaviour
             gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
             // UI 업데이트
             gachaSceneController.UpdatePlayerUI();
-            StopCoroutine(CharacterVideoR(resultUI));
+            //StopCoroutine(CharacterVideoR(resultUI));
         }
         else
         {
@@ -151,7 +151,7 @@ public class GachaBtn : MonoBehaviour
                     }
                 }
             } while (count < 10);
-            StartCoroutine(CharacterTenVideoR());
+            //StartCoroutine(CharacterTenVideoR());
             // 뽑기에 사용한 재화값 PlayerData 수정
             DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
             gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
@@ -165,7 +165,7 @@ public class GachaBtn : MonoBehaviour
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
-        StopCoroutine(CharacterTenVideoR());
+        //StopCoroutine(CharacterTenVideoR());
     }
 
     /// <summary>
@@ -275,7 +275,7 @@ public class GachaBtn : MonoBehaviour
             gachaSceneController.DisabledGachaResultPanel();
         }
     }
-
+    /*
     /// <summary>
     /// 가챠의 캐릭터 뽑기 시 실행할 영상
     /// </summary>
@@ -287,8 +287,7 @@ public class GachaBtn : MonoBehaviour
             Debug.Log("인식완료");
             GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, singleVideoContent);
             obj.SetActive(true);
-            yield return new WaitUntil(() => gameObj.GetComponent<DOTweenManager>().IsEnded = true);
-            obj.SetActive(false);
+            yield return new WaitUntil(() =>obj.GetComponent<DOTweenManager>().IsEnded == true);
         }
     }
     /// <summary>
@@ -304,15 +303,16 @@ public class GachaBtn : MonoBehaviour
                 Debug.Log("인식완료"); 
                 GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, tenVideoContent);
                 obj.SetActive(true);
-                yield return new WaitUntil(() => gameObj.GetComponent<DOTweenManager>().IsEnded = true);
+                yield return new WaitUntil(() => obj.GetComponent<DOTweenManager>().IsEnded == true);
                 obj.SetActive(false);
+                continue;
             }
             else
             {
                 break;
             }
         }
-    }
+    }*/
 }
 
 
