@@ -56,18 +56,30 @@ public class CharacterPanel : UIBInder
             // TODO : 캐릭터의 각종 스탯 정보 ( 레벨에 따른 스탯, 이미지 )
 
             // 캐릭터 이미지
-            string path = $"Portrait/portrait_{character.UnitId}";
-            if (path != null)
+            string portraitPath = $"Portrait/portrait_{character.UnitId}";
+            if (portraitPath != null)
             {
-                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(path);
+                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(portraitPath);
             }
 
             // 레벨, 이름
             // GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
 
-            // TODO : 속성 아이콘 이미지 
-            GetUI<Image>("ElementImage").sprite = null;
+            // 속성 아이콘 이미지 
+            if (int.TryParse(data["ElementID"], out int elementId))
+            {
+                string elementPath = $"UI/element_{elementId}";
+                Sprite elementSprite = Resources.Load<Sprite>(elementPath);
+                if (elementSprite != null)
+                {
+                    GetUI<Image>("ElementImage").sprite = elementSprite;
+                }
+                else
+                {
+                    Debug.LogWarning($"이미지를 찾을 수 없음: {elementPath}");
+                }
+            }
 
             // 레어도에 따라 별 개수 ~5개 출력
             if (int.TryParse(data["Rarity"], out int rarity))
