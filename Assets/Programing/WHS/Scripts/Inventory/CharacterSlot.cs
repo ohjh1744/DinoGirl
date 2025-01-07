@@ -44,14 +44,29 @@ public class CharacterSlot : UIBInder
             UpdateStar(rarity);
         }
 
-        string path = $"Portrait/portrait_{unitData.UnitId}";
-        if(path != null)
+        // 원소 속성 이미지 설정
+        if (int.TryParse(data["ElementID"], out int elementId))
         {
-            GetUI<Image>("Character(Clone)").sprite = Resources.Load<Sprite>(path);
+            string elementPath = $"UI/element_{elementId}";
+            Sprite elementSprite = Resources.Load<Sprite>(elementPath);
+            if (elementSprite != null)
+            {
+                GetUI<Image>("ElementImage").sprite = elementSprite;
+            }
+            else
+            {
+                Debug.LogWarning($"이미지를 찾을 수 없음: {elementPath}");
+            }
+        }
+
+        string portraitPath = $"Portrait/portrait_{unitData.UnitId}";
+        if (portraitPath != null)
+        {
+            GetUI<Image>("Character(Clone)").sprite = Resources.Load<Sprite>(portraitPath);
         }
         else
         {
-            Debug.Log($"이미지를 찾을 수 없음 {path}");
+            Debug.Log($"이미지를 찾을 수 없음 {portraitPath}");
         }
     }
 
@@ -60,7 +75,7 @@ public class CharacterSlot : UIBInder
     {
         characterPanel.SetActive(true);
 
-       characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
+        characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
     }
 
     public PlayerUnitData GetCharacter()

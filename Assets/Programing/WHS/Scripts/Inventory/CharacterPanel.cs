@@ -14,6 +14,7 @@ public class CharacterPanel : UIBInder
     private GameObject levelUpPanel;
 
     private Dictionary<int, Dictionary<string, string>> characterData;
+    private Dictionary<int, Dictionary<string, string>> skillData;
 
     private SceneChanger _sceneChanger;
 
@@ -32,10 +33,12 @@ public class CharacterPanel : UIBInder
         levelUpPanel = parent.Find("LevelUpPanel").gameObject;
 
         characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
 
         _sceneChanger = FindObjectOfType<SceneChanger>();
 
         characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
+
     }
 
     private void Start()
@@ -53,21 +56,31 @@ public class CharacterPanel : UIBInder
         int level = character.UnitLevel;
         if (characterData.TryGetValue(character.UnitId, out var data))
         {
-            // TODO : 캐릭터의 각종 스탯 정보 ( 레벨에 따른 스탯, 이미지 )
-
             // 캐릭터 이미지
-            string path = $"Portrait/portrait_{character.UnitId}";
-            if (path != null)
+            string portraitPath = $"Portrait/portrait_{character.UnitId}";
+            if (portraitPath != null)
             {
-                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(path);
+                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(portraitPath);
             }
 
             // 레벨, 이름
-            // GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
+            GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
 
-            // TODO : 속성 아이콘 이미지 
-            GetUI<Image>("ElementImage").sprite = null;
+            // 속성 아이콘 이미지 
+            if (int.TryParse(data["ElementID"], out int elementId))
+            {
+                string elementPath = $"UI/element_{elementId}";
+                Sprite elementSprite = Resources.Load<Sprite>(elementPath);
+                if (elementSprite != null)
+                {
+                    GetUI<Image>("ElementImage").sprite = elementSprite;
+                }
+                else
+                {
+                    Debug.LogWarning($"이미지를 찾을 수 없음: {elementPath}");
+                }
+            }
 
             // 레어도에 따라 별 개수 ~5개 출력
             if (int.TryParse(data["Rarity"], out int rarity))
@@ -76,22 +89,20 @@ public class CharacterPanel : UIBInder
             }
 
             // TODO : 스킬 정보 가져오기
-            GetUI<TextMeshProUGUI>("SkillNameText").text = "스킬 이름";
-            GetUI<TextMeshProUGUI>("CoolDownText").text = "쿨타임";
-            GetUI<TextMeshProUGUI>("SkillDescriptionText").text = "적에게 창을 던져 물리 피해를 입힙니다";
+            UpdateSkill(character.UnitId);
 
             // TODO : 레벨에 따라 증가한 스탯
-            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(TypeCastManager.Instance.TryParseInt(data["BaseHp"]), level);
+            GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
 
             GetUI<Button>("LevelUpButton").interactable = (character.UnitLevel < 30);
 
-            // db에 캐릭터 정보 갱신
             UpdateCharacterData(character);
         }
     }
 
+    // DB에 캐릭터 정보 갱신
     private void UpdateCharacterData(PlayerUnitData character)
     {
         string userID = BackendManager.Auth.CurrentUser.UserId;
@@ -144,10 +155,43 @@ public class CharacterPanel : UIBInder
         }
     }
 
-    private int CalculateStat(int stat, int level)
+    // 레벨당 스탯 계산
+    private int CalculateStat(int baseStat, int level)
     {
-        // TODO : 레벨에 따른 스텟 계산
-        return stat;
+        // TODO : Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
+
+        if (!characterData.TryGetValue(curCharacter.UnitId, out var data))
+        {
+            Debug.LogError($"캐릭터 데이터를 찾을 수 없음 {curCharacter.UnitId}");
+            return baseStat;
+        }
+
+        if (!int.TryParse(data["Increase"], out int increase))
+        {
+            Debug.LogError($"Increase 값 찾을 수 없음 {curCharacter.UnitId}");
+            return baseStat;
+        }
+
+        int levelIncrease = level - 1;
+        float totalIncrease = 1 + (increase * levelIncrease / 100f); // 1.n배 
+
+        return Mathf.FloorToInt(baseStat * totalIncrease);
+    }
+
+    private void UpdateSkill(int unitId)
+    {
+        foreach (var value in skillData.Values)
+        {
+            if (int.Parse(value["CharID"]) == unitId)
+            {
+                GetUI<TextMeshProUGUI>("SkillNameText").text = value["SkillName"];
+                GetUI<TextMeshProUGUI>("CoolDownText").text = $"쿨타임: {value["Cooldown"]}초";
+                GetUI<TextMeshProUGUI>("SkillDescriptionText").text = value["SkillDescription"];
+                return;
+            }
+        }
+
+        Debug.LogWarning($"스킬 정보를 찾을 수 없음: CharID {unitId}");
     }
 
     private void PreviousButton(PointerEventData eventData)

@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class ItemPanel : UIBInder
 {
@@ -56,6 +58,7 @@ public class ItemPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += UpdateDinoBloodText;
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += UpdateBoneCrystalText;
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] += UpdateDinoStoneText;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Stone] += UpdateStoneText;
     }
 
     private void OnDisable()
@@ -66,6 +69,7 @@ public class ItemPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] -= UpdateDinoBloodText;
             PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= UpdateBoneCrystalText;
             PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] -= UpdateDinoStoneText;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Stone] -= UpdateStoneText;
         }
     }
 
@@ -77,11 +81,18 @@ public class ItemPanel : UIBInder
             UpdateDinoBloodText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
             UpdateBoneCrystalText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
             UpdateDinoStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]);
+            UpdateStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone]);
         }
         else
         {
             Debug.Log("PlayerData 찾을 수 없음");
         }
+
+        LoadItemImage("CoinImage", E_Item.Coin);
+        LoadItemImage("DinoBloodImage", E_Item.DinoBlood);
+        LoadItemImage("BoneCrystalImage", E_Item.BoneCrystal);
+        LoadItemImage("DinoStoneImage", E_Item.DinoStone);
+        LoadItemImage("StoneImage", E_Item.Stone);
     }
 
     private void UpdateCoinText(int newValue)
@@ -108,12 +119,19 @@ public class ItemPanel : UIBInder
         UpdateItemsInDatabase();
     }
 
+    private void UpdateStoneText(int newValue)
+    {
+        GetUI<TextMeshProUGUI>("StoneText").text = newValue.ToString();
+        UpdateItemsInDatabase();
+    }
+
     public void UpdateItems()
     {
         UpdateCoinText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
         UpdateDinoBloodText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
         UpdateBoneCrystalText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
         UpdateDinoStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]);
+        UpdateStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone]);
     }
 
     private void UpdateItemsInDatabase()
@@ -126,7 +144,8 @@ public class ItemPanel : UIBInder
             ["_items/0"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin],
             ["_items/1"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood],
             ["_items/2"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal],
-            ["_items/3"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]
+            ["_items/3"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone],
+            ["_items/4"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone]
         };
 
         userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
@@ -140,6 +159,21 @@ public class ItemPanel : UIBInder
                 Debug.Log("아이템이 성공적으로 업데이트되었습니다.");
             }
         });
+    }
+
+    // 아이템 이미지 가져오기
+    private void LoadItemImage(string imageName, E_Item itemType)
+    {
+        string itemPath = $"UI/item_{(int)itemType}";
+        Sprite itemSprite = Resources.Load<Sprite>(itemPath);
+        if(itemSprite != null)
+        {
+            GetUI<Image>(imageName).sprite = itemSprite;
+        }
+        else
+        {
+            Debug.LogWarning($"이미지 찾을 수 없음 {itemPath}");
+        }
     }
 
     public void GoLobby(PointerEventData eventData)
