@@ -67,7 +67,7 @@ public abstract class PlayableBaseUnitController : BaseUnitController
 
     protected bool CheckSkillCooltimeBack()
     {
-        if (IsSkillRunning)
+        /*if (IsSkillRunning)
         {
             CoolTimeCounter -= Time.deltaTime;
             return false;
@@ -77,7 +77,7 @@ public abstract class PlayableBaseUnitController : BaseUnitController
         {
             CoolTimeCounter -= Time.deltaTime;
             return false;
-        }
+        }*/
 
         if (CoolTimeCounter <= 0)
         {
@@ -85,7 +85,6 @@ public abstract class PlayableBaseUnitController : BaseUnitController
             return true;
         }
         
-        Debug.LogWarning("예외상황");
         return false;
         
 

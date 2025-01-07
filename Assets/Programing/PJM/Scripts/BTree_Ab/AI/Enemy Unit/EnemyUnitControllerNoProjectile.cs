@@ -19,7 +19,14 @@ public class EnemyUnitControllerNoProjectile : EnemyBaseUnitController
         (
             new List<BaseNode>
             {
-                new ActionNode(CheckDeath),
+                new SelectorNode
+                (
+                    new List<BaseNode>
+                    {
+                        new ActionNode(CheckUnitDying),
+                        new ActionNode(CheckCrowdControl),
+                    }
+                ),
                 new SequenceNode // Attack Dicision
                 (
                     new List<BaseNode>

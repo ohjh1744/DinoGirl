@@ -154,7 +154,7 @@ public class SkillUIView : UIBInder
             return;
         }
         
-        Debug.Log($"스킬버튼 {slotIndex} 터치됨");
+        //Debug.Log($"스킬버튼 {slotIndex} 터치됨");
         slot.SkillOwner.SkillInputed = true;
         //HideSkillSetting(slotIndex);
     }
