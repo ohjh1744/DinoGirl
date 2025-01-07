@@ -176,6 +176,7 @@ public class BattleSceneManager : MonoBehaviour
         _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("ChapterSelect_LJH");
+        Destroy(gameObject);
     }
 
 
