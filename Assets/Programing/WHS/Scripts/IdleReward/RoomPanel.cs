@@ -158,9 +158,9 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
 
-        GetUI<Image>("CoinRewardImage").sprite = null;
-        GetUI<Image>("DinoBloodRewardImage").sprite = null;
-        GetUI<Image>("BoneCrystalRewardImage").sprite = null;
+        LoadItemImage("CoinRewardImage", E_Item.Coin);
+        LoadItemImage("DinoBloodRewardImage", E_Item.DinoBlood);
+        LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
 
         GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
     }
@@ -171,8 +171,22 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Dino Blood : {dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Bone Crystal : {boneCrystal}";
 
-        GetUI<Image>("CoinClaimImage").sprite = null;
-        GetUI<Image>("DinoBloodClaimImage").sprite = null;
-        GetUI<Image>("BoneCrystalClaimImage").sprite = null;
+        LoadItemImage("CoinClaimImage", E_Item.Coin);
+        LoadItemImage("DinoBloodClaimImage", E_Item.DinoBlood);
+        LoadItemImage("BoneCrystalClaimImage", E_Item.BoneCrystal);
+    }
+
+    private void LoadItemImage(string imageName, E_Item itemType)
+    {
+        string imagePath = $"UI/item_{(int)itemType}";
+        Sprite itemSprite = Resources.Load<Sprite>(imagePath);
+        if (itemSprite != null)
+        {
+            GetUI<Image>(imageName).sprite = itemSprite;
+        }
+        else
+        {
+            Debug.LogWarning($"이미지 찾을 수 없음 {imagePath}");
+        }
     }
 }

@@ -102,6 +102,10 @@ public class LevelUpPanel : UIBInder
 
         GetUI<Button>("DecreaseButton").interactable = (curLevelUp > 1);
 
+        LoadItemImage("CoinImage", E_Item.Coin);
+        LoadItemImage("DinoBloodImage", E_Item.DinoBlood);
+        LoadItemImage("BoneCrystalImage", E_Item.BoneCrystal);
+
         if (canLevelUp)
         {
             GetUI<Button>("DecreaseButton").interactable = true;
@@ -444,5 +448,19 @@ public class LevelUpPanel : UIBInder
         GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {newValue}";
         CalculateMaxLevelUp();
         UpdateUI();
+    }
+
+    private void LoadItemImage(string imageName, E_Item itemType)
+    {
+        string itemPath = $"UI/item_{(int)itemType}";
+        Sprite itemSprite = Resources.Load<Sprite>(itemPath);
+        if (itemSprite != null)
+        {
+            GetUI<Image>(imageName).sprite = itemSprite;
+        }
+        else
+        {
+            Debug.LogWarning($"이미지 찾을 수 없음 {itemPath}");
+        }
     }
 }
