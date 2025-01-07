@@ -82,6 +82,7 @@ public class BattleSceneManager : MonoBehaviour
                     unit.MaxHp = inGridObject[i].GetComponent<UnitStat>().MaxHp;
                     unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
                     unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
+                    unit.Increase = inGridObject[i].GetComponent<UnitStat>().Increase;
                     unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
                     myUnitData.Add(unit);
                 }
@@ -161,13 +162,15 @@ public class BattleSceneManager : MonoBehaviour
             int maxHp = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseHp"]);
             int atk = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseATK"]);
             int def = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseDef"]);
+            int inc = int.Parse(CsvDataManager.Instance.DataLists[0][id]["Increase"]);
             string element = CsvDataManager.Instance.DataLists[0][id]["ElementID"];
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
+            
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
                                                                                              // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
-            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element);
+            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element,inc);
         }
     }
     private void BattleSceneStart()

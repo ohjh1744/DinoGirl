@@ -12,6 +12,7 @@ public class UnitsDatas
     [SerializeField] public int Level;
     [SerializeField] public int Id;
     [SerializeField] public string Elemente;
+    [SerializeField] public int Increase;
     [SerializeField] public List<Vector3Int> buffs;
 
 }

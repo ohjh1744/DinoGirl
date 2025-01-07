@@ -1058,7 +1058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &133866155
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1525,7 +1525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b54d5fbf59ba947b76740ce79d97f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stagesCleared: 
   chapterButtons:
   - {fileID: 456367580}
   - {fileID: 976796553}
@@ -1534,6 +1533,8 @@ MonoBehaviour:
   - {fileID: 1604868643}
   - {fileID: 1084463255}
   - {fileID: 154415759}
+  start: 0
+  end: 0
 --- !u!4 &226480927
 Transform:
   m_ObjectHideFlags: 0
@@ -6431,8 +6432,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  curChapterNum: 0
   inGridObject: []
   enemyGridObject: []
+  curStageNum: 0
   myUnits: []
   enemyUnits: []
   myUnitData: []
