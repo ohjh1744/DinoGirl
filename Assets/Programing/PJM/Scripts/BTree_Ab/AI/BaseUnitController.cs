@@ -90,6 +90,12 @@ public abstract class BaseUnitController : MonoBehaviour
     {
         if (Time.timeScale == 0)
             return;
+        
+        // 쿨타임 
+        if (CoolTimeCounter > 0)
+        {
+            CoolTimeCounter -= UnitModel.CoolDownAcc * Time.deltaTime;
+        }
 
         _BTRunner.Operate();
     }
@@ -108,7 +114,7 @@ public abstract class BaseUnitController : MonoBehaviour
         AllianceLayer = LayerMask.GetMask(myLayerName);
     }
 
-    protected BaseNode.ENodeState CheckDeath()
+    protected BaseNode.ENodeState CheckUnitDying()
     {
         if (!_isDying)
             return BaseNode.ENodeState.Failure;
@@ -131,7 +137,18 @@ public abstract class BaseUnitController : MonoBehaviour
 
         return BaseNode.ENodeState.Failure;
     }
-    
+
+    protected BaseNode.ENodeState CheckCrowdControl()
+    {
+        // 더 추가 예정?, 여러 상태이상들이 동시에 걸렸을때 관리 필요
+        switch (UnitModel.CurCc)
+        {
+            case CrowdControls.Stun:
+                return BaseNode.ENodeState.Running;
+            default:
+                return BaseNode.ENodeState.Failure;
+        }
+    }
 
     protected BaseNode.ENodeState SetTargetToAttack()
     {
@@ -152,6 +169,15 @@ public abstract class BaseUnitController : MonoBehaviour
             IsAttacking = false;
             Debug.Log(" 타겟이 유효하지 않아 공격 실패."); // 공격 애니메이션 진행중 대상이 사라졌을 경우?
             return BaseNode.ENodeState.Failure;
+        }
+        
+        // 임시
+        if ((UnitModel.CurCc & CrowdControls.Taunt) != 0) // 걸린 상태이상 중 도발이 있을경우
+        {
+            if (UnitModel.CcCaster != null && UnitModel.CcCaster.gameObject.activeSelf) // 도발을 건 대상이 유효한 대상일 때
+            {
+                CurrentTarget = UnitModel.CcCaster;
+            }
         }
         
 
@@ -175,11 +201,8 @@ public abstract class BaseUnitController : MonoBehaviour
         
         // 공격 진행중, Attack 파라미터 True 상태
         //if (IsAttacking) // 위의 조건이 있어 사실상 필요 없을지도
-            
         
         //if(UnitViewer.IsAnimationRunning())
-        
-        
         
         //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
         {
@@ -205,7 +228,8 @@ public abstract class BaseUnitController : MonoBehaviour
             }
             else // 
             {
-                // 트랜지션 이동중 애니메이션이 블렌딩 되어서? 애니메이션 상태로 확인하면 아래 로그가 출력됨
+                // 트랜지션 이동중 애니메이션이 블렌딩 되어서? 애니메이션 상태로 확인하면 아래 로그가 출력됨 (이건아님)
+                // Todo : 원인 발견및 해결
                 Debug.Log("IsAttacking이 True지만 현재 애니메이션 상태가 Attacking이 아님"); // IsAttacking이 True면 일단 공격중이니 Running 반환
                 //Debug.Log("Attack Bool 파라미터가 True지만 현재 애니메이션 상태가 Attacking이 아님");
                 return BaseNode.ENodeState.Running;
@@ -365,6 +389,13 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected BaseNode.ENodeState SetDetectedTarget()
     {
+        if ((UnitModel.CurCc & CrowdControls.Taunt) != 0) // 걸린 상태이상 중 도발이 있을경우
+        {
+            if (UnitModel.CcCaster != null && UnitModel.CcCaster.gameObject.activeSelf) // 도발을 건 대상이 유효한 대상일 때
+            {
+                DetectedEnemy = UnitModel.CcCaster;
+            }
+        }
         // 이미 감지된 적이 있었을경우엔 수행할 필요 없음,  바로 chase로 전환
         if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
             return BaseNode.ENodeState.Success;

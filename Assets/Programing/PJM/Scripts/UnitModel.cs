@@ -3,14 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[System.Flags]
 public enum CrowdControls
 {
-    Taunt, Stun, None
+    None = 0,
+    Taunt = 1 << 0,
+    Stun = 1 << 1,
 }
 public class UnitModel : MonoBehaviour
 {
-    private Coroutine _crowdControlRoutine;
+    //private Coroutine _crowdControlRoutine;
+    private BaseUnitController _ccCaster;
+    public BaseUnitController CcCaster { get { return _ccCaster; } private set { _ccCaster = value; } }
+    private CrowdControls _curCc;
+    public CrowdControls CurCc { get => _curCc; set => _curCc = value; }
+    
 
 
     public event Action<int> OnHpChanged;
@@ -43,8 +52,15 @@ public class UnitModel : MonoBehaviour
             }
         }
     }
-    private bool _isTaunted = false;
-    public bool IsTaunted { get => _isTaunted; set => _isTaunted = value; }
+    
+    //private Dictionary<CrowdControls, float> _ccDurations = new Dictionary<CrowdControls, float>();
+    
+    /*private bool _isTaunted = false;
+    public bool IsTaunted { get => _isTaunted; set => _isTaunted = value; }*/
+
+    [SerializeField] private float _coolDownAcc = 1.0f;
+    public float CoolDownAcc { get => _coolDownAcc; set => _coolDownAcc = value; }
+    
     [SerializeField] private int _attackPoint;
     public int AttackPoint { get => _attackPoint;  set => _attackPoint = value; }
     [SerializeField] private int _defensePoint;
@@ -92,22 +108,29 @@ public class UnitModel : MonoBehaviour
         
         Hp -= calcDamage;
         
-        Debug.Log($"데미지 : {damage} 받음. 현재 hp : {Hp}/{MaxHp}");
+        //Debug.Log($"데미지 : {damage} 받음.");
     }
 
     public void TakeCrowdControl(CrowdControls crowdControl, float duration, BaseUnitController caster)
     {
+        if(crowdControl == CrowdControls.None)
+            return;
+        
         switch (crowdControl)
         {
             case CrowdControls.Taunt:
+                CurCc |= CrowdControls.Taunt;
+                CcCaster = caster;
+                Debug.Log($"{caster.name}에게 도발당함");
                 OnTaunted?.Invoke();
                 break;
             case CrowdControls.Stun:
+                CurCc |= CrowdControls.Stun;
                 OnStun?.Invoke();
                 break;
         }
         
-        //StartCoroutine()
+        StartCoroutine(RunningCrowdControlRoutine(crowdControl, duration));
     }
 
     public void TakeHeal(int heal)
@@ -138,17 +161,31 @@ public class UnitModel : MonoBehaviour
         //gameObject.SetActive(false);
     }
 
-    private IEnumerator RunningCrowdControlRoutine(float duration)
+    private IEnumerator RunningCrowdControlRoutine(CrowdControls crowdControl, float duration)
     {
         yield return new WaitForSeconds(duration);
+        CurCc &= ~crowdControl;
+        Debug.Log("bbbbbb");
+        Debug.Log($"{gameObject.name}에게 있던 {crowdControl}효과 해제");
+        CcCaster = null;
+
+        // 필요할 경우 군중제어 해제시 이벤트 호출을 위한 Switch문
+        switch (crowdControl)
+        {
+            case CrowdControls.Taunt:
+                break;
+            case CrowdControls.Stun:
+                break;
+        }
     }
 
     private void OnDisable()
     {
-        UnsubscribeTemp();
+        UnsubscribeEvents();
+        StopAllCoroutines();
     }
 
-    private void UnsubscribeTemp()
+    private void UnsubscribeEvents()
     {
         OnHpChanged = null;
         OnDeath = null;

@@ -151,11 +151,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHp: 10
   _hp: 0
+  _coolDownAcc: 1
   _attackPoint: 2
   _defensePoint: 1
   _moveSpeed: 2
   _attackRange: 2
-  _isPriorityTargetFar: 0
+  _isPriorityTargetFar: 1
 --- !u!1001 &4005812529171259529
 PrefabInstance:
   m_ObjectHideFlags: 0

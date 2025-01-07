@@ -32,15 +32,23 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
 
     protected override BaseNode SetBTree()
     {
-        return new SelectorNode
+        return new SelectorNode //Behaviour Selector
         (
             new List<BaseNode>
             {
+                new SelectorNode
+                (
+                    new List<BaseNode>
+                    {
+                        new ActionNode(CheckUnitDying),
+                        new ActionNode(CheckCrowdControl),
+                    }
+                ),
+
                 new SelectorNode // skillable Dicision Selector
                 (
                     new List<BaseNode>
                     {
-                        new ActionNode(CheckDeath),
                         new DecoratorNode
                         (
                             new ConditionNode(IsSkillAlreadyRunning),
