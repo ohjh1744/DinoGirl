@@ -53,9 +53,14 @@ public class UnitModel : MonoBehaviour
         Hp = MaxHp;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         
+    }
+
+    private void Start()
+    {
+       
     }
 
     public void TakeDamage(int damage)
@@ -98,8 +103,10 @@ public class UnitModel : MonoBehaviour
     private void Die()
     {
         Debug.Log($"{gameObject.name} 죽음");
+        
         OnDeath?.Invoke();
-        gameObject.SetActive(false);
+        
+        //gameObject.SetActive(false);
     }
 
     private void OnDisable()

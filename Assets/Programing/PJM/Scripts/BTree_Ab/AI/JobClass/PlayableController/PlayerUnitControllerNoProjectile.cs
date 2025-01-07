@@ -40,6 +40,7 @@ public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
                 (
                     new List<BaseNode>
                     {
+                        new ActionNode(CheckDeath),
                         new DecoratorNode
                         (
                             new ConditionNode(IsSkillAlreadyRunning),

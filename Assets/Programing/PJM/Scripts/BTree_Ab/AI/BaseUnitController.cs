@@ -10,7 +10,8 @@ public abstract class BaseUnitController : MonoBehaviour
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
-    
+    public bool IsDying { get; set; } = false;
+
     private UnitView _unitViewer;
     public UnitView UnitViewer { get => _unitViewer; private set => _unitViewer = value; }
     private UnitModel _unitModel;
@@ -67,6 +68,11 @@ public abstract class BaseUnitController : MonoBehaviour
         UnitModel = GetComponent<UnitModel>();
     }
 
+    protected virtual void OnEnable()
+    {
+        UnitModel.OnDeath += HandleDeath;
+    }
+
     protected virtual void Start()
     {
         SetLayer();
@@ -85,34 +91,13 @@ public abstract class BaseUnitController : MonoBehaviour
         _BTRunner.Operate();
     }
 
-
-    protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
-
-    /*public bool IsAnimationRunning(string stateName)
+    protected void OnDisable()
     {
-        /*AnimatorStateInfo stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
-        
-        return stateInfo.IsName(stateName) && stateInfo.normalizedTime < 1.0f;#1#
-        if (UnitAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
-        {
-            var normalizedTime = UnitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            return normalizedTime != 0 && normalizedTime < 1.0f;
-        }
-        return false;
+        UnitModel.OnDeath -= HandleDeath;
     }
 
-    protected bool IsAnimationFinished(string stateName)
-    {
-        var stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName(stateName))
-        {
-            Debug.Log($"[IsAnimationFinished] {stateName} 상태에서 Normalized Time: {stateInfo.normalizedTime}");
-            return stateInfo.normalizedTime >= 1.0f;
-        }
-        Debug.Log($"[IsAnimationFinished] 현재 상태는 {stateName}이 아님.");
-        return false;
-    }*/
 
+    protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
     protected virtual void SetLayer()
     {
         string myLayerName = LayerMask.LayerToName(gameObject.layer);
@@ -120,19 +105,34 @@ public abstract class BaseUnitController : MonoBehaviour
         AllianceLayer = LayerMask.GetMask(myLayerName);
     }
 
-    /*protected bool IsPerformingAttackOrSkill()
+    protected BaseNode.ENodeState CheckDeath()
     {
-        if (UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)AniState.Attack]))
-        {
-            return true;
-        }
+        if (!IsDying)
+            return BaseNode.ENodeState.Failure;
         
-    }*/
+        var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("Dead"))
+        {
+            if (stateInfo.normalizedTime < 1.0f)
+            {
+                // 죽는중
+                return BaseNode.ENodeState.Running;
+            }
+            else if (stateInfo.normalizedTime >= 1.0f)
+            {
+                IsDying = false;
+                gameObject.SetActive(false);
+                return BaseNode.ENodeState.Success;
+            }
+        }
+
+        return BaseNode.ENodeState.Failure;
+    }
     
-    
+
     protected BaseNode.ENodeState SetTargetToAttack()
     {
-        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
+        if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf && !DetectedEnemy.IsDying)
         {
             CurrentTarget = DetectedEnemy;
             //UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
@@ -143,24 +143,6 @@ public abstract class BaseUnitController : MonoBehaviour
     
     protected BaseNode.ENodeState PerformAttack()
     {
-        // 원하는것
-        // 해당 노드에 들어왔을 때 공격 시작중이 아니었을때(처음 공격시작) 공격 시작, 공격시작 로그 1번
-        // 공격중일 때(Running 반환) 공격 진행 중 로그 지속적으로 출력
-        // 공격이 종료되었을 때 공격 종료 로그 1번, Success 반환
-        // 위의 과정이 명확히 완료되어야 공격 선딜, 후딜도 추가할 수 있을 것 같다
-        
-        
-        // 일단 후딜은 생각하지 말기
-        /*if (_inAttackDelay)
-            return BaseNode.ENodeState.Failure;*/
-        
-        // 타겟이 유효하지 않을때 // 지워도 문제가 해결되지 않음
-        //if (CurrentTarget == null)
-        
-        
-        
-        
-        
         if(CurrentTarget == null || !CurrentTarget.gameObject.activeSelf)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
@@ -197,10 +179,6 @@ public abstract class BaseUnitController : MonoBehaviour
         
         
         //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
-        
-        
-        
-        //기존
         {
             var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
             if (stateInfo.IsName("Attacking"))
@@ -231,8 +209,6 @@ public abstract class BaseUnitController : MonoBehaviour
             }
         }
         
-        
-        
         // 공격을 끝내야 할 경우, AttackRoutine 코루틴에서 애니메이션 길이 이후 IsAttacking을 false로 바꿔줬을 때
         // Attack 파라미터는 아직 True 상태
         //if (!IsAttacking)
@@ -251,8 +227,6 @@ public abstract class BaseUnitController : MonoBehaviour
         Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
         return BaseNode.ENodeState.Failure;
         
-        
-
         /*// 공격을 시작해야하는 경우
         if()
 
@@ -334,15 +308,6 @@ public abstract class BaseUnitController : MonoBehaviour
         IsAttacking = false;
         Debug.Log($"{animationName} 애니메이션 완료: 공격 리셋됨.");
     }
-
-    /*protected IEnumerator AttackDelayRoutine()
-    {
-        _inAttackDelay = true;
-        yield return new WaitForSeconds(_tempDelay);
-        if (_inAttackDelay)
-            _inAttackDelay = false;
-    }*/
-
     protected BaseNode.ENodeState ChaseTarget()
     {
         if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
@@ -454,8 +419,6 @@ public abstract class BaseUnitController : MonoBehaviour
         
     }
     
-    
-    
     // others
     protected void SetDetectingArea()
     {
@@ -464,6 +427,12 @@ public abstract class BaseUnitController : MonoBehaviour
             _bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
             _topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
         }
+    }
+
+    protected void HandleDeath()
+    {
+        IsDying = true;
+        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
     }
     protected void OnDrawGizmos()
     {
