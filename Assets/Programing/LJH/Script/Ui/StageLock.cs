@@ -5,47 +5,43 @@ using UnityEngine.UI;
 
 public class StageLock : MonoBehaviour
 {
-    [SerializeField] bool[] stagesCleared;
+
     [SerializeField] Button[] chapterButtons;
+    [SerializeField] int start;
+    [SerializeField] int end;
 
 
-     
+
     private void OnEnable()
     {
-        //for (int i = 0; i < PlayerDataManager.Instance.PlayerData.IsStageClear.Length; i++)
-        //{
-        //    if (PlayerDataManager.Instance.PlayerData.IsStageClear[i] == false)
-        //    {
-        //        if (i+1 < PlayerDataManager.Instance.PlayerData.IsStageClear.Length) 
-        //        {
-        //           chapterButtons[i + 1].interactable = false;
-        //        }
-        //        else
-        //            break;
-                
-        //    }
-        //}
+        StageLocking();
     }
-    public void StageLocking() 
+    public void StageLocking()
     {
-        //StartCoroutine(delayLocking());
+        StartCoroutine(delayLocking());
     }
 
     IEnumerator delayLocking()
     {
-        yield return new WaitForSeconds(1f);
-        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.IsStageClear.Length; i++)
+        yield return new WaitForSeconds(0.1f);
+        BattleSceneManager.Instance.curChapterNum = start;
+        for (int i = 1; i < chapterButtons.Length; i++)
         {
-            if (PlayerDataManager.Instance.PlayerData.IsStageClear[i] == false)
+            chapterButtons[i].interactable = false;
+        }
+        for (int i = start; i < end; i++)
+        {
+            if (PlayerDataManager.Instance.PlayerData.IsStageClear[i] == true)
             {
-                if (i + 1 < PlayerDataManager.Instance.PlayerData.IsStageClear.Length)
+                if (i != end)
                 {
-                    chapterButtons[i + 1].interactable = false;
+                    Debug.Log(i);
+                    chapterButtons[i + 1-start].interactable = true;
                 }
-                else
-                    break;
+
 
             }
         }
+      
     }
 }

@@ -13,9 +13,10 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private DraggableUI[] Draggables;
-     
-    public bool isAutoOn {get; set; }
-    public bool isGamePaused {get; set; }
+    [SerializeField] public int curChapterNum;
+
+    public bool isAutoOn { get; set; }
+    public bool isGamePaused { get; set; }
 
 
     [SerializeField] public GameObject[] inGridObject;
@@ -32,11 +33,11 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 
     [SerializeField] public BattleState curBattleState;
-    public enum BattleState  
+    public enum BattleState
     {
-        Ready , Battle ,Win , Lose, Stop , size
+        Ready, Battle, Win, Lose, Stop, size
     }
-    public int inGridObjectCount { get;  set; }
+    public int inGridObjectCount { get; set; }
     private void Awake()
     {
         if (_instance == null)
@@ -50,12 +51,12 @@ public class BattleSceneManager : MonoBehaviour
         }
         curBattleState = BattleState.Ready;
 
-        inGridObject = new GameObject[10];  
+        inGridObject = new GameObject[10];
         enemyGridObject = new string[9];
         myUnits = new List<PlayableBaseUnitController>();
         enemyUnits = new List<BaseUnitController>();
         myUnitData = new List<UnitsDatas>();
-        enemyUnitData = new List<UnitsDatas>(); 
+        enemyUnitData = new List<UnitsDatas>();
     }
 
     public UnityEvent startStage;
@@ -63,7 +64,7 @@ public class BattleSceneManager : MonoBehaviour
     {
         
         inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
-
+        Debug.Log($"시작버튼 눌림{inGridObjectCount}");
         if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
         {
             Debug.Log($"출발 인원{inGridObjectCount}");
@@ -81,6 +82,7 @@ public class BattleSceneManager : MonoBehaviour
                     unit.MaxHp = inGridObject[i].GetComponent<UnitStat>().MaxHp;
                     unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
                     unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
+                    unit.Increase = inGridObject[i].GetComponent<UnitStat>().Increase;
                     unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
                     myUnitData.Add(unit);
                 }
@@ -99,19 +101,35 @@ public class BattleSceneManager : MonoBehaviour
                     enemyUnitData.Add(unit);
                 }
             }
-
             _sceneChanger.CanChangeSceen = true;
-            _sceneChanger.ChangeScene("StageBattleScene_LJH");
-            BattleSceneStart();
+            switch (curChapterNum)
+            {
+                case 0:
+                    _sceneChanger.ChangeScene("StageBattleScene_LJH");
+                    Debug.Log($"0번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 7:
+                    _sceneChanger.ChangeScene("StageBattleScene1_LJH");
+                    Debug.Log($"1번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 14:
+                    _sceneChanger.ChangeScene("StageBattleScene2_LJH");
+                    Debug.Log($"2번으로 이동");
+                    BattleSceneStart();
+                    break;
+            }
+            
         }
-        else 
+        else
         {
             Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
         }
     }
     public void BackStage()
     {
-        
+
         for (int i = 0; i < inGridObject.Length; i++)
         {
             inGridObject[i] = null;
@@ -144,38 +162,41 @@ public class BattleSceneManager : MonoBehaviour
             int maxHp = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseHp"]);
             int atk = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseATK"]);
             int def = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseDef"]);
+            int inc = int.Parse(CsvDataManager.Instance.DataLists[0][id]["Increase"]);
             string element = CsvDataManager.Instance.DataLists[0][id]["ElementID"];
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
+            
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
                                                                                              // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
-            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element);
+            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element,inc);
         }
     }
     private void BattleSceneStart()
     {
-        StartCoroutine(BattleSceneStartDelaying()); 
+        StartCoroutine(BattleSceneStartDelaying());
     }
-    IEnumerator BattleSceneStartDelaying() 
+    IEnumerator BattleSceneStartDelaying()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         Spawner spawner = GameObject.Find("Spawner").GetComponent<Spawner>();
         spawner.SpawnUnits();
     }
 
-    public void GoLobby() 
+    public void GoLobby()
     {
         _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("Lobby_OJH");
         Destroy(gameObject);
     }
-    public void GoChapter() 
+    public void GoChapter()
     {
         _sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("ChapterSelect_LJH");
+        Destroy(gameObject);
     }
 
 

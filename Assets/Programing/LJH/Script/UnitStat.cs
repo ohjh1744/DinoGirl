@@ -13,11 +13,12 @@ public class UnitStat : MonoBehaviour
     [SerializeField] public int Level;
     [SerializeField] public int Id;
     [SerializeField] public string Elemente;
+    [SerializeField] public int Increase;
     [SerializeField] public List<Vector3Int> buffs;
 
 
     
-    public void setStats(int pos , int maxhp, int atk, int def, int level, int id, string elemente)
+    public void setStats(int pos , int maxhp, int atk, int def, int level, int id, string elemente,int increase)
     {
         Pos = pos;
         MaxHp = maxhp;
@@ -25,6 +26,7 @@ public class UnitStat : MonoBehaviour
         Def = def;
         Level = level;
         Id = id;
+        Increase = increase;
         Elemente = elemente;
        
     }

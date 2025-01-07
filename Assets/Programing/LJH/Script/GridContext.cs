@@ -18,7 +18,7 @@ public class GridContext : MonoBehaviour
     private Vector2Int[] Type_D = { new Vector2Int(-1, 0), new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 0), new Vector2Int(1, 1) };
     private Vector2Int[] Diagonal_1 = { new Vector2Int(-1, 1) };
     private Vector2Int[] Bak_1 = { new Vector2Int(0, -1) };
-    private Vector2Int[] T_Spine = { new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
+    private Vector2Int[] T_Spin = { new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
     private Vector2Int[] Front_3 = { new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 1) };
     private Vector2Int[] Back_2 = { new Vector2Int(-1, 0), new Vector2Int(-1, 1) };
 
@@ -73,8 +73,8 @@ public class GridContext : MonoBehaviour
             case "Type_D":
                 applyGridBuff(Type_D, curPos, id);
                 break;
-            case "T_Spine":
-                applyGridBuff(T_Spine, curPos, id);
+            case "T_Spin":
+                applyGridBuff(T_Spin, curPos, id);
                 break;
             case "Bak_1":
                 applyGridBuff(Bak_1, curPos, id);

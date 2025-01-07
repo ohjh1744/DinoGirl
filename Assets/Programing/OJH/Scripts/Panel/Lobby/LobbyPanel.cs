@@ -205,7 +205,7 @@ public class LobbyPanel : UIBInder
     private void ChangeChapterScene()
     {
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("ChapterZero_LJH");
+        _sceneChanger.ChangeScene("ChapterSelect_LJH");
     }
 
     private void ChangeCharacterScene()
