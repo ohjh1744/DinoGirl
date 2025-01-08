@@ -178,6 +178,12 @@ public class GachaSceneController : UIBInder
         GachaChar uloro = new GachaChar();
         uloro = uloro.MakeCharList(dataBaseList, uloro, 7);
         charDictionary.Add(uloro.CharId, uloro);
+        GachaChar eost = new GachaChar();
+        eost = eost.MakeCharList(dataBaseList, eost, 8);
+        charDictionary.Add(eost.CharId, eost);
+        GachaChar melorin = new GachaChar();
+        melorin = melorin.MakeCharList(dataBaseList, melorin, 9);
+        charDictionary.Add(melorin.CharId, melorin);
     }
 
     /// <summary>
