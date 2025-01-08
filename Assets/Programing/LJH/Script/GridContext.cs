@@ -31,6 +31,7 @@ public class GridContext : MonoBehaviour
     [SerializeField] Image[] myGrids;
     [SerializeField] Color[] highLightColors;
     [SerializeField] TMP_Text unitCount;
+    [SerializeField] TMP_Text BattlePower;
     private bool mybuff;
 
     private void OnEnable()
@@ -45,6 +46,7 @@ public class GridContext : MonoBehaviour
             if (BattleSceneManager.Instance.inGridObject[i] != null)
             {
                 BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().buffs.Clear();
+                BattleSceneManager.Instance.ClearBuffs();
             }
         }
         for (int i = 1; i < BattleSceneManager.Instance.inGridObject.Length; i++)
@@ -56,12 +58,14 @@ public class GridContext : MonoBehaviour
                     mybuff = true;
                 }
                 showGridArea(i, BattleSceneManager.Instance.inGridObject[i].GetComponent<UnitStat>().Id);
+                
             }
             mybuff = false;
         }
 
         BattleSceneManager.Instance.inGridObjectCount = BattleSceneManager.Instance.inGridObject.Count(inGridObject => inGridObject != null);
         unitCount.text = BattleSceneManager.Instance.inGridObjectCount.ToString() + "/5";
+        //BattlePower.text = "전투력 : " + "";
     }
     public void showGridArea(int gridnum, int id) // 이벤트로 실행됨
     {
@@ -135,6 +139,8 @@ public class GridContext : MonoBehaviour
         int increase = int.Parse(CsvDataManager.Instance.DataLists[0][id]["PercentIncrease"]);
         Vector3Int item = new Vector3Int(id,statid, increase);
         BattleSceneManager.Instance.inGridObject[index].GetComponent<UnitStat>().buffs.Add(item);
+        BattleSceneManager.Instance.inGridObject[index].GetComponent<CharSlot>().buffCount = BattleSceneManager.Instance.inGridObject[index].GetComponent<UnitStat>().buffs.Count;
+        //BattleSceneManager.Instance.inGridObject[index].GetComponent<CharSlot>().onBuffDatas();
     }
     Vector2Int ConvertTo2D(int index)
     {

@@ -15,6 +15,7 @@ public class UnitStat : MonoBehaviour
     [SerializeField] public string Elemente;
     [SerializeField] public int Increase;
     [SerializeField] public float Cool;
+    
     [SerializeField] public List<Vector3Int> buffs;
 
 
@@ -31,5 +32,7 @@ public class UnitStat : MonoBehaviour
         Elemente = elemente;
         Cool = cool;
     }
+
+  
 
 }

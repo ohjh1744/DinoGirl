@@ -10,6 +10,13 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] Transform sourceParent;        // 원본 부모 Transfron
     private RectTransform rect;             // UI 위치 제어를 위한 RectTransform
     private CanvasGroup canvasGroup;        // UI의 알파값(투명도)과 상호작용 제어를 위한 CanvasGroup
+    
+    
+    [SerializeField] public int gridNum;
+
+
+    
+
 
 
     private void Awake()
@@ -63,6 +70,10 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             // 마지막에 소속되어있었던 previousParent의 자식으로 설정하고, 해당 위치로 설정
             transform.SetParent(previousParent);
             rect.position = previousParent.GetComponent<RectTransform>().position;
+            gridNum = 0;
+            gameObject.GetComponent<UnitStat>().buffs.Clear();
+            gameObject.GetComponent<CharSlot>().buffCount = 0;
+            BattleSceneManager.Instance.ClearBuffs();
         }
 
         // 알파값을 1로 설정하고, 광선 충돌처리가 되도록 한다

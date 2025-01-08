@@ -62,7 +62,7 @@ public class BattleSceneManager : MonoBehaviour
     public UnityEvent startStage;
     public void StageStart()
     {
-        
+
         inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
         Debug.Log($"시작버튼 눌림{inGridObjectCount}");
         if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
@@ -83,7 +83,7 @@ public class BattleSceneManager : MonoBehaviour
                     unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
                     unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
                     unit.Increase = inGridObject[i].GetComponent<UnitStat>().Increase;
-                    unit.Cool= inGridObject[i].GetComponent<UnitStat>().Cool;
+                    unit.Cool = inGridObject[i].GetComponent<UnitStat>().Cool;
                     unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
                     myUnitData.Add(unit);
                 }
@@ -121,7 +121,7 @@ public class BattleSceneManager : MonoBehaviour
                     BattleSceneStart();
                     break;
             }
-            
+
         }
         else
         {
@@ -167,11 +167,11 @@ public class BattleSceneManager : MonoBehaviour
             string element = CsvDataManager.Instance.DataLists[0][id]["ElementID"];
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
-            
+
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
                                                                                              // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
-            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element,inc,1);
+            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element, inc, 1);
         }
     }
     private void BattleSceneStart()
@@ -199,6 +199,12 @@ public class BattleSceneManager : MonoBehaviour
         _sceneChanger.ChangeScene("ChapterSelect_LJH");
         Destroy(gameObject);
     }
-
+    public void ClearBuffs()
+    {
+        for (int i = 0; i < Draggables.Length; i++)
+        {
+            Draggables[i].GetComponent<CharSlot>().buffCount = Draggables[i].gameObject.GetComponent<UnitStat>().buffs.Count;
+        }
+    }
 
 }
