@@ -171,6 +171,9 @@ public class SkillUIView : UIBInder
     {
         foreach (SkillSlot slot in SkillSlots)
         {
+            if(slot == null || slot.SkillOwner == null)
+                Debug.LogWarning("dddddddd");
+            
             float remainingTime = slot.SkillOwner.CoolTimeCounter;
             float totalTime = slot.SkillData != null ? slot.SkillData.Cooltime : 0f;
 

@@ -40,10 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6474753676672938087}
+  - component: {fileID: 5438693812105613898}
   - component: {fileID: 6474753676672938084}
   - component: {fileID: 6474753676672938085}
   - component: {fileID: 6474753676672938074}
-  - component: {fileID: 5438693812105613898}
   - component: {fileID: 6474753676672938075}
   m_Layer: 10
   m_Name: Character_2
@@ -70,6 +70,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5438693812105613898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6474753676672938072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3ef4db21fffe84bacb34e2955139a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _centerPosition: {fileID: 580637825599582522}
+  _allianceLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _uniqueSkill: {fileID: 11400000, guid: cae39323de8f5d74288120a2dad37ce8, type: 2}
+  _projectilePrefab: {fileID: 7228187741322693185, guid: 20dbe2d7a24f3c64b8723fadac026c03, type: 3}
+  _muzzlePoint: {fileID: 6678669358850619009}
 --- !u!114 &6474753676672938084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,28 +141,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0, y: 3.5}
   m_Size: {x: 3, y: 7}
   m_Direction: 0
---- !u!114 &5438693812105613898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6474753676672938072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a3ef4db21fffe84bacb34e2955139a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _centerPosition: {fileID: 0}
-  _allianceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _uniqueSkill: {fileID: 11400000, guid: cae39323de8f5d74288120a2dad37ce8, type: 2}
-  _projectilePrefab: {fileID: 7228187741322693185, guid: 20dbe2d7a24f3c64b8723fadac026c03, type: 3}
-  _muzzlePoint: {fileID: 6678669358850619009}
 --- !u!114 &6474753676672938075
 MonoBehaviour:
   m_ObjectHideFlags: 0

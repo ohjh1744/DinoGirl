@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnitControllerHasProjectile : PlayableBaseUnitController
+public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
 {
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Transform _muzzlePoint;
@@ -111,7 +111,7 @@ public class PlayerUnitControllerHasProjectile : PlayableBaseUnitController
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
-        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]))
+        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]) && _projectileObject == null)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
@@ -148,7 +148,7 @@ public class PlayerUnitControllerHasProjectile : PlayableBaseUnitController
                 }
                 else if (stateInfo.normalizedTime >= 1.0f && _projectileObject == null)
                 {
-                    // 공격 애니메이션이 끝났을 경우
+                    // 공격 애니메이션이 끝났을 경우 + 공격 투사체가 사라졌을 경우
                     Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
                     UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
                     IsAttacking = false;
