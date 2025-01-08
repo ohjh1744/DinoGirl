@@ -4,11 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO : 캐릭터 뽑기 시 DOTween으로 제작한 컷신 출력
-// 1. 컷신 출력 중 터치 시, 컷신 중단 / 비활성화
-// 2. 캐릭터에 알맞은 컷신 생성
-// 3. 10연차 시, 뽑힌 캐릭터 순서대로 재생이 필요
-
 /// <summary>
 /// GachaScene의 전체적인 관리를 하는 스크립트
 /// - CsvDataManager와 연결
@@ -21,13 +16,13 @@ public class GachaSceneController : UIBInder
 
     // csvDataManager.cs에서 가져올 특정 DataList를 받을 Disctionary
     private Dictionary<int, Dictionary<string, string>> dataBaseList = new Dictionary<int, Dictionary<string, string>>();
-    private Dictionary<int, GachaItem> itemDictionary = new Dictionary<int, GachaItem>();
-    private Dictionary<int, GachaChar> charDictionary = new Dictionary<int, GachaChar>();
-    private Dictionary<int, GachaItemReturn> charReturnItemDic = new Dictionary<int, GachaItemReturn>();
+    private Dictionary<int, GachaItem> itemDictionary = new Dictionary<int, GachaItem>(); // 아이템 Dictionary
+    private Dictionary<int, GachaChar> charDictionary = new Dictionary<int, GachaChar>(); // 캐릭터 Dictionary
+    private Dictionary<int, GachaItemReturn> charReturnItemDic = new Dictionary<int, GachaItemReturn>(); // 중복 캐릭터 반환 아이템 Dictionary
 
-    private List<Gacha> baseGachaList = new List<Gacha>();
+    private List<Gacha> baseGachaList = new List<Gacha>(); // 기본 뽑기 List
     public List<Gacha> BaseGachaList { get { return baseGachaList; } set { baseGachaList = value; } }
-    private List<Gacha> eventGachaList = new List<Gacha>();
+    private List<Gacha> eventGachaList = new List<Gacha>(); // 이벤트 뽑기 List
     public List<Gacha> EventGachaList { get { return baseGachaList; } set { baseGachaList = value; } }
 
     [Header("UI")]
@@ -230,6 +225,7 @@ public class GachaSceneController : UIBInder
     /// </summary>
     private void ShowBaseGachaPanel()
     {
+        // 기본 패널 활성화
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(true);
         GetUI<Image>("EventGachaPanel").gameObject.SetActive(false);
         // 돌아가는 버튼 활성화
@@ -250,6 +246,7 @@ public class GachaSceneController : UIBInder
     /// </summary>
     private void ShowEventGachaPanel()
     {
+        // 이벤트 패널 활성화
         GetUI<Image>("EventGachaPanel").gameObject.SetActive(true);
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(false);
         // 돌아가는 버튼 활성화

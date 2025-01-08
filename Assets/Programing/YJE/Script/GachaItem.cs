@@ -67,9 +67,9 @@ public class GachaItem : MonoBehaviour
     /// <returns></returns>
     public GameObject SetGachaItemUI(GachaItem gachaItem, GameObject resultUI)
     {
-        resultUI.gameObject.GetComponent<GachaItem>().itemId = gachaItem.itemId;
-        resultUI.gameObject.GetComponent<GachaItem>().itemName = gachaItem.itemName;
-        resultUI.gameObject.GetComponent<GachaItem>().amount = gachaItem.amount;
+        resultUI.GetComponent<GachaItem>().itemId = gachaItem.itemId;
+        resultUI.GetComponent<GachaItem>().itemName = gachaItem.itemName;
+        resultUI.GetComponent<GachaItem>().amount = gachaItem.amount;
 
         // 알맞은 UI 출력
         resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;
@@ -88,8 +88,8 @@ public class GachaItem : MonoBehaviour
     /// <returns></returns>
     public GameObject SetGachaReturnItemUI(GachaItem gachaItem, GameObject resultUI)
     {
-        resultUI.gameObject.GetComponent<GachaItem>().itemId = gachaItem.itemId;
-        resultUI.gameObject.GetComponent<GachaItem>().amount = gachaItem.amount;
+        resultUI.GetComponent<GachaItem>().itemId = gachaItem.itemId;
+        resultUI.GetComponent<GachaItem>().amount = gachaItem.amount;
 
         // 알맞은 UI 출력
         resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;

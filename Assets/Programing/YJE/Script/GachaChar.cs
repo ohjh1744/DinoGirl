@@ -26,6 +26,9 @@ public class GachaChar : MonoBehaviour
     private int amount;
     public int Amount { get { return amount; } set { amount = value; } }
 
+    // 뽑기 시 출력할 컷씬    
+    // Resources 폴더에 있는 이미지를 연동하여 사용함
+    // Resources.Load<Sprite>("파일경로/파일명");
     private GameObject video;
     public GameObject Video { get { return video; } set { video = value; } }
 
@@ -94,9 +97,9 @@ public class GachaChar : MonoBehaviour
     public GameObject SetGachaCharUI(GachaChar gachaChar, GameObject resultCharUI)
     {
         // 데이터 설정
-        resultCharUI.gameObject.GetComponent<GachaChar>().charId = gachaChar.charId;
-        resultCharUI.gameObject.GetComponent<GachaChar>().charName = gachaChar.CharName;
-        resultCharUI.gameObject.GetComponent<GachaChar>().rarity = gachaChar.rarity;
+        resultCharUI.GetComponent<GachaChar>().charId = gachaChar.charId;
+        resultCharUI.GetComponent<GachaChar>().charName = gachaChar.CharName;
+        resultCharUI.GetComponent<GachaChar>().rarity = gachaChar.rarity;
         resultCharUI.GetComponent<GachaChar>().video = gachaChar.video;
 
         // UI 출력 설정
