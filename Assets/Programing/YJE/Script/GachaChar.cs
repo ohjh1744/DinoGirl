@@ -51,37 +51,47 @@ public class GachaChar : MonoBehaviour
             case 1:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/2_testCelesProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/1_testTricia");
-                result.video = Resources.Load<GameObject>("Characters/1_Tricia");
+                result.video = Resources.Load<GameObject>("Prefab/1_Tricia");
                 break;
             case 2:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/2_testCelesProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/2_testCeles");
-                result.video = Resources.Load<GameObject>("Characters/2_Celes");
+                result.video = Resources.Load<GameObject>("Prefab/2_Celes");
                 break;
             case 3:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/3_testReginaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/3_testRegina");
-                result.video = Resources.Load<GameObject>("Characters/3_Regina");
+                result.video = Resources.Load<GameObject>("Prefab/3_Regina");
                 break;
             case 4:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/4_testSpinneProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/4_testSpinne");
-                result.video = Resources.Load<GameObject>("Characters/4_Spinne");
+                result.video = Resources.Load<GameObject>("Prefab/4_Spinne");
                 break;
             case 5:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/5_testAila");
-                result.video = Resources.Load<GameObject>("Characters/5_Aila");
+                result.video = Resources.Load<GameObject>("Prefab/5_Aila");
                 break;
             case 6:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/6_testQuezna.png");
-                result.video = Resources.Load<GameObject>("Characters/6_Quezna");
+                result.video = Resources.Load<GameObject>("Prefab/6_Quezna");
                 break;
             case 7:
                 result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
                 result.charGachaImage = Resources.Load<Sprite>("Characters/7_testUloro");
-                result.video = Resources.Load<GameObject>("Characters/7_Uloro");
+                result.video = Resources.Load<GameObject>("Prefab/7_Uloro");
+                break;
+            case 8:
+                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
+                result.charGachaImage = Resources.Load<Sprite>("Characters/6_testQuezna.png");
+                result.video = Resources.Load<GameObject>("Prefab/8_Eost");
+                break;
+            case 9:
+                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
+                result.charGachaImage = Resources.Load<Sprite>("Characters/7_testUloro");
+                result.video = Resources.Load<GameObject>("Prefab/9_Melorin");
                 break;
         }
         return result;
