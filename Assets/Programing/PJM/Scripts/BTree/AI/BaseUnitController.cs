@@ -174,6 +174,7 @@ public abstract class BaseUnitController : MonoBehaviour
             return BaseNode.ENodeState.Failure;
         }
         
+        
         // 임시
         if ((UnitModel.CurCc & CrowdControls.Taunt) != 0) // 걸린 상태이상 중 도발이 있을경우
         {
@@ -383,6 +384,11 @@ public abstract class BaseUnitController : MonoBehaviour
     {
         if(DetectedEnemy != null && DetectedEnemy.gameObject.activeSelf)
         {
+            if (CurrentTarget != null && CurrentTarget.gameObject.activeSelf)
+            {
+                float sqrDistanceToCur = Vector2.SqrMagnitude(CurrentTarget.gameObject.transform.position - transform.position);
+                return sqrDistanceToCur <= UnitModel.AttackRange * UnitModel.AttackRange;
+            }
             float sqrDistance = Vector2.SqrMagnitude(DetectedEnemy.gameObject.transform.position - transform.position);
             return sqrDistance <= UnitModel.AttackRange * UnitModel.AttackRange;
         }
