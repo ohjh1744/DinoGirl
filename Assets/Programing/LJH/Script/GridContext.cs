@@ -17,10 +17,15 @@ public class GridContext : MonoBehaviour
     private Vector2Int[] Diagonal_2 = { new Vector2Int(-1, -1), new Vector2Int(1, -1) };
     private Vector2Int[] Type_D = { new Vector2Int(-1, 0), new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 0), new Vector2Int(1, 1) };
     private Vector2Int[] Diagonal_1 = { new Vector2Int(-1, 1) };
-    private Vector2Int[] Bak_1 = { new Vector2Int(0, -1) };
+    private Vector2Int[] Back_1 = { new Vector2Int(0, -1) };
     private Vector2Int[] T_Spin = { new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
     private Vector2Int[] Front_3 = { new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 1) };
     private Vector2Int[] Back_2 = { new Vector2Int(-1, 0), new Vector2Int(-1, 1) };
+
+    private Vector2Int[] Front_T = { new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(0, 1) };
+    private Vector2Int[] Side_UpDown = { new Vector2Int(0, -1), new Vector2Int(0, 1)};
+    private Vector2Int[] Side_FrontBack = { new Vector2Int(0, -1), new Vector2Int(0, 1)};
+    private Vector2Int[] Front_L = { new Vector2Int(-1, 1), new Vector2Int(1, 0)};
 
 
     [SerializeField] Image[] myGrids;
@@ -76,8 +81,8 @@ public class GridContext : MonoBehaviour
             case "T_Spin":
                 applyGridBuff(T_Spin, curPos, id);
                 break;
-            case "Bak_1":
-                applyGridBuff(Bak_1, curPos, id);
+            case "Back_1":
+                applyGridBuff(Back_1, curPos, id);
                 break;
             case "Diagonal_1":
                 applyGridBuff(Diagonal_1, curPos, id);
@@ -87,6 +92,18 @@ public class GridContext : MonoBehaviour
                 break;
             case "Back_2":
                 applyGridBuff(Back_2, curPos, id);
+                break;
+            case "Front_T":
+                applyGridBuff(Front_T, curPos, id);
+                break;
+            case "Side_UpDown":
+                applyGridBuff(Side_UpDown, curPos, id);
+                break;
+            case "Side_FrontBack":
+                applyGridBuff(Side_FrontBack, curPos, id);
+                break;
+            case "Front_L":
+                applyGridBuff(Front_L, curPos, id);
                 break;
         }
     }

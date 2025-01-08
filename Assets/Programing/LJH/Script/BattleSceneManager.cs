@@ -83,6 +83,7 @@ public class BattleSceneManager : MonoBehaviour
                     unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
                     unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
                     unit.Increase = inGridObject[i].GetComponent<UnitStat>().Increase;
+                    unit.Cool= inGridObject[i].GetComponent<UnitStat>().Cool;
                     unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
                     myUnitData.Add(unit);
                 }
@@ -170,7 +171,7 @@ public class BattleSceneManager : MonoBehaviour
             Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
                                                                                              // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
-            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element,inc);
+            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element,inc,1);
         }
     }
     private void BattleSceneStart()
