@@ -74,8 +74,14 @@ public class CharacterSlot : UIBInder
     private void OnClick(PointerEventData eventData)
     {
         characterPanel.SetActive(true);
+        BackButtonManager.Instance.AddBackAction(ClosePanel);
 
         characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
+    }
+
+    public void ClosePanel()
+    {
+        characterPanel.SetActive(false);
     }
 
     public PlayerUnitData GetCharacter()

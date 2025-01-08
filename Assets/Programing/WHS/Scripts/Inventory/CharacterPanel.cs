@@ -149,10 +149,16 @@ public class CharacterPanel : UIBInder
         if (curCharacter != null && curCharacter.UnitLevel < 30)
         {
             levelUpPanel.gameObject.SetActive(true);
+            BackButtonManager.Instance.AddBackAction(ClosePanel);
 
             LevelUpPanel levelUp = levelUpPanel.GetComponent<LevelUpPanel>();
             levelUp.Init(curCharacter);
         }
+    }
+
+    public void ClosePanel()
+    {
+        levelUpPanel.SetActive(false);
     }
 
     // 레벨당 스탯 계산
