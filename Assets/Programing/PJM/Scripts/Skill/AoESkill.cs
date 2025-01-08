@@ -7,6 +7,7 @@ public class AoESkill : Skill
 {
     public float areaAngle;
     public LayerMask targetLayer;
+    
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
@@ -84,7 +85,6 @@ public class AoESkill : Skill
                 }
             }
         }
-        Debug.LogWarning("wwww");
         return BaseNode.ENodeState.Failure;
     }
 

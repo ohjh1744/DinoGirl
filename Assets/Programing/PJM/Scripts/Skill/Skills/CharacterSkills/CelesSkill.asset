@@ -9,19 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16db69d3c8a62044c804c8128bf3f500, type: 3}
-  m_Name: ReginaSkill
+  m_Script: {fileID: 11500000, guid: 6ce3950f69c3c2f45b875ffcae4ca404, type: 3}
+  m_Name: CelesSkill
   m_EditorClassIdentifier: 
-  _skillName: 
-  _skillRange: 5
-  _maxTargetingNum: 0
+  _skillName: Nature's Mercy
+  _skillRange: 10
+  _maxTargetingNum: 1
   _isPriorityTargetFar: 0
-  skillRatio: 40
-  cooltime: 5
+  skillRatio: 0.5
+  cooltime: 14
   crowdControl: 0
   ccDuration: 0
-  _skillIcon: {fileID: 8120480097366485422, guid: cd213ec28be66ea429189afcc17842a5, type: 3}
-  areaAngle: 180
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 2048
+  _skillIcon: {fileID: 21300000, guid: b5fb73b0d6bf20b4287ccc0d8c1086d1, type: 3}
