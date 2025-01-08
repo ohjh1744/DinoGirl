@@ -31,13 +31,13 @@ public class Spawner : MonoBehaviour
                     switch (BattleSceneManager.Instance.myUnitData[i].buffs[j].y) 
                     {
                         case 1:
-                            buffAtk += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;
+                            buffHp += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;
                             break;
                         case 2:
-                            buffDef += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;
+                            buffAtk += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;
                             break;
                         case 3:
-                            buffHp += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;
+                            buffDef += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;
                             break;
                         case 4:
                             buffCool += BattleSceneManager.Instance.myUnitData[i].buffs[j].z;

@@ -43,14 +43,14 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
     public UnityEvent DropinGrid; 
     public void OnDrop(PointerEventData eventData)
 	{
-		if (isFull == true)  
+        BattleSceneManager.Instance.ClearBuffs();
+        if (isFull == true)  
 		{
 			return;
 		}
 		if (gridNum == 0) 
 		{
-           
-           return; 
+            return; 
 		}
 		// pointerDrag는 현재 드래그하고 있는 대상(=아이템)
 		if ( eventData.pointerDrag != null )
@@ -58,11 +58,12 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 			// 드래그하고 있는 대상의 부모를 현재 오브젝트로 설정하고, 위치를 현재 오브젝트 위치와 동일하게 설정
 			eventData.pointerDrag.transform.SetParent(transform);
 			eventData.pointerDrag.GetComponent<RectTransform>().position = rect.position;
-
+			eventData.pointerDrag.GetComponent<DraggableUI>().gridNum = gridNum;
 			BattleSceneManager.Instance.inGridObject[gridNum] = eventData.pointerDrag;
             isFull = true;
 		}
 		DropinGrid?.Invoke();
+		
 	}
     public void OnTransformChildrenChanged() // 자식의 수가 변경될때마다 호출
     {
