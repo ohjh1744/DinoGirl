@@ -13,19 +13,19 @@ using UnityEngine.UI;
 
 public class LevelUpPanel : UIBInder
 {
-    private PlayerUnitData targetCharacter;
-    private int maxLevelUp;
-    private int curLevelUp;
+    private PlayerUnitData _targetCharacter;
+    private int _maxLevelUp;
+    private int _curLevelUp;
     private const int MAXLEVEL = 30;
 
-    private Dictionary<int, Dictionary<string, string>> levelUpData;
-    private Dictionary<int, Dictionary<string, string>> characterData;
+    private Dictionary<int, Dictionary<string, string>> _levelUpData;
+    private Dictionary<int, Dictionary<string, string>> _characterData;
 
     private struct RequiredItems
     {
-        public int coin;
-        public int dinoBlood;
-        public int boneCrystal;
+        public int Coin;
+        public int DinoBlood;
+        public int BoneCrystal;
     }
 
     private void Awake()
@@ -34,15 +34,15 @@ public class LevelUpPanel : UIBInder
         AddEvent("LevelUpConfirm", EventType.Click, OnConfirmButtonClick);
         GetUI<Slider>("LevelUpSlider").onValueChanged.AddListener(OnSliderValueChanged);
         AddEvent("DecreaseButton", EventType.Click, OnDecreaseButtonClick);
-        AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);        
+        AddEvent("IncreaseButton", EventType.Click, OnIncreaseButtonClick);
 
-        levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
-        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        _levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
+        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
-        Debug.Log($"levelUpData count: {levelUpData.Count}");
-        foreach (var key in levelUpData.Keys)
+        Debug.Log($"levelUpData count: {_levelUpData.Count}");
+        foreach (var key in _levelUpData.Keys)
         {
-            Debug.Log($"Key: {key}, Value: {levelUpData[key]["500"]}, {levelUpData[key]["501"]}, {levelUpData[key]["502"]}");
+            Debug.Log($"Key: {key}, Value: {_levelUpData[key]["500"]}, {_levelUpData[key]["501"]}, {_levelUpData[key]["502"]}");
         }
     }
 
@@ -67,18 +67,18 @@ public class LevelUpPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= UpdateBoneCrystalText;
         }
     }
- 
+
     // 레벨업 패널이 열릴때 초기화
     public void Init(PlayerUnitData character)
     {
-        targetCharacter = character;
+        _targetCharacter = character;
         CalculateMaxLevelUp();
 
         Slider slider = GetUI<Slider>("LevelUpSlider");
         slider.minValue = 1;
-        slider.maxValue = maxLevelUp;
+        slider.maxValue = _maxLevelUp;
         slider.value = 1;
-        curLevelUp = 1;
+        _curLevelUp = 1;
 
         UpdateUI();
     }
@@ -86,22 +86,22 @@ public class LevelUpPanel : UIBInder
     // 슬라이더 값 갱신
     private void OnSliderValueChanged(float value)
     {
-        curLevelUp = Mathf.RoundToInt(value);
+        _curLevelUp = Mathf.RoundToInt(value);
         UpdateUI();
     }
 
     // 재화소모량 갱신
     private void UpdateUI()
     {
-        RequiredItems items = CalculateRequiredItems(curLevelUp);
+        RequiredItems items = CalculateRequiredItems(_curLevelUp);
 
-        int notEnoughCoin = Mathf.Max(0, items.coin - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
-        int notEnoughDinoBlood = Mathf.Max(0, items.dinoBlood - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
-        int notEnoughBoneCrystal = Mathf.Max(0, items.boneCrystal - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
+        int notEnoughCoin = Mathf.Max(0, items.Coin - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
+        int notEnoughDinoBlood = Mathf.Max(0, items.DinoBlood - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
+        int notEnoughBoneCrystal = Mathf.Max(0, items.BoneCrystal - PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
 
         bool canLevelUp = (notEnoughCoin == 0 && notEnoughDinoBlood == 0 && notEnoughBoneCrystal == 0);
 
-        GetUI<Button>("DecreaseButton").interactable = (curLevelUp > 1);
+        GetUI<Button>("DecreaseButton").interactable = (_curLevelUp > 1);
 
         LoadItemImage("CoinImage", E_Item.Coin);
         LoadItemImage("DinoBloodImage", E_Item.DinoBlood);
@@ -114,9 +114,9 @@ public class LevelUpPanel : UIBInder
             GetUI<Slider>("LevelUpSlider").interactable = true;
             GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(true);
 
-            GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {items.coin}";
-            GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.dinoBlood}";
-            GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.boneCrystal}";
+            GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {items.Coin}";
+            GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {items.DinoBlood}";
+            GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {items.BoneCrystal}";
         }
         else
         {
@@ -125,16 +125,16 @@ public class LevelUpPanel : UIBInder
             GetUI<Slider>("LevelUpSlider").interactable = false;
             GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(false);
 
-            if (notEnoughCoin > 0) 
-            { 
+            if (notEnoughCoin > 0)
+            {
                 GetUI<TextMeshProUGUI>("CoinText").text = $"Coin {notEnoughCoin} 부족";
             }
             else
             {
                 GetUI<TextMeshProUGUI>("CoinText").text = $"Coin 충분함";
             }
-            if (notEnoughDinoBlood > 0) 
-            { 
+            if (notEnoughDinoBlood > 0)
+            {
                 GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood {notEnoughDinoBlood} 부족";
             }
             else
@@ -151,13 +151,13 @@ public class LevelUpPanel : UIBInder
             }
         }
 
-        if (targetCharacter.UnitLevel + curLevelUp > MAXLEVEL)
+        if (_targetCharacter.UnitLevel + _curLevelUp > MAXLEVEL)
         {
-            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.UnitLevel} -> Lv.{MAXLEVEL} (MAX)";
+            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{_targetCharacter.UnitLevel} -> Lv.{MAXLEVEL} (MAX)";
         }
         else
         {
-            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{targetCharacter.UnitLevel} -> Lv.{targetCharacter.UnitLevel + curLevelUp}";
+            GetUI<TextMeshProUGUI>("LevelText").text = $"Lv.{_targetCharacter.UnitLevel} -> Lv.{_targetCharacter.UnitLevel + _curLevelUp}";
         }
 
         GetUI<Button>("LevelUpConfirm").interactable = canLevelUp;
@@ -166,17 +166,17 @@ public class LevelUpPanel : UIBInder
     // 레벨업 할 최대치
     private void CalculateMaxLevelUp()
     {
-        maxLevelUp = 0;
-        while (CanLevelUp(maxLevelUp + 1) && (targetCharacter.UnitLevel + maxLevelUp + 1) <= MAXLEVEL)
+        _maxLevelUp = 0;
+        while (CanLevelUp(_maxLevelUp + 1) && (_targetCharacter.UnitLevel + _maxLevelUp + 1) <= MAXLEVEL)
         {
-            maxLevelUp++;
+            _maxLevelUp++;
         }
     }
 
     // 레벨업 가능 여부
     private bool CanLevelUp(int level)
     {
-        if (targetCharacter.UnitLevel + level > MAXLEVEL)
+        if (_targetCharacter.UnitLevel + level > MAXLEVEL)
         {
             return false;
         }
@@ -184,9 +184,9 @@ public class LevelUpPanel : UIBInder
         RequiredItems items = CalculateRequiredItems(level);
 
         // 레벨업에 충분한 아이템 보유중일때 true
-        return PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
-               PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
-               PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal;
+        return PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.Coin &&
+               PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.DinoBlood &&
+               PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.BoneCrystal;
     }
 
     // 요구 재화량 계산
@@ -197,7 +197,7 @@ public class LevelUpPanel : UIBInder
 
         for (int i = 0; i < level; i++)
         {
-            int curLevel = targetCharacter.UnitLevel + i + 1;
+            int curLevel = _targetCharacter.UnitLevel + i + 1;
             int levelUpId = FindLevelUpId(rarity, curLevel);
 
             if (curLevel > MAXLEVEL)
@@ -205,19 +205,19 @@ public class LevelUpPanel : UIBInder
                 break;
             }
 
-            if (levelUpData.TryGetValue(levelUpId, out Dictionary<string, string> data))
+            if (_levelUpData.TryGetValue(levelUpId, out Dictionary<string, string> data))
             {
                 if (int.TryParse(data["500"], out int coin))
                 {
-                    items.coin += coin;
+                    items.Coin += coin;
                 }
                 if (int.TryParse(data["501"], out int dinoBlood))
                 {
-                    items.dinoBlood += dinoBlood;
+                    items.DinoBlood += dinoBlood;
                 }
                 if (data.ContainsKey("502") && int.TryParse(data["502"], out int boneCrystal))
                 {
-                    items.boneCrystal += boneCrystal;
+                    items.BoneCrystal += boneCrystal;
                 }
             }
             else
@@ -232,7 +232,7 @@ public class LevelUpPanel : UIBInder
     // 레어도 가져오기
     private int GetRarity()
     {
-        if (characterData.TryGetValue(targetCharacter.UnitId, out var data))
+        if (_characterData.TryGetValue(_targetCharacter.UnitId, out var data))
         {
             if (int.TryParse(data["Rarity"], out int rarity))
             {
@@ -241,7 +241,7 @@ public class LevelUpPanel : UIBInder
         }
         else
         {
-            Debug.LogError($"ID 찾을 수 없음 {targetCharacter.UnitId}");
+            Debug.LogError($"ID 찾을 수 없음 {_targetCharacter.UnitId}");
         }
 
         return -1;
@@ -250,12 +250,12 @@ public class LevelUpPanel : UIBInder
     // LevelUpID 가져오기
     private int FindLevelUpId(int rarity, int level)
     {
-        if(level > MAXLEVEL)
+        if (level > MAXLEVEL)
         {
             return -1;
         }
 
-        foreach(var entry in levelUpData)
+        foreach (var entry in _levelUpData)
         {
             // 레어도와 레벨이 같을 때의 키 = LevelUpID 받아오기
             if (int.Parse(entry.Value["Rarity"]) == rarity &&
@@ -273,27 +273,27 @@ public class LevelUpPanel : UIBInder
     // 레벨업 확인 버튼
     private void OnConfirmButtonClick(PointerEventData eventData)
     {
-        if(targetCharacter.UnitLevel + curLevelUp > MAXLEVEL)
+        if (_targetCharacter.UnitLevel + _curLevelUp > MAXLEVEL)
         {
             return;
         }
 
-        RequiredItems items = CalculateRequiredItems(curLevelUp);
+        RequiredItems items = CalculateRequiredItems(_curLevelUp);
 
         // 아이템이 충분한지 확인하고 레벨업 진행
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.coin &&
-            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.dinoBlood &&
-            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.boneCrystal)
+        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] >= items.Coin &&
+            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] >= items.DinoBlood &&
+            PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] >= items.BoneCrystal)
         {
-            for (int i = 0; i < curLevelUp; i++)
+            for (int i = 0; i < _curLevelUp; i++)
             {
-                LevelUp(targetCharacter);
+                LevelUp(_targetCharacter);
             }
 
             // UI 및 데이터베이스 업데이트
             UpdateItemsData(items);
-            UpdateCharacters(targetCharacter);
-            UpdateLevelData(targetCharacter);
+            UpdateCharacters(_targetCharacter);
+            UpdateLevelData(_targetCharacter);
 
             gameObject.SetActive(false);
         }
@@ -304,15 +304,15 @@ public class LevelUpPanel : UIBInder
     {
         RequiredItems items = CalculateRequiredItems(1); // 단일 레벨업에 대한 아이템 계산
 
-        if (items.coin == 0 && items.dinoBlood == 0 && items.boneCrystal == 0)
+        if (items.Coin == 0 && items.DinoBlood == 0 && items.BoneCrystal == 0)
         {
             Debug.Log("요구 아이템 정보를 찾을 수 없습니다.");
             return false;
         }
 
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.coin);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.dinoBlood);
-        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.boneCrystal);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin] - items.Coin);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood] - items.DinoBlood);
+        PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal] - items.BoneCrystal);
 
         character.UnitLevel++;
 
@@ -430,11 +430,11 @@ public class LevelUpPanel : UIBInder
             return;
 
         }
-        if (curLevelUp > 0)
+        if (_curLevelUp > 0)
         {
-            curLevelUp--;
+            _curLevelUp--;
             UpdateUI();
-            GetUI<Slider>("LevelUpSlider").value = curLevelUp;
+            GetUI<Slider>("LevelUpSlider").value = _curLevelUp;
         }
 
     }
@@ -447,11 +447,11 @@ public class LevelUpPanel : UIBInder
             return;
 
         }
-        if (curLevelUp < maxLevelUp && (targetCharacter.UnitLevel + curLevelUp) + 1 <= MAXLEVEL)
+        if (_curLevelUp < _maxLevelUp && (_targetCharacter.UnitLevel + _curLevelUp) + 1 <= MAXLEVEL)
         {
-            curLevelUp++;
+            _curLevelUp++;
             UpdateUI();
-            GetUI<Slider>("LevelUpSlider").value = curLevelUp;
+            GetUI<Slider>("LevelUpSlider").value = _curLevelUp;
         }
     }
 

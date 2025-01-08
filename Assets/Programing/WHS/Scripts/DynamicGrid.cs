@@ -10,16 +10,18 @@ public class DynamicGrid : MonoBehaviour
     private RectTransform parent;
     private GridLayoutGroup grid;
 
-    private void Start()
+    private void Awake()
     {
         parent = gameObject.GetComponent<RectTransform>();
         grid = gameObject.GetComponent<GridLayoutGroup>();
+    }
 
+    private void Start()
+    {
         characterCount = GetCharacterCount();
         SetDynamicGrid();
     }
-    
-    
+
     private void OnRectTransformDimensionsChange()
     {
         /*
@@ -28,21 +30,14 @@ public class DynamicGrid : MonoBehaviour
         #endif
         */
 
-        if(Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)
         {
             SetDynamicGrid();
         }
     }
-    
 
     private void SetDynamicGrid()
     {
-        if (grid == null || parent == null)
-    {
-        Debug.LogWarning("Grid or parent is null in SetDynamicGrid");
-        return;
-    }
-
         int cols = 5;
         int rows = Mathf.CeilToInt((float)characterCount / cols);
 

@@ -73,6 +73,7 @@ public class ItemPanel : UIBInder
         }
     }
 
+    // 아이템 정보 초기화
     private void Init()
     {
         if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null)
@@ -95,6 +96,7 @@ public class ItemPanel : UIBInder
         LoadItemImage("StoneImage", E_Item.Stone);
     }
 
+    // 아이템 숫자 갱신
     private void UpdateCoinText(int newValue)
     {
         GetUI<TextMeshProUGUI>("CoinText").text = newValue.ToString();
@@ -125,6 +127,7 @@ public class ItemPanel : UIBInder
         UpdateItemsInDatabase();
     }
 
+    // DataManager에 아이템 갱신
     public void UpdateItems()
     {
         UpdateCoinText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
@@ -134,6 +137,7 @@ public class ItemPanel : UIBInder
         UpdateStoneText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone]);
     }
 
+    // DB에 아이템 갱신
     private void UpdateItemsInDatabase()
     {
         string userId = BackendManager.Auth.CurrentUser.UserId;

@@ -10,11 +10,11 @@ using UnityEngine.UI;
 
 public class RoomPanel : UIBInder
 {
-    private IdleReward idleReward;
-    [SerializeField] private GameObject idleRewardPanel;
-    [SerializeField] private ItemPanel itemPanel;
+    private IdleReward _idleReward;
+    [SerializeField] private GameObject _idleRewardPanel;
+    [SerializeField] private ItemPanel _itemPanel;
 
-    private Coroutine updateIdleTimeCoroutine;
+    private Coroutine _updateIdleTimeCoroutine;
 
     private void Awake()
     {
@@ -26,31 +26,31 @@ public class RoomPanel : UIBInder
 
     private void Start()
     {
-        idleReward = GetComponent<IdleReward>();
-        if(idleReward == null)
+        _idleReward = GetComponent<IdleReward>();
+        if (_idleReward == null)
         {
             Debug.Log("idleReward없음");
         }
 
-        idleReward.CalculateIdleReward();
+        _idleReward.CalculateIdleReward();
 
-        if (updateIdleTimeCoroutine == null)
+        if (_updateIdleTimeCoroutine == null)
         {
-            updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
+            _updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
         }
     }
 
     private void OnEnable()
     {
 
-      
+
     }
     private void OnDisable()
     {
-        if (updateIdleTimeCoroutine != null)
+        if (_updateIdleTimeCoroutine != null)
         {
-            StopCoroutine(updateIdleTimeCoroutine);
-            updateIdleTimeCoroutine = null;
+            StopCoroutine(_updateIdleTimeCoroutine);
+            _updateIdleTimeCoroutine = null;
         }
     }
 
@@ -80,11 +80,11 @@ public class RoomPanel : UIBInder
         UpdateItemsInDatabase();
 
         // 방치형보상 수령 후 종료시간 저장
-        idleReward.SaveExitTime();
+        _idleReward.SaveExitTime();
 
-        idleRewardPanel.SetActive(false);
+        _idleRewardPanel.SetActive(false);
 
-        itemPanel.UpdateItems();
+        _itemPanel.UpdateItems();
     }
 
     // 데이터베이스에 아이템 저장
@@ -124,16 +124,16 @@ public class RoomPanel : UIBInder
 
         while (true)
         {
-            TimeSpan idleTime = idleReward.GetIdleTime();
+            TimeSpan idleTime = _idleReward.GetIdleTime();
 
             GetUI<TextMeshProUGUI>("IdleTimeText").text = $"idleTime {idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
-            GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+            GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
 
             TimeSpan elapsedTime = DateTime.Now - lastTime;
 
             if (elapsedTime.TotalSeconds >= 10)
             {
-                idleReward.CalculateIdleReward();
+                _idleReward.CalculateIdleReward();
                 lastTime = DateTime.Now;
             }
 
@@ -144,15 +144,15 @@ public class RoomPanel : UIBInder
     // 방치형보상 UI 패널
     private void ShowIdleRewardPanel(PointerEventData eventData)
     {
-        GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+        GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
 
-        idleReward.CalculateIdleReward();
+        _idleReward.CalculateIdleReward();
 
-        idleRewardPanel.SetActive(true);
+        _idleRewardPanel.SetActive(true);
 
-        int goldReward = idleReward.CalculateReward(1, (int)idleReward.GetIdleTime().TotalSeconds);
-        int dinoBloodReward = idleReward.CalculateReward(2, (int)idleReward.GetIdleTime().TotalSeconds);
-        int boneCrystalReward = idleReward.CalculateReward(3, (int)idleReward.GetIdleTime().TotalSeconds);
+        int goldReward = _idleReward.CalculateReward(1, (int)_idleReward.GetIdleTime().TotalSeconds);
+        int dinoBloodReward = _idleReward.CalculateReward(2, (int)_idleReward.GetIdleTime().TotalSeconds);
+        int boneCrystalReward = _idleReward.CalculateReward(3, (int)_idleReward.GetIdleTime().TotalSeconds);
 
         GetUI<TextMeshProUGUI>("CoinRewardText").text = $"Coin: {goldReward}";
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
@@ -162,7 +162,7 @@ public class RoomPanel : UIBInder
         LoadItemImage("DinoBloodRewardImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
 
-        GetUI<Button>("ClaimButton").interactable = idleReward.HasIdleReward();
+        GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
     }
 
     private void ShowPopup(int gold, int dinoBlood, int boneCrystal)

@@ -11,14 +11,16 @@ using UnityEngine.UI;
 
 public class InventoryPanel : UIBInder
 {
-    public GameObject characterPrefab;
-    public Transform content;
+    [SerializeField] private GameObject _characterPrefab;
+    [SerializeField] private Transform _content;
 
-    private List<PlayerUnitData> allCharacters = new List<PlayerUnitData>();
+    private List<PlayerUnitData> _allCharacters = new List<PlayerUnitData>();
 
-    private Dictionary<int, Dictionary<string, string>> characterData;
+    private Dictionary<int, Dictionary<string, string>> _characterData;
 
-    private void Awake()    
+    private SceneChanger _sceneChanger;
+
+    private void Awake()
     {
         BindAll();
         AddEvent("AllElementButton", EventType.Click, AllElementButtonClicked);
@@ -28,11 +30,16 @@ public class InventoryPanel : UIBInder
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
 
         // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+
+        _sceneChanger = FindObjectOfType<SceneChanger>();
+
     }
 
     private void Start()
     {
         StartCoroutine(WaitForPlayerData());
+
+        AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
     private IEnumerator WaitForPlayerData()
@@ -42,14 +49,14 @@ public class InventoryPanel : UIBInder
 
         PopulateGrid();
 
-        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
     }
 
     // 그리드에 가진 캐릭터 정렬
     private void PopulateGrid()
     {
         // 목록 초기화
-        foreach (Transform child in content)
+        foreach (Transform child in _content)
         {
             Destroy(child.gameObject);
         }
@@ -68,7 +75,7 @@ public class InventoryPanel : UIBInder
                 return;
             }
 
-            allCharacters.Clear();
+            _allCharacters.Clear();
             DataSnapshot snapshot = task.Result;
             foreach (var childSnapshot in snapshot.Children)
             {
@@ -78,18 +85,18 @@ public class InventoryPanel : UIBInder
                     UnitLevel = int.Parse(childSnapshot.Child("_unitLevel").Value.ToString())
                 };
 
-                allCharacters.Add(unitData);
+                _allCharacters.Add(unitData);
             }
 
-            DisplayCharacters(allCharacters);
-            Debug.Log($"캐릭터 {allCharacters.Count}개");
+            DisplayCharacters(_allCharacters);
+            Debug.Log($"캐릭터 {_allCharacters.Count}개");
         });
     }
 
     // 바뀐 캐릭터 갱신
     public void UpdateCharacterUI(PlayerUnitData updatedCharacter)
     {
-        foreach (Transform child in content)
+        foreach (Transform child in _content)
         {
             CharacterSlot slotUI = child.GetComponent<CharacterSlot>();
             if (slotUI.GetCharacter().UnitId == updatedCharacter.UnitId)
@@ -103,14 +110,14 @@ public class InventoryPanel : UIBInder
     // 보유한 캐릭터 보여주기
     private void DisplayCharacters(List<PlayerUnitData> characters)
     {
-        foreach (Transform child in content)
+        foreach (Transform child in _content)
         {
             Destroy(child.gameObject);
         }
 
         foreach (var unitData in characters)
         {
-            GameObject slot = Instantiate(characterPrefab, content);
+            GameObject slot = Instantiate(_characterPrefab, _content);
             CharacterSlot slotUI = slot.GetComponent<CharacterSlot>();
             slotUI.SetCharacter(unitData);
         }
@@ -118,7 +125,7 @@ public class InventoryPanel : UIBInder
 
     private int GetElementId(int unitId)
     {
-        if (characterData.TryGetValue(unitId, out var data))
+        if (_characterData.TryGetValue(unitId, out var data))
         {
             int elementID = int.Parse(data["ElementID"]);
             Debug.Log($"UnitID: {unitId}, ElementID: {elementID}");
@@ -132,35 +139,41 @@ public class InventoryPanel : UIBInder
     private void AllElementButtonClicked(PointerEventData eventData)
     {
         Debug.Log("All");
-        DisplayCharacters(allCharacters);
+        DisplayCharacters(_allCharacters);
     }
 
     private void FireElementButtonClicked(PointerEventData eventData)
     {
         Debug.Log("Fire");
-        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 2).ToList());
+        DisplayCharacters(_allCharacters.Where(c => GetElementId(c.UnitId) == 2).ToList());
     }
 
     private void WaterElementButtonClicked(PointerEventData eventData)
     {
         Debug.Log("Water");
-        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 3).ToList());
+        DisplayCharacters(_allCharacters.Where(c => GetElementId(c.UnitId) == 3).ToList());
     }
 
     private void GroundElementButtonClicked(PointerEventData eventData)
     {
         Debug.Log("Ground");
-        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 1).ToList());
+        DisplayCharacters(_allCharacters.Where(c => GetElementId(c.UnitId) == 1).ToList());
     }
 
     private void GrassElementButtonClicked(PointerEventData eventData)
     {
         Debug.Log("grass");
-        DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 4).ToList());
+        DisplayCharacters(_allCharacters.Where(c => GetElementId(c.UnitId) == 4).ToList());
     }
 
     public int GetCharacterCount()
     {
-        return allCharacters.Count;
+        return _allCharacters.Count;
+    }
+
+    public void GoLobby(PointerEventData eventData)
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 }

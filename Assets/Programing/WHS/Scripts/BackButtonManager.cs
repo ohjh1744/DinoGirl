@@ -9,7 +9,7 @@ public class BackButtonManager : MonoBehaviour
 {
     public static BackButtonManager Instance { get; private set; }
 
-    private Stack<Action> backActions = new Stack<Action>();
+    private Stack<Action> _backActions = new Stack<Action>();
 
     private SceneChanger _sceneChanger;
 
@@ -18,7 +18,7 @@ public class BackButtonManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -33,6 +33,7 @@ public class BackButtonManager : MonoBehaviour
 
     private void Update()
     {
+        // ESC버튼 (폰에서 뒤로가기 기능)
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             HandleBackButton();
@@ -41,25 +42,29 @@ public class BackButtonManager : MonoBehaviour
 
     private void HandleBackButton()
     {
-        if (backActions.Count > 0)
+        // backAction 스택이 있으면 한개 지우기
+        if (_backActions.Count > 0)
         {
-            backActions.Pop().Invoke();
+            _backActions.Pop().Invoke();
         }
+        // Lobby에선 게임종료
+        else if (SceneManager.GetActiveScene().name == "Lobby_OJH")
+        {
+            Application.Quit();
+        }
+        // 다른 씬에선 로비로 이동
         else if (SceneManager.GetActiveScene().buildIndex > 0)
         {
             // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
             _sceneChanger.CanChangeSceen = true;
             _sceneChanger.ChangeScene("Lobby_OJH");
         }
-        else
-        {
-            ShowExitConfirmation();
-        }
     }
 
+    // UI창을 열 때 backAction 스택 추가하기
     public void AddBackAction(Action action)
     {
-        backActions.Push(action);
+        _backActions.Push(action);
     }
 
     private void ShowExitConfirmation()
