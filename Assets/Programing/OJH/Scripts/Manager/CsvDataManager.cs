@@ -38,10 +38,7 @@ public class CsvDataManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
-            if (_isLoad == false)
-            {
-                _downLoadRoutine = StartCoroutine(DownloadRoutine());
-            }
+            _downLoadRoutine = StartCoroutine(DownloadRoutine());
         }
         else
         {
