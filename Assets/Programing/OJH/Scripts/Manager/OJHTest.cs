@@ -21,15 +21,19 @@ public class OJHTest : MonoBehaviour
         Debug.Log(TypeCastManager.Instance.TryParseInt(stageDic[2]["4"]));
 
         //포문을 통해 값을 찾는 방법
-        //foreach(Dictionary<string, string> field in stageDic)
-        //{
-        //    if (field["Id"] == "0")
-        //    {
-        //        a = int.Parse(field["TimeLimit"]);
-        //        Debug.Log(a);
-        //    }
-        //}
-        
-        
+        foreach (var outerKeyValue in stageDic)
+        {
+            // 외부 딕셔너리의 키 (int)
+            Debug.Log("Outer Key: " + outerKeyValue.Key);
+
+            // 내부 딕셔너리 (Dictionary<string, string>) 출력
+            foreach (var innerKeyValue in outerKeyValue.Value)
+            {
+                // 내부 딕셔너리의 키와 값 (string, string)
+                Debug.Log("  Inner Key: " + innerKeyValue.Key + ", Inner Value: " + innerKeyValue.Value);
+            }
+        }
+
+
     }
 }
