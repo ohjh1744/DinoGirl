@@ -18,7 +18,7 @@ public class InventoryPanel : UIBInder
 
     private Dictionary<int, Dictionary<string, string>> characterData;
 
-    private void Awake()
+    private void Awake()    
     {
         BindAll();
         AddEvent("AllElementButton", EventType.Click, AllElementButtonClicked);
@@ -157,5 +157,10 @@ public class InventoryPanel : UIBInder
     {
         Debug.Log("grass");
         DisplayCharacters(allCharacters.Where(c => GetElementId(c.UnitId) == 4).ToList());
+    }
+
+    public int GetCharacterCount()
+    {
+        return allCharacters.Count;
     }
 }
