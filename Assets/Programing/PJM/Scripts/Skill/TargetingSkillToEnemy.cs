@@ -37,7 +37,7 @@ public class TargetingSkillToEnemy : Skill
         {
             float distanceA = Vector2.Distance(caster.transform.position, a.transform.position);
             float distanceB = Vector2.Distance(caster.transform.position, b.transform.position);
-            return caster.UnitModel.IsPriorityTargetFar ? distanceB.CompareTo(distanceA) : distanceA.CompareTo(distanceB);
+            return IsPriorityTargetFar ? distanceB.CompareTo(distanceA) : distanceA.CompareTo(distanceB);
         });
 
         // 최대 타겟 수만큼만 타겟에 남기기
@@ -82,77 +82,75 @@ public class TargetingSkillToEnemy : Skill
             return BaseNode.ENodeState.Running;
         }
         
-        var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
         
-            //if (unitAnimator.GetCurrentAnimatorStateInfo(0).IsName("UsingSkill"))
-            
-            //if(caster.UnitViewer.IsAnimationRunning("UsingSkill"))
-            if (stateInfo.IsName("UsingSkill"))
+        var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("UsingSkill"))
+        {
+            if (stateInfo.normalizedTime < 1.0f)
             {
-                if (stateInfo.normalizedTime < 1.0f)
+                Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
+                return BaseNode.ENodeState.Running;
+            }
+            else if (stateInfo.normalizedTime >= 1.0f)
+            {
                 {
-                    Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
-                    return BaseNode.ENodeState.Running;
-                }
-                else if(stateInfo.normalizedTime >= 1.0f)
-                {
+                    Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
+                    caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],
+                        false);
+                    caster.IsSkillRunning = false;
+
+                    float attackDamage = caster.UnitModel.AttackPoint * SkillRatio;
+                    foreach (var target in targets)
                     {
-                        Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
-                        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill], false);
-                        caster.IsSkillRunning = false;
-                        
-                        float attackDamage = caster.UnitModel.AttackPoint * SkillRatio;
-                        foreach (var target in targets)
+                        // 데미지 주는 로직
+                        // 데미지를 줄 인원 수 선택 필요
+                        if (target.gameObject != null)
                         {
-                            // 데미지 주는 로직
-                            // 데미지를 줄 인원 수 선택 필요
-                            if (target.gameObject != null)
+                            target.UnitModel.TakeDamage((int)attackDamage); // 소숫점 버림, 반올림할지 선택 필요
+                            //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
+                            if (CrowdControl != CrowdControls.None)
                             {
-                                target.UnitModel.TakeDamage((int)attackDamage); // 소숫점 버림, 반올림할지 선택 필요
-                                //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
-                                if (CrowdControl != CrowdControls.None)
-                                {
-                                    Debug.Log("cccc");
-                                    target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
-                                }
+                                Debug.Log("cccc");
+                                target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
                             }
                         }
-                        return BaseNode.ENodeState.Success;
                     }
+
+                    return BaseNode.ENodeState.Success;
                 }
             }
-            //else
-            {
-                // 트랜지션에서 애니메이션이 블렌딩 될 때 출력됨 (해결)
-                // 스킬이 진행중 군중제어에 끊겼지만 애니메이터의 파라미터는 여전히 스킬시전중일경우
+        }
 
-                /*Debug.Log("IsUsingSkill이 True지만 현재 애니메이션 상태가 UsingSkill이 아님");
-                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-                caster.IsSkillRunning = false;
-                return BaseNode.ENodeState.Failure;*/
-                // 아래쪽과 구분할 필요가 없어질 경우 병합
+        //else
+            
+        // 트랜지션에서 애니메이션이 블렌딩 될 때 출력됨 (해결)
+        // 스킬이 진행중 군중제어에 끊겼지만 애니메이터의 파라미터는 여전히 스킬시전중일경우
+
+        /*Debug.Log("IsUsingSkill이 True지만 현재 애니메이션 상태가 UsingSkill이 아님");
+        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
+        caster.IsSkillRunning = false;
+        return BaseNode.ENodeState.Failure;*/
+        // 아래쪽과 구분할 필요가 없어질 경우 병합
 
 
 
-                //return BaseNode.ENodeState.Running;
-            }
+        //return BaseNode.ENodeState.Running;
+            
 
-            // Skill이 true고 현재 애니메이터의 진행 상황이 UsingSKill이 아닌 상황?
+        // Skill이 true고 현재 애니메이터의 진행 상황이 UsingSKill이 아닌 상황?
 
-            //else if(unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        //else if(unitAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
 
-            /*{
-                Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
-                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],false);
-                return BaseNode.ENodeState.Success;
-            }*/
+        /*{
+            Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)AniState.Skill],false);
+            return BaseNode.ENodeState.Success;
+        }*/
 
-            Debug.LogWarning("예외 상황");
-            //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-            //caster.IsSkillRunning = false;
-            return BaseNode.ENodeState.Failure;
-        
-        
+        Debug.LogWarning("예외 상황");
+        //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
+        //caster.IsSkillRunning = false;
+        return BaseNode.ENodeState.Failure;
     }
 
     // 기존 적 단일대상 타겟 선택 메서드

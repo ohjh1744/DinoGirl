@@ -11,8 +11,11 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private float _skillRange;
     public float SkillRange {get => _skillRange; protected set => _skillRange = value; }
 
-    [SerializeField] private int maxTargetingNum;
-    public int MaxTargetingNum {get => maxTargetingNum; protected set => maxTargetingNum = value; }
+    [SerializeField] private int _maxTargetingNum;
+    public int MaxTargetingNum {get => _maxTargetingNum; protected set => _maxTargetingNum = value; }
+
+    [SerializeField] private bool _isPriorityTargetFar;
+    public bool IsPriorityTargetFar {get => _isPriorityTargetFar; protected set => _isPriorityTargetFar = value; }
     
     [SerializeField] private float skillRatio;
     public float SkillRatio {get => skillRatio; protected set => skillRatio = value; }

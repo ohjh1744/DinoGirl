@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3262581107896041758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4104724877279863724}
+  m_Layer: 11
+  m_Name: Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4104724877279863724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3262581107896041758}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8333899129989257153}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8333899129989257212
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +64,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8333899130335704981}
+  - {fileID: 4104724877279863724}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0eddb2f5a232064584799c749466853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _centerPosition: {fileID: 4104724877279863724}
   _allianceLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -97,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHp: 10
   _hp: 0
+  _coolDownAcc: 1
   _attackPoint: 2
   _defensePoint: 1
   _moveSpeed: 4
@@ -278,3 +312,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 495ae7e6c13e2dd4aa2466fb6316eab3, type: 3}
   m_PrefabInstance: {fileID: 8333899130488399606}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8376759926708242251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 495ae7e6c13e2dd4aa2466fb6316eab3, type: 3}
+  m_PrefabInstance: {fileID: 8333899130488399606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &2999532440974354671
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376759926708242251}
+  m_Enabled: 1
+  m_SortingLayerID: 232910677
+  m_SortingLayer: 2
+  m_SortingOrder: 1
