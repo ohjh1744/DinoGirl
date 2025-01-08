@@ -47,9 +47,9 @@ public class Spawner : MonoBehaviour
                 }
                
             }  // 6* (2+2)
-            double incAtk =1+((level * (increase+buffAtk))/100.0);    // »ó½Â·® 
-            double incDef =1+((level * (increase+buffDef))/100.0);    // »ó½Â·® 
-            double incHp = 1+((level * (increase+buffHp))/100.0);    // »ó½Â·® 
+            double incAtk =1+(((level - 1) * (increase + buffAtk)) / 100.0);    // »ó½Â·® 
+            double incDef =1+(((level - 1) * (increase + buffDef)) / 100.0);    // »ó½Â·® 
+            double incHp = 1+(((level - 1) * (increase + buffHp)) / 100.0);    // »ó½Â·® 
             double incCool = 1+(buffCool / 100.0);
             Debug.Log($"°ø {incAtk} ¹æ {incDef} Ã¼ {incHp} Äð {incCool}");
             GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Character_" + id.ToString()), myGrid[pos-1].position, Quaternion.identity);
