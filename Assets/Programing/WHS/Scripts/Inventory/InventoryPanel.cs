@@ -11,12 +11,14 @@ using UnityEngine.UI;
 
 public class InventoryPanel : UIBInder
 {
-    private GameObject _characterPrefab;
-    private Transform _content;
+    [SerializeField] private GameObject _characterPrefab;
+    [SerializeField] private Transform _content;
 
     private List<PlayerUnitData> _allCharacters = new List<PlayerUnitData>();
 
     private Dictionary<int, Dictionary<string, string>> _characterData;
+
+    private SceneChanger _sceneChanger;
 
     private void Awake()
     {
@@ -28,11 +30,16 @@ public class InventoryPanel : UIBInder
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
 
         // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+
+        _sceneChanger = FindObjectOfType<SceneChanger>();
+
     }
 
     private void Start()
     {
         StartCoroutine(WaitForPlayerData());
+
+        AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
     private IEnumerator WaitForPlayerData()
@@ -162,5 +169,11 @@ public class InventoryPanel : UIBInder
     public int GetCharacterCount()
     {
         return _allCharacters.Count;
+    }
+
+    public void GoLobby(PointerEventData eventData)
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 }
