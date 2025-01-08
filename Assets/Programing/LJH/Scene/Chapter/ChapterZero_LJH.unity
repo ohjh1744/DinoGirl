@@ -122,17 +122,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &133866154 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7606952708711605999, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
-  m_PrefabInstance: {fileID: 7606952708780180549}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &133866158 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7606952708711605995, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
   m_PrefabInstance: {fileID: 7606952708780180549}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133866154}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b149bae0116fb1459ac7f3040ce0c5d, type: 3}
@@ -391,8 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a926f967c2e0e5841810b8c19d61e3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setFalsePanels:
-  - {fileID: 133866154}
+  _setFalsePanels: []
   _loadingPanel: {fileID: 853032212}
   _loadingTime: 3
 --- !u!114 &1604868643 stripped

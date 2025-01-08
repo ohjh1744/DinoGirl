@@ -260,6 +260,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &379004698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7606952708491311441, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
+  m_PrefabInstance: {fileID: 2122492790}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1313111818
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _setFalsePanels:
   - {fileID: 0}
-  _loadingPanel: {fileID: 0}
+  _loadingPanel: {fileID: 379004698}
   _loadingTime: 3
 --- !u!1 &1635962854
 GameObject:
@@ -464,6 +469,14 @@ PrefabInstance:
     - target: {fileID: 7606952708666160842, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 121
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606952708693142275, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2098349546568345416}
+    - target: {fileID: 7606952708693142275, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StageStart
       objectReference: {fileID: 0}
     - target: {fileID: 7606952708693195962, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
       propertyPath: m_Name

@@ -306,8 +306,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _setFalsePanels:
   - {fileID: 0}
-  _loadingPanel: {fileID: 0}
+  _loadingPanel: {fileID: 1429593140}
   _loadingTime: 3
+--- !u!1 &1429593140 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7606952708491311441, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
+  m_PrefabInstance: {fileID: 1466085674}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1466085674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374,6 +379,14 @@ PrefabInstance:
     - target: {fileID: 7606952708666160842, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 114
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606952708693142275, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2098349546568345416}
+    - target: {fileID: 7606952708693142275, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StageStart
       objectReference: {fileID: 0}
     - target: {fileID: 7606952708693195962, guid: a6428f14b8e00614a8fc86820eee5a5a, type: 3}
       propertyPath: m_Name
