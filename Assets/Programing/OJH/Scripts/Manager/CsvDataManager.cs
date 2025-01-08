@@ -87,7 +87,7 @@ public class CsvDataManager : MonoBehaviour
         // CSV 데이터 파싱
         for (int i = 1; i < lines.Length; i++)
         {
-            string[] values = Regex.Split(lines[i], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+            string[] values = lines[i].Split(",");
             Dictionary<string, string> dataDic = new Dictionary<string, string>();
 
             //id는 제외하고 다음속석부터를 위해서 1부터

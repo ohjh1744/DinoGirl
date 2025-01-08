@@ -9,31 +9,26 @@ public class OJHTest : MonoBehaviour
     [SerializeField] private int a;
 
     //string이기 때문에 추후에 int나 float형등 형변환 필요.
-    private List<Dictionary<string, string>> stageDic;
+    private Dictionary<int, Dictionary<string, string>> stageDic;
 
-    private void Update()
+
+
+    [ContextMenu("DebugTest")]
+    public void Test()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Test();
-        }
-    }
+       stageDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Stat];
 
-    private void Test()
-    {
-       // stageDic = DataManager.Instance.DataLists[(int)E_CsvData.Stage];
-
-        Debug.Log(stageDic[0]["MonsterPos"]);
+        Debug.Log(TypeCastManager.Instance.TryParseInt(stageDic[2]["4"]));
 
         //포문을 통해 값을 찾는 방법
-        foreach(Dictionary<string, string> field in stageDic)
-        {
-            if (field["Id"] == "0")
-            {
-                a = int.Parse(field["TimeLimit"]);
-                Debug.Log(a);
-            }
-        }
+        //foreach(Dictionary<string, string> field in stageDic)
+        //{
+        //    if (field["Id"] == "0")
+        //    {
+        //        a = int.Parse(field["TimeLimit"]);
+        //        Debug.Log(a);
+        //    }
+        //}
         
         
     }
