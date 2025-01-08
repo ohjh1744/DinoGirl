@@ -9,7 +9,6 @@ public class GachaBtn : MonoBehaviour
     GachaCheck gachaCheck;
     SceneChanger sceneChanger;
 
-    [Header("UI")]
     private RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
     private RectTransform tenVideoContent; // 10연차 결과 내역 프리팹이 생성 될 위치
 
@@ -283,7 +282,7 @@ public class GachaBtn : MonoBehaviour
     }
 
     /// <summary>
-    /// 가챠의 캐릭터 뽑기 시 실행할 영상
+    /// 가챠의 캐릭터 뽑기 시 실행할 영상 코루틴
     /// </summary>
     /// <returns></returns>
     IEnumerator CharacterVideoR(GameObject gameObj)
@@ -297,7 +296,7 @@ public class GachaBtn : MonoBehaviour
     }
 
     /// <summary>
-    /// 가챠의 캐릭터 10회 뽑기 시 실행할 영상
+    /// 가챠의 캐릭터 10회 뽑기 시 실행할 영상 코루틴
     /// </summary>
     /// <returns></returns>
     IEnumerator CharacterTenVideoR()
