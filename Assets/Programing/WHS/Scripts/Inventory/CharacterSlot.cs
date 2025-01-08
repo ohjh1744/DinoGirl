@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class CharacterSlot : UIBInder
 {
-    private PlayerUnitData unitData;
-    private GameObject characterPanel;
+    private PlayerUnitData _unitData;
+    private GameObject _characterPanel;
 
     private void Awake()
     {
@@ -17,26 +17,26 @@ public class CharacterSlot : UIBInder
         AddEvent("Character(Clone)", EventType.Click, OnClick);
 
         Transform parent = GameObject.Find("MainPanel").transform;
-        characterPanel = parent.Find("CharacterPanel").gameObject;
+        _characterPanel = parent.Find("CharacterPanel").gameObject;
     }
 
     // 인벤토리에 캐릭터 세팅 - 이미지, 이름, 레벨 ( 레어도, 포지션 등 )
     public void SetCharacter(PlayerUnitData newUnitData)
     {
-        unitData = newUnitData;
+        _unitData = newUnitData;
 
         Dictionary<int, Dictionary<string, string>> characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
-        if (characterData.TryGetValue(unitData.UnitId, out var data))
+        if (characterData.TryGetValue(_unitData.UnitId, out var data))
         {
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
         }
         else
         {
-            GetUI<TextMeshProUGUI>("NameText").text = unitData.UnitId.ToString();
+            GetUI<TextMeshProUGUI>("NameText").text = _unitData.UnitId.ToString();
         }
 
-        GetUI<TextMeshProUGUI>("LevelText").text = unitData.UnitLevel.ToString();
+        GetUI<TextMeshProUGUI>("LevelText").text = _unitData.UnitLevel.ToString();
 
         if (int.TryParse(data["Rarity"], out int rarity))
         {
@@ -59,7 +59,7 @@ public class CharacterSlot : UIBInder
             }
         }
 
-        string portraitPath = $"Portrait/portrait_{unitData.UnitId}";
+        string portraitPath = $"Portrait/portrait_{_unitData.UnitId}";
         if (portraitPath != null)
         {
             GetUI<Image>("Character(Clone)").sprite = Resources.Load<Sprite>(portraitPath);
@@ -73,20 +73,20 @@ public class CharacterSlot : UIBInder
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
     private void OnClick(PointerEventData eventData)
     {
-        characterPanel.SetActive(true);
+        _characterPanel.SetActive(true);
         BackButtonManager.Instance.AddBackAction(ClosePanel);
 
-        characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(unitData);
+        _characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(_unitData);
     }
 
     public void ClosePanel()
     {
-        characterPanel.SetActive(false);
+        _characterPanel.SetActive(false);
     }
 
     public PlayerUnitData GetCharacter()
     {
-        return unitData;
+        return _unitData;
     }
 
     private void UpdateStar(int rarity)

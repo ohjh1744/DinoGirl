@@ -10,16 +10,16 @@ using UnityEngine.UI;
 
 public class CharacterPanel : UIBInder
 {
-    private PlayerUnitData curCharacter;
-    private GameObject levelUpPanel;
+    private PlayerUnitData _curCharacter;
+    private GameObject _levelUpPanel;
 
-    private Dictionary<int, Dictionary<string, string>> characterData;
-    private Dictionary<int, Dictionary<string, string>> skillData;
+    private Dictionary<int, Dictionary<string, string>> _characterData;
+    private Dictionary<int, Dictionary<string, string>> _skillData;
 
     private SceneChanger _sceneChanger;
 
-    private int index;
-    private List<PlayerUnitData> characterList;
+    private int _index;
+    private List<PlayerUnitData> _characterList;
 
     private void Awake()
     {
@@ -30,31 +30,31 @@ public class CharacterPanel : UIBInder
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
 
         Transform parent = GameObject.Find("CharacterPanel").transform;
-        levelUpPanel = parent.Find("LevelUpPanel").gameObject;
+        _levelUpPanel = parent.Find("LevelUpPanel").gameObject;
 
-        characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
-        skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
+        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        _skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
 
         _sceneChanger = FindObjectOfType<SceneChanger>();
 
-        characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
+        _characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
 
     }
 
     private void Start()
     {
-        UpdateCharacterInfo(curCharacter);
+        UpdateCharacterInfo(_curCharacter);
     }
 
     // 캐릭터 정보 갱신
     public void UpdateCharacterInfo(PlayerUnitData character)
     {
-        curCharacter = character;
-        index = characterList.FindIndex(c => c.UnitId == character.UnitId);
-        Debug.Log($"{index} 현재 인덱스");
+        _curCharacter = character;
+        _index = _characterList.FindIndex(c => c.UnitId == character.UnitId);
+        Debug.Log($"{_index} 현재 인덱스");
 
         int level = character.UnitLevel;
-        if (characterData.TryGetValue(character.UnitId, out var data))
+        if (_characterData.TryGetValue(character.UnitId, out var data))
         {
             // 캐릭터 이미지
             string portraitPath = $"Portrait/portrait_{character.UnitId}";
@@ -146,19 +146,19 @@ public class CharacterPanel : UIBInder
 
     private void OnLevelUpButtonClick(PointerEventData eventData)
     {
-        if (curCharacter != null && curCharacter.UnitLevel < 30)
+        if (_curCharacter != null && _curCharacter.UnitLevel < 30)
         {
-            levelUpPanel.gameObject.SetActive(true);
+            _levelUpPanel.gameObject.SetActive(true);
             BackButtonManager.Instance.AddBackAction(ClosePanel);
 
-            LevelUpPanel levelUp = levelUpPanel.GetComponent<LevelUpPanel>();
-            levelUp.Init(curCharacter);
+            LevelUpPanel levelUp = _levelUpPanel.GetComponent<LevelUpPanel>();
+            levelUp.Init(_curCharacter);
         }
     }
 
     public void ClosePanel()
     {
-        levelUpPanel.SetActive(false);
+        _levelUpPanel.SetActive(false);
     }
 
     // 레벨당 스탯 계산
@@ -166,15 +166,15 @@ public class CharacterPanel : UIBInder
     {
         // TODO : Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
 
-        if (!characterData.TryGetValue(curCharacter.UnitId, out var data))
+        if (!_characterData.TryGetValue(_curCharacter.UnitId, out var data))
         {
-            Debug.LogError($"캐릭터 데이터를 찾을 수 없음 {curCharacter.UnitId}");
+            Debug.LogError($"캐릭터 데이터를 찾을 수 없음 {_curCharacter.UnitId}");
             return baseStat;
         }
 
         if (!int.TryParse(data["Increase"], out int increase))
         {
-            Debug.LogError($"Increase 값 찾을 수 없음 {curCharacter.UnitId}");
+            Debug.LogError($"Increase 값 찾을 수 없음 {_curCharacter.UnitId}");
             return baseStat;
         }
 
@@ -186,7 +186,7 @@ public class CharacterPanel : UIBInder
 
     private void UpdateSkill(int unitId)
     {
-        foreach (var value in skillData.Values)
+        foreach (var value in _skillData.Values)
         {
             if (int.Parse(value["CharID"]) == unitId)
             {
@@ -203,31 +203,31 @@ public class CharacterPanel : UIBInder
     private void PreviousButton(PointerEventData eventData)
     {
         // 이전 캐릭터 정보로 이동
-        if (index > 0)
+        if (_index > 0)
         {
-            index--;
+            _index--;
         }
         else
         {
-            index = characterList.Count - 1;
+            _index = _characterList.Count - 1;
         }
 
-        UpdateCharacterInfo(characterList[index]);
+        UpdateCharacterInfo(_characterList[_index]);
     }
 
     private void NextButton(PointerEventData eventData)
     {
         // 다음 캐릭터 정보로 이동
-        if (index < characterList.Count - 1)
+        if (_index < _characterList.Count - 1)
         {
-            index++;
+            _index++;
         }
         else
         {
-            index = 0;
+            _index = 0;
         }
 
-        UpdateCharacterInfo(characterList[index]);
+        UpdateCharacterInfo(_characterList[_index]);
     }
 
     private void UpdateStar(int rarity)

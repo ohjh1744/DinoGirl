@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class IdleReward : MonoBehaviour
 {
-    private Dictionary<int, Dictionary<string, string>> housingData;
+    private Dictionary<int, Dictionary<string, string>> _housingData;
 
     /*
     private void Start()
@@ -29,19 +29,19 @@ public class IdleReward : MonoBehaviour
         }
     }
     */
-    
+
     private void Awake()
     {
-        housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
+        _housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
 
-        Debug.Log($"{housingData.Count}");
-        foreach (var key in housingData.Keys)
+        Debug.Log($"{_housingData.Count}");
+        foreach (var key in _housingData.Keys)
         {
-            Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}, " +
-                $"{housingData[key]["1MaxStorage"]}, {housingData[key]["2MaxStorage"]}, ");
+            Debug.Log($"Key: {key}, Value: {_housingData[key]["PerHour"]}, {_housingData[key]["0MaxStorage"]}, " +
+                $"{_housingData[key]["1MaxStorage"]}, {_housingData[key]["2MaxStorage"]}, ");
         }
     }
-    
+
 
     // 방치시간 계산하기
     public void CalculateIdleReward()
@@ -74,7 +74,7 @@ public class IdleReward : MonoBehaviour
         int maxIdleTime = Mathf.Min(seconds, 86400);
         float idleHours = maxIdleTime / 3600f;
 
-        if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
+        if (_housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
             // 스테이지 진행도에 따른 시간당 보상
             int rewardPerHour = GetRewardPerHour(housingId);
@@ -159,7 +159,7 @@ public class IdleReward : MonoBehaviour
     // 스테이지 진행에 따른 보상
     private int GetRewardPerHour(int housingId)
     {
-        if (housingData.TryGetValue(housingId, out Dictionary<string, string> data))
+        if (_housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
             int baseReward = int.Parse(data["PerHour"]);
 

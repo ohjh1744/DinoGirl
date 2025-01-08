@@ -6,20 +6,20 @@ using UnityEngine.UI;
 
 public class DynamicGrid : MonoBehaviour
 {
-    private int characterCount;
-    private RectTransform parent;
-    private GridLayoutGroup grid;
+    private int _characterCount;
+    private RectTransform _parent;
+    private GridLayoutGroup _grid;
 
     private void Start()
     {
-        parent = gameObject.GetComponent<RectTransform>();
-        grid = gameObject.GetComponent<GridLayoutGroup>();
+        _parent = gameObject.GetComponent<RectTransform>();
+        _grid = gameObject.GetComponent<GridLayoutGroup>();
 
-        characterCount = GetCharacterCount();
+        _characterCount = GetCharacterCount();
         SetDynamicGrid();
     }
-    
-    
+
+
     private void OnRectTransformDimensionsChange()
     {
         /*
@@ -28,35 +28,35 @@ public class DynamicGrid : MonoBehaviour
         #endif
         */
 
-        if(Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)
         {
             SetDynamicGrid();
         }
     }
-    
+
 
     private void SetDynamicGrid()
     {
-        if (grid == null || parent == null)
-    {
-        Debug.LogWarning("Grid or parent is null in SetDynamicGrid");
-        return;
-    }
+        if (_grid == null || _parent == null)
+        {
+            Debug.LogWarning("Grid or parent is null in SetDynamicGrid");
+            return;
+        }
 
         int cols = 5;
-        int rows = Mathf.CeilToInt((float)characterCount / cols);
+        int rows = Mathf.CeilToInt((float)_characterCount / cols);
 
         // 셀 크기 계산
-        float availableWidth = parent.rect.width - (grid.spacing.x * (cols + 1));
+        float availableWidth = _parent.rect.width - (_grid.spacing.x * (cols + 1));
         float cellWidth = availableWidth / cols;
         float cellHeight = cellWidth;
-        grid.cellSize = new Vector2(cellWidth, cellHeight);
+        _grid.cellSize = new Vector2(cellWidth, cellHeight);
 
         // grid layout group의 padding을 spacing과 동일하게 설정
-        int padding = Mathf.RoundToInt(grid.spacing.x);
-        grid.padding = new RectOffset(padding, padding, padding, padding);
+        int padding = Mathf.RoundToInt(_grid.spacing.x);
+        _grid.padding = new RectOffset(padding, padding, padding, padding);
 
-        grid.constraintCount = cols;
+        _grid.constraintCount = cols;
     }
 
     private int GetCharacterCount()
