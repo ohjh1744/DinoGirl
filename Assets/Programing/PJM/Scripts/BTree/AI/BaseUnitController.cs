@@ -24,7 +24,7 @@ public abstract class BaseUnitController : MonoBehaviour
     /*protected Animator _unitAnimator;
     public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }*/
     protected BaseUnitController _detectedEnemy;
-    public BaseUnitController DetectedEnemy { get => _detectedEnemy; protected set => _detectedEnemy = value; }
+    public BaseUnitController DetectedEnemy { get => _detectedEnemy; set => _detectedEnemy = value; }
     
     protected BaseUnitController _currentTarget;
     public BaseUnitController CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }

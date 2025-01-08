@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
-  m_Name: WarningShot
+  m_Name: QueznaSkill
   m_EditorClassIdentifier: 
-  _skillName: 
+  _skillName: WarningShot
   _skillRange: 10
-  maxTargetingNum: 1
+  _maxTargetingNum: 0
+  _isPriorityTargetFar: 0
   skillRatio: 2
   cooltime: 3
-  _skillIcon: {fileID: -1547655838456603242, guid: b4e22c5c0b3f4e044b24ced64a629856, type: 3}
+  crowdControl: 0
+  ccDuration: 0
+  _skillIcon: {fileID: 3226706550795370324, guid: 8c2ab258e1a27344397b6ca1d7bc867b, type: 3}
