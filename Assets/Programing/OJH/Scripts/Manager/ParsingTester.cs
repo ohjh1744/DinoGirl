@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class OJHTest : MonoBehaviour
+public class ParsingTester : MonoBehaviour
 {
     [SerializeField] private int a;
 
