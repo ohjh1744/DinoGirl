@@ -31,9 +31,18 @@ public class TeleportSkill : TargetingSkillToEnemy
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
             // 적 뒤로 순간이동
             // Todo : 이펙트를 남길거라면 여기서 처리
-            float behindX = targets[0].gameObject.transform.position.x + Mathf.Sign(targets[0].gameObject.transform.localScale.x) * distance;
+            float enemyDir = Mathf.Sign(targets[0].gameObject.transform.localScale.x);
+            float behindX = targets[0].gameObject.transform.position.x + enemyDir * distance;
             Vector2 behindPos = new Vector2(behindX, targets[0].gameObject.transform.position.y);
             caster.gameObject.transform.position = behindPos;
+            // 적을 바라보도록 설정
+            float diffX = targets[0].transform.position.x - caster.gameObject.transform.position.x;
+            float casterDir = diffX > 0 ? -1 : 1;
+            Vector3 casterScale = caster.gameObject.transform.localScale;
+            casterScale.x = Mathf.Abs(casterScale.x) * casterDir;
+            caster.gameObject.transform.localScale = casterScale;
+            
+            //caster.gameObject.transform.localScale = new Vector3(enemyDir * caster.gameObject.transform.localScale.x ,caster.gameObject.transform.localScale.y, caster.gameObject.transform.localScale.z); 
             caster.DetectedEnemy = targets[0];
             caster.IsSkillRunning = true;
             
