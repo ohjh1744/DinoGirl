@@ -130,7 +130,8 @@ public class UnitModel : MonoBehaviour
                 break;
         }
         
-        StartCoroutine(RunningCrowdControlRoutine(crowdControl, duration));
+        if(gameObject != null && gameObject.activeSelf)
+            StartCoroutine(RunningCrowdControlRoutine(crowdControl, duration));
     }
 
     public void TakeHeal(int heal)
@@ -165,7 +166,6 @@ public class UnitModel : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         CurCc &= ~crowdControl;
-        Debug.Log("bbbbbb");
         Debug.Log($"{gameObject.name}에게 있던 {crowdControl}효과 해제");
         CcCaster = null;
 
