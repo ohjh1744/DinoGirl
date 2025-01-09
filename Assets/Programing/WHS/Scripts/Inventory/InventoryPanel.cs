@@ -77,7 +77,7 @@ public class InventoryPanel : UIBInder
 
             _allCharacters.Clear();
             DataSnapshot snapshot = task.Result;
-            foreach (var childSnapshot in snapshot.Children)
+            foreach (DataSnapshot childSnapshot in snapshot.Children)
             {
                 PlayerUnitData unitData = new PlayerUnitData
                 {
@@ -115,7 +115,7 @@ public class InventoryPanel : UIBInder
             Destroy(child.gameObject);
         }
 
-        foreach (var unitData in characters)
+        foreach (PlayerUnitData unitData in characters)
         {
             GameObject slot = Instantiate(_characterPrefab, _content);
             CharacterSlot slotUI = slot.GetComponent<CharacterSlot>();

@@ -118,7 +118,7 @@ public class CharacterPanel : UIBInder
             }
 
             DataSnapshot snapshot = task.Result;
-            foreach (var childSnapshot in snapshot.Children)
+            foreach (DataSnapshot childSnapshot in snapshot.Children)
             {
                 if (int.Parse(childSnapshot.Child("_unitId").Value.ToString()) == character.UnitId)
                 {
