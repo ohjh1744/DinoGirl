@@ -71,6 +71,9 @@ public class SkillUIViewTester : UIBInder
 
         foreach (var player in BattleSceneManager.Instance.myUnits)
         {
+            if(player == null || !player.gameObject.activeSelf)
+                continue;
+            
             if (player.UniqueSkill == null)
             {
                 Debug.Log($"{player.name}에 스킬이 없습니다.");

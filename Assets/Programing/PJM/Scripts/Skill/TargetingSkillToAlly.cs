@@ -60,11 +60,14 @@ public class TargetingSkillToAlly : Skill
             return BaseNode.ENodeState.Failure;
         }
 
-        // 현재 체력을 기준으로 정렬
+        // Todo : 
+        // 현재 체력의 비율을 기준으로 정렬 (임시), 필요할 경우 타겟 선정 조건을 따로 설정할 수도 있어야함
         targets.Sort((a, b) =>
         {
-            int hpA = a.UnitModel.Hp;
-            int hpB = b.UnitModel.Hp;
+            float hpA = a.UnitModel.Hp / a.UnitModel.MaxHp;
+            //Debug.Log(hpA);
+            float hpB = b.UnitModel.Hp / b.UnitModel.MaxHp;
+            //Debug.Log(hpB);
             return hpA.CompareTo(hpB);
         });
 
@@ -138,6 +141,7 @@ public class TargetingSkillToAlly : Skill
                     // 임시로 아군 체력의 50%
                     int healingAmount = (int)(target.UnitModel.MaxHp * SkillRatio);
                     target.UnitModel.TakeHeal(healingAmount);
+                    SpawnEffect(target.CenterPosition);
                     Debug.Log(target.gameObject.name);
                 }
                 return BaseNode.ENodeState.Success;

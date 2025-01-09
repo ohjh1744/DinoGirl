@@ -183,7 +183,7 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
             return BaseNode.ENodeState.Success;
         }*/
         
-        Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
+        Debug.LogWarning("해당 로그가 뜨는 조건 파악해야함.");
         return BaseNode.ENodeState.Failure;
     }
 }
