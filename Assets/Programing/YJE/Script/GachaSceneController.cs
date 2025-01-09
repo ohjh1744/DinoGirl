@@ -295,7 +295,12 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("GachaResultPanel").gameObject.SetActive(true);
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(true);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
+        GetUI<Image>("SingleImage").gameObject.SetActive(true);
         DisableResultPanel(); // 비활성화 함수
+    }
+    public void DisableSingleImage()
+    {
+        GetUI<Image>("SingleImage").gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -307,9 +312,13 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("GachaResultPanel").gameObject.SetActive(true);
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
+        GetUI<Image>("TenImage").gameObject.SetActive(true);
         DisableResultPanel(); // 비활성화 함수
     }
-
+    public void DisableTenImage()
+    {
+        GetUI<Image>("TenImage").gameObject.SetActive(false);
+    }
     /// <summary>
     /// GachaResultPanel 비활성화
     /// - 결과 저장 리스트를 초기화

@@ -101,13 +101,13 @@ public class GachaBtn : MonoBehaviour
             // UI 업데이트
             gachaSceneController.UpdatePlayerUI();
             StopCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 종료
+            //gachaSceneController.DisableSingleImage();
         }
         else
         {
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
-
     }
     /// <summary>
     /// 기본 10연차 버튼 실행 시
@@ -293,6 +293,7 @@ public class GachaBtn : MonoBehaviour
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
+        gachaSceneController.DisableSingleImage();
     }
 
     /// <summary>
@@ -315,6 +316,7 @@ public class GachaBtn : MonoBehaviour
                 continue;
             }
         }
+        gachaSceneController.DisableTenImage();
     }
 }
 
