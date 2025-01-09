@@ -104,6 +104,7 @@ public class LevelUpPanel : UIBInder
         GetUI<Button>("DecreaseButton").interactable = (_curLevelUp > 1);
         GetUI<Button>("IncreaseButton").interactable = (_curLevelUp < _maxLevelUp);
         GetUI<Button>("LevelUpConfirm").interactable = canLevelUp;
+        GetUI<Slider>("CharacterImage").interactable = canLevelUp;
         GetUI<RectTransform>("Handle Slide Area").gameObject.SetActive(canLevelUp);
     }
 
