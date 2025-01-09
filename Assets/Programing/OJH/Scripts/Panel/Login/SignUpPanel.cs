@@ -57,19 +57,19 @@ public class SignUpPanel : UIBInder
                     switch (errorCode)
                     {
                         case AuthError.EmailAlreadyInUse:
-                            SetTrueWarningPanel("EmailAlreadyInUse");
+                            SetTrueWarningPanel("이미 존재하는 계정입니다");
                             break;
                         case AuthError.InvalidEmail:
-                            SetTrueWarningPanel("InvalidEmail");
+                            SetTrueWarningPanel("유효하지 않는 이메일입니다");
                             break;
                         case AuthError.MissingEmail:
-                            SetTrueWarningPanel("MissingEmail");
+                            SetTrueWarningPanel("이메일을 작성해주세요");
                             break;
                         case AuthError.MissingPassword:
-                            SetTrueWarningPanel("MissingPassword");
+                            SetTrueWarningPanel("비밀번호를 작성해주세요");
                             break;
                         case AuthError.WeakPassword:
-                            SetTrueWarningPanel("WeakPassword");
+                            SetTrueWarningPanel("비밀번호를 제대로 작성해주세요");
                             break;
                         default:
                             SetTrueWarningPanel("Unknown Error. Try Again.");

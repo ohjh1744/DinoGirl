@@ -40,7 +40,7 @@ public class NamePanel : UIBInder
         // 이름이 없는 경우 팝업창 띄우기
         if(nickName == "" || nickName.Length > _nameLen)
         {
-            SetTrueWarningPanel("No Name or Too Long Name");
+            SetTrueWarningPanel($"이름이 공백이거나 {_nameLen}자를 넘습니다.");
             ResetInputField();
             return;
         }

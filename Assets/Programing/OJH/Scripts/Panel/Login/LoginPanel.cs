@@ -71,22 +71,22 @@ public class LoginPanel : UIBInder
                     switch (errorCode)
                     {
                         case AuthError.InvalidEmail:
-                            SetTrueWarningPanel("InvalidEmail");
+                            SetTrueWarningPanel("유효하지 않는 이메일입니다");
                             break;
                         case AuthError.UserNotFound:
-                            SetTrueWarningPanel("UserNotFound");
+                            SetTrueWarningPanel("존재하지 않는 이메일입니다");
                             break;
                         case AuthError.MissingEmail:
-                            SetTrueWarningPanel("MissingEmail");
+                            SetTrueWarningPanel("이메일을 작성해주세요");
                             break;
                         case AuthError.MissingPassword:
-                            SetTrueWarningPanel("MissingPassword");
+                            SetTrueWarningPanel("비밀번호를 작성해주세요");
                             break;
                         case AuthError.WeakPassword:
-                            SetTrueWarningPanel("WeakPassword");
+                            SetTrueWarningPanel("비밀번호를 제대로 작성해주세요");
                             break;
                         case AuthError.WrongPassword:
-                            SetTrueWarningPanel("WrongPassword");
+                            SetTrueWarningPanel("잘못된 비밀번호 입니다");
                             break;
                         default:
                             SetTrueWarningPanel("Unknown Error. Try Again.");
