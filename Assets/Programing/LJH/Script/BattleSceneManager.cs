@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class BattleSceneManager : MonoBehaviour
 {
@@ -29,6 +31,11 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] public List<UnitsDatas> enemyUnitData;
 
     [SerializeField] public float _timeLimit;
+
+    [SerializeField] TMP_Text BattlePower;
+    [SerializeField] TMP_Text tacPower;
+    [SerializeField] public int Power;
+    [SerializeField] public int incBuffsPowers;
 
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 
@@ -143,7 +150,10 @@ public class BattleSceneManager : MonoBehaviour
     }
     public void GetDraggables()
     {
-
+        BattlePower.text = "Power :";
+        tacPower.text = "Grid :";
+        Power = 0;
+        incBuffsPowers = 0;
         for (int i = 0; i < 13; i++)
         {
             if (Draggables[i] == null)
@@ -158,6 +168,7 @@ public class BattleSceneManager : MonoBehaviour
         Debug.Log(PlayerDataManager.Instance.PlayerData.UnitDatas.Count);
         for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db ���� ���� ������ ��ŭ�� ���̰� 
         {
+
             Draggables[i].gameObject.SetActive(true);
             int id = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitId;
             int maxHp = int.Parse(CsvDataManager.Instance.DataLists[0][id]["BaseHp"]);
@@ -205,6 +216,36 @@ public class BattleSceneManager : MonoBehaviour
         {
             Draggables[i].GetComponent<CharSlot>().buffCount = Draggables[i].gameObject.GetComponent<UnitStat>().buffs.Count;
         }
+    }
+
+
+    IEnumerator delayingPowerCheck()
+    {
+        Power = 0;
+        incBuffsPowers = 0;
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 1; i < inGridObject.Length; i++)
+        {
+            if (inGridObject[i] != null)
+            {
+                double inc = 1 + (((inGridObject[i].GetComponent<UnitStat>().Level - 1) * (inGridObject[i].GetComponent<UnitStat>().Increase)) / 100.0);
+                int atk = (int)(inc * inGridObject[i].GetComponent<UnitStat>().Atk);
+                int incBuffs = 0;
+                for (int j = 0; j < inGridObject[i].GetComponent<UnitStat>().buffs.Count; j++)
+                {
+                    incBuffs += inGridObject[i].GetComponent<UnitStat>().buffs[j].z;
+                }
+                Power += atk;
+                incBuffsPowers += incBuffs;
+            }
+        }
+        BattlePower.text = "Power :" + Power.ToString();
+        tacPower.text = "Grid :" + incBuffsPowers.ToString();
+
+    }
+    public void TotalPowerUpdate()
+    {
+        StartCoroutine(delayingPowerCheck());
     }
 
 }

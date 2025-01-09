@@ -39,7 +39,6 @@ public class CharSlot : MonoBehaviour
         }
     }
 
-
     public void setCharSlotData(int id, string name, string level /*Image gridImage*/, Sprite charImage)
     {
         charId = id;
