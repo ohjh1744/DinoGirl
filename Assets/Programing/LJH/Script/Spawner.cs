@@ -74,7 +74,7 @@ public class Spawner : MonoBehaviour
         {
             int id = BattleSceneManager.Instance.enemyUnitData[i].Id;
             int pos = BattleSceneManager.Instance.enemyUnitData[i].Pos;
-            GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Enemy_" + id.ToString()), enemyGrid[pos].position, Quaternion.identity);
+            GameObject obj = Instantiate(Resources.Load<GameObject>("Enemies/Enemy_" + id.ToString()), enemyGrid[pos].position, Quaternion.identity);
             BaseUnitController unit = obj.GetComponent<BaseUnitController>();
             UnitModel model = obj.GetComponent<UnitModel>();
             model.AttackPoint = (int)(BattleSceneManager.Instance.enemyUnitData[i].Atk*Aper);
