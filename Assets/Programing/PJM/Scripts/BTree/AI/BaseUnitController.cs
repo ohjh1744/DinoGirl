@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 public abstract class BaseUnitController : MonoBehaviour
 {
     [SerializeField] private Transform _centerPosition;
-    public Transform CenterPosition => _centerPosition;
+    public Transform CenterPosition { get => _centerPosition; private set => _centerPosition = value; }
     
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
@@ -70,8 +70,12 @@ public abstract class BaseUnitController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        UnitViewer = GetComponent<UnitView>();
-        UnitModel = GetComponent<UnitModel>();
+        if(UnitViewer == null)
+            UnitViewer = GetComponent<UnitView>();
+        if(UnitModel == null)
+            UnitModel = GetComponent<UnitModel>();
+        if(CenterPosition == null)
+            CenterPosition = transform.Find("CenterPosition");
     }
 
     protected virtual void OnEnable()

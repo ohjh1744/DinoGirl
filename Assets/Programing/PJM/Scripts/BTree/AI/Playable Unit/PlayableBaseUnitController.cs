@@ -11,8 +11,8 @@ public abstract class PlayableBaseUnitController : BaseUnitController
 
     //public float SkillRange { get => skillRange; protected set => skillRange = value;}
     
-    private bool _isSkillRunning;
-    public bool IsSkillRunning { get => _isSkillRunning; protected set => _isSkillRunning = value; }
+    //private bool _isSkillRunning;
+    //public bool IsSkillRunning { get => _isSkillRunning; protected set => _isSkillRunning = value; }
     
     private List<BaseUnitController> _skillTargets;
     public List<BaseUnitController> SkillTargets { get => _skillTargets; protected set => _skillTargets = value; }
