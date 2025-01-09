@@ -104,7 +104,7 @@ MonoBehaviour:
   _attackPoint: 2
   _defensePoint: 1
   _moveSpeed: 2
-  _attackRange: 10
+  _attackRange: 20
   _isPriorityTargetFar: 0
 --- !u!1 &2183843277461938887
 GameObject:
@@ -485,3 +485,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 31b48dde909d52d45b99876e8215404f, type: 3}
   m_PrefabInstance: {fileID: 8449815714385459700}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8260737788126419017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 31b48dde909d52d45b99876e8215404f, type: 3}
+  m_PrefabInstance: {fileID: 8449815714385459700}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &2490008646552780289
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8260737788126419017}
+  m_Enabled: 1
+  m_SortingLayerID: -552709513
+  m_SortingLayer: 3
+  m_SortingOrder: 1

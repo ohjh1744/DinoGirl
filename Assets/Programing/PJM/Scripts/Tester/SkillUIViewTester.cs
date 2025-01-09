@@ -1,13 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UI;
 
-public class SkillUIView : UIBInder
+public class SkillUIViewTester : UIBInder
 {
     // 글로벌 쿨타임 // 현재 임시
     [SerializeField] private float _globalCooldown = 0.5f;
@@ -31,14 +26,14 @@ public class SkillUIView : UIBInder
 
     private void OnEnable()
     {
-        Spawner.OnSpawnCompleted += InitializeSkillSlots; // 스태틱 이벤트라 나중에 바꿀거 생각해야함
+        //Spawner.OnSpawnCompleted += InitializeSkillSlots; // 스태틱 이벤트라 나중에 바꿀거 생각해야함
     }
 
     private void Start()
     {
-        
+        InitializeSkillSlots();
         //InitializeSkillSlots();
-        
+
     }
 
     private void Update()
@@ -46,7 +41,7 @@ public class SkillUIView : UIBInder
         if(BattleSceneManager.Instance.isGamePaused)
             return;
 
-        if(BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Battle)
+        //if(BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Battle)
             UpdateCooldown();
         //Debug.Log($"{TempBattleContext.Instance.players[0].CoolTimeCounter}");
         //Debug.Log($"{TempBattleContext.Instance.players[0].CoolTimeCounter} | {SkillSlots[0].remainingTime}");
@@ -54,7 +49,7 @@ public class SkillUIView : UIBInder
 
     private void OnDisable()
     {
-        Spawner.OnSpawnCompleted -= InitializeSkillSlots;
+        //Spawner.OnSpawnCompleted -= InitializeSkillSlots;
     }
 
 
@@ -76,9 +71,6 @@ public class SkillUIView : UIBInder
 
         foreach (var player in BattleSceneManager.Instance.myUnits)
         {
-            if(player == null || !player.gameObject.activeSelf)
-                continue;
-            
             if (player.UniqueSkill == null)
             {
                 Debug.Log($"{player.name}에 스킬이 없습니다.");
@@ -175,7 +167,7 @@ public class SkillUIView : UIBInder
         foreach (SkillSlot slot in SkillSlots)
         {
             if(slot == null || slot.SkillOwner == null)
-                Debug.LogWarning("dddddddd");
+                Debug.LogWarning("slor or SkillOwner 에러");
             
             float remainingTime = slot.SkillOwner.CoolTimeCounter;
             float totalTime = slot.SkillData != null ? slot.SkillData.Cooltime : 0f;
@@ -219,6 +211,4 @@ public class SkillUIView : UIBInder
         SkillSlots[slotIndex].remainingTime = SkillSlots[slotIndex].skillTime;
         SkillSlots[slotIndex].isCooling = true;*/
     }
-
 }
-

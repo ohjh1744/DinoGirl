@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4005812530564026328}
   - component: {fileID: 4005812530564026311}
   m_Layer: 11
-  m_Name: StageBoss_2
+  m_Name: Kuro
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -341,3 +341,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: e3b8effc1f3ae844a853a0742168b28f, type: 3}
   m_PrefabInstance: {fileID: 6050676471972035172}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6061737270202489817 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: e3b8effc1f3ae844a853a0742168b28f, type: 3}
+  m_PrefabInstance: {fileID: 6050676471972035172}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &8496992482697820954
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6061737270202489817}
+  m_Enabled: 1
+  m_SortingLayerID: 232910677
+  m_SortingLayer: 2
+  m_SortingOrder: 1

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
-  m_Name: TempStageBoss1Skill
+  m_Name: KuroSkill
   m_EditorClassIdentifier: 
   _skillName: TempBossSKill
-  _skillRange: 10
+  _targetAll: 0
+  _skillRange: 5
   _maxTargetingNum: 1
   _isPriorityTargetFar: 0
-  skillRatio: 2
-  cooltime: 8
+  skillRatio: 1.5
+  cooltime: 15
   crowdControl: 0
   ccDuration: 0
-  _skillIcon: {fileID: -3410871672646804374, guid: 495ae7e6c13e2dd4aa2466fb6316eab3, type: 3}
+  _skillIcon: {fileID: 8593497014526902906, guid: e3b8effc1f3ae844a853a0742168b28f, type: 3}

@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4005812530564026328}
   - component: {fileID: 4005812530564026311}
   m_Layer: 11
-  m_Name: StageBoss_1
+  m_Name: Shiro
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4b3f72c5fbdb74f88e2a7daafc3b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHp: 10
+  _maxHp: 100
   _hp: 0
   _coolDownAcc: 1
   _attackPoint: 2
@@ -357,3 +357,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 3b2097ff998f34143b270ead300ce049, type: 3}
   m_PrefabInstance: {fileID: 2018414859593386794}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2010037277688965783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 3b2097ff998f34143b270ead300ce049, type: 3}
+  m_PrefabInstance: {fileID: 2018414859593386794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &4645871167636955987
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010037277688965783}
+  m_Enabled: 1
+  m_SortingLayerID: 232910677
+  m_SortingLayer: 2
+  m_SortingOrder: 1

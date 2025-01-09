@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
-  m_Name: TempStageBoss2Skill
+  m_Name: ShiroSkill
   m_EditorClassIdentifier: 
   _skillName: TempBossSKill
-  _skillRange: 10
-  _maxTargetingNum: 1
+  _targetAll: 1
+  _skillRange: 0
+  _maxTargetingNum: 0
   _isPriorityTargetFar: 0
-  skillRatio: 2
-  cooltime: 8
+  skillRatio: 1
+  cooltime: 20
   crowdControl: 0
   ccDuration: 0
-  _skillIcon: {fileID: -3410871672646804374, guid: 495ae7e6c13e2dd4aa2466fb6316eab3, type: 3}
+  _skillIcon: {fileID: -184890904288638664, guid: 3b2097ff998f34143b270ead300ce049, type: 3}

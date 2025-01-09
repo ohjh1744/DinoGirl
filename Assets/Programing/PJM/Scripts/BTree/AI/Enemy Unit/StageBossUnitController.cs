@@ -13,11 +13,7 @@ public class StageBossUnitController : EnemyBaseUnitController
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
-        //DetectRange = 20.0f;
-        //AttackRange = 2.0f;
-        //MoveSpeed = 2.0f;
-        //SkillRange = 4.0f;
-        CoolTimeCounter = 0.5f;
+        CoolTimeCounter = 5.0f; // 임시
     }
     
     
