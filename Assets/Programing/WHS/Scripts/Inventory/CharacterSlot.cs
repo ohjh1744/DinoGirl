@@ -62,7 +62,7 @@ public class CharacterSlot : UIBInder
         string portraitPath = $"Portrait/portrait_{_unitData.UnitId}";
         if (portraitPath != null)
         {
-            GetUI<Image>("Character(Clone)").sprite = Resources.Load<Sprite>(portraitPath);
+            GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(portraitPath);
         }
         else
         {
