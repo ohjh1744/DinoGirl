@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: AilaSkill
   m_EditorClassIdentifier: 
   _skillName: Solar Lay
-  _skillRange: 15
+  _targetAll: 0
+  _skillRange: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 1
   skillRatio: 2
   cooltime: 14
   crowdControl: 0
   ccDuration: 0
-  _skillIcon: {fileID: 2451200315526053419, guid: 39d60955e736c8a4c93e269947ac4d2d, type: 3}
+  _skillIcon: {fileID: 21300000, guid: 771b8310739537c489006fa1fb1950aa, type: 3}

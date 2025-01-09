@@ -1,13 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-8349006507245293299
+--- !u!1107 &-7958287954741819520
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Base Layer
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: 9054879102428174131}
+    m_Position: {x: 372.52444, y: 144.52393, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6731503909125509105}
+    m_Position: {x: 270.18497, y: 254.09955, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -5892194485987264541}
+    m_Position: {x: 659.902, y: 222.05386, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 715196775605619776}
+    m_Position: {x: 552.3939, y: 335.76443, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -5629197607331626329}
+    m_Position: {x: 314.54102, y: 405.12646, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5786715145250679569}
+    m_Position: {x: 383.83282, y: 536.94977, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 9054879102428174131}
+--- !u!1102 &-6731503909125509105
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin_Move
+  m_Name: Eost_Die
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,20 +57,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d488d50b9e198d84d9c91978c569e351, type: 2}
+  m_Motion: {fileID: 7400000, guid: e5732b3e8cd142b4cb5d851229a013c9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-4431140916698885487
+--- !u!1102 &-5892194485987264541
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin_Attack
+  m_Name: Eost_Attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -46,20 +83,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d9cf9dac306fcb846a9fee3bd0921f38, type: 2}
+  m_Motion: {fileID: 7400000, guid: a0e20cbe65fd94241a97467d3ac44c95, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-3542753799669656681
+--- !u!1102 &-5629197607331626329
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin_Win
+  m_Name: Eost_Skill
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -72,33 +109,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6e6746e2b41cebf47ab1f03774003b0a, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &-1862620181222747635
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin_Idle
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f6252caf9536bb74db8ccd55e25dd2b0, type: 2}
+  m_Motion: {fileID: 7400000, guid: a6d3f27953a0f08439f038a4212b5809, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -110,13 +121,13 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin
+  m_Name: Eost
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
-    m_StateMachine: {fileID: 6483815881415713895}
+    m_StateMachine: {fileID: -7958287954741819520}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -126,14 +137,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &2164193321428947620
+--- !u!1102 &715196775605619776
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin_Skill
+  m_Name: Eost_Move
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -146,20 +157,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 71ad7caff3f14a141a02601409c3066f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 198b1e61bea37294d907fe00b9eeb4ce, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &2287447869032607284
+--- !u!1102 &5786715145250679569
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Melorin_Die
+  m_Name: Eost_Win
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -172,46 +183,35 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5571f96091de7414dbcbd63e4c42c923, type: 2}
+  m_Motion: {fileID: 7400000, guid: b569ef447ab549243b021df2aed54836, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1107 &6483815881415713895
-AnimatorStateMachine:
+--- !u!1102 &9054879102428174131
+AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
-  m_ChildStates:
-  - serializedVersion: 1
-    m_State: {fileID: -1862620181222747635}
-    m_Position: {x: 270, y: 110, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4431140916698885487}
-    m_Position: {x: 270, y: 170, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2287447869032607284}
-    m_Position: {x: 270, y: 230, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8349006507245293299}
-    m_Position: {x: 270, y: 290, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2164193321428947620}
-    m_Position: {x: 270, y: 350, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3542753799669656681}
-    m_Position: {x: 270, y: 410, z: 0}
-  m_ChildStateMachines: []
-  m_AnyStateTransitions: []
-  m_EntryTransitions: []
-  m_StateMachineTransitions: {}
+  m_Name: Eost_Idle
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
-  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -1862620181222747635}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: f26f573d9474a8b40b3670e5588882cb, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
