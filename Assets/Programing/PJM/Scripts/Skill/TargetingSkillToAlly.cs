@@ -106,6 +106,7 @@ public class TargetingSkillToAlly : Skill
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],true);
             //Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
+            SpawnEffect(caster.transform, VFXToMine);
             caster.CoolTimeCounter = Cooltime;
             caster.IsSkillRunning = true;
             return BaseNode.ENodeState.Running;
@@ -141,7 +142,7 @@ public class TargetingSkillToAlly : Skill
                     // 임시로 아군 체력의 50%
                     int healingAmount = (int)(target.UnitModel.MaxHp * SkillRatio);
                     target.UnitModel.TakeHeal(healingAmount);
-                    SpawnEffect(target.CenterPosition);
+                    SpawnEffect(target.CenterPosition, VFXToTarget);
                     Debug.Log(target.gameObject.name);
                 }
                 return BaseNode.ENodeState.Success;

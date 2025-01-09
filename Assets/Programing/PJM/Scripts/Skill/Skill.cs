@@ -43,8 +43,11 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private Sprite _skillIcon;
     public Sprite SkillIcon {get => _skillIcon;set => _skillIcon = value; }
     
-    [SerializeField] private GameObject _skillEffect;
-    public GameObject SkillEffect {get => _skillEffect;}
+    [SerializeField] private GameObject _vfxToTarget;
+    public GameObject VFXToTarget {get => _vfxToTarget;}
+    
+    [SerializeField] private GameObject _vfxToMine;
+    public GameObject VFXToMine {get => _vfxToMine;}
 
 
     /*protected Transform skillTarget; // 여기 있어도 괜찮나? 계속 바뀔텐데 데이터 컨테이너에 있을 얘가 아닌가?
@@ -93,14 +96,14 @@ public abstract class Skill : ScriptableObject
         return new ActionNode(() => Perform(caster, targets));
     }
 
-    protected void SpawnEffect(Transform targetTransform)
+    protected void SpawnEffect(Transform targetTransform, GameObject effectPrefab)
     {
-        GameObject particleObject = Instantiate(SkillEffect, targetTransform.position, Quaternion.identity);
-        if (particleObject == null)
-        {
-            Debug.LogError("이펙트 프리팹이 존재하지 않습니다.");
+        if(effectPrefab == null)
             return;
-        }
+        
+        GameObject particleObject = Instantiate(effectPrefab, targetTransform.position, Quaternion.identity);
+        if (particleObject == null)
+            return;
         
         if (particleObject.TryGetComponent<ParticleSystem>(out var particleSystem))
         {
@@ -110,7 +113,6 @@ public abstract class Skill : ScriptableObject
         {
             Destroy(particleObject);
         }
-
     }
 
     protected void ResetTargets(List<BaseUnitController> targets)
