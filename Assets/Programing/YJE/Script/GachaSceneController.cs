@@ -22,8 +22,6 @@ public class GachaSceneController : UIBInder
 
     private List<Gacha> baseGachaList = new List<Gacha>(); // 기본 뽑기 List
     public List<Gacha> BaseGachaList { get { return baseGachaList; } set { baseGachaList = value; } }
-    private List<Gacha> eventGachaList = new List<Gacha>(); // 이벤트 뽑기 List
-    public List<Gacha> EventGachaList { get { return baseGachaList; } set { baseGachaList = value; } }
 
     [Header("UI")]
     [SerializeField] RectTransform singleResultContent; // 1연차 결과 내역 프리팹이 생성 될 위치
@@ -50,10 +48,7 @@ public class GachaSceneController : UIBInder
         // 각 Button 텍스트 설정
         GetUI<TextMeshProUGUI>("BaseSingleText").SetText("1회 뽑기");
         GetUI<TextMeshProUGUI>("BaseTenText").SetText("10회 뽑기");
-        GetUI<TextMeshProUGUI>("EventSingleText").SetText("1회 뽑기");
-        GetUI<TextMeshProUGUI>("EventTenText").SetText("10회 뽑기");
         GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("상설");
-        GetUI<TextMeshProUGUI>("ChangeEventGacahText").SetText("이벤트");
         UpdatePlayerUI();
     }
 
@@ -106,9 +101,6 @@ public class GachaSceneController : UIBInder
             {
                 case "1":
                     BaseGachaList.Add(gacha);
-                    break;
-                case "2":
-                    EventGachaList.Add(gacha);
                     break;
                 default:
                     break;
@@ -215,11 +207,8 @@ public class GachaSceneController : UIBInder
         // GachaBtn 스크립트의 각 버튼별 함수 연결
         GetUI<Button>("BaseSingleBtn").onClick.AddListener(gachaBtn.BaseSingleBtn);
         GetUI<Button>("BaseTenBtn").onClick.AddListener(gachaBtn.BaseTenBtn);
-        GetUI<Button>("EventSingleBtn").onClick.AddListener(gachaBtn.EventSingleBtn);
-        GetUI<Button>("EventTenBtn").onClick.AddListener(gachaBtn.EventTenBtn);
         // Gacha 종류 변경 버튼 함수 연동
         GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(ShowBaseGachaPanel);
-        GetUI<Button>("ChangeEventGachaBtn").onClick.AddListener(ShowEventGachaPanel);
         // Lobby로 돌아가기 버튼 함수 연동
         GetUI<Button>("BackBtn").onClick.AddListener(gachaBtn.BackToRobby);
     }
@@ -233,7 +222,6 @@ public class GachaSceneController : UIBInder
     {
         // 기본 패널 활성화
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(true);
-        GetUI<Image>("EventGachaPanel").gameObject.SetActive(false);
         // 돌아가는 버튼 활성화
         GetUI<Image>("BackBtn").gameObject.SetActive(true);
         // 상점 캐릭터 활성화
@@ -242,29 +230,8 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
         // 가챠 선택 버튼 활성화
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
-        GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(true);
     }
 
-    /// <summary>
-    /// EventGachaPanel 활성화
-    /// - BaseGachaPanel 비활성화
-    /// ChangeEventGachaBtn에 설정
-    /// </summary>
-    private void ShowEventGachaPanel()
-    {
-        // 이벤트 패널 활성화
-        GetUI<Image>("EventGachaPanel").gameObject.SetActive(true);
-        GetUI<Image>("BaseGachaPanel").gameObject.SetActive(false);
-        // 돌아가는 버튼 활성화
-        GetUI<Image>("BackBtn").gameObject.SetActive(true);
-        // 상점 캐릭터 활성화
-        GetUI<Image>("ShopCharacter").gameObject.SetActive(true);
-        // 가챠 결과 패널 비활성화
-        GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
-        // 가챠 선택 버튼 활성화
-        GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
-        GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(true);
-    }
 
     /// <summary>
     /// Single/TenResult Panel 활성화 시 비활성화 하는 UI
@@ -273,7 +240,6 @@ public class GachaSceneController : UIBInder
     {
         // 기본 뽑기 종류 변경 버튼 비활성화
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(false);
-        GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(false);
         // 각 아이템 재화 Text 비활성화
         GetUI<TextMeshProUGUI>("CoinText").gameObject.SetActive(false);
         GetUI<TextMeshProUGUI>("DinoBloodText").gameObject.SetActive(false);
@@ -296,7 +262,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(true);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
         GetUI<Image>("SingleImage").gameObject.SetActive(true);
-        DisableResultPanel(); // 비활성화 함수
+        //DisableResultPanel(); // 비활성화 함수
     }
     public void DisableSingleImage()
     {
@@ -313,7 +279,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
         GetUI<Image>("TenImage").gameObject.SetActive(true);
-        DisableResultPanel(); // 비활성화 함수
+        //DisableResultPanel(); // 비활성화 함수
     }
     public void DisableTenImage()
     {
@@ -330,7 +296,6 @@ public class GachaSceneController : UIBInder
         gachaBtn.ClearResultList(); // 뽑기의 결과는 GachaBtn 스크립트에 저장되어있으로 초기화 필수
         // 기본 뽑기 종류 변경 버튼 활성화
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
-        GetUI<Image>("ChangeEventGachaBtn").gameObject.SetActive(true);
         // 결과 패널 비활성화
         GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
