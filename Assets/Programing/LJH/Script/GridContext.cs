@@ -31,12 +31,12 @@ public class GridContext : MonoBehaviour
     [SerializeField] Image[] myGrids;
     [SerializeField] Color[] highLightColors;
     [SerializeField] TMP_Text unitCount;
-    [SerializeField] TMP_Text BattlePower;
     private bool mybuff;
 
     private void OnEnable()
     {
         unitCount.text = "0/5";
+       
     }
 
     public void UpdateBuffsList(int num) 
@@ -68,7 +68,7 @@ public class GridContext : MonoBehaviour
         //BattlePower.text = "전투력 : " + "";
     }
     public void showGridArea(int gridnum, int id) // 이벤트로 실행됨
-    {
+    { 
         string girdshapeName = CsvDataManager.Instance.DataLists[0][id]["Grid"];
         selectGridBuff(girdshapeName, gridnum - 1, id); //그리드 모양(이름), 현재 위치 , 캐릭터 아이디 
     }

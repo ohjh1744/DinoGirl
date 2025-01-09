@@ -42,8 +42,9 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 	}  
     public UnityEvent DropinGrid; 
     public void OnDrop(PointerEventData eventData)
-	{
+	{	
         BattleSceneManager.Instance.ClearBuffs();
+        //BattleSceneManager.Instance.TotalPowerUpdate();
         if (isFull == true)  
 		{
 			return;
@@ -74,6 +75,7 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
         }
 		else if (transform.childCount >= 1) 
 		{
+            BattleSceneManager.Instance.TotalPowerUpdate();
             isFull = true;
         }
     }
