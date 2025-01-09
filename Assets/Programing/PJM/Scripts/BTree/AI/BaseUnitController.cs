@@ -35,8 +35,8 @@ public abstract class BaseUnitController : MonoBehaviour
     protected int unitID;
     public int UnitID { get { return unitID; } }
 
-    private float _minZ = -1.0f;
-    private float _maxZ = 1.0f;
+    /*private float _minZ = -1.0f;
+    private float _maxZ = 1.0f;*/
     
     // 카메라 범위
     /*protected Vector2 _bottomLeft;
@@ -198,7 +198,7 @@ public abstract class BaseUnitController : MonoBehaviour
         //if (!IsAttacking)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], true);
-            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
+            //Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
             IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
             
             // 공격 애니메이션의 길이 + 지정된 공격 후딜레이 후 공격을 종료시켜줄 코루틴 // 현재 미사용
@@ -219,13 +219,13 @@ public abstract class BaseUnitController : MonoBehaviour
             {
                 if (stateInfo.normalizedTime < 1.0f)
                 {
-                    Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
+                    //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
                     return BaseNode.ENodeState.Running;
                 }
                 else if (stateInfo.normalizedTime >= 1.0f)
                 {
                     // 공격 애니메이션이 끝났을 경우
-                    Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
+                    //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
                     UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
                     IsAttacking = false;
                     // 공격수행 데미지 적용 시킴
@@ -491,6 +491,46 @@ public abstract class BaseUnitController : MonoBehaviour
         isDying = true;
         UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
     }
+    
+    protected bool CheckSkillCooltimeBack()
+    {
+        /*if (IsSkillRunning)
+        {
+            CoolTimeCounter -= Time.deltaTime;
+            return false;
+        }
+
+        if (CoolTimeCounter > 0)
+        {
+            CoolTimeCounter -= Time.deltaTime;
+            return false;
+        }*/
+
+        if (CoolTimeCounter <= 0)
+        {
+            CoolTimeCounter = 0;
+            return true;
+        }
+        
+        return false;
+        
+
+        
+        
+        /*if (CoolTimeCounter <= 0)
+        {
+            CoolTimeCounter = 0;
+            //CoolTimeCounter = UniqueSkill.Cooltime;
+            return true;
+        }
+        else
+        {
+            CoolTimeCounter -= Time.deltaTime;
+            return false;
+        }*/
+    }
+    
+    
     /*protected void OnDrawGizmos()
     {
         string layerName = LayerMask.LayerToName(gameObject.layer);

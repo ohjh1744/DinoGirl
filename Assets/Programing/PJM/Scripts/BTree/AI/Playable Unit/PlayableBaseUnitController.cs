@@ -126,7 +126,7 @@ public abstract class PlayableBaseUnitController : BaseUnitController
     }
 
 
-    protected bool CheckSkillCooltimeBack()
+    /*protected bool CheckSkillCooltimeBack()
     {
         /*if (IsSkillRunning)
         {
@@ -138,7 +138,7 @@ public abstract class PlayableBaseUnitController : BaseUnitController
         {
             CoolTimeCounter -= Time.deltaTime;
             return false;
-        }*/
+        }#1#
 
         if (CoolTimeCounter <= 0)
         {
@@ -161,8 +161,8 @@ public abstract class PlayableBaseUnitController : BaseUnitController
         {
             CoolTimeCounter -= Time.deltaTime;
             return false;
-        }*/
-    }
+        }#1#
+    }*/
 
     protected BaseNode.ENodeState CheckWinBattle()
     {

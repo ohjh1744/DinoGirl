@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using Image = UnityEngine.UI.Image;
+using UnityEngine.UI;
 
-public class BattlePanelView : UIBInder
+public class BattlePanelViewTester : UIBInder
 {
     [SerializeField] private GameObject hpBarPrefab;
     private void Awake()
@@ -15,10 +14,16 @@ public class BattlePanelView : UIBInder
         
     }
 
+    private void Start()
+    {
+        InstantiateHPBars();
+        InitializeButtons();
+    }
+
     private void OnEnable()
     {
-        Spawner.OnSpawnCompleted += InstantiateHPBars;
-        Spawner.OnSpawnCompleted += InitializeButtons;
+        /*Spawner.OnSpawnCompleted += InstantiateHPBars;
+        Spawner.OnSpawnCompleted += InitializeButtons;*/
     }
 
     private void InitializeButtons()
@@ -28,8 +33,8 @@ public class BattlePanelView : UIBInder
     }
     private void OnDisable()
     {
-        Spawner.OnSpawnCompleted -= InstantiateHPBars;
-        Spawner.OnSpawnCompleted -= InitializeButtons;
+        /*Spawner.OnSpawnCompleted -= InstantiateHPBars;
+        Spawner.OnSpawnCompleted -= InitializeButtons;*/
     }
     public void ToggleTimeScale()
     {
@@ -91,5 +96,4 @@ public class BattlePanelView : UIBInder
             }
         }
     }
-
 }

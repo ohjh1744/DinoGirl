@@ -8,6 +8,34 @@ public class TargetingSkillToAlly : Skill
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
+        
+        if (TargetAll)
+        {
+            string myLayerName = LayerMask.LayerToName(caster.gameObject.layer);
+            if (myLayerName == "UserCharacter")
+            {
+                foreach (var target in BattleSceneManager.Instance.myUnits)
+                {
+                    if(target == null || !target.gameObject.activeSelf)
+                        continue;
+                    targets.Add(target);
+                    Debug.Log(target.gameObject.name);
+                }
+                
+            }
+            else
+            {
+                foreach (var target in BattleSceneManager.Instance.enemyUnits)
+                {
+                    if(target == null || !target.gameObject.activeSelf)
+                        continue;
+                    targets.Add(target);
+                    Debug.Log(target.gameObject.name);
+                }
+            }
+            return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
+        }
+        
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.AllianceLayer);
         if (detectedColliders.Length == 0)
         {
@@ -103,16 +131,14 @@ public class TargetingSkillToAlly : Skill
                 
                 foreach (var target in targets)
                 {
+                    if(target == null || !target.gameObject.activeSelf)
+                        continue;
                     // 적용해줄 로직
                     // 임시로 반드시 힐하도록 설정
                     // 임시로 아군 체력의 50%
-
-                    if (target.gameObject != null)
-                    {
-                        int healingAmount = (int)(target.UnitModel.MaxHp * SkillRatio);
-                        target.UnitModel.TakeHeal(healingAmount);
-                    }
-                        
+                    int healingAmount = (int)(target.UnitModel.MaxHp * SkillRatio);
+                    target.UnitModel.TakeHeal(healingAmount);
+                    Debug.Log(target.gameObject.name);
                 }
                 return BaseNode.ENodeState.Success;
             }

@@ -8,8 +8,13 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private string _skillName;
     public string SkillName {get => _skillName; set => _skillName = value; }
     
+    [SerializeField] private bool _targetAll;
+    public bool TargetAll {get => _targetAll; protected set => _targetAll = value; }
+    // TargetAll이 true면 아래 skillrange와 maxTargetingNum은 숨기고싶다
+    
     [SerializeField] private float _skillRange;
     public float SkillRange {get => _skillRange; protected set => _skillRange = value; }
+
 
     [SerializeField] private int _maxTargetingNum;
     public int MaxTargetingNum {get => _maxTargetingNum; protected set => _maxTargetingNum = value; }
