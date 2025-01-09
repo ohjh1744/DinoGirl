@@ -21,6 +21,9 @@ public class LevelUpPanel : UIBInder
     private Dictionary<int, Dictionary<string, string>> _levelUpData;
     private Dictionary<int, Dictionary<string, string>> _characterData;
 
+    private CharacterPanel _characterPanel;
+    private InventoryPanel _inventoryPanel;
+
     private struct RequiredItems
     {
         public int Coin;
@@ -39,6 +42,9 @@ public class LevelUpPanel : UIBInder
         _levelUpData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterLevelUp];
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
+        _characterPanel = FindObjectOfType<CharacterPanel>();
+        _inventoryPanel = FindObjectOfType<InventoryPanel>();
+
         Debug.Log($"levelUpData count: {_levelUpData.Count}");
         foreach (var key in _levelUpData.Keys)
         {
@@ -53,18 +59,18 @@ public class LevelUpPanel : UIBInder
             PlayerDataManager.Instance.PlayerData.OnItemChanged = new UnityAction<int>[Enum.GetValues(typeof(E_Item)).Length];
         }
 
-        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoinText;
-        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += UpdateDinoBloodText;
-        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += UpdateBoneCrystalText;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += (value) => UpdateItemText(value, "Coin");
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += (value) => UpdateItemText(value, "DinoBlood");
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += (value) => UpdateItemText(value, "BoneCrystal");
     }
 
     private void OnDisable()
     {
         if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null)
         {
-            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoinText;
-            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] -= UpdateDinoBloodText;
-            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= UpdateBoneCrystalText;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= (value) => UpdateItemText(value, "Coin");
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] -= (value) => UpdateItemText(value, "DinoBlood");
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= (value) => UpdateItemText(value, "BoneCrystal");
         }
     }
 
@@ -194,16 +200,11 @@ public class LevelUpPanel : UIBInder
     {
         RequiredItems items = new RequiredItems();
         int rarity = GetRarity();
+        int endLevel = Math.Min(_targetCharacter.UnitLevel + level, MAXLEVEL);
 
-        for (int i = 0; i < level; i++)
+        for (int curLevel = _targetCharacter.UnitLevel + 1; curLevel <= endLevel; curLevel++)
         {
-            int curLevel = _targetCharacter.UnitLevel + i + 1;
             int levelUpId = FindLevelUpId(rarity, curLevel);
-
-            if (curLevel > MAXLEVEL)
-            {
-                break;
-            }
 
             if (_levelUpData.TryGetValue(levelUpId, out Dictionary<string, string> data))
             {
@@ -405,21 +406,10 @@ public class LevelUpPanel : UIBInder
     private void UpdateCharacters(PlayerUnitData character)
     {
         // 캐릭터 정보에 보여지는 레벨 갱신
-        CharacterPanel characterPanel = FindObjectOfType<CharacterPanel>();
-        if (characterPanel != null)
-        {
-            characterPanel.UpdateCharacterInfo(character);
-        }
+        _characterPanel?.UpdateCharacterInfo(character);
 
         // 인벤토리 슬롯에 보여지는 레벨 갱신
-        InventoryPanel inventoryPanel = FindObjectOfType<InventoryPanel>();
-        if (inventoryPanel != null)
-        {
-            inventoryPanel.UpdateCharacterUI(character);
-        }
-
-        // 아이템패널 갱신
-        ItemPanel.Instance.UpdateItems();
+        _inventoryPanel?.UpdateCharacterUI(character);
     }
 
     // 감소 버튼
@@ -455,23 +445,10 @@ public class LevelUpPanel : UIBInder
         }
     }
 
-    private void UpdateCoinText(int newValue)
+    // UI 아이템 숫자 갱신
+    private void UpdateItemText(int newValue, string itemName)
     {
-        GetUI<TextMeshProUGUI>("CoinText").text = $"Coin : {newValue}";
-        CalculateMaxLevelUp();
-        UpdateUI();
-    }
-
-    private void UpdateDinoBloodText(int newValue)
-    {
-        GetUI<TextMeshProUGUI>("DinoBloodText").text = $"DinoBlood : {newValue}";
-        CalculateMaxLevelUp();
-        UpdateUI();
-    }
-
-    private void UpdateBoneCrystalText(int newValue)
-    {
-        GetUI<TextMeshProUGUI>("BoneCrystalText").text = $"BoneCrystal : {newValue}";
+        GetUI<TextMeshProUGUI>($"{itemName}Text").text = $"{itemName} : {newValue}";
         CalculateMaxLevelUp();
         UpdateUI();
     }

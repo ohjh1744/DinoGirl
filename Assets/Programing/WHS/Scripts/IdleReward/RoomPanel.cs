@@ -149,6 +149,7 @@ public class RoomPanel : UIBInder
         _idleReward.CalculateIdleReward();
 
         _idleRewardPanel.SetActive(true);
+        BackButtonManager.Instance.AddBackAction(CloseIdleRewardPanel);
 
         int goldReward = _idleReward.CalculateReward(1, (int)_idleReward.GetIdleTime().TotalSeconds);
         int dinoBloodReward = _idleReward.CalculateReward(2, (int)_idleReward.GetIdleTime().TotalSeconds);
@@ -163,6 +164,12 @@ public class RoomPanel : UIBInder
         LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
 
         GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
+    }
+
+    // 뒤로가기 버튼 - IdleRewardPanel 닫기
+    private void CloseIdleRewardPanel()
+    {
+        _idleRewardPanel.SetActive(false);
     }
 
     private void ShowPopup(int gold, int dinoBlood, int boneCrystal)

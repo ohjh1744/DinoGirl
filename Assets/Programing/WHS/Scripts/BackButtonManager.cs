@@ -13,6 +13,9 @@ public class BackButtonManager : MonoBehaviour
 
     private SceneChanger _sceneChanger;
 
+    public int BackActionCount => _backActions.Count;
+    [SerializeField] private int _backActionCount;
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,6 +41,8 @@ public class BackButtonManager : MonoBehaviour
         {
             HandleBackButton();
         }
+
+        _backActionCount = _backActions.Count;
     }
 
     private void HandleBackButton()
