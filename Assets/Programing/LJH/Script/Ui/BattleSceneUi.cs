@@ -6,6 +6,8 @@ using System.Linq;
 using UnityEngine.UI;
 using Firebase.Database;
 using Firebase.Extensions;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 //using static UnityEditor.Progress;
 
 public class BattleSceneUi : MonoBehaviour
@@ -28,10 +30,31 @@ public class BattleSceneUi : MonoBehaviour
 
     private void OnEnable()
     {
+        StartCoroutine(ableDelaying());
+
+    }
+    IEnumerator ableDelaying() 
+    {   
+        yield return new WaitForSeconds(0.3f);
         time = BattleSceneManager.Instance._timeLimit;
 
         Spawner.OnSpawnCompleted += startTimerTriger;
+    }
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
 
+        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        Spawner.OnSpawnCompleted -= startTimerTriger;
+        StopCoroutine("startTimer");
+        StopCoroutine("Subscriber");
     }
     IEnumerator Subscriber()
     {
@@ -48,11 +71,11 @@ public class BattleSceneUi : MonoBehaviour
         }
 
     }
-
+    Coroutine coroutine;
     public void startTimerTriger()
     {
-        StartCoroutine(startTimer());
-        StartCoroutine(Subscriber());
+        coroutine =  StartCoroutine(startTimer());
+        coroutine =  StartCoroutine(Subscriber());
     }
     IEnumerator startTimer()
     {
@@ -69,6 +92,7 @@ public class BattleSceneUi : MonoBehaviour
             {
                 Debug.Log("시간 종료");
                 curTime = 0;
+                openResultPanel();
                 yield break;
             }
         }
@@ -224,6 +248,24 @@ public class BattleSceneUi : MonoBehaviour
     public void goChapter()
     {
         BattleSceneManager.Instance.GoChapter();
+    }
+    public void goLobby2()
+    {
+        Time.timeScale = 0;
+        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
+        {
+            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
+        }
+        Spawner.OnSpawnCompleted -= startTimerTriger;
+        Destroy(gameObject);
+        StopCoroutine("startTimer");
+        StopCoroutine("Subscriber");
+        //Time.timeScale = 0;
+        BattleSceneManager.Instance.GoLobby();
     }
 
 }

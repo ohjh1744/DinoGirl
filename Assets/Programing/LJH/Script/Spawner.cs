@@ -82,11 +82,12 @@ public class Spawner : MonoBehaviour
         BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Battle;
         OnSpawnCompleted?.Invoke();
         StartCoroutine(TimeDelaystart());
-    }
+        }
 
     IEnumerator TimeDelaystart() 
     {
         yield return new WaitForSecondsRealtime(3f);
         Time.timeScale = 1f;
+        
     }
 }

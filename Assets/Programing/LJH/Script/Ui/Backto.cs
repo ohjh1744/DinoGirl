@@ -5,9 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class Backto : MonoBehaviour
 {
-    public void BacktoLobby() 
+    public void BacktoChapter() 
     {
         SceneManager.LoadScene("ChapterSelect_LJH");
         Destroy(BattleSceneManager.Instance.gameObject);
     }
+    public void BacktoLobby()
+    {   
+        
+        SceneManager.LoadScene("Lobby_OJH");
+        Destroy(BattleSceneManager.Instance.gameObject);
+    }
+
+
 }

@@ -31,6 +31,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] public List<UnitsDatas> enemyUnitData;
 
     [SerializeField] public float _timeLimit;
+
     [SerializeField] TMP_Text BattlePower;
     [SerializeField] TMP_Text tacPower;
     [SerializeField] public int Power;
