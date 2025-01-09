@@ -60,8 +60,8 @@ public class BattleSceneManager : MonoBehaviour
 
         inGridObject = new GameObject[10];
         enemyGridObject = new string[9];
-        myUnits = new List<PlayableBaseUnitController>();
-        enemyUnits = new List<BaseUnitController>();
+        /*myUnits = new List<PlayableBaseUnitController>();
+        enemyUnits = new List<BaseUnitController>();*/
         myUnitData = new List<UnitsDatas>();
         enemyUnitData = new List<UnitsDatas>();
     }

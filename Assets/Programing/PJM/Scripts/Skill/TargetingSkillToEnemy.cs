@@ -8,6 +8,35 @@ public class TargetingSkillToEnemy : Skill
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
+
+        if (TargetAll)
+        {
+            string myLayerName = LayerMask.LayerToName(caster.gameObject.layer);
+            if (myLayerName == "UserCharacter")
+            {
+                foreach (var target in BattleSceneManager.Instance.enemyUnits)
+                {
+                    if(target == null || !target.gameObject.activeSelf)
+                        continue;
+                    targets.Add(target);
+                    Debug.Log(target.gameObject.name);
+                }
+                
+            }
+            else
+            {
+                foreach (var target in BattleSceneManager.Instance.myUnits)
+                {
+                    if(target == null || !target.gameObject.activeSelf)
+                        continue;
+                    targets.Add(target);
+                    Debug.Log(target.gameObject.name);
+                }
+            }
+            return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
+        }
+        
+        
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
@@ -42,6 +71,7 @@ public class TargetingSkillToEnemy : Skill
 
         // 최대 타겟 수만큼만 타겟에 남기기
         //for (int i = 0; i < MaxTargetingNum; i++)
+        
         if(targets.Count > MaxTargetingNum)
         {
             targets.RemoveRange(MaxTargetingNum, targets.Count - MaxTargetingNum);
@@ -102,17 +132,15 @@ public class TargetingSkillToEnemy : Skill
                     float attackDamage = caster.UnitModel.AttackPoint * SkillRatio;
                     foreach (var target in targets)
                     {
+                        if(target == null || !target.gameObject.activeSelf)
+                            continue;
                         // 데미지 주는 로직
                         // 데미지를 줄 인원 수 선택 필요
-                        if (target.gameObject != null)
+                        target.UnitModel.TakeDamage((int)attackDamage); // 소숫점 버림, 반올림할지 선택 필요
+                        //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
+                        if (CrowdControl != CrowdControls.None)
                         {
-                            target.UnitModel.TakeDamage((int)attackDamage); // 소숫점 버림, 반올림할지 선택 필요
-                            //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
-                            if (CrowdControl != CrowdControls.None)
-                            {
-                                Debug.Log("cccc");
-                                target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
-                            }
+                            target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
                         }
                     }
 

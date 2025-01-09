@@ -56,6 +56,9 @@ public class BattlePanelView : UIBInder
     {
         foreach (var playerUnit in BattleSceneManager.Instance.myUnits)
         {
+            if(playerUnit == null || !playerUnit.gameObject.activeSelf)
+                continue;
+            
             GameObject barObject = Instantiate(hpBarPrefab, transform);
             UnitHealthBarController hpBar = barObject.GetComponent<UnitHealthBarController>();
             hpBar.Target = playerUnit.transform;
@@ -69,6 +72,9 @@ public class BattlePanelView : UIBInder
 
         foreach (var enemyUnit in BattleSceneManager.Instance.enemyUnits)
         {
+            if(enemyUnit == null || !enemyUnit.gameObject.activeSelf)
+                continue;
+            
             GameObject barObject = Instantiate(hpBarPrefab, transform);
             UnitHealthBarController hpBar = barObject.GetComponent<UnitHealthBarController>();
             hpBar.Target = enemyUnit.transform;
