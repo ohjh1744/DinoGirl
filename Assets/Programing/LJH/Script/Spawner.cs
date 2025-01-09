@@ -65,6 +65,11 @@ public class Spawner : MonoBehaviour
 
             
         }
+        int stageid = BattleSceneManager.Instance.curStageNum+101;
+        double Aper =int.Parse(CsvDataManager.Instance.DataLists[6][stageid]["ATKPercent"])/ 100.0 ;
+        double Hper =int.Parse(CsvDataManager.Instance.DataLists[6][stageid]["HpPercent"])/ 100.0 ;
+        double Dper =int.Parse(CsvDataManager.Instance.DataLists[6][stageid]["DefPercent"]) / 100.0 ;
+        Debug.Log($"스테이지 배율 공{Aper} 체 {Hper} 방 {Dper}");
         for (int i = 0; i < BattleSceneManager.Instance.enemyUnitData.Count; i++)
         {
             int id = BattleSceneManager.Instance.enemyUnitData[i].Id;
@@ -72,10 +77,10 @@ public class Spawner : MonoBehaviour
             GameObject obj = Instantiate(Resources.Load<GameObject>("Characters/Enemy_" + id.ToString()), enemyGrid[pos].position, Quaternion.identity);
             BaseUnitController unit = obj.GetComponent<BaseUnitController>();
             UnitModel model = obj.GetComponent<UnitModel>();
-            model.AttackPoint = BattleSceneManager.Instance.enemyUnitData[i].Atk;
-            model.DefensePoint = BattleSceneManager.Instance.enemyUnitData[i].Def;
-            model.MaxHp = BattleSceneManager.Instance.enemyUnitData[i].MaxHp;
-            model.Hp = BattleSceneManager.Instance.enemyUnitData[i].MaxHp;
+            model.AttackPoint = (int)(BattleSceneManager.Instance.enemyUnitData[i].Atk*Aper);
+            model.DefensePoint = (int)(BattleSceneManager.Instance.enemyUnitData[i].Def*Dper);
+            model.MaxHp = (int)(BattleSceneManager.Instance.enemyUnitData[i].MaxHp*Hper);
+            model.Hp = model.MaxHp;
             BattleSceneManager.Instance.enemyUnits.Add(unit);
         }
     
