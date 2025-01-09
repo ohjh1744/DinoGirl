@@ -22,7 +22,6 @@ public class GachaBtn : MonoBehaviour
     // GachaSceneController에 csv로 연동한 데이터를 받아서 사용
     [Header("Gacha Lists")]
     private List<Gacha> baseGachaList = new List<Gacha>();
-    private List<Gacha> eventGachaList = new List<Gacha>();
 
     private void Awake()
     {
@@ -101,13 +100,13 @@ public class GachaBtn : MonoBehaviour
             // UI 업데이트
             gachaSceneController.UpdatePlayerUI();
             StopCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 종료
+            //gachaSceneController.DisableSingleImage();
         }
         else
         {
             Debug.Log("재화 부족으로 실행 불가");
             gachaSceneController.DisabledGachaResultPanel();
         }
-
     }
     /// <summary>
     /// 기본 10연차 버튼 실행 시
@@ -169,119 +168,6 @@ public class GachaBtn : MonoBehaviour
     }
 
     /// <summary>
-    /// 이벤트 1연차 버튼 실행 시
-    /// - eventGachaList에 저장된 확률로 출력
-    /// - eventGachaList에 저장된 확률로 출력
-    /// </summary>
-    public void EventSingleBtn()
-    {
-        GameObject resultUI = null;
-        eventGachaList = gachaSceneController.EventGachaList;
-        // 기본 플레이어의 재화 DinoStone(3)이 100 이상인 경우에만 실행
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] >= gachaCost)
-        {
-            // eventGachaList의 전체 Probability의 합산을 구하기
-            int total = 0;
-            foreach (Gacha gacha in eventGachaList)
-            {
-                total += gacha.Probability;
-            }
-            int weight = 0;
-            int selectNum = 0;
-            selectNum = Mathf.RoundToInt(total * Random.Range(0.0f, 1.0f)); // 랜덤 숫자 뽑기
-            gachaSceneController.ShowSingleResultPanel(); // 1연차 결과 패널 활성화
-
-            for (int i = 0; i < eventGachaList.Count; i++)
-            {
-                weight += eventGachaList[i].Probability;
-                if (selectNum <= weight) // 가중치와 숫자를 비교
-                {
-                    // 아이템과 캐릭터에 따라서 결과값 출력
-                    // GachaSceneController.cs에 GachaSingleResultUI()로 반환된 GameObject를 resultList에 저장
-                    resultUI = gachaSceneController.GachaSingleResultUI(eventGachaList, i);
-                    resultList.Add(resultUI);
-                    StartCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 실행
-                    break;
-                }
-            }
-            // 서버에서 플레이어의 데이터 값 수정
-            // firebase 기본 UserData 루트
-            DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
-            gachaCheck.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
-            // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
-            gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            // UI 업데이트
-            gachaSceneController.UpdatePlayerUI(); // 가챠 루틴 종료
-            StopCoroutine(CharacterVideoR(resultUI));
-        }
-        else
-        {
-            Debug.Log("재화 부족으로 실행 불가");
-            gachaSceneController.DisabledGachaResultPanel();
-        }
-    }
-
-    /// <summary>
-    /// 이벤트 10연차 버튼 실행 시
-    /// - eventGachaList에 저장된 확률로 출력
-    /// - eventGachaList에 저장된 확률로 출력
-    /// </summary>
-    public void EventTenBtn()
-    {
-        eventGachaList = gachaSceneController.EventGachaList;
-        // 기본 플레이어의 재화 DinoStone(3)이 1000 이상인 경우에만 실행
-        if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] >= gachaCost * 10)
-        {
-            int total = 0;
-            foreach (Gacha gacha in eventGachaList)
-            {
-                total += gacha.Probability;
-            }
-            gachaSceneController.ShowTenResultPanel(); // 10연차 결과패널 활성화
-
-            int weight = 0; // 현재 위치의 가중치
-            int selectNum = 0; // 선택한 랜덤 번호
-            int count = 0; // 총 10번의 회수를 카운팅 하는 변수
-
-            do
-            {
-                selectNum = Mathf.RoundToInt(total * Random.Range(0.0f, 1.0f));
-
-                // 가챠용 리스트의 횟수 만큼 반복하며 가중치에 해당하는 결과 출력
-                for (int i = 0; i < eventGachaList.Count; i++)
-                {
-                    weight += eventGachaList[i].Probability;
-                    if (selectNum <= weight)
-                    {
-                        // 아이템과 캐릭터에 따라서 결과값 출력
-                        // GachaSceneController.cs에 GachaTenResultUI로 반환된 GameObject를 resultList에 저장
-                        GameObject resultUI = gachaSceneController.GachaTenResultUI(eventGachaList, i);
-                        resultList.Add(resultUI);
-                        Debug.Log($"반환한 GameObject : {eventGachaList[i].ItemId}");
-                        count++;
-                        weight = 0;
-                        break;
-                    }
-                }
-            } while (count < 10);
-            StartCoroutine(CharacterTenVideoR()); // 가챠 루틴 실행
-            // 뽑기에 사용한 재화값 PlayerData 수정
-            DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
-            gachaCheck.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
-            // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
-            gachaCheck.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            // UI 업데이트
-            gachaSceneController.UpdatePlayerUI();
-        }
-        else
-        {
-            Debug.Log("재화 부족으로 실행 불가");
-            gachaSceneController.DisabledGachaResultPanel();
-        }
-        StopCoroutine(CharacterTenVideoR()); // 가챠 루틴 종료
-    }
-
-    /// <summary>
     /// 가챠의 캐릭터 뽑기 시 실행할 영상 코루틴
     /// </summary>
     /// <returns></returns>
@@ -293,6 +179,7 @@ public class GachaBtn : MonoBehaviour
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
+        gachaSceneController.DisableSingleImage();
     }
 
     /// <summary>
@@ -315,6 +202,7 @@ public class GachaBtn : MonoBehaviour
                 continue;
             }
         }
+        gachaSceneController.DisableTenImage();
     }
 }
 
