@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,11 +12,18 @@ public class SceneChanger : MonoBehaviour
 
     [SerializeField] private GameObject _loadingPanel;
 
+    [SerializeField] private Slider _loadingBar;
+
+    [SerializeField] private TextMeshProUGUI _loadingText;
+
     [SerializeField] private float _loadingTime;
+
 
     private Coroutine _loadingRoutine;
 
     private bool _canChangeSceen;
+
+    private StringBuilder _sb = new StringBuilder();
 
     public bool CanChangeSceen { get { return _canChangeSceen; } set { _canChangeSceen = value; } }
 
@@ -55,6 +64,10 @@ public class SceneChanger : MonoBehaviour
 
         oper.allowSceneActivation = false;
 
+        _loadingBar.gameObject.SetActive(true);
+
+        _loadingText.gameObject.SetActive(true);
+
         while (oper.isDone == false)
         {
             if (oper.progress < 0.9f)
@@ -74,6 +87,20 @@ public class SceneChanger : MonoBehaviour
         while (time < _loadingTime || _canChangeSceen == false)
         {
             time += Time.deltaTime;
+            _loadingBar.value = time / _loadingTime;
+            _sb.Clear();
+            _sb.Append("Loading ");
+            int percent = Mathf.FloorToInt(_loadingBar.value * 100);
+            if (percent == 100)
+            {
+                _sb.Append(99);
+            }
+            else
+            {
+                _sb.Append(percent);
+            }
+            _sb.Append("%");
+            _loadingText.SetText(_sb);
             yield return null;
         }
 
