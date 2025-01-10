@@ -11,7 +11,6 @@ using Firebase.Database;
 using System.Runtime.CompilerServices;
 using System.Net;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
 
 public class LobbyPanel : UIBInder
 {
