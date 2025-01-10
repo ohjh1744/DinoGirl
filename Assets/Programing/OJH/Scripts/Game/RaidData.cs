@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaidData : MonoBehaviour
+[System.Serializable]
+public class RaidData
 {
     [SerializeField] private string _name; // ¿Ã∏ß+ID
 
