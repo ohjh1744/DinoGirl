@@ -11,6 +11,7 @@ using Firebase.Database;
 using System.Runtime.CompilerServices;
 using System.Net;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 public class LobbyPanel : UIBInder
 {
@@ -21,8 +22,10 @@ public class LobbyPanel : UIBInder
       
     [SerializeField] private int _resetAddFriendTime; // AddFriend를 초기화할 시간 ex)8시
 
-    [SerializeField] private Sprite[] _mainUnitImages;
-  
+    [SerializeField] private Sprite[] _mainUnitImages;// 로비씬 전체이미지
+     
+    [SerializeField] private Sprite[] _mainUnitPortraitImages; //Player정보창에서의 메인캐릭터 얼굴이미지
+
     private static string[] _itemValueTexts = { "LobbyItem1Value", "LobbyItem2Value", "LobbyItem3Value", "LobbyItem4Value", "LobbyItem5Value" };
 
     private bool _isCheckResetAddFriend;
@@ -165,6 +168,9 @@ public class LobbyPanel : UIBInder
     private void ShowMainUnit()
     {
         GetUI<Image>("LobbyMainUnitImage").sprite = _mainUnitImages[PlayerDataManager.Instance.PlayerData.MainUnitID - 1];
+        GetUI<Image>("PlayerMainUnitImage").sprite = _mainUnitPortraitImages[PlayerDataManager.Instance.PlayerData.MainUnitID - 1];
+        Dictionary<int, Dictionary<string, string>> charDic = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        GetUI<TextMeshProUGUI>("PlayerMainUnitNameText").text = charDic[PlayerDataManager.Instance.PlayerData.MainUnitID]["Name"];
     }
 
     private void ShowItems()
