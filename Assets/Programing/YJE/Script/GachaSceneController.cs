@@ -57,6 +57,8 @@ public class GachaSceneController : UIBInder
         GetUI<TextMeshProUGUI>("BaseTenText").SetText("10회 뽑기");
         GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("상설");
         GetUI<TextMeshProUGUI>("ChangeShopText").SetText("상점");
+        GetUI<TextMeshProUGUI>("GachaSingleCostText").SetText($"{gachaBtn.GachaCost}");
+        GetUI<TextMeshProUGUI>("GachaTenCostText").SetText($"{gachaBtn.GachaCost * 10}");
         UpdatePlayerUI();
     }
 

@@ -15,6 +15,7 @@ public class GachaBtn : MonoBehaviour
 
     // 가챠 재화 비용과 아이템 종류 지정 - 인스펙터창에서 편하게 수정 가능
     [SerializeField] int gachaCost;
+    public int GachaCost {  get { return gachaCost; } set { gachaCost = value; } }
     [SerializeField] string gachaCostItem;
 
     [Header("GachaSceneController")]
