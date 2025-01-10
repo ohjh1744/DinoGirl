@@ -13,6 +13,8 @@ public class BackButtonManager : MonoBehaviour
 
     private SceneChanger _sceneChanger;
 
+    [SerializeField] private int _openPanelCount;
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,6 +40,8 @@ public class BackButtonManager : MonoBehaviour
         {
             HandleBackButton();
         }
+
+        _openPanelCount = _openPanels.Count;
     }
 
     private void HandleBackButton()
@@ -78,5 +82,12 @@ public class BackButtonManager : MonoBehaviour
         }
     }
 
-    public int OpenPanelCount => _openPanels.Count;
+    public void CloseAllPanels()
+    {
+        while (_openPanels.Count > 0)
+        {
+            GameObject panel = _openPanels.Pop();
+            panel.SetActive(false);
+        }
+    }
 }
