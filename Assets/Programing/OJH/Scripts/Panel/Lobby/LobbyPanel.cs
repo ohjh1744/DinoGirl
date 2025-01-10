@@ -45,17 +45,17 @@ public class LobbyPanel : UIBInder
         _parsedDateTime = DateTime.ParseExact(_lastResetTime, "yyyyMMdd_HHmmss_fff", null);
 
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoin;
-        GetUI<Button>("LobbyPlayerButton").onClick.AddListener(SetInteractableFalse);
-        GetUI<Button>("LobbyMailButton").onClick.AddListener(SetInteractableFalse);
-        GetUI<Button>("LobbyAddFriendButton").onClick.AddListener(SetInteractableFalse);
-        GetUI<Button>("LobbyFriendsButton").onClick.AddListener(SetInteractableFalse);
-        GetUI<Button>("LobbySettingButton").onClick.AddListener(SetInteractableFalse);
+        GetUI<Button>("LobbyPlayerButton").onClick.AddListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbyMailButton").onClick.AddListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbyAddFriendButton").onClick.AddListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbyFriendsButton").onClick.AddListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbySettingButton").onClick.AddListener(SetBlackPanelTrue);
 
-        GetUI<Button>("PlayerExitButton").onClick.AddListener(SetInteractableTrue);
-        GetUI<Button>("AddFriendExitButton").onClick.AddListener(SetInteractableTrue);
-        GetUI<Button>("FriendsExitButton").onClick.AddListener(SetInteractableTrue);
-        GetUI<Button>("MailExitButton").onClick.AddListener(SetInteractableTrue);
-        GetUI<Button>("SettingExitButton").onClick.AddListener(SetInteractableTrue);
+        GetUI<Button>("PlayerExitButton").onClick.AddListener(SetBlackPanelFalse);
+        GetUI<Button>("AddFriendExitButton").onClick.AddListener(SetBlackPanelFalse);
+        GetUI<Button>("FriendsExitButton").onClick.AddListener(SetBlackPanelFalse);
+        GetUI<Button>("MailExitButton").onClick.AddListener(SetBlackPanelFalse);
+        GetUI<Button>("SettingExitButton").onClick.AddListener(SetBlackPanelFalse);
 
         GetUI<Button>("LobbyChapterButton").onClick.AddListener(() => ChangeScene("ChapterSelect_LJH"));
         GetUI<Button>("LobbyCharacterButton").onClick.AddListener(() => ChangeScene("InventoryScene_WHS"));
@@ -66,17 +66,17 @@ public class LobbyPanel : UIBInder
     private void OnDisable()
     {
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoin;
-        GetUI<Button>("LobbyPlayerButton").onClick.RemoveListener(SetInteractableFalse);
-        GetUI<Button>("LobbyMailButton").onClick.RemoveListener(SetInteractableFalse);
-        GetUI<Button>("LobbyAddFriendButton").onClick.RemoveListener(SetInteractableFalse);
-        GetUI<Button>("LobbyFriendsButton").onClick.RemoveListener(SetInteractableFalse);
-        GetUI<Button>("LobbySettingButton").onClick.RemoveListener(SetInteractableFalse);
+        GetUI<Button>("LobbyPlayerButton").onClick.RemoveListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbyMailButton").onClick.RemoveListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbyAddFriendButton").onClick.RemoveListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbyFriendsButton").onClick.RemoveListener(SetBlackPanelTrue);
+        GetUI<Button>("LobbySettingButton").onClick.RemoveListener(SetBlackPanelTrue);
 
-        GetUI<Button>("PlayerExitButton").onClick.RemoveListener(SetInteractableTrue);
-        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(SetInteractableTrue);
-        GetUI<Button>("FriendsExitButton").onClick.RemoveListener(SetInteractableTrue);
-        GetUI<Button>("MailExitButton").onClick.RemoveListener(SetInteractableTrue);
-        GetUI<Button>("SettingExitButton").onClick.RemoveListener(SetInteractableTrue);
+        GetUI<Button>("PlayerExitButton").onClick.RemoveListener(SetBlackPanelFalse);
+        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(SetBlackPanelFalse);
+        GetUI<Button>("FriendsExitButton").onClick.RemoveListener(SetBlackPanelFalse);
+        GetUI<Button>("MailExitButton").onClick.RemoveListener(SetBlackPanelFalse);
+        GetUI<Button>("SettingExitButton").onClick.RemoveListener(SetBlackPanelFalse);
 
         GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(() => ChangeScene("ChapterSelect_LJH"));
         GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(() => ChangeScene("InventoryScene_WHS"));
@@ -195,32 +195,14 @@ public class LobbyPanel : UIBInder
         GetUI<TextMeshProUGUI>(_itemValueTexts[0]).SetText(itemSb);
     }
 
-    private void SetInteractableFalse()
+    private void SetBlackPanelTrue()
     {
-        GetUI<Button>("LobbyPlayerButton").interactable = false;
-        GetUI<Button>("LobbyChapterButton").interactable = false;
-        GetUI<Button>("LobbyContentButton").interactable = false;
-        GetUI<Button>("LobbyRoomButton").interactable = false;
-        GetUI<Button>("LobbyCharacterButton").interactable = false;
-        GetUI<Button>("LobbyGachaButton").interactable = false;
-        GetUI<Button>("LobbyAddFriendButton").interactable = false;
-        GetUI<Button>("LobbyMailButton").interactable = false;
-        GetUI<Button>("LobbyFriendsButton").interactable = false;
-        GetUI<Button>("LobbySettingButton").interactable = false;
+        GetUI("BlackPanel").gameObject.SetActive(true);
     }
 
-    private void SetInteractableTrue()
+    private void SetBlackPanelFalse()
     {
-        GetUI<Button>("LobbyPlayerButton").interactable = true;
-        GetUI<Button>("LobbyChapterButton").interactable = true;
-        GetUI<Button>("LobbyContentButton").interactable = true;
-        GetUI<Button>("LobbyRoomButton").interactable = true;
-        GetUI<Button>("LobbyCharacterButton").interactable = true;
-        GetUI<Button>("LobbyGachaButton").interactable = true;
-        GetUI<Button>("LobbyAddFriendButton").interactable = true;
-        GetUI<Button>("LobbyMailButton").interactable = true;
-        GetUI<Button>("LobbyFriendsButton").interactable = true;
-        GetUI<Button>("LobbySettingButton").interactable = true;
+        GetUI("BlackPanel").gameObject.SetActive(false);
     }
 
     private void ChangeScene(string sceneName)

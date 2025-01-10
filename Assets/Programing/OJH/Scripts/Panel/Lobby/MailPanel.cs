@@ -66,6 +66,7 @@ public class MailPanel : UIBInder
 
     private void OnDisable()
     {
+        GetUI("MailCheckedImage").gameObject.SetActive(false);
         GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(CheckAllMail);
         ResetMailLists();
     }
