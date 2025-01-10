@@ -10,7 +10,7 @@ public class GachaBtn : MonoBehaviour
     GachaCheck gachaCheck;
     [SerializeField] SceneChanger sceneChanger;
 
-    private RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
+    public RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
     private RectTransform tenVideoContent; // 10연차 결과 내역 프리팹이 생성 될 위치
 
     // 가챠 재화 비용과 아이템 종류 지정 - 인스펙터창에서 편하게 수정 가능
@@ -28,15 +28,18 @@ public class GachaBtn : MonoBehaviour
     {
         gachaSceneController = gameObject.GetComponent<GachaSceneController>();
         gachaCheck = gameObject.GetComponent<GachaCheck>();
+
+    }
+    private void Start()
+    {
         singleVideoContent = gachaSceneController.GetUI<RectTransform>("SingleResultPanel");
         tenVideoContent = gachaSceneController.GetUI<RectTransform>("TenResultPanel");
     }
-
     public void BackToRobby()
     {
-        gachaSceneController.GetUI<Image>("LoadingPanel").gameObject.SetActive(true);
-        sceneChanger.CanChangeSceen = true;
+        //gachaSceneController.GetUI<Image>("LoadingPanel").gameObject.SetActive(true);
         sceneChanger.ChangeScene("Lobby_OJH");
+        sceneChanger.CanChangeSceen = true;
     }
 
     /// <summary>
@@ -172,7 +175,7 @@ public class GachaBtn : MonoBehaviour
     /// 가챠의 캐릭터 뽑기 시 실행할 영상 코루틴
     /// </summary>
     /// <returns></returns>
-    IEnumerator CharacterVideoR(GameObject gameObj)
+    public IEnumerator CharacterVideoR(GameObject gameObj)
     {
         if (gameObj.GetComponent<ShopChar>())
         {

@@ -1,4 +1,5 @@
 using Firebase.Database;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -101,13 +102,13 @@ public class ShopChar : MonoBehaviour
         switch (rarity)
         {
             case 2:
-                price = 100;
+                price = 50;
                 break;
             case 3:
-                price = 500;
+                price = 100;
                 break;
             case 4:
-                price = 1000;
+                price = 300;
                 break;
         }
         return price;
@@ -156,6 +157,7 @@ public class ShopChar : MonoBehaviour
         resultCharUI.GetComponent<ShopChar>().charName = shopChar.CharName;
         resultCharUI.GetComponent<ShopChar>().rarity = shopChar.rarity;
         resultCharUI.GetComponent<ShopChar>().price = shopChar.price;
+        resultCharUI.GetComponent<ShopChar>().video = shopChar.video;
 
         // UI 출력 설정
         resultCharUI.transform.GetChild(0).GetComponent<Image>().sprite = shopChar.charImageProfile;
@@ -227,14 +229,27 @@ public class ShopChar : MonoBehaviour
                 DatabaseReference setItemRoot;
                 setItemRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_items/4");
                 setItemRoot.SetValueAsync(result); // firebase 값 변경
+                gameObject.GetComponentInParent<GachaSceneController>().ShowSingleResultPanel();
+                StartCoroutine(CharacterVideoR(gameObject));
             }
-
+            StopCoroutine(CharacterVideoR(gameObject));
         }
-
-        // 중복시
-        // 구매 불가능 한 캐릭터 안내 텍스트 출력
-        // 미중복시
-        // 돌파석(Stone) 재화 감소(캐릭터 레어도(GachaChar.Rarity) 별 감소 수치 적용)
-        // 플레이어 유닛 데이터 로컬+서버 업데이트
     }
+
+    /// <summary>
+    /// 가챠의 캐릭터 뽑기 시 실행할 영상 코루틴
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator CharacterVideoR(GameObject gameObj)
+    {
+        if (gameObj.GetComponent<ShopChar>())
+        {
+            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<GachaBtn>().singleVideoContent);
+            obj.SetActive(true);
+            yield return new WaitUntil(() => obj.gameObject == false);
+        }
+        gameObject.GetComponentInParent<GachaSceneController>().DisableSingleImage();
+        gameObject.GetComponentInParent<GachaSceneController>().DisabledGachaResultPanel();
+    }
+
 }

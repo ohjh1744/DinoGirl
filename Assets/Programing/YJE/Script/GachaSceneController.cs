@@ -40,6 +40,11 @@ public class GachaSceneController : UIBInder
         ShowBaseGachaPanel();
     }
 
+    private void Update()
+    {
+        UpdatePlayerUI();
+    }
+
     /// <summary>
     /// 시작 시 버튼의 문구 설정
     /// - 버튼의 문구 변경 가능
@@ -245,6 +250,8 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
         // 로딩 패널 비활성화
         GetUI<Image>("LoadingPanel").gameObject.SetActive(false);
+        // 중복 구매 팝업
+        GetUI<Image>("BuyPopUp").gameObject.SetActive(false);
     }
 
 
