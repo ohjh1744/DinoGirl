@@ -141,6 +141,8 @@ public class TargetingSkillToEnemy : Skill
                         if (CrowdControl != CrowdControls.None)
                         {
                             target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
+                            if (CrowdControl == CrowdControls.Taunt)
+                                target.TauntSource = caster;
                         }
                     }
 
