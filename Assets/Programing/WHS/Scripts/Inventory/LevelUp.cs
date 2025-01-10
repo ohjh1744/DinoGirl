@@ -83,6 +83,16 @@ public class LevelUp
         // 캐릭터의 레벨 증가
         character.UnitLevel += levels;
 
+        // PlayerDataManager의 UnitDatas 업데이트
+        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++)
+        {
+            if (PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitId == character.UnitId)
+            {
+                PlayerDataManager.Instance.PlayerData.UnitDatas[i] = character;
+                break;
+            }
+        }
+
         // DB에 레벨, 아이템 갱신
         UpdateDatabase(character, items);
     }

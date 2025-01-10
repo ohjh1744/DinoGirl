@@ -87,7 +87,7 @@ public class LevelUpPanel : UIBInder
         }
         else
         {
-            GetUI<TextMeshProUGUI>($"{itemName}Text").text = "";
+            GetUI<TextMeshProUGUI>($"{itemName}Text").text = $"{itemName} ÃæºÐÇÔ";
         }
     }
 
