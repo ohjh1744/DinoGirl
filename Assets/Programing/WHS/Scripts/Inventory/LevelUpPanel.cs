@@ -23,6 +23,8 @@ public class LevelUpPanel : UIBInder
     private int _curLevelUp;
     private LevelUp _levelUpSystem;
 
+    [SerializeField] private ItemPanel _itemPanel;
+
     private void Awake()
     {
         BindAll();
@@ -121,6 +123,8 @@ public class LevelUpPanel : UIBInder
             UpdateCharacters(_targetCharacter);
             gameObject.SetActive(false);
         }
+
+        _itemPanel.UpdateItems();
     }
 
     // CharacterPanel, InventoryPanel에 보여지는 레벨 갱신

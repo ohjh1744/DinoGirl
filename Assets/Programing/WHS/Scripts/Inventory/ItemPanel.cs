@@ -12,22 +12,10 @@ using UnityEngine.UI;
 
 public class ItemPanel : UIBInder
 {
-    private static ItemPanel _instance;
-    public static ItemPanel Instance { get { return _instance; } set { _instance = value; } }
-
     [SerializeField] private SceneChanger _sceneChanger;
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         _sceneChanger = FindObjectOfType<SceneChanger>();
     }
 

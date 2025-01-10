@@ -12,6 +12,7 @@ public class RoomPanel : UIBInder
 {
     private IdleReward _idleReward;
     [SerializeField] private GameObject _idleRewardPanel;
+    [SerializeField] private GameObject _claimPopup;
     [SerializeField] private ItemPanel _itemPanel;
 
     private Coroutine _updateIdleTimeCoroutine;
@@ -75,6 +76,7 @@ public class RoomPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.SetStoredItem((int)E_Item.BoneCrystal, 0);
 
         ShowPopup(storedGold, storedDinoBlood, storedBoneCrystal);
+        BackButtonManager.Instance.OpenPanel(_claimPopup);
 
         // Firebase에 업데이트된 아이템 정보 저장
         UpdateItemsInDatabase();
@@ -165,12 +167,6 @@ public class RoomPanel : UIBInder
         */
         
         GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
-    }
-
-    // 뒤로가기 버튼 - IdleRewardPanel 닫기
-    private void CloseIdleRewardPanel()
-    {
-        _idleRewardPanel.SetActive(false);
     }
 
     private void ShowPopup(int gold, int dinoBlood, int boneCrystal)

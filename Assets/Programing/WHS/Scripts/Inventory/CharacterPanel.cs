@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class CharacterPanel : UIBInder
 {
     private PlayerUnitData _curCharacter;
-    private GameObject _levelUpPanel;
+    [SerializeField] private GameObject _levelUpPanel;
 
     private Dictionary<int, Dictionary<string, string>> _characterData;
     private Dictionary<int, Dictionary<string, string>> _skillData;
@@ -29,10 +29,6 @@ public class CharacterPanel : UIBInder
         AddEvent("PreviousCharacterButton", EventType.Click, PreviousButton);
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
         AddEvent("SetMainCharacterButton", EventType.Click, SetMainCharacter);
-
-        Transform characterPanel = GameObject.Find("CharacterPanel").transform;
-        Transform background = characterPanel.Find("CharacterPanelBackground");
-        _levelUpPanel = background.Find("LevelUpPanel").gameObject;
 
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
         _skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
