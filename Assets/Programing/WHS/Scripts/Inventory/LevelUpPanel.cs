@@ -64,31 +64,25 @@ public class LevelUpPanel : UIBInder
         RequiredItems items = _levelUpSystem.CalculateRequiredItems(_targetCharacter, _curLevelUp);
         bool canLevelUp = _levelUpSystem.CanLevelUp(_targetCharacter, _curLevelUp);
 
-        UpdateItemTexts(items, canLevelUp);
+        UpdateItemTexts(items);
         UpdateLevelText();
         UpdateButtonStates(canLevelUp);
     }
 
     // 아이템 요구량 텍스트 갱신
-    private void UpdateItemTexts(RequiredItems items, bool canLevelUp)
+    private void UpdateItemTexts(RequiredItems items)
     {
         CheckItemAmount("Coin", items.Coin, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
         CheckItemAmount("DinoBlood", items.DinoBlood, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
         CheckItemAmount("BoneCrystal", items.BoneCrystal, PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
     }
 
-    // 부족한 아이템 출력
+    // 아이템 수량 확인
     private void CheckItemAmount(string itemName, int requiredAmount, int currentAmount)
     {
         int shortage = requiredAmount - currentAmount;
-        if (shortage > 0)
-        {
-            GetUI<TextMeshProUGUI>($"{itemName}Text").text = $"{itemName} {shortage} 부족";
-        }
-        else
-        {
-            GetUI<TextMeshProUGUI>($"{itemName}Text").text = $"{itemName} 충분함";
-        }
+        string text = shortage > 0 ? $"{itemName} {shortage} 부족" : $"{itemName} : {requiredAmount}";
+        GetUI<TextMeshProUGUI>($"{itemName}Text").text = text;
     }
 
     // 레벨 갱신

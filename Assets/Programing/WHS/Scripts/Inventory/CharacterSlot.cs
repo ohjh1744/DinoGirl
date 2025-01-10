@@ -40,7 +40,6 @@ public class CharacterSlot : UIBInder
 
         if (int.TryParse(data["Rarity"], out int rarity))
         {
-            Debug.Log(rarity);
             UpdateStar(rarity);
         }
 

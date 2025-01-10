@@ -101,6 +101,8 @@ public class CharacterPanel : UIBInder
 
             UpdateCharacterData(character);
         }
+
+        GetUI<Button>("SetMainCharacterButton").interactable = (_curCharacter.UnitId != PlayerDataManager.Instance.PlayerData.MainUnitID);
     }
 
     // DB에 캐릭터 정보 갱신
@@ -261,6 +263,8 @@ public class CharacterPanel : UIBInder
     // 메인 캐릭터로 설정
     private void SetMainCharacter(PointerEventData eventData)
     {
+        if (GetUI<Button>("SetMainCharacterButton").interactable == false) return;
+
         PlayerDataManager.Instance.PlayerData.MainUnitID = _curCharacter.UnitId;
 
         string userId = BackendManager.Auth.CurrentUser.UserId;
@@ -283,5 +287,6 @@ public class CharacterPanel : UIBInder
             }
         });
 
+        GetUI<Button>("SetMainCharacterButton").interactable = (_curCharacter.UnitId != PlayerDataManager.Instance.PlayerData.MainUnitID);
     }
 }
