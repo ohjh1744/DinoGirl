@@ -89,10 +89,10 @@ public class CharacterPanel : UIBInder
                 UpdateStar(rarity);
             }
 
-            // TODO : 스킬 정보 가져오기
+            // 스킬 정보 가져오기
             UpdateSkill(character.UnitId);
 
-            // TODO : 레벨에 따라 증가한 스탯
+            // 레벨에 따라 증가한 스탯
             GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
@@ -165,7 +165,7 @@ public class CharacterPanel : UIBInder
     // 레벨당 스탯 계산
     private int CalculateStat(int baseStat, int level)
     {
-        // TODO : Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
+        // Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
 
         if (!_characterData.TryGetValue(_curCharacter.UnitId, out var data))
         {
