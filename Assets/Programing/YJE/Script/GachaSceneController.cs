@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,8 @@ public class GachaSceneController : UIBInder
     // csvDataManager.cs에서 가져올 특정 DataList를 받을 Disctionary
     private Dictionary<int, Dictionary<string, string>> dataBaseList = new Dictionary<int, Dictionary<string, string>>();
     private Dictionary<int, GachaItem> itemDictionary = new Dictionary<int, GachaItem>(); // 아이템 Dictionary
-    private Dictionary<int, GachaChar> charDictionary = new Dictionary<int, GachaChar>(); // 캐릭터 Dictionary
+    private Dictionary<int, ShopChar> charDictionary = new Dictionary<int, ShopChar>(); // 캐릭터 Dictionary
+    public Dictionary<int, ShopChar> CharDictionary {  get { return charDictionary; } set { charDictionary = value; } }
     private Dictionary<int, GachaItemReturn> charReturnItemDic = new Dictionary<int, GachaItemReturn>(); // 중복 캐릭터 반환 아이템 Dictionary
 
     private List<Gacha> baseGachaList = new List<Gacha>(); // 기본 뽑기 List
@@ -38,6 +40,11 @@ public class GachaSceneController : UIBInder
         ShowBaseGachaPanel();
     }
 
+    private void Update()
+    {
+        UpdatePlayerUI();
+    }
+
     /// <summary>
     /// 시작 시 버튼의 문구 설정
     /// - 버튼의 문구 변경 가능
@@ -49,6 +56,9 @@ public class GachaSceneController : UIBInder
         GetUI<TextMeshProUGUI>("BaseSingleText").SetText("1회 뽑기");
         GetUI<TextMeshProUGUI>("BaseTenText").SetText("10회 뽑기");
         GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("상설");
+        GetUI<TextMeshProUGUI>("ChangeShopText").SetText("상점");
+        GetUI<TextMeshProUGUI>("GachaSingleCostText").SetText($"{gachaBtn.GachaCost}");
+        GetUI<TextMeshProUGUI>("GachaTenCostText").SetText($"{gachaBtn.GachaCost * 10}");
         UpdatePlayerUI();
     }
 
@@ -141,39 +151,39 @@ public class GachaSceneController : UIBInder
     }
 
     /// <summary>
-    /// DB에서 받아온 Character를 GachaChar 형식의 리스트에서 사용할 수 있는 형태로 저장
+    /// DB에서 받아온 Character를 shopChar 형식의 리스트에서 사용할 수 있는 형태로 저장
     /// - GachaBtn.cs 에서 아이템을 반환할 때 UI로 연동시켜서 제작하기 위해 사용
-    /// - Character의 종류 추가시 내용을 수정해야하고 각 CharId를 설정하여 사용해야하며 GachaChar.cs의 MakeCharList함수 분기 추가가 필요함
+    /// - Character의 종류 추가시 내용을 수정해야하고 각 CharId를 설정하여 사용해야하며 shopChar.cs의 MakeCharList함수 분기 추가가 필요함
     //  - LoadingCheck.cs에서 이벤트로 설정
     /// </summary>
     public void MakeCharDic()
     {
         dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
-        GachaChar tricia = new GachaChar();
+        ShopChar tricia = new ShopChar();
         tricia = tricia.MakeCharList(dataBaseList, tricia, 1);
         charDictionary.Add(tricia.CharId, tricia);
-        GachaChar celes = new GachaChar();
+        ShopChar celes = new ShopChar();
         celes = celes.MakeCharList(dataBaseList, celes, 2);
         charDictionary.Add(celes.CharId, celes);
-        GachaChar regina = new GachaChar();
+        ShopChar regina = new ShopChar();
         regina = regina.MakeCharList(dataBaseList, regina, 3);
         charDictionary.Add(regina.CharId, regina);
-        GachaChar spinne = new GachaChar();
+        ShopChar spinne = new ShopChar();
         spinne = spinne.MakeCharList(dataBaseList, spinne, 4);
         charDictionary.Add(spinne.CharId, spinne);
-        GachaChar aila = new GachaChar();
+        ShopChar aila = new ShopChar();
         aila = aila.MakeCharList(dataBaseList, aila, 5);
         charDictionary.Add(aila.CharId, aila);
-        GachaChar quezna = new GachaChar();
+        ShopChar quezna = new ShopChar();
         quezna = quezna.MakeCharList(dataBaseList, quezna, 6);
         charDictionary.Add(quezna.CharId, quezna);
-        GachaChar uloro = new GachaChar();
+        ShopChar uloro = new ShopChar();
         uloro = uloro.MakeCharList(dataBaseList, uloro, 7);
         charDictionary.Add(uloro.CharId, uloro);
-        GachaChar eost = new GachaChar();
+        ShopChar eost = new ShopChar();
         eost = eost.MakeCharList(dataBaseList, eost, 8);
         charDictionary.Add(eost.CharId, eost);
-        GachaChar melorin = new GachaChar();
+        ShopChar melorin = new ShopChar();
         melorin = melorin.MakeCharList(dataBaseList, melorin, 9);
         charDictionary.Add(melorin.CharId, melorin);
     }
@@ -207,10 +217,18 @@ public class GachaSceneController : UIBInder
         // GachaBtn 스크립트의 각 버튼별 함수 연결
         GetUI<Button>("BaseSingleBtn").onClick.AddListener(gachaBtn.BaseSingleBtn);
         GetUI<Button>("BaseTenBtn").onClick.AddListener(gachaBtn.BaseTenBtn);
-        // Gacha 종류 변경 버튼 함수 연동
-        GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(ShowBaseGachaPanel);
         // Lobby로 돌아가기 버튼 함수 연동
         GetUI<Button>("BackBtn").onClick.AddListener(gachaBtn.BackToRobby);
+        // 상점 활성화 버튼 연결
+        GetUI<Button>("ChangeShopBtn").onClick.AddListener(ShopBtn);
+        // Gacha 종류 변경 버튼 함수 연동
+        GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(ShowBaseGachaPanel);
+    }
+
+    public void ShopBtn()
+    {
+        GetUI<Image>("BaseGachaPanel").gameObject.SetActive(false);
+        GetUI<Image>("ShopPanel").gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -226,10 +244,16 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("BackBtn").gameObject.SetActive(true);
         // 상점 캐릭터 활성화
         GetUI<Image>("ShopCharacter").gameObject.SetActive(true);
+        // 상점 패널 비활성화
+        GetUI<Image>("ShopPanel").gameObject.SetActive(false);
         // 가챠 결과 패널 비활성화
         GetUI<Image>("GachaResultPanel").gameObject.SetActive(false);
         // 가챠 선택 버튼 활성화
         GetUI<Image>("ChangeBaseGachaBtn").gameObject.SetActive(true);
+        // 로딩 패널 비활성화
+        GetUI<Image>("LoadingPanel").gameObject.SetActive(false);
+        // 중복 구매 팝업
+        GetUI<Image>("BuyPopUp").gameObject.SetActive(false);
     }
 
 
@@ -328,7 +352,7 @@ public class GachaSceneController : UIBInder
         switch (GachaList[index].Check)
         {
             case 0: // 반환이 캐릭터인 경우
-                GachaChar resultChar = charDictionary[GachaList[index].CharId];
+                ShopChar resultChar = charDictionary[GachaList[index].CharId];
                 resultChar.Amount = GachaList[index].Count;
                 GameObject resultCharUI = Instantiate(resultCharPrefab, singleResultContent);
                 resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);
@@ -361,7 +385,7 @@ public class GachaSceneController : UIBInder
         switch (GachaList[index].Check)
         {
             case 0: // 반환이 캐릭터인 경우
-                GachaChar resultChar = charDictionary[GachaList[index].CharId];
+                ShopChar resultChar = charDictionary[GachaList[index].CharId];
                 resultChar.Amount = GachaList[index].Count;
                 GameObject resultCharUI = Instantiate(resultCharPrefab, tenResultContent);
                 resultCharUI = resultChar.SetGachaCharUI(resultChar, resultCharUI);

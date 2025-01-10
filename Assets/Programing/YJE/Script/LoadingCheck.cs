@@ -13,6 +13,7 @@ using UnityEngine;
 public class LoadingCheck : MonoBehaviour
 {
     [SerializeField] GachaSceneController gachaSceneController;
+    [SerializeField] ShopMaker shopMaker;
     private bool isLoading = false;
 
     // GachaSceneController에서 Scene를 시작하기 전 필요한 Setting을 하는 이벤트 제작
@@ -23,9 +24,10 @@ public class LoadingCheck : MonoBehaviour
         OnStartSetting += gachaSceneController.SettingStartUI; // PlayerData까지 전부 불러온 후 재화 설정
         OnStartSetting += gachaSceneController.MakeGachaList; // 그룹별로 뽑기 List Setting
         OnStartSetting += gachaSceneController.MakeItemDic; // 사용하는 Item을 GachaItem형식의 Dictionary Setting
-        OnStartSetting += gachaSceneController.MakeCharDic; // 사용하는 캐릭터를 GachaChar형식의 Dictionary Setting
+        OnStartSetting += gachaSceneController.MakeCharDic; // 사용하는 캐릭터를 ShopChar형식의 Dictionary Setting
         OnStartSetting += gachaSceneController.MakeCharReturnItemDic; // 중복 캐릭터 뽑기 시 GachaItemReturn형식의 Dictionary Setting
         OnStartSetting += gachaSceneController.SettingBtn; // 각 버튼에 알맞은 함수 할당
+        OnStartSetting += shopMaker.ShopCharMaker; // 각 버튼에 알맞은 함수 할당
     }
     private void OnDisable()
     {
@@ -36,6 +38,7 @@ public class LoadingCheck : MonoBehaviour
         OnStartSetting -= gachaSceneController.MakeCharDic;
         OnStartSetting -= gachaSceneController.MakeCharReturnItemDic;
         OnStartSetting -= gachaSceneController.SettingBtn;
+        OnStartSetting -= shopMaker.ShopCharMaker; // 각 버튼에 알맞은 함수 할당
     }
 
     private void Update()
