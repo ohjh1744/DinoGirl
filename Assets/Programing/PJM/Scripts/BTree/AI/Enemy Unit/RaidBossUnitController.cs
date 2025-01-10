@@ -7,12 +7,14 @@ public class RaidBossUnitController : EnemyBaseUnitController
     [SerializeField] private Skill _bossSkill1;
     protected Skill BossSkill1 => _bossSkill1;
     [SerializeField] private Skill _bossSkill2;
-    protected Skill BossSkill2 => _bossSkill1;
-    [SerializeField] private Skill _bossSkill3;
-    protected Skill BossSkill3 => _bossSkill1;
+    protected Skill BossSkill2 => _bossSkill2;
+    //[SerializeField] private Skill _bossSkill3;
+    //protected Skill BossSkill3 => _bossSkill3;
 
     private List<BaseUnitController> _skillTargets;
     protected List<BaseUnitController> SkillTargets { get => _skillTargets; set => _skillTargets = value; }
+    [SerializeField] private Transform _muzzlePoint;
+    public Transform MuzzlePoint { get => _muzzlePoint; set => _muzzlePoint = value; }
     [SerializeField] private GameObject laserObejct;
     public GameObject LaserObejct {get => laserObejct; set => laserObejct = value; }
     
@@ -22,7 +24,7 @@ public class RaidBossUnitController : EnemyBaseUnitController
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
-        CoolTimeCounter = 10.0f;
+        CoolTimeCounter = 2.0f;
     }
 
     protected override BaseNode SetBTree()

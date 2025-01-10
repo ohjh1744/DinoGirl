@@ -163,7 +163,7 @@ public class BossSkill : Skill
                    return BaseNode.ENodeState.Failure;
                 }
                 
-                AttackWithLaser(raidBossCaster, targets[0], raidBossCaster.LaserObejct);
+                AttackWithLaser(raidBossCaster.MuzzlePoint, targets[0].CenterPosition, raidBossCaster.LaserObejct);
                 raidBossCaster.SkillRuntimeData.CheckAndDealDamage(stateInfo.normalizedTime,raidBossCaster,targets[0],SkillRatio);
 
                 
@@ -221,16 +221,16 @@ public class BossSkill : Skill
         raidBossCaster.LaserObejct = Instantiate(laserPrefab);
     }
 
-    private void AttackWithLaser(RaidBossUnitController raidBossCaster, BaseUnitController target, GameObject laserObject)
+    private void AttackWithLaser(Transform bossMuzzlePoint, Transform target, GameObject laserObject)
     {
         if(target == null || !target.gameObject.activeSelf)
             return;
-        Vector2 dir = target.transform.position - raidBossCaster.transform.position;
+        Vector2 dir = target.position - bossMuzzlePoint.position;
         float distance = dir.magnitude;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         laserObject.transform.localScale = new Vector3(distance, 1, 1);
         laserObject.transform.rotation = Quaternion.Euler(0 ,0, angle);
-        laserObject.transform.position = (raidBossCaster.transform.position + target.transform.position) * 0.5f;
+        laserObject.transform.position = (bossMuzzlePoint.position + target.position) * 0.5f;
         // createLaserObject에서 만들어준 레이저 오브젝트를 caster와 target의 위치에 따라 움직여주고 회전시켜줄 메서드
         // 어떻게하지
     }
