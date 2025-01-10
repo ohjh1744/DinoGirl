@@ -30,8 +30,9 @@ public class CharacterPanel : UIBInder
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
         AddEvent("SetMainCharacterButton", EventType.Click, SetMainCharacter);
 
-        Transform parent = GameObject.Find("CharacterPanel").transform;
-        _levelUpPanel = parent.Find("LevelUpPanel").gameObject;
+        Transform characterPanel = GameObject.Find("CharacterPanel").transform;
+        Transform background = characterPanel.Find("CharacterPanelBackground");
+        _levelUpPanel = background.Find("LevelUpPanel").gameObject;
 
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
         _skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
@@ -156,11 +157,6 @@ public class CharacterPanel : UIBInder
             LevelUpPanel levelUp = _levelUpPanel.GetComponent<LevelUpPanel>();
             levelUp.Init(_curCharacter);
         }
-    }
-
-    public void ClosePanel()
-    {
-        _levelUpPanel.SetActive(false);
     }
 
     // 레벨당 스탯 계산

@@ -18,7 +18,9 @@ public class InventoryPanel : UIBInder
 
     private Dictionary<int, Dictionary<string, string>> _characterData;
 
-    private SceneChanger _sceneChanger;
+    // private SceneChanger _sceneChanger;
+
+    private DynamicGrid _dynamicGrid;
 
     private void Awake()
     {
@@ -31,7 +33,7 @@ public class InventoryPanel : UIBInder
 
         // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
-        _sceneChanger = FindObjectOfType<SceneChanger>();
+        // _sceneChanger = FindObjectOfType<SceneChanger>();
 
     }
 
@@ -39,7 +41,7 @@ public class InventoryPanel : UIBInder
     {
         StartCoroutine(WaitForPlayerData());
 
-        AddEvent("HomeButton", EventType.Click, GoLobby);
+        // AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
     private IEnumerator WaitForPlayerData()
@@ -51,6 +53,9 @@ public class InventoryPanel : UIBInder
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         PopulateGrid();
+
+        _dynamicGrid = GetComponentInChildren<DynamicGrid>();
+        _dynamicGrid.SetItemCount(_allCharacters.Count);
     }
 
     // 그리드에 가진 캐릭터 정렬
@@ -174,9 +179,11 @@ public class InventoryPanel : UIBInder
         return _allCharacters.Count;
     }
 
+    /*
     public void GoLobby(PointerEventData eventData)
     {
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("Lobby_OJH");
     }
+    */
 }
