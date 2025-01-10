@@ -159,10 +159,12 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
 
+        /*
         LoadItemImage("CoinRewardImage", E_Item.Coin);
         LoadItemImage("DinoBloodRewardImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
-
+        */
+        
         GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
     }
 
@@ -178,11 +180,13 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Dino Blood : {dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Bone Crystal : {boneCrystal}";
 
+        /*
         LoadItemImage("CoinClaimImage", E_Item.Coin);
         LoadItemImage("DinoBloodClaimImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalClaimImage", E_Item.BoneCrystal);
+        */
     }
-
+    /*
     private void LoadItemImage(string imageName, E_Item itemType)
     {
         string imagePath = $"UI/item_{(int)itemType}";
@@ -196,4 +200,6 @@ public class RoomPanel : UIBInder
             Debug.LogWarning($"이미지 찾을 수 없음 {imagePath}");
         }
     }
+    */
+
 }
