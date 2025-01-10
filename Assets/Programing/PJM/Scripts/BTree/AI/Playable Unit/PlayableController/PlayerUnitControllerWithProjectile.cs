@@ -110,26 +110,18 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
         UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
-        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
+        
         if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]) && _projectileObject == null)
         {
+            UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
             IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
-            // 투사체 생성
-            _projectileObject = Instantiate(_projectilePrefab, _muzzlePoint.position, Quaternion.identity);
-            Projectile projectile = _projectileObject.GetComponent<Projectile>();
-            if (projectile != null)
-            {
-                projectile.Target = CurrentTarget.CenterPosition;
-            }
-            
-            
-            // 공격 애니메이션의 길이 + 지정된 공격 후딜레이 후 공격을 종료시켜줄 코루틴 // 현재 미사용
-            // 공격 판정은 들어간 뒤 후 딜레이가 적용되어야 하므로 바꿀 필요가 있음
-            //StartCoroutine(AttackRoutine("Attacking"));
+            //CreateProjectileObject();
             return BaseNode.ENodeState.Running;
         }
+        
+        
         
         // 공격 진행중, Attack 파라미터 True 상태
         //if (IsAttacking) // 위의 조건이 있어 사실상 필요 없을지도
@@ -143,6 +135,13 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
             {
                 if (stateInfo.normalizedTime < 1.0f)
                 {
+
+                    if (stateInfo.normalizedTime > 0.4f && stateInfo.normalizedTime < 0.6f)
+                    {
+                        // 투사체가 생성되기 적당한 타이밍
+                        CreateProjectileObject();
+                    }
+                    
                     Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
                     return BaseNode.ENodeState.Running;
                 }
@@ -185,5 +184,18 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
         
         Debug.LogWarning("해당 로그가 뜨는 조건 파악해야함.");
         return BaseNode.ENodeState.Failure;
+    }
+
+    private void CreateProjectileObject()
+    {
+        if(_projectileObject == null)
+        {
+            _projectileObject = Instantiate(_projectilePrefab, _muzzlePoint.position, Quaternion.identity);
+            Projectile projectile = _projectileObject.GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                projectile.Target = CurrentTarget.CenterPosition;
+            }
+        }
     }
 }

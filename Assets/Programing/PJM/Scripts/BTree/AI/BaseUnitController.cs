@@ -31,6 +31,7 @@ public abstract class BaseUnitController : MonoBehaviour
 
     private BaseUnitController _tauntSource;
     public BaseUnitController TauntSource { get => _tauntSource; set => _tauntSource = value; }
+
     
     protected int unitID;
     public int UnitID { get { return unitID; } }
@@ -67,6 +68,9 @@ public abstract class BaseUnitController : MonoBehaviour
     // 스킬있는 적이 나중에 생길수도 있음 혹은 보스라던가
     public float CoolTimeCounter { get; set; }
     public bool IsSkillRunning { get; set; }
+
+    private Skill.SkillState _curSkillState;
+    public Skill.SkillState CurSkillState { get => _curSkillState; set => _curSkillState = value; }
 
     protected virtual void Awake()
     {
