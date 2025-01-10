@@ -14,6 +14,10 @@ public class PlayerData
 
     public string PlayerName { get { return _playerName; } set { _playerName = value; } }
 
+    [SerializeField] private int _mainUnitID;
+
+    public int MainUnitID { get { return _mainUnitID; } set { _mainUnitID = value; } }
+
     [SerializeField] private string _lastResetAddFriendTime; // 최근접속시간
 
     public string LastResetAddFriendTime { get { return _lastResetAddFriendTime; } set { _lastResetAddFriendTime = value; } }
