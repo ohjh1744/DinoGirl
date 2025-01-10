@@ -57,6 +57,7 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("SettingExitButton").onClick.AddListener(SetBlackPanelFalse);
 
         GetUI<Button>("LobbyChapterButton").onClick.AddListener(() => ChangeScene("ChapterSelect_LJH"));
+        GetUI<Button>("LobbyRaidButton").onClick.AddListener(() => ChangeScene("RaidReady_LJH"));
         GetUI<Button>("LobbyCharacterButton").onClick.AddListener(() => ChangeScene("InventoryScene_WHS"));
         GetUI<Button>("LobbyRoomButton").onClick.AddListener(() => ChangeScene("RoomScene_WHS"));
         GetUI<Button>("LobbyGachaButton").onClick.AddListener(() => ChangeScene("GachaScene_YJE"));
@@ -78,6 +79,7 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("SettingExitButton").onClick.RemoveListener(SetBlackPanelFalse);
 
         GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(() => ChangeScene("ChapterSelect_LJH"));
+        GetUI<Button>("LobbyRaidButton").onClick.RemoveListener(() => ChangeScene("RaidReady_LJH"));
         GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(() => ChangeScene("InventoryScene_WHS"));
         GetUI<Button>("LobbyRoomButton").onClick.RemoveListener(() => ChangeScene("RoomScene_WHS"));
         GetUI<Button>("LobbyGachaButton").onClick.RemoveListener(() => ChangeScene("GachaScene_YJE"));
