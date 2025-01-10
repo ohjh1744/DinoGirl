@@ -9,12 +9,11 @@ public class BackButtonManager : MonoBehaviour
 {
     public static BackButtonManager Instance { get; private set; }
 
-    private Stack<Action> _backActions = new Stack<Action>();
+    private Stack<GameObject> _openPanels = new Stack<GameObject>();
 
     private SceneChanger _sceneChanger;
 
-    public int BackActionCount => _backActions.Count;
-    [SerializeField] private int _backActionCount;
+    [SerializeField] private int _openPanelCount;
 
     private void Awake()
     {
@@ -42,20 +41,22 @@ public class BackButtonManager : MonoBehaviour
             HandleBackButton();
         }
 
-        _backActionCount = _backActions.Count;
+        _openPanelCount = _openPanels.Count;
     }
 
     private void HandleBackButton()
     {
-        // backAction 스택이 있으면 한개 지우기
-        if (_backActions.Count > 0)
+        // 열린 패널이 있으면 닫기
+        if (_openPanels.Count > 0)
         {
-            _backActions.Pop().Invoke();
+            CloseTopPanel();
         }
         // Lobby에선 게임종료
         else if (SceneManager.GetActiveScene().name == "Lobby_OJH")
         {
-            Application.Quit();
+            // 종료 팝업 UI 출력해서 종료 누르면 quit
+            // Application.Quit();
+            Debug.Log("게임 종료");
         }
         // 다른 씬에선 로비로 이동
         else if (SceneManager.GetActiveScene().buildIndex > 0)
@@ -66,15 +67,27 @@ public class BackButtonManager : MonoBehaviour
         }
     }
 
-    // UI창을 열 때 backAction 스택 추가하기
-    public void AddBackAction(Action action)
+    public void OpenPanel(GameObject panel)
     {
-        _backActions.Push(action);
+        panel.SetActive(true);
+        _openPanels.Push(panel);
     }
 
-    private void ShowExitConfirmation()
+    private void CloseTopPanel()
     {
-        // 앱 종료 확인 팝업 출력
-        Debug.Log("게임을 종료하시렵니까? Application.Quit(); ");
+        if (_openPanels.Count > 0)
+        {
+            GameObject panel = _openPanels.Pop();
+            panel.SetActive(false);
+        }
+    }
+
+    public void CloseAllPanels()
+    {
+        while (_openPanels.Count > 0)
+        {
+            GameObject panel = _openPanels.Pop();
+            panel.SetActive(false);
+        }
     }
 }

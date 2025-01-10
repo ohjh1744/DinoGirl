@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class CharacterPanel : UIBInder
 {
     private PlayerUnitData _curCharacter;
-    private GameObject _levelUpPanel;
+    [SerializeField] private GameObject _levelUpPanel;
 
     private Dictionary<int, Dictionary<string, string>> _characterData;
     private Dictionary<int, Dictionary<string, string>> _skillData;
@@ -29,9 +29,6 @@ public class CharacterPanel : UIBInder
         AddEvent("PreviousCharacterButton", EventType.Click, PreviousButton);
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
         AddEvent("SetMainCharacterButton", EventType.Click, SetMainCharacter);
-
-        Transform parent = GameObject.Find("CharacterPanel").transform;
-        _levelUpPanel = parent.Find("LevelUpPanel").gameObject;
 
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
         _skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
@@ -89,10 +86,10 @@ public class CharacterPanel : UIBInder
                 UpdateStar(rarity);
             }
 
-            // TODO : 스킬 정보 가져오기
+            // 스킬 정보 가져오기
             UpdateSkill(character.UnitId);
 
-            // TODO : 레벨에 따라 증가한 스탯
+            // 레벨에 따라 증가한 스탯
             GetUI<TextMeshProUGUI>("HPText").text = "HP : " + CalculateStat(int.Parse(data["BaseHp"]), level);
             GetUI<TextMeshProUGUI>("AttackText").text = "Atk : " + CalculateStat(int.Parse(data["BaseATK"]), level);
             GetUI<TextMeshProUGUI>("DefText").text = "Def : " + CalculateStat(int.Parse(data["BaseDef"]), level);
@@ -101,6 +98,8 @@ public class CharacterPanel : UIBInder
 
             UpdateCharacterData(character);
         }
+
+        GetUI<Button>("SetMainCharacterButton").interactable = (_curCharacter.UnitId != PlayerDataManager.Instance.PlayerData.MainUnitID);
     }
 
     // DB에 캐릭터 정보 갱신
@@ -149,23 +148,17 @@ public class CharacterPanel : UIBInder
     {
         if (_curCharacter != null && _curCharacter.UnitLevel < 30)
         {
-            _levelUpPanel.gameObject.SetActive(true);
-            BackButtonManager.Instance.AddBackAction(ClosePanel);
+            BackButtonManager.Instance.OpenPanel(_levelUpPanel);
 
             LevelUpPanel levelUp = _levelUpPanel.GetComponent<LevelUpPanel>();
             levelUp.Init(_curCharacter);
         }
     }
 
-    public void ClosePanel()
-    {
-        _levelUpPanel.SetActive(false);
-    }
-
     // 레벨당 스탯 계산
     private int CalculateStat(int baseStat, int level)
     {
-        // TODO : Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
+        // Character 시트에서 "Increase"에 따라 해당하는 배율만큼 레벨마다 합증가
 
         if (!_characterData.TryGetValue(_curCharacter.UnitId, out var data))
         {
@@ -261,6 +254,8 @@ public class CharacterPanel : UIBInder
     // 메인 캐릭터로 설정
     private void SetMainCharacter(PointerEventData eventData)
     {
+        if (GetUI<Button>("SetMainCharacterButton").interactable == false) return;
+
         PlayerDataManager.Instance.PlayerData.MainUnitID = _curCharacter.UnitId;
 
         string userId = BackendManager.Auth.CurrentUser.UserId;
@@ -283,5 +278,6 @@ public class CharacterPanel : UIBInder
             }
         });
 
+        GetUI<Button>("SetMainCharacterButton").interactable = (_curCharacter.UnitId != PlayerDataManager.Instance.PlayerData.MainUnitID);
     }
 }

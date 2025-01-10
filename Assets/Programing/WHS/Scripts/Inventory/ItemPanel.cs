@@ -12,22 +12,10 @@ using UnityEngine.UI;
 
 public class ItemPanel : UIBInder
 {
-    private static ItemPanel _instance;
-    public static ItemPanel Instance { get { return _instance; } set { _instance = value; } }
-
     [SerializeField] private SceneChanger _sceneChanger;
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         _sceneChanger = FindObjectOfType<SceneChanger>();
     }
 
@@ -89,11 +77,13 @@ public class ItemPanel : UIBInder
             Debug.Log("PlayerData 찾을 수 없음");
         }
 
+        /*
         LoadItemImage("CoinImage", E_Item.Coin);
         LoadItemImage("DinoBloodImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalImage", E_Item.BoneCrystal);
         LoadItemImage("DinoStoneImage", E_Item.DinoStone);
         LoadItemImage("StoneImage", E_Item.Stone);
+        */
     }
 
     // 아이템 숫자 갱신
@@ -165,6 +155,7 @@ public class ItemPanel : UIBInder
         });
     }
 
+    /*
     // 아이템 이미지 가져오기
     private void LoadItemImage(string imageName, E_Item itemType)
     {
@@ -179,6 +170,7 @@ public class ItemPanel : UIBInder
             Debug.LogWarning($"이미지 찾을 수 없음 {itemPath}");
         }
     }
+    */
 
     public void GoLobby(PointerEventData eventData)
     {

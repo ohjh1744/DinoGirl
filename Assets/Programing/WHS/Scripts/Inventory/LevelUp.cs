@@ -121,19 +121,37 @@ public class LevelUp
         {
             ["_items/0"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin],
             ["_items/1"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood],
-            ["_items/2"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal],
-            [$"_unitDatas/{character.UnitId}/_unitLevel"] = character.UnitLevel
+            ["_items/2"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]
         };
 
-        userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        DatabaseReference unitDatasRef = userRef.Child("_unitDatas");
+        unitDatasRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            if (task.IsFaulted)
+            if (task.IsCompleted)
             {
-                Debug.LogError($"데이터베이스 업데이트 실패: {task.Exception}");
-            }
-            else
-            {
-                Debug.Log("데이터베이스 업데이트 성공");
+                DataSnapshot snapshot = task.Result;
+                int index = 0;
+                foreach (var childSnapshot in snapshot.Children)
+                {
+                    if (int.Parse(childSnapshot.Child("_unitId").Value.ToString()) == character.UnitId)
+                    {
+                        updates[$"_unitDatas/{index}/_unitLevel"] = character.UnitLevel;
+                        break;
+                    }
+                    index++;
+                }
+
+                userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(updateTask =>
+                {
+                    if (updateTask.IsFaulted)
+                    {
+                        Debug.LogError($"데이터베이스 업데이트 실패: {updateTask.Exception}");
+                    }
+                    else
+                    {
+                        Debug.Log("데이터베이스 업데이트 성공");
+                    }
+                });
             }
         });
     }

@@ -40,7 +40,6 @@ public class CharacterSlot : UIBInder
 
         if (int.TryParse(data["Rarity"], out int rarity))
         {
-            Debug.Log(rarity);
             UpdateStar(rarity);
         }
 
@@ -73,15 +72,9 @@ public class CharacterSlot : UIBInder
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
     private void OnClick(PointerEventData eventData)
     {
-        _characterPanel.SetActive(true);
-        BackButtonManager.Instance.AddBackAction(ClosePanel);
+        BackButtonManager.Instance.OpenPanel(_characterPanel);
 
         _characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(_unitData);
-    }
-
-    public void ClosePanel()
-    {
-        _characterPanel.SetActive(false);
     }
 
     public PlayerUnitData GetCharacter()

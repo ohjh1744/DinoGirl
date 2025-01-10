@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class DynamicGrid : MonoBehaviour
 {
-    private int characterCount;
-    private RectTransform parent;
-    private GridLayoutGroup grid;
+    private RectTransform _parent;
+    private GridLayoutGroup _grid;
+    [SerializeField] private int _cols; // 세로 열 개수
+    [SerializeField] private int _itemCount = 0; // 아이템 개수
 
     private void Awake()
     {
-        parent = gameObject.GetComponent<RectTransform>();
-        grid = gameObject.GetComponent<GridLayoutGroup>();
+        _parent = gameObject.GetComponent<RectTransform>();
+        _grid = gameObject.GetComponent<GridLayoutGroup>();
     }
 
     private void Start()
     {
-        characterCount = GetCharacterCount();
         SetDynamicGrid();
     }
 
@@ -38,29 +38,24 @@ public class DynamicGrid : MonoBehaviour
 
     private void SetDynamicGrid()
     {
-        int cols = 5;
-        int rows = Mathf.CeilToInt((float)characterCount / cols);
+        int rows = Mathf.CeilToInt((float)_itemCount / _cols);
 
         // 셀 크기 계산
-        float availableWidth = parent.rect.width - (grid.spacing.x * (cols + 1));
-        float cellWidth = availableWidth / cols;
+        float availableWidth = _parent.rect.width - (_grid.spacing.x * (_cols + 1));
+        float cellWidth = availableWidth / _cols;
         float cellHeight = cellWidth;
-        grid.cellSize = new Vector2(cellWidth, cellHeight);
+        _grid.cellSize = new Vector2(cellWidth, cellHeight);
 
         // grid layout group의 padding을 spacing과 동일하게 설정
-        int padding = Mathf.RoundToInt(grid.spacing.x);
-        grid.padding = new RectOffset(padding, padding, padding, padding);
+        int padding = Mathf.RoundToInt(_grid.spacing.x);
+        _grid.padding = new RectOffset(padding, padding, padding, padding);
 
-        grid.constraintCount = cols;
+        _grid.constraintCount = _cols;
     }
 
-    private int GetCharacterCount()
+    public void SetItemCount(int count)
     {
-        InventoryPanel inventoryPanel = FindObjectOfType<InventoryPanel>();
-        if (inventoryPanel != null)
-        {
-            return inventoryPanel.GetCharacterCount();
-        }
-        return 0;
+        _itemCount = count;
+        SetDynamicGrid();
     }
 }

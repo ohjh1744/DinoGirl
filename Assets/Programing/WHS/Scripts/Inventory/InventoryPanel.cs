@@ -20,6 +20,8 @@ public class InventoryPanel : UIBInder
 
     private SceneChanger _sceneChanger;
 
+    private DynamicGrid _dynamicGrid;
+
     private void Awake()
     {
         BindAll();
@@ -45,11 +47,15 @@ public class InventoryPanel : UIBInder
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+        yield return new WaitUntil(() => PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null);
+        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas != null && PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
+
+        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         PopulateGrid();
 
-        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
+        _dynamicGrid = GetComponentInChildren<DynamicGrid>();
+        _dynamicGrid.SetItemCount(_allCharacters.Count);
     }
 
     // 그리드에 가진 캐릭터 정렬
@@ -88,9 +94,11 @@ public class InventoryPanel : UIBInder
                 _allCharacters.Add(unitData);
             }
 
-            DisplayCharacters(_allCharacters);
-            Debug.Log($"캐릭터 {_allCharacters.Count}개");
+            Debug.Log($"캐릭터 {_allCharacters.Count}개 로드");
         });
+
+        _allCharacters = PlayerDataManager.Instance.PlayerData.UnitDatas;
+        DisplayCharacters(_allCharacters);
     }
 
     // 바뀐 캐릭터 갱신
@@ -170,10 +178,11 @@ public class InventoryPanel : UIBInder
     {
         return _allCharacters.Count;
     }
-
+        
     public void GoLobby(PointerEventData eventData)
     {
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("Lobby_OJH");
     }
+    
 }

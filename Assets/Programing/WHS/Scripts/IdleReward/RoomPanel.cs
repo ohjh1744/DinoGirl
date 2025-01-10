@@ -12,6 +12,7 @@ public class RoomPanel : UIBInder
 {
     private IdleReward _idleReward;
     [SerializeField] private GameObject _idleRewardPanel;
+    [SerializeField] private GameObject _claimPopup;
     [SerializeField] private ItemPanel _itemPanel;
 
     private Coroutine _updateIdleTimeCoroutine;
@@ -75,6 +76,7 @@ public class RoomPanel : UIBInder
         PlayerDataManager.Instance.PlayerData.SetStoredItem((int)E_Item.BoneCrystal, 0);
 
         ShowPopup(storedGold, storedDinoBlood, storedBoneCrystal);
+        BackButtonManager.Instance.OpenPanel(_claimPopup);
 
         // Firebase에 업데이트된 아이템 정보 저장
         UpdateItemsInDatabase();
@@ -148,8 +150,7 @@ public class RoomPanel : UIBInder
 
         _idleReward.CalculateIdleReward();
 
-        _idleRewardPanel.SetActive(true);
-        BackButtonManager.Instance.AddBackAction(CloseIdleRewardPanel);
+        BackButtonManager.Instance.OpenPanel(_idleRewardPanel);
 
         int goldReward = _idleReward.CalculateReward(1, (int)_idleReward.GetIdleTime().TotalSeconds);
         int dinoBloodReward = _idleReward.CalculateReward(2, (int)_idleReward.GetIdleTime().TotalSeconds);
@@ -159,17 +160,13 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
 
+        /*
         LoadItemImage("CoinRewardImage", E_Item.Coin);
         LoadItemImage("DinoBloodRewardImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
-
+        */
+        
         GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
-    }
-
-    // 뒤로가기 버튼 - IdleRewardPanel 닫기
-    private void CloseIdleRewardPanel()
-    {
-        _idleRewardPanel.SetActive(false);
     }
 
     private void ShowPopup(int gold, int dinoBlood, int boneCrystal)
@@ -178,11 +175,13 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Dino Blood : {dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Bone Crystal : {boneCrystal}";
 
+        /*
         LoadItemImage("CoinClaimImage", E_Item.Coin);
         LoadItemImage("DinoBloodClaimImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalClaimImage", E_Item.BoneCrystal);
+        */
     }
-
+    /*
     private void LoadItemImage(string imageName, E_Item itemType)
     {
         string imagePath = $"UI/item_{(int)itemType}";
@@ -196,4 +195,6 @@ public class RoomPanel : UIBInder
             Debug.LogWarning($"이미지 찾을 수 없음 {imagePath}");
         }
     }
+    */
+
 }
