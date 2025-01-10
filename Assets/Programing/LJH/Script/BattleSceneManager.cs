@@ -15,7 +15,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private DraggableUI[] Draggables;
-    [SerializeField] public int curChapterNum;
+    [SerializeField] public int curChapterNum { get; set; }
 
     public bool isAutoOn { get; set; }
     public bool isGamePaused { get; set; }

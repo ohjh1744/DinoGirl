@@ -159,7 +159,7 @@ public class GridContext : MonoBehaviour
     {
         myGrids[index].color = highLightColors[0];
         yield return new WaitForSeconds(0.3f);
-        myGrids[index].color = Color.black;
+        myGrids[index].color = Color.white;
     }
     private bool isInIndex(int row, int column)
     {

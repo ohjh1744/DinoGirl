@@ -68,22 +68,22 @@ public class CharSlot : MonoBehaviour
                     case 1:            
                         Hp.SetActive(true);
                         hpNum += gameObject.GetComponent<UnitStat>().buffs[i].z;
-                        hpTxt.text = hpNum.ToString() + "%";
+                        hpTxt.text = hpNum.ToString();
                         break;
                     case 2:                       
                         Atk.SetActive(true);
                         atkNum += gameObject.GetComponent<UnitStat>().buffs[i].z;
-                        atkTxt.text = atkNum.ToString() + "%";
+                        atkTxt.text = atkNum.ToString();
                         break;
                     case 3:
                         Def.SetActive(true);
                         defNum += gameObject.GetComponent<UnitStat>().buffs[i].z;
-                        defTxt.text = defNum.ToString() + "%";
+                        defTxt.text = defNum.ToString();
                         break;
                     case 4:                        
                         Cool.SetActive(true);
                         coolNum += gameObject.GetComponent<UnitStat>().buffs[i].z;
-                        coolTxt.text = coolNum.ToString() + "%";
+                        coolTxt.text = coolNum.ToString();
                         break;
                 }
             }       
