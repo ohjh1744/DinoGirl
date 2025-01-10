@@ -28,6 +28,7 @@ public class CharacterPanel : UIBInder
         AddEvent("HomeButton", EventType.Click, GoLobby);
         AddEvent("PreviousCharacterButton", EventType.Click, PreviousButton);
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
+        AddEvent("SetMainCharacterButton", EventType.Click, SetMainCharacter);
 
         Transform parent = GameObject.Find("CharacterPanel").transform;
         _levelUpPanel = parent.Find("LevelUpPanel").gameObject;
@@ -255,5 +256,32 @@ public class CharacterPanel : UIBInder
     {
         _sceneChanger.CanChangeSceen = true;
         _sceneChanger.ChangeScene("Lobby_OJH");
+    }
+
+    // 메인 캐릭터로 설정
+    private void SetMainCharacter(PointerEventData eventData)
+    {
+        PlayerDataManager.Instance.PlayerData.MainUnitID = _curCharacter.UnitId;
+
+        string userId = BackendManager.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            ["_mainUnitID"] = PlayerDataManager.Instance.PlayerData.MainUnitID
+        };
+
+        userRef.UpdateChildrenAsync(updates).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("대표 캐릭터가 성공적으로 업데이트되었습니다.");
+            }
+            else
+            {
+                Debug.LogError("대표 캐릭터 업데이트 실패: " + task.Exception);
+            }
+        });
+
     }
 }
