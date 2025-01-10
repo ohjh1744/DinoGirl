@@ -148,8 +148,7 @@ public class RoomPanel : UIBInder
 
         _idleReward.CalculateIdleReward();
 
-        _idleRewardPanel.SetActive(true);
-        BackButtonManager.Instance.AddBackAction(CloseIdleRewardPanel);
+        BackButtonManager.Instance.OpenPanel(_idleRewardPanel);
 
         int goldReward = _idleReward.CalculateReward(1, (int)_idleReward.GetIdleTime().TotalSeconds);
         int dinoBloodReward = _idleReward.CalculateReward(2, (int)_idleReward.GetIdleTime().TotalSeconds);

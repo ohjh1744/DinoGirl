@@ -151,8 +151,7 @@ public class CharacterPanel : UIBInder
     {
         if (_curCharacter != null && _curCharacter.UnitLevel < 30)
         {
-            _levelUpPanel.gameObject.SetActive(true);
-            BackButtonManager.Instance.AddBackAction(ClosePanel);
+            BackButtonManager.Instance.OpenPanel(_levelUpPanel);
 
             LevelUpPanel levelUp = _levelUpPanel.GetComponent<LevelUpPanel>();
             levelUp.Init(_curCharacter);
