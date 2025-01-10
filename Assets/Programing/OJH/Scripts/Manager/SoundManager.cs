@@ -10,6 +10,10 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioSource _sfx;
 
+    public AudioSource BGM { get { return _bgm; } private set { } }
+
+    public AudioSource SFX { get { return _sfx; } private set { } }
+
     private void Awake()
     {
         if (Instance == null)
