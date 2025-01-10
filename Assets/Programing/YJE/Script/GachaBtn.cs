@@ -2,12 +2,13 @@ using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GachaBtn : MonoBehaviour
 {
     GachaSceneController gachaSceneController;
     GachaCheck gachaCheck;
-    SceneChanger sceneChanger;
+    [SerializeField] SceneChanger sceneChanger;
 
     private RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
     private RectTransform tenVideoContent; // 10연차 결과 내역 프리팹이 생성 될 위치
@@ -27,13 +28,13 @@ public class GachaBtn : MonoBehaviour
     {
         gachaSceneController = gameObject.GetComponent<GachaSceneController>();
         gachaCheck = gameObject.GetComponent<GachaCheck>();
-        sceneChanger = gameObject.GetComponent<SceneChanger>();
         singleVideoContent = gachaSceneController.GetUI<RectTransform>("SingleResultPanel");
         tenVideoContent = gachaSceneController.GetUI<RectTransform>("TenResultPanel");
     }
 
     public void BackToRobby()
     {
+        gachaSceneController.GetUI<Image>("LoadingPanel").gameObject.SetActive(true);
         sceneChanger.CanChangeSceen = true;
         sceneChanger.ChangeScene("Lobby_OJH");
     }
@@ -52,6 +53,7 @@ public class GachaBtn : MonoBehaviour
         resultList.Clear();
     }
 
+
     /// <summary>
     /// 기본 1연차 버튼 실행 시
     /// - baseGachaList에 저장된 확률로 출력
@@ -62,7 +64,6 @@ public class GachaBtn : MonoBehaviour
         baseGachaList = gachaSceneController.BaseGachaList;
         GameObject resultUI = null;
         // 기본 플레이어의 재화 DinoStone(3)이 100 이상인 경우에만 실행
-        // TODO : 유료 재화를 합친 값이 필요 - 유료 다이노스톤 아이템 추가
         if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone] >= gachaCost)
         {
             // baseGachaList의 전체 Probability의 합산을 구하기
@@ -173,9 +174,9 @@ public class GachaBtn : MonoBehaviour
     /// <returns></returns>
     IEnumerator CharacterVideoR(GameObject gameObj)
     {
-        if (gameObj.GetComponent<GachaChar>())
+        if (gameObj.GetComponent<ShopChar>())
         {
-            GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, singleVideoContent);
+            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, singleVideoContent);
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
@@ -190,9 +191,9 @@ public class GachaBtn : MonoBehaviour
     {
         foreach (GameObject gameObj in resultList)
         {
-            if (gameObj.GetComponent<GachaChar>())
+            if (gameObj.GetComponent<ShopChar>())
             {
-                GameObject obj = Instantiate(gameObj.GetComponent<GachaChar>().Video, tenVideoContent);
+                GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, tenVideoContent);
                 obj.SetActive(true);
                 yield return new WaitUntil(() => obj.gameObject == false);
                 continue;

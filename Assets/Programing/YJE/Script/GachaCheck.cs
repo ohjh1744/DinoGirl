@@ -134,13 +134,13 @@ public class GachaCheck : MonoBehaviour
                                 result.GetComponent<GachaItem>().Amount, true,
                                 root, playerData);
             }
-            else if (result.GetComponent<GachaChar>()) // 캐릭터인 경우
+            else if (result.GetComponent<ShopChar>()) // 캐릭터인 경우
             {
                 bool isChecked = false; // 중복 : true, 미중복 : false
 
                 foreach(PlayerUnitData unit in playerData.UnitDatas) // 모든 playerData의 UnitDatas를 확인하면서 중복여부 확인
                 {
-                    if(result.GetComponent<GachaChar>().CharId == unit.UnitId)
+                    if(result.GetComponent<ShopChar>().CharId == unit.UnitId)
                     {
                         isChecked = true; // 중복
                     }
@@ -150,7 +150,7 @@ public class GachaCheck : MonoBehaviour
                 {
                     // 새로운 Unit을 저장
                     PlayerUnitData newUnit = new PlayerUnitData();
-                    newUnit.UnitId = result.GetComponent<GachaChar>().CharId;
+                    newUnit.UnitId = result.GetComponent<ShopChar>().CharId;
                     newUnit.UnitLevel = 1;
                     playerData.UnitDatas.Add(newUnit);
                     // 실제 빌드 시 사용 - UserId불러오기 
@@ -172,7 +172,7 @@ public class GachaCheck : MonoBehaviour
                 else // 소유 캐릭터 중복
                 {
                     // 중복 시 아이템으로 변환하여 환산
-                    GameObject resultItem = gachaSceneController.CharReturnItem(result.GetComponent<GachaChar>().CharId, result);
+                    GameObject resultItem = gachaSceneController.CharReturnItem(result.GetComponent<ShopChar>().CharId, result);
                     // 변동 값 서버에 저장
                     SendChangeValue(resultItem.GetComponent<GachaItem>().ItemName,
                                     resultItem.GetComponent<GachaItem>().Amount, true,
