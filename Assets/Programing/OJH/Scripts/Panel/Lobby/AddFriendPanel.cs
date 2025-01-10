@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AddFriendPanel : MonoBehaviour
+public class AddFriendPanel : UIBInder
 {
     [SerializeField] private GameObject _userList;
 
@@ -28,11 +28,21 @@ public class AddFriendPanel : MonoBehaviour
 
     private int _curUserListNum;
 
+    private void Awake()
+    {
+        BindAll();
+    }
     private void Start()
     {
         GetUserData();
     }
 
+    private void OnDisable()
+    {
+        GetUI("AddFriendGetCoinImage").gameObject.SetActive(false);
+        GetUI("AddFriendCantAddImage").gameObject.SetActive(false);
+        GetUI("AddFriendMaxFriendImage").gameObject.SetActive(false);
+    }
 
     private void GetUserData()
     {

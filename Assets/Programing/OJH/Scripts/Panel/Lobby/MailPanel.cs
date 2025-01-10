@@ -36,6 +36,7 @@ public class MailPanel : UIBInder
         _mailLists = new List<MailList>();
         _sb = new StringBuilder();
         _imagePosPerItems = new List<int>[(int)E_Item.Length + 1];
+        // 여기서만 Length+1 해서 index시작을 1로 . 1 -> 받은 아이템 타입이 1개밖에 없다는 걸 의미.
         for (int i = 0; i < _imagePosPerItems.Length; i++)
         {
             _imagePosPerItems[i] = new List<int>();
@@ -65,6 +66,7 @@ public class MailPanel : UIBInder
 
     private void OnDisable()
     {
+        GetUI("MailCheckedImage").gameObject.SetActive(false);
         GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(CheckAllMail);
         ResetMailLists();
     }
