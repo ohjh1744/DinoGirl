@@ -23,7 +23,7 @@ public class StageLock : MonoBehaviour
 
     IEnumerator delayLocking()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         BattleSceneManager.Instance.curChapterNum = start;
         for (int i = 1; i < chapterButtons.Length; i++)
         {

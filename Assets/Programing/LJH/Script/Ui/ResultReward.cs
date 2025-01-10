@@ -18,7 +18,7 @@ public class ResultReward : MonoBehaviour
             foreach (int i in BattleSceneManager.Instance.curItemValues.Keys)
             {
                 rewardSlots[x].gameObject.SetActive(true);
-                rewardSlots[x].setRewardData(BattleSceneManager.Instance.curItemValues[i].ToString());
+                rewardSlots[x].setRewardData(i,BattleSceneManager.Instance.curItemValues[i].ToString());
                 x++;
 
             }

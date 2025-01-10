@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public class RewardSlot : MonoBehaviour
 {
     [SerializeField] TMP_Text text;
-    [SerializeField] Image itemImage;
+    [SerializeField] Sprite[] itemImage;
+    [SerializeField] Image Image;
 
-    public void setRewardData(string texts/*, Image image*/)
-    {
+    public void setRewardData(int id ,string texts)
+    {   
+        
         text.text = texts;
-        //itemImage = image;
+        Image.sprite = itemImage[id - 500];
     }
    
 }

@@ -19,7 +19,7 @@ public class StagePanel : MonoBehaviour
     [SerializeField] Dictionary<int, Dictionary<string, string>> monsterGroupDic;
     [SerializeField] Dictionary<int, Dictionary<string, string>> monsterDic;
     [SerializeField] Dictionary<int, Dictionary<string, string>> stageRewardDic;
-    [SerializeField] Dictionary<int, Dictionary<string, string>> itemDic;
+    //[SerializeField] Dictionary<int, Dictionary<string, string>> itemDic;
      
 
     // cur 붙은거는 고른 스테이지의 정보
@@ -68,7 +68,7 @@ public class StagePanel : MonoBehaviour
         }
 
         stageRewardDic = CsvDataManager.Instance.DataLists[8]; // 스테이지 클리어시 받을 보상 불러오기 
-        itemDic = CsvDataManager.Instance.DataLists[9];
+        //itemDic = CsvDataManager.Instance.DataLists[9];
         foreach (string item in stageRewardDic[curRewardGroup].Keys) 
         {
             if (stageRewardDic[curRewardGroup][item] != "0") 
@@ -79,8 +79,9 @@ public class StagePanel : MonoBehaviour
         }
         int count = 0; 
         foreach (int id in itemValues.Keys) 
-        {
-            rewards[count].setRewardData(itemValues[id].ToString());
+        {   
+             
+            rewards[count].setRewardData(id,itemValues[id].ToString());
             count++;  
         }
         for (int i = count; i < rewards.Length; i++) 
@@ -101,7 +102,7 @@ public class StagePanel : MonoBehaviour
         for (int i = 0; i < enemygrid.Length; i++) // 색 설정 및 초기화
         {
             enemygrid[i].color = Color.black;
-            mygrid[i].color = Color.black;
+            mygrid[i].color = Color.white;
             curMobPos.Add(null);
             curmyPos.Add(0);
         }
