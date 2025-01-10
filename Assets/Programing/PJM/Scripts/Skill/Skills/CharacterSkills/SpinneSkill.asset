@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd585d9dfe6894746979138303848f9b, type: 3}
+  m_Name: SpinneSkill
+  m_EditorClassIdentifier: 
+  _skillName: Drizzle Slash
+  _targetAll: 0
+  _skillRange: 20
+  _maxTargetingNum: 1
+  _isPriorityTargetFar: 1
+  skillRatio: 2
+  cooltime: 8
+  crowdControl: 0
+  ccDuration: 0
+  _skillIcon: {fileID: 21300000, guid: 46e68dae4b70fdd4a8e23d45a0b25976, type: 3}
+  distance: 2

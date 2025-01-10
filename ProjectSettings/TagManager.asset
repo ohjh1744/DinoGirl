@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ObjectPool
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - UserCharacter
+  - Enemy
   - 
   - 
   - 
@@ -40,4 +41,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1184440341
+    locked: 0
+  - name: Enemy
+    uniqueID: 232910677
+    locked: 0
+  - name: Character
+    uniqueID: 3742257783
+    locked: 0
+  - name: Effect
+    uniqueID: 2891890331
+    locked: 0
+  - name: UI
+    uniqueID: 4260649399
     locked: 0
