@@ -10,6 +10,7 @@ using System;
 using Firebase.Database;
 using System.Runtime.CompilerServices;
 using System.Net;
+using UnityEngine.AI;
 
 public class LobbyPanel : UIBInder
 {
@@ -19,6 +20,8 @@ public class LobbyPanel : UIBInder
     [SerializeField] private int _resetAddFriendNum; // AddFriend 초기화 시 횟수
       
     [SerializeField] private int _resetAddFriendTime; // AddFriend를 초기화할 시간 ex)8시
+
+    [SerializeField] private Sprite[] _mainUnitImages;
   
     private static string[] _itemValueTexts = { "LobbyItem1Value", "LobbyItem2Value", "LobbyItem3Value", "LobbyItem4Value", "LobbyItem5Value" };
 
@@ -43,16 +46,18 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyMailButton").onClick.AddListener(SetInteractableFalse);
         GetUI<Button>("LobbyAddFriendButton").onClick.AddListener(SetInteractableFalse);
         GetUI<Button>("LobbyFriendsButton").onClick.AddListener(SetInteractableFalse);
+        GetUI<Button>("LobbySettingButton").onClick.AddListener(SetInteractableFalse);
 
         GetUI<Button>("PlayerExitButton").onClick.AddListener(SetInteractableTrue);
         GetUI<Button>("AddFriendExitButton").onClick.AddListener(SetInteractableTrue);
         GetUI<Button>("FriendsExitButton").onClick.AddListener(SetInteractableTrue);
         GetUI<Button>("MailExitButton").onClick.AddListener(SetInteractableTrue);
+        GetUI<Button>("SettingExitButton").onClick.AddListener(SetInteractableTrue);
 
-        GetUI<Button>("LobbyChapterButton").onClick.AddListener(ChangeChapterScene);
-        GetUI<Button>("LobbyCharacterButton").onClick.AddListener(ChangeCharacterScene);
-        GetUI<Button>("LobbyRoomButton").onClick.AddListener(ChangeRoomScene);
-        GetUI<Button>("LobbyGachaButton").onClick.AddListener(ChangeGachaScene);
+        GetUI<Button>("LobbyChapterButton").onClick.AddListener(() => ChangeScene("ChapterSelect_LJH"));
+        GetUI<Button>("LobbyCharacterButton").onClick.AddListener(() => ChangeScene("InventoryScene_WHS"));
+        GetUI<Button>("LobbyRoomButton").onClick.AddListener(() => ChangeScene("RoomScene_WHS"));
+        GetUI<Button>("LobbyGachaButton").onClick.AddListener(() => ChangeScene("GachaScene_YJE"));
     }
 
     private void OnDisable()
@@ -62,21 +67,24 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyMailButton").onClick.RemoveListener(SetInteractableFalse);
         GetUI<Button>("LobbyAddFriendButton").onClick.RemoveListener(SetInteractableFalse);
         GetUI<Button>("LobbyFriendsButton").onClick.RemoveListener(SetInteractableFalse);
+        GetUI<Button>("LobbySettingButton").onClick.RemoveListener(SetInteractableFalse);
 
         GetUI<Button>("PlayerExitButton").onClick.RemoveListener(SetInteractableTrue);
         GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(SetInteractableTrue);
         GetUI<Button>("FriendsExitButton").onClick.RemoveListener(SetInteractableTrue);
         GetUI<Button>("MailExitButton").onClick.RemoveListener(SetInteractableTrue);
+        GetUI<Button>("SettingExitButton").onClick.RemoveListener(SetInteractableTrue);
 
-        GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(ChangeChapterScene);
-        GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(ChangeCharacterScene);
-        GetUI<Button>("LobbyRoomButton").onClick.RemoveListener(ChangeRoomScene);
-        GetUI<Button>("LobbyGachaButton").onClick.RemoveListener(ChangeGachaScene);
+        GetUI<Button>("LobbyChapterButton").onClick.RemoveListener(() => ChangeScene("ChapterSelect_LJH"));
+        GetUI<Button>("LobbyCharacterButton").onClick.RemoveListener(() => ChangeScene("InventoryScene_WHS"));
+        GetUI<Button>("LobbyRoomButton").onClick.RemoveListener(() => ChangeScene("RoomScene_WHS"));
+        GetUI<Button>("LobbyGachaButton").onClick.RemoveListener(() => ChangeScene("GachaScene_YJE"));
     }
 
     private void Start()
     {
         ShowName();
+        ShowMainUnit();
         ShowItems();
         CheckResetAddFriend();
     }
@@ -154,6 +162,11 @@ public class LobbyPanel : UIBInder
         GetUI<TextMeshProUGUI>("PlayerPlayerNameText").SetText(nameSb);
     }
 
+    private void ShowMainUnit()
+    {
+        GetUI<Image>("LobbyMainUnitImage").sprite = _mainUnitImages[PlayerDataManager.Instance.PlayerData.MainUnitID - 1];
+    }
+
     private void ShowItems()
     {
         StringBuilder itemSb = new StringBuilder();
@@ -187,6 +200,7 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyAddFriendButton").interactable = false;
         GetUI<Button>("LobbyMailButton").interactable = false;
         GetUI<Button>("LobbyFriendsButton").interactable = false;
+        GetUI<Button>("LobbySettingButton").interactable = false;
     }
 
     private void SetInteractableTrue()
@@ -200,31 +214,15 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyAddFriendButton").interactable = true;
         GetUI<Button>("LobbyMailButton").interactable = true;
         GetUI<Button>("LobbyFriendsButton").interactable = true;
+        GetUI<Button>("LobbySettingButton").interactable = true;
     }
 
-    private void ChangeChapterScene()
+    private void ChangeScene(string sceneName)
     {
         _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("ChapterSelect_LJH");
+        _sceneChanger.ChangeScene(sceneName);
     }
 
-    private void ChangeCharacterScene()
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("InventoryScene_WHS");
-    }
-
-    private void ChangeRoomScene()
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("RoomScene_WHS");
-    }
-
-    private void ChangeGachaScene()
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("GachaScene_YJE");
-    }
-
+  
 
 }
