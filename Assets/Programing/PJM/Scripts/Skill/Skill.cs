@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public abstract class Skill : ScriptableObject
 {
+    public enum SkillState
+    {
+        None,
+        Charging,   // 준비 동작
+        Firing,     // 실제 데미지를 주는 중
+        Done        // 종료
+    }
+    
     [SerializeField] private string _skillName;
     public string SkillName {get => _skillName; set => _skillName = value; }
     
@@ -39,6 +47,9 @@ public abstract class Skill : ScriptableObject
             return ccDuration;
         }
     }
+    
+    /*[SerializeField] protected LayerMask _targetLayer;
+    public LayerMask TargetLayer {get => _targetLayer; protected set => _targetLayer = value; }*/
 
     [SerializeField] private Sprite _skillIcon;
     public Sprite SkillIcon {get => _skillIcon;set => _skillIcon = value; }
