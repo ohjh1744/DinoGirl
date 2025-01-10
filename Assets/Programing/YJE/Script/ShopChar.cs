@@ -49,48 +49,48 @@ public class ShopChar : MonoBehaviour
         switch (index) // 각 캐릭터에 알맞는 이미지 설정
         {
             case 1:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/2_testCelesProfile");
-                result.video = Resources.Load<GameObject>("Prefab/1_Tricia");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/1_Tricia");
                 result.price = SetPrice(result.rarity);
                 break;
             case 2:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/2_testCelesProfile");
-                result.video = Resources.Load<GameObject>("Prefab/2_Celes");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_2");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/2_Celes");
                 result.price = SetPrice(result.rarity);
                 break;
             case 3:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/3_testReginaProfile");
-                result.video = Resources.Load<GameObject>("Prefab/3_Regina");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_3");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/3_Regina");
                 result.price = SetPrice(result.rarity);
                 break;
             case 4:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/4_testSpinneProfile");
-                result.video = Resources.Load<GameObject>("Prefab/4_Spinne");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/4_Spinne");
                 result.price = SetPrice(result.rarity);
                 break;
             case 5:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
-                result.video = Resources.Load<GameObject>("Prefab/5_Aila");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_5");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/5_Aila");
                 result.price = SetPrice(result.rarity);
                 break;
             case 6:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
-                result.video = Resources.Load<GameObject>("Prefab/6_Quezna");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/6_Quezna");
                 result.price = SetPrice(result.rarity);
                 break;
             case 7:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
-                result.video = Resources.Load<GameObject>("Prefab/7_Uloro");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/7_Uloro");
                 result.price = SetPrice(result.rarity);
                 break;
             case 8:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
-                result.video = Resources.Load<GameObject>("Prefab/8_Eost");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/8_Eost");
                 result.price = SetPrice(result.rarity);
                 break;
             case 9:
-                result.charImageProfile = Resources.Load<Sprite>("Characters/5_testAilaProfile");
-                result.video = Resources.Load<GameObject>("Prefab/9_Melorin"); 
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/9_Melorin"); 
                 result.price = SetPrice(result.rarity); 
                 break;
         }
@@ -244,7 +244,7 @@ public class ShopChar : MonoBehaviour
     {
         if (gameObj.GetComponent<ShopChar>())
         {
-            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<GachaBtn>().singleVideoContent);
+            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<GachaBtn>().SingleVideoContent);
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }

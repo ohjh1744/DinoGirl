@@ -10,7 +10,9 @@ public class GachaBtn : MonoBehaviour
     GachaCheck gachaCheck;
     [SerializeField] SceneChanger sceneChanger;
 
-    public RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
+    private RectTransform singleVideoContent; // 1연차 결과 내역 프리팹이 생성 될 위치
+    public RectTransform SingleVideoContent { get { return singleVideoContent; } set { singleVideoContent = value; } }
+
     private RectTransform tenVideoContent; // 10연차 결과 내역 프리팹이 생성 될 위치
 
     // 가챠 재화 비용과 아이템 종류 지정 - 인스펙터창에서 편하게 수정 가능
@@ -33,7 +35,7 @@ public class GachaBtn : MonoBehaviour
     }
     private void Start()
     {
-        singleVideoContent = gachaSceneController.GetUI<RectTransform>("SingleResultPanel");
+        SingleVideoContent = gachaSceneController.GetUI<RectTransform>("SingleResultPanel");
         tenVideoContent = gachaSceneController.GetUI<RectTransform>("TenResultPanel");
     }
     public void BackToRobby()
@@ -180,7 +182,7 @@ public class GachaBtn : MonoBehaviour
     {
         if (gameObj.GetComponent<ShopChar>())
         {
-            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, singleVideoContent);
+            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, SingleVideoContent);
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
