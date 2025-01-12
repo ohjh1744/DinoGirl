@@ -159,6 +159,11 @@ public class BattleSceneUi : MonoBehaviour
         {
             loseUi.SetActive(true);
             winUi.SetActive(false);
+            if (BattleSceneManager.Instance.curChapterNum == 1) 
+            {
+                RaidResult();
+            }
+
         }
 
     }
@@ -240,7 +245,10 @@ public class BattleSceneUi : MonoBehaviour
         });
     }
 
-
+    private void RaidResult() 
+    {
+        Debug.Log("레이드 결과 연동");
+    }
     public void goLobby()
     {
         BattleSceneManager.Instance.GoLobby();

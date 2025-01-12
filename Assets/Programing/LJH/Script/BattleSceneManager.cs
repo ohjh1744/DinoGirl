@@ -15,7 +15,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private DraggableUI[] Draggables;
-    [SerializeField] public int curChapterNum { get; set; }
+    [SerializeField] public int curChapterNum;
 
     public bool isAutoOn { get; set; }
     public bool isGamePaused { get; set; }
@@ -115,6 +115,11 @@ public class BattleSceneManager : MonoBehaviour
                 case 0:
                     _sceneChanger.ChangeScene("StageBattleScene_LJH");
                     Debug.Log($"0번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 1:
+                    _sceneChanger.ChangeScene("RaidBattleScene_LJH");
+                    Debug.Log($"01번으 레이드로 이동");
                     BattleSceneStart();
                     break;
                 case 7:

@@ -6990,6 +6990,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1313111821}
     - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
+      propertyPath: curChapterNum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
       propertyPath: startStage.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -13796,7 +13800,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 300
+          m_IntArgument: 122
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -14169,9 +14173,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5157801175676753381}
-        m_TargetAssemblyTypeName: Backto, Assembly-CSharp
-        m_MethodName: BacktoChapter
+      - m_Target: {fileID: 1183420275}
+        m_TargetAssemblyTypeName: BattleSceneManager, Assembly-CSharp
+        m_MethodName: GoLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14631,7 +14635,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1183420275}
         m_TargetAssemblyTypeName: BattleSceneManager, Assembly-CSharp
         m_MethodName: StageStart
         m_Mode: 1
