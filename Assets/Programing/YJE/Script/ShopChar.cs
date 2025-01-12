@@ -162,6 +162,8 @@ public class ShopChar : MonoBehaviour
         // UI 출력 설정
         resultCharUI.transform.GetChild(0).GetComponent<Image>().sprite = shopChar.charImageProfile;
         resultCharUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = shopChar.charName;
+        GameObject buyBtn = resultCharUI.transform.GetChild(3).gameObject;
+        buyBtn.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = shopChar.price.ToString();
 
         GameObject rarities = resultCharUI.transform.GetChild(2).gameObject;
         // 별 개수 설정
@@ -195,6 +197,7 @@ public class ShopChar : MonoBehaviour
             if (isChecked)
             {
                 // 텍스트 띄우는 코루틴 실행
+                StartCoroutine(gameObject.GetComponentInParent<GachaSceneController>().ShowBuyOverlapPopUp());
                 Debug.Log("중복");
             }
 
@@ -234,6 +237,8 @@ public class ShopChar : MonoBehaviour
             }
             StopCoroutine(CharacterVideoR(gameObject));
         }
+        gameObject.GetComponentInParent<GachaSceneController>().UpdatePlayerUI();
+        StopCoroutine(gameObject.GetComponentInParent<GachaSceneController>().ShowBuyOverlapPopUp());
     }
 
     /// <summary>

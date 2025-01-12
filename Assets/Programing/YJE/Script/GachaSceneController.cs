@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -39,12 +40,12 @@ public class GachaSceneController : UIBInder
         BindAll();
         ShowBaseGachaPanel();
     }
-
+    /*
     private void Update()
     {
         UpdatePlayerUI();
     }
-
+    */
     /// <summary>
     /// 시작 시 버튼의 문구 설정
     /// - 버튼의 문구 변경 가능
@@ -74,6 +75,7 @@ public class GachaSceneController : UIBInder
         GetUI<TextMeshProUGUI>("DinoStoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone].ToString());
         GetUI<TextMeshProUGUI>("StoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone].ToString());
     }
+
 
     /// <summary>
     /// csv데이터로 알맞은 가차 리스트를 분리하는 함수
@@ -286,6 +288,7 @@ public class GachaSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(true);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
         GetUI<Image>("SingleImage").gameObject.SetActive(true);
+        UpdatePlayerUI();
         //DisableResultPanel(); // 비활성화 함수
     }
     public void DisableSingleImage()
@@ -424,5 +427,20 @@ public class GachaSceneController : UIBInder
         resultObjUI = resultItem.SetGachaReturnItemUI(resultItem, resultObjUI);
 
         return resultObjUI;
+    }
+
+    /// <summary>
+    /// 상점 구매 시 중복 구매 방지 팝업창
+    /// ShopChar.cs에서 사용
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator ShowBuyOverlapPopUp()
+    {
+        Debug.Log("팝업창 코루틴 시작");
+        GetUI<Image>("BuyPopUp").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("OverlapPopUpText").gameObject.SetActive(true);
+        yield return new WaitForSeconds(4f);
+        GetUI<Image>("BuyPopUp").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("OverlapPopUpText").gameObject.SetActive(false);
     }
 }
