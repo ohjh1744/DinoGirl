@@ -259,7 +259,7 @@ public class BattleSceneManager : MonoBehaviour
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
 
-            Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
+            Sprite sprite = Resources.Load<Sprite>("PortraitGrid/Portrait_" + id.ToString());
             Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
                                                                                              // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
             Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element, inc, 1);
