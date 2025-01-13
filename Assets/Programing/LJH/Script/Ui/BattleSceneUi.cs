@@ -83,6 +83,7 @@ public class BattleSceneUi : MonoBehaviour
         while (curTime > 0)
         {
             curTime -= Time.deltaTime;
+            BattleSceneManager.Instance.RemainTime = curTime;
             minute = (int)curTime / 60;
             second = (int)curTime % 60;
             timerText.text = minute.ToString("00") + ":" + second.ToString("00");
@@ -159,6 +160,11 @@ public class BattleSceneUi : MonoBehaviour
         {
             loseUi.SetActive(true);
             winUi.SetActive(false);
+            if (BattleSceneManager.Instance.curChapterNum == 1) 
+            {
+                RaidResult();
+            }
+
         }
 
     }
@@ -240,7 +246,10 @@ public class BattleSceneUi : MonoBehaviour
         });
     }
 
-
+    private void RaidResult() 
+    {
+        Debug.Log("레이드 결과 연동");
+    }
     public void goLobby()
     {
         BattleSceneManager.Instance.GoLobby();
