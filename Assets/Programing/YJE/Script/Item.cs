@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GachaItem : MonoBehaviour
+public class Item : MonoBehaviour
 {
     private int itemId;
     public int ItemId { get { return itemId; } set { itemId = value; } }
@@ -25,34 +25,34 @@ public class GachaItem : MonoBehaviour
     /// <param name="result"></param>
     /// <param name="index"></param>
     /// <returns></returns>
-    public GachaItem MakeItemList(Dictionary<int, Dictionary<string, string>> dataBaseList, GachaItem result, int index)
+    public Item MakeItemList(Dictionary<int, Dictionary<string, string>> dataBaseList, Item result, int index)
     {
         switch (index)
         {
             case 500:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("Lottery/TestG");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/TestG");
                 break;
             case 501:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("Lottery/TestDB");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/TestDB");
                 break;
             case 502:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("Lottery/TestBC");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/TestBC");
                 break;
             case 503:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("Lottery/TestDS");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/TestDS");
                 break;
             case 504:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("Lottery/TestS");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/TestS");
                 break;
         }
         return result;
@@ -65,11 +65,11 @@ public class GachaItem : MonoBehaviour
     /// <param name="gachaItem"></param>
     /// <param name="resultUI"></param>
     /// <returns></returns>
-    public GameObject SetGachaItemUI(GachaItem gachaItem, GameObject resultUI)
+    public GameObject SetGachaItemUI(Item gachaItem, GameObject resultUI)
     {
-        resultUI.GetComponent<GachaItem>().itemId = gachaItem.itemId;
-        resultUI.GetComponent<GachaItem>().itemName = gachaItem.itemName;
-        resultUI.GetComponent<GachaItem>().amount = gachaItem.amount;
+    resultUI.GetComponent<Item>().itemId = gachaItem.itemId;
+    resultUI.GetComponent<Item>().itemName = gachaItem.itemName;
+    resultUI.GetComponent<Item>().amount = gachaItem.amount;
 
         // 알맞은 UI 출력
         resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;
@@ -81,20 +81,18 @@ public class GachaItem : MonoBehaviour
     /// <summary>
     /// 이미 소유한 Character를 뽑은 경우
     /// 전환되는 아이템을 보여주는 UI Setting 함수
-    //  - GachaSceneController.cs에서 사용
     /// </summary>
     /// <param name="gachaItem"></param>
     /// <param name="resultUI"></param>
     /// <returns></returns>
-    public GameObject SetGachaReturnItemUI(GachaItem gachaItem, GameObject resultUI)
+    public GameObject SetGachaReturnItemUI(Item gachaItem, GameObject resultUI)
     {
-        resultUI.GetComponent<GachaItem>().itemId = gachaItem.itemId;
-        resultUI.GetComponent<GachaItem>().amount = gachaItem.amount;
+        resultUI.GetComponent<Item>().ItemId = gachaItem.ItemId;
+        resultUI.GetComponent<Item>().Amount = gachaItem.Amount;
 
         // 알맞은 UI 출력
-        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;
-        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.amount.ToString();
+        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.ItemImage;
+        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.Amount.ToString();
         return resultUI;
     }
-
 }

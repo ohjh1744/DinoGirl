@@ -2,12 +2,14 @@ using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopChar : MonoBehaviour
 {
+
+    ShopSceneController shopSceneController;
+
     private int charId;
     public int CharId { get { return charId; } set { charId = value; } }
 
@@ -32,17 +34,43 @@ public class ShopChar : MonoBehaviour
     private GameObject video;
     public GameObject Video { get { return video; } set { video = value; } }
 
+    private void OnEnable()
+    {
+        shopSceneController = gameObject.GetComponentInParent<ShopSceneController>();
+    }
+
     /// <summary>
-    /// Gacha에서 사용하는 CharacterList를 Dictionary로 사용할 때 사용
-    /// - 캐릭터 종류가 추가되는 경우 Switch문에 분기 설정하여 사용
-    //  - GachaSceneController.cs의 MakeCharList()에서 참조하여 사용
+    /// Character의 rarity에 따른 상점 구매 가격 설정
+    /// </summary>
+    /// <param name="rarity"></param>
+    /// <returns></returns>
+    private int SetPrice(int rarity)
+    {
+        switch (rarity)
+        {
+            case 2:
+                price = 50;
+                break;
+            case 3:
+                price = 100;
+                break;
+            case 4:
+                price = 300;
+                break;
+        }
+        return price;
+    }
+
+    /// <summary>
+    /// ShopMakeStart.cs에서 CharDic에 들어가는 ShopChar에 정보를 저장하는 함수
     /// </summary>
     /// <param name="dataBaseList"></param>
     /// <param name="result"></param>
     /// <param name="index"></param>
     /// <returns></returns>
-    public ShopChar MakeCharList(Dictionary<int, Dictionary<string, string>> dataBaseList, ShopChar result, int index)
+    public ShopChar SetCharInfo(Dictionary<int, Dictionary<string, string>> dataBaseList, int index)
     {
+        ShopChar result = new ShopChar();
         result.charId = index;
         result.charName = dataBaseList[index]["Name"];
         result.rarity = TypeCastManager.Instance.TryParseInt(dataBaseList[index]["Rarity"]);
@@ -64,7 +92,7 @@ public class ShopChar : MonoBehaviour
                 result.price = SetPrice(result.rarity);
                 break;
             case 4:
-                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_4");
                 result.video = Resources.Load<GameObject>("CutScenePrefabs/4_Spinne");
                 result.price = SetPrice(result.rarity);
                 break;
@@ -74,54 +102,29 @@ public class ShopChar : MonoBehaviour
                 result.price = SetPrice(result.rarity);
                 break;
             case 6:
-                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_6");
                 result.video = Resources.Load<GameObject>("CutScenePrefabs/6_Quezna");
                 result.price = SetPrice(result.rarity);
                 break;
             case 7:
-                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_7");
                 result.video = Resources.Load<GameObject>("CutScenePrefabs/7_Uloro");
                 result.price = SetPrice(result.rarity);
                 break;
             case 8:
-                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_8");
                 result.video = Resources.Load<GameObject>("CutScenePrefabs/8_Eost");
                 result.price = SetPrice(result.rarity);
                 break;
             case 9:
-                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_1");
-                result.video = Resources.Load<GameObject>("CutScenePrefabs/9_Melorin"); 
-                result.price = SetPrice(result.rarity); 
+                result.charImageProfile = Resources.Load<Sprite>("Portrait/portrait_9");
+                result.video = Resources.Load<GameObject>("CutScenePrefabs/9_Melorin");
+                result.price = SetPrice(result.rarity);
                 break;
         }
         return result;
     }
 
-    private int SetPrice(int rarity)
-    {
-        switch (rarity)
-        {
-            case 2:
-                price = 50;
-                break;
-            case 3:
-                price = 100;
-                break;
-            case 4:
-                price = 300;
-                break;
-        }
-        return price;
-    }
-
-
-    /// <summary>
-    /// ShopChar의 정보를 ResultPanel/Panel 아래에 새로 만들어진 프리팹UI로 셋팅하는 함수
-    // - GachaSceneController.cs에서 사용
-    /// </summary>
-    /// <param name="gachaChar"></param>
-    /// <param name="resultCharUI"></param>
-    /// <returns></returns>
     public GameObject SetGachaCharUI(ShopChar gachaChar, GameObject resultCharUI)
     {
         // 데이터 설정
@@ -143,14 +146,7 @@ public class ShopChar : MonoBehaviour
         return resultCharUI;
     }
 
-    /// <summary>
-    /// shopChar의 정보를 ShopScrollView-Viewport-CharacterContent 아래에 새로 만들어진 프리팹UI로 셋팅하는 함수
-    // - ShopMaker.cs에서 사용
-    /// </summary>
-    /// <param name="gachaChar"></param>
-    /// <param name="resultCharUI"></param>
-    /// <returns></returns>
-    public GameObject SetShopCharUI(ShopChar shopChar, GameObject resultCharUI)
+    public GameObject SetShopCharInfo(ShopChar shopChar, GameObject resultCharUI)
     {
         // 데이터 설정
         resultCharUI.GetComponent<ShopChar>().charId = shopChar.charId;
@@ -159,12 +155,16 @@ public class ShopChar : MonoBehaviour
         resultCharUI.GetComponent<ShopChar>().price = shopChar.price;
         resultCharUI.GetComponent<ShopChar>().video = shopChar.video;
 
-        // UI 출력 설정
+        // UI 이미지와 이름 UI
         resultCharUI.transform.GetChild(0).GetComponent<Image>().sprite = shopChar.charImageProfile;
         resultCharUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = shopChar.charName;
 
+        // 가격 설정 UI
+        GameObject buyBtn = resultCharUI.transform.GetChild(4).gameObject;
+        buyBtn.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = shopChar.price.ToString();
+
         GameObject rarities = resultCharUI.transform.GetChild(2).gameObject;
-        // 별 개수 설정
+        // 별 개수 설정 UI
         for (int i = 0; i < shopChar.rarity; i++)
         {
             rarities.transform.GetChild(i).gameObject.SetActive(true);
@@ -174,8 +174,8 @@ public class ShopChar : MonoBehaviour
 
     public void OnBuyCharacter()
     {
-        Debug.Log("버튼클릭");
         // 구매하기 버튼 클릭 시 재생할 함수
+        SoundManager.Instance.PlaySFX(shopSceneController.ButtonSfx);
         // 각 프리팹(BuyCharacter.gameobject.GachaChar.CharId)의 아이디와 플레이어의 소유 유닛 아이디 중복여부 확인
         bool isChecked = false;
         if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone] >= price) // 돌파석 개수 확인 필요
@@ -195,7 +195,7 @@ public class ShopChar : MonoBehaviour
             if (isChecked)
             {
                 // 텍스트 띄우는 코루틴 실행
-                Debug.Log("중복");
+                StartCoroutine(shopSceneController.ShowBuyOverlapPopUp());
             }
 
             else if (!isChecked)
@@ -222,18 +222,24 @@ public class ShopChar : MonoBehaviour
                 }
 
                 // 구매 완료 텍스트를 띄우는 코루틴 출력
-                Debug.Log($"구매완료 : {gameObject.GetComponent<ShopChar>().price}");
                 int result = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone] - gameObject.GetComponent<ShopChar>().price;
                 PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Stone, result);
                 // 실제 빌드 시 사용 - UserId불러오기
                 DatabaseReference setItemRoot;
                 setItemRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_items/4");
                 setItemRoot.SetValueAsync(result); // firebase 값 변경
-                gameObject.GetComponentInParent<GachaSceneController>().ShowSingleResultPanel();
+                shopSceneController.ShowSingleResultPanel();
                 StartCoroutine(CharacterVideoR(gameObject));
             }
             StopCoroutine(CharacterVideoR(gameObject));
         }
+        else
+        {
+            StartCoroutine(shopSceneController.ShowGachaOverlapPopUp());
+            StopCoroutine(shopSceneController.ShowGachaOverlapPopUp());
+        }
+        shopSceneController.UpdatePlayerUI();
+        StopCoroutine(shopSceneController.ShowBuyOverlapPopUp());
     }
 
     /// <summary>
@@ -244,12 +250,12 @@ public class ShopChar : MonoBehaviour
     {
         if (gameObj.GetComponent<ShopChar>())
         {
-            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<GachaBtn>().SingleVideoContent);
+            GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<ShopBtnManager>().SingleVideoContet);
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
-        gameObject.GetComponentInParent<GachaSceneController>().DisableSingleImage();
-        gameObject.GetComponentInParent<GachaSceneController>().DisabledGachaResultPanel();
+        shopSceneController.DisableSingleImage();
+        shopSceneController.DisabledGachaResultPanel();
     }
 
 }
