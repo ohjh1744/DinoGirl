@@ -96,6 +96,7 @@ public class AoESkill : Skill
 
     protected void OverlapAreaAllWithAngle(BaseUnitController caster, List<BaseUnitController> targets)
     {
+        ResetTargets(targets);
         Vector2 dir =  caster.gameObject.transform.localScale.x < 0 ? Vector2.right : Vector2.left;
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(caster.CenterPosition.position, SkillRange, targetLayer);
         foreach (var col in hitColliders)

@@ -35,7 +35,6 @@ public class Projectile : MonoBehaviour
     private void HitTarget()
     {
         // 명중처리를 할것인지 단순 보이기용인지 결정해야함
-        Debug.Log("적중함");
         Destroy(gameObject);
     }
 }

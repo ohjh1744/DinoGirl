@@ -156,8 +156,14 @@ public abstract class Skill : ScriptableObject
 
     private bool CheckRemainingTime()
     {
-        // 경과시간 계산
-        return false;
+        if (BattleSceneManager.Instance.RemainTime > 90.0f)
+        {
+            Debug.Log("남은시간 90초 + ");
+            return false;
+        }
+           
+        Debug.Log("남은시간 90초 - ");
+        return true;
     }
 
     protected void ResetTargets(List<BaseUnitController> targets)

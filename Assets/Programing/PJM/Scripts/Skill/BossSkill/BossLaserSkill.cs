@@ -204,9 +204,11 @@ public class BossLaserSkill : Skill
                     return BaseNode.ENodeState.Success;
                 }
                 // 스킬 회수중
+                Debug.Log("스킬 회수중");
                 return BaseNode.ENodeState.Running;
             }
             default:
+                Debug.LogWarning("Failure Flag");
                 return BaseNode.ENodeState.Failure;
         }
     }
@@ -230,14 +232,19 @@ public class BossLaserSkill : Skill
             Debug.LogWarning("레이저 프리팹 설정되지 않음");
             return;
         }
-        
+        Debug.Log("레이저 생성됨");
         raidBossCaster.LaserObejct = Instantiate(laserPrefab);
     }
 
     private void AttackWithLaser(Transform bossMuzzlePoint, Transform target, GameObject laserObject)
     {
-        if(target == null || !target.gameObject.activeSelf)
+        Debug.Log("AttackWithLaser 실행됨");
+        if (target == null || !target.gameObject.activeSelf)
+        {
+            Debug.Log("타겟이 없음");
             return;
+        }
+            
         Vector2 dir = target.position - bossMuzzlePoint.position;
         float distance = dir.magnitude;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

@@ -205,9 +205,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2590758072763100430, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
+      propertyPath: skill
+      value: 
+      objectReference: {fileID: 11400000, guid: ce15f3ba72c21f44d827a7382a4cea23, type: 2}
     - target: {fileID: 4005812530564026310, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
       propertyPath: m_Name
       value: RaidBoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005812530564026311, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
+      propertyPath: _attackPoint
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4005812530564026331, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
       propertyPath: m_RootOrder
@@ -416,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a124fdaec0688834f931c5bac8afba35, type: 2}
     - target: {fileID: 7584008107497173228, guid: 2f05f41425d9e4b48b47db4cf3cd3767, type: 3}
       propertyPath: _maxHp
-      value: 100000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7584008107497173229, guid: 2f05f41425d9e4b48b47db4cf3cd3767, type: 3}
       propertyPath: m_Name
@@ -1655,6 +1663,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  curChapterNum: 0
   inGridObject: []
   enemyGridObject: []
   curStageNum: 0
@@ -1675,6 +1684,7 @@ MonoBehaviour:
   tacPower: {fileID: 0}
   Power: 0
   incBuffsPowers: 0
+  RemainTime: 0
   curBattleState: 1
   startStage:
     m_PersistentCalls:
