@@ -64,7 +64,8 @@ public class MailPanel : UIBInder
     private void OnEnable()
     {
         //Sound
-        GetUI<Button>("AddFriendExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("MailExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("MailAllCheckButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
 
         GetUI<Button>("MailAllCheckButton").onClick.AddListener(CheckAllMail);
         GetMailData();
@@ -72,7 +73,8 @@ public class MailPanel : UIBInder
 
     private void OnDisable()
     {
-        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("MailExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("MailAllCheckButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
 
         GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(CheckAllMail);
         GetUI("MailCheckedImage").gameObject.SetActive(false);

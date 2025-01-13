@@ -70,7 +70,8 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyGachaButton").onClick.AddListener(() => ChangeScene("GachaScene_YJE"));
 
         //Sound
-        //SoundManager.Instance.PlayeBGM(_bgmClip);
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.PlayeBGM(_bgmClip);
         GetUI<Button>("LobbyPlayerButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
         GetUI<Button>("PlayerExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
         GetUI<Button>("LobbyMailButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
