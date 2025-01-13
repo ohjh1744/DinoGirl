@@ -15,6 +15,8 @@ public class RoomPanel : UIBInder
     [SerializeField] private GameObject _claimPopup;
     [SerializeField] private ItemPanel _itemPanel;
 
+    private SceneChanger _sceneChanger;
+
     private Coroutine _updateIdleTimeCoroutine;
 
     private void Awake()
@@ -23,6 +25,8 @@ public class RoomPanel : UIBInder
 
         AddEvent("ClaimButton", EventType.Click, ClaimIdleRewards);
         AddEvent("CheckRewardButton", EventType.Click, ShowIdleRewardPanel);
+
+        _sceneChanger = FindObjectOfType<SceneChanger>();
     }
 
     private void Start()
@@ -39,6 +43,8 @@ public class RoomPanel : UIBInder
         {
             _updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
         }
+
+        AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
     private void OnEnable()
@@ -197,4 +203,9 @@ public class RoomPanel : UIBInder
     }
     */
 
+    public void GoLobby(PointerEventData eventData)
+    {
+        _sceneChanger.CanChangeSceen = true;
+        _sceneChanger.ChangeScene("Lobby_OJH");
+    }
 }

@@ -73,7 +73,7 @@ public class BackButtonManager : MonoBehaviour
         _openPanels.Push(panel);
     }
 
-    private void CloseTopPanel()
+    public void CloseTopPanel()
     {
         if (_openPanels.Count > 0)
         {
