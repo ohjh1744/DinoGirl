@@ -28,6 +28,12 @@ public class LoginPanel : UIBInder
     //ÆÈ·Î¿ì origin °ª
     [SerializeField] private int _originFollowTime;
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
+    //Bgm
+    [SerializeField] private AudioClip _bgmClip;
+
     private void Awake()
     {
         BindAll();
@@ -38,6 +44,13 @@ public class LoginPanel : UIBInder
         GetUI<Button>("LoginButton").onClick.AddListener(Login);
         GetUI<Button>("SignUpButton").onClick.AddListener(ResetInputField);
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
+
+        //Sound
+        SoundManager.Instance.PlayeBGM(_bgmClip);
+        GetUI<Button>("LoginButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("SignUpButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("LoginExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("LoginWarningExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void Login()

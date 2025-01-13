@@ -16,6 +16,9 @@ public class SignUpPanel : UIBInder
 
     private StringBuilder _sb = new StringBuilder();
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -24,6 +27,10 @@ public class SignUpPanel : UIBInder
     {
         GetUI<Button>("CreateButton").onClick.AddListener(CreateAccount);
         GetUI<Button>("SignUpExitButton").onClick.AddListener(ResetInputField);
+
+        GetUI<Button>("SignUpExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("CreateButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("CreateWarningExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
 

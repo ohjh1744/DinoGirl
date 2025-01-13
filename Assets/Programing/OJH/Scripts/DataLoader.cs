@@ -15,12 +15,6 @@ public class DataLoader : MonoBehaviour
 
     [SerializeField] private string _uID;
 
-    //つ煎辦 葬撢 衛除
-    [SerializeField] private int _resetFollowTime;
-
-    //つ煎辦 origin 高
-    [SerializeField] private int _originFollowTime;
-
     [ContextMenu("LoadTest")]
     public void Test()
     {

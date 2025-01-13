@@ -12,7 +12,6 @@ using UnityEngine.UI;
 
 public class NamePanel : UIBInder
 {
-    [SerializeField] private int _baseUnitNum; //계정 생성후 갖고있는 캐릭터 개수.
 
     [SerializeField] private int[] _baseUnitIds;// 캐릭터 ID
 
@@ -21,6 +20,9 @@ public class NamePanel : UIBInder
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private int _nameLen; // 이름 제한 길이
+
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
 
     private void Awake()
     {
@@ -31,6 +33,10 @@ public class NamePanel : UIBInder
     {
         GetUI<Button>("SetNameButton").onClick.AddListener(SetName);
         GetUI<Button>("NameExitButton").onClick.AddListener(ResetInputField);
+
+        GetUI<Button>("NameExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("SetNameButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("NameWarningExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void SetName()
@@ -89,7 +95,7 @@ public class NamePanel : UIBInder
         PlayerDataManager.Instance.PlayerData.LastResetAddFriendTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
         
 
-        for (int i = 0; i < _baseUnitNum; i++)
+        for (int i = 0; i < _baseUnitIds.Length; i++)
         {
             PlayerUnitData unitData = new PlayerUnitData();
 

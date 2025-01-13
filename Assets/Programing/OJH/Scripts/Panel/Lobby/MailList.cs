@@ -38,9 +38,13 @@ public class MailList : MonoBehaviour
 
     public TextMeshProUGUI CheckedItemText { get { return _checkcedItemText; } set { _checkcedItemText = value; } }
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
 
     public void CheckMail()
     {
+        SoundManager.Instance.PlaySFX(_buttonClip);
         UpdateItem();
         DeleteMail();
         ShowCheckedImage();
