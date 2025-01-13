@@ -21,6 +21,9 @@ public class MailPanel : UIBInder
 
     [SerializeField] private Sprite[] _itemSprites; // 보상 이미지들 item순서대로
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private List<MailList> _mailLists;
 
     private List<int>[] _imagePosPerItems; //보상 종류 개수에 따라 팝업내부 아이템 위치가 다름.
@@ -60,14 +63,19 @@ public class MailPanel : UIBInder
 
     private void OnEnable()
     {
+        //Sound
+        GetUI<Button>("AddFriendExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+
         GetUI<Button>("MailAllCheckButton").onClick.AddListener(CheckAllMail);
         GetMailData();
     }
 
     private void OnDisable()
     {
-        GetUI("MailCheckedImage").gameObject.SetActive(false);
+        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+
         GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(CheckAllMail);
+        GetUI("MailCheckedImage").gameObject.SetActive(false);
         ResetMailLists();
     }
 

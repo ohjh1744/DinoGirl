@@ -24,6 +24,9 @@ public class AddFriendPanel : UIBInder
 
     [SerializeField] private AutoFalseSetter _maxFriendImage; //userList에 참조해줄 Image, 최대친구인 경우 띄울 팝업
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private bool _isFriend;
 
     private int _curUserListNum;
@@ -32,6 +35,12 @@ public class AddFriendPanel : UIBInder
     {
         BindAll();
     }
+
+    private void OnEnable()
+    {
+        //Sound
+        GetUI<Button>("AddFriendExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+    }
     private void Start()
     {
         GetUserData();
@@ -39,6 +48,9 @@ public class AddFriendPanel : UIBInder
 
     private void OnDisable()
     {
+        //Sound
+        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+
         GetUI("AddFriendGetCoinImage").gameObject.SetActive(false);
         GetUI("AddFriendCantAddImage").gameObject.SetActive(false);
         GetUI("AddFriendMaxFriendImage").gameObject.SetActive(false);

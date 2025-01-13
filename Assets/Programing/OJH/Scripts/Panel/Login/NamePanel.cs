@@ -22,6 +22,9 @@ public class NamePanel : UIBInder
 
     [SerializeField] private int _nameLen; // 이름 제한 길이
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -31,6 +34,10 @@ public class NamePanel : UIBInder
     {
         GetUI<Button>("SetNameButton").onClick.AddListener(SetName);
         GetUI<Button>("NameExitButton").onClick.AddListener(ResetInputField);
+
+        GetUI<Button>("NameExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("SetNameButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("NameWarningExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void SetName()
