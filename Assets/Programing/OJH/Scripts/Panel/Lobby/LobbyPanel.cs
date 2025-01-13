@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using Firebase.Auth;
-using Firebase.Extensions;
 using UnityEngine.UI;
 using System;
 using Firebase.Database;
-using System.Runtime.CompilerServices;
-using System.Net;
-using UnityEngine.AI;
+
 
 public class LobbyPanel : UIBInder
 {
@@ -93,6 +89,11 @@ public class LobbyPanel : UIBInder
         ShowMainUnit();
         ShowItems();
         CheckResetAddFriend();
+    }
+
+    private void OnDisable()
+    {
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoin;
     }
 
     private void Update()
