@@ -2128,6 +2128,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3299149920580255907, guid: 6dfd517297210334db4398d1885091a1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 722cea65bdffb8e49a9c98e6d3859f92, type: 3}
     - target: {fileID: 3299149920580255909, guid: 6dfd517297210334db4398d1885091a1, type: 3}
       propertyPath: m_Name
       value: LoadingPanel
@@ -4618,8 +4622,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uID: CHSmbrwghYNzZb7AIkdLRtvpHaW2
-  _resetFollowTime: 0
-  _originFollowTime: 0
 --- !u!222 &1882039351
 CanvasRenderer:
   m_ObjectHideFlags: 0

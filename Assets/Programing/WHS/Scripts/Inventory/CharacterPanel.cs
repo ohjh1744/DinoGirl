@@ -65,7 +65,7 @@ public class CharacterPanel : UIBInder
         if (_characterData.TryGetValue(character.UnitId, out var data))
         {
             // 캐릭터 이미지
-            string imagePath = $"UI/LobbyMainUnit/LobbyMainUnit_{character.UnitId}";
+            string imagePath = $"LobbyMainUnit/LobbyMainUnit_{character.UnitId}";
             
             if (imagePath != null)
             {
