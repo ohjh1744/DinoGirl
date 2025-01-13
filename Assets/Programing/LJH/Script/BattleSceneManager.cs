@@ -77,7 +77,6 @@ public class BattleSceneManager : MonoBehaviour
         {
             Debug.Log($"출발 인원{inGridObjectCount}");
 
-
             for (int i = 1; i < inGridObject.Length; i++)
             {
                 if (inGridObject[i] != null)

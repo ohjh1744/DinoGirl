@@ -103,9 +103,9 @@ public class TargetingSkillToEnemy : Skill
 
         // 스킬 시전 시작
         //if (!caster.IsSkillRunning)
-        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill]))
+        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
         {
-            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill], true);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0], true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
             caster.CoolTimeCounter = Cooltime;
             caster.IsSkillRunning = true;
@@ -125,7 +125,7 @@ public class TargetingSkillToEnemy : Skill
             {
                 {
                     Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
-                    caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],
+                    caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],
                         false);
                     caster.IsSkillRunning = false;
 

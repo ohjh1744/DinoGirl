@@ -1,25 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RaidBossUnitController : EnemyBaseUnitController
-{
+{/*
+    [SerializeField] private Skill[] _bossSkills;
+    protected Skill[] BossSkills {get => _bossSkills; set => _bossSkills = value; }*/
+    [SerializeField] private Skill _bossSkill0;
+    protected Skill BossSkill0 => _bossSkill0;
     [SerializeField] private Skill _bossSkill1;
     protected Skill BossSkill1 => _bossSkill1;
-    [SerializeField] private Skill _bossSkill2;
-    protected Skill BossSkill2 => _bossSkill2;
-    //[SerializeField] private Skill _bossSkill3;
-    //protected Skill BossSkill3 => _bossSkill3;
-
     private List<BaseUnitController> _skillTargets;
     protected List<BaseUnitController> SkillTargets { get => _skillTargets; set => _skillTargets = value; }
     [SerializeField] private Transform _muzzlePoint;
     public Transform MuzzlePoint { get => _muzzlePoint; set => _muzzlePoint = value; }
-    [SerializeField] private GameObject laserObejct;
+    [HideInInspector] private GameObject laserObejct;
     public GameObject LaserObejct {get => laserObejct; set => laserObejct = value; }
     
     private BossSkillRuntimeData _skillRuntimeData;
     public BossSkillRuntimeData SkillRuntimeData { get => _skillRuntimeData; set => _skillRuntimeData = value; }
+
+    // 더 많으면 배열 혹은 리스트로
+    private bool _isSkill0Running;
+    public bool IsSkill0Running { get => _isSkill0Running; set => _isSkill0Running = value; }
+    private bool _isSkill1Running;
+    public bool IsSkill1Running { get => _isSkill1Running; set => _isSkill1Running = value; }
+    //private Skill _curSkill;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -49,15 +57,39 @@ public class RaidBossUnitController : EnemyBaseUnitController
                         new DecoratorNode
                         (
                             new ConditionNode(IsSkillAlreadyRunning),
-                            BossSkill1.CreatePerformNode(this, SkillTargets) // 사실상 스킬체크노드를 따로 만들어야함
+                            new SelectorNode
+                                (
+                                    new List<BaseNode>
+                                    {
+                                        new DecoratorNode
+                                        (
+                                            new ConditionNode(() => IsSkill0Running),
+                                            BossSkill0.CreatePerformNode(this, SkillTargets)
+                                        )
+                                        ,
+                                        new DecoratorNode
+                                        (
+                                            new ConditionNode(() => IsSkill1Running),
+                                            BossSkill1.CreatePerformNode(this, SkillTargets)
+                                        )
+                                    }
+                                )
                         ),
                         new SequenceNode // skillable Dicision Sequence
                         (
                             new List<BaseNode>()
                             {
                                 new ConditionNode(CheckSkillCooltimeBack),
-                                // 타임체크로 무슨 스킬을 쓸지 정해야함
-                                BossSkill1.CreateSkillBTree(this, SkillTargets)
+                                
+                                new SelectorNode
+                                    (
+                                        new List<BaseNode>()
+                                        {
+                                            // new ConditionNode(checkBossPhase)
+                                            BossSkill0.CreateSkillBTree(this, SkillTargets, true),
+                                            BossSkill1.CreateSkillBTree(this, SkillTargets, false)
+                                        }
+                                    )
                             }
                         ),
                     }
@@ -85,4 +117,26 @@ public class RaidBossUnitController : EnemyBaseUnitController
             }
         );
     }
+
+    
+    protected override bool IsSkillAlreadyRunning()
+    {
+        return IsSkillRunning;
+        
+        //return CurSkill != null;
+    }
+
+    /*private BaseNode.ENodeState PerformCurSkill()
+    {
+        if (CurSkill == null)
+            return BaseNode.ENodeState.Failure;
+        return CurSkill.
+    }*/
+
+    
+
+    /*protected bool CheckBossPhase(float time)
+    {
+        
+    }*/
 }

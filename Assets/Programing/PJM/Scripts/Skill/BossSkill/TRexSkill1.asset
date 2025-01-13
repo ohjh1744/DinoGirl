@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930c9ce7b147f504a879776dc42e6ba7, type: 3}
+  m_Name: TRexSkill1
+  m_EditorClassIdentifier: 
+  _skillName: BossSkill1
+  _targetAll: 0
+  _skillRange: 20
+  _maxTargetingNum: 1
+  _isPriorityTargetFar: 1
+  skillRatio: 2
+  cooltime: 8
+  crowdControl: 0
+  ccDuration: 0
+  _skillIcon: {fileID: 0}
+  _vfxToTarget: {fileID: 0}
+  _vfxToMine: {fileID: 0}
+  attackType: 0
+  startUpRatio: 0.35
+  recoveryRatio: 0.9
+  tickNumber: 4
+  laserPrefab: {fileID: 6023031873551005555, guid: 2dabaa00af322fd45958d57d12390488, type: 3}
+  _skillNum: 3

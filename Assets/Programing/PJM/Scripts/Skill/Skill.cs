@@ -101,6 +101,32 @@ public abstract class Skill : ScriptableObject
             }
         );
     }
+    
+    public SequenceNode CreateSkillBTree(BaseUnitController caster,List<BaseUnitController> targets, bool needRemainTimeChecker)
+    {
+        switch (needRemainTimeChecker)
+        {
+            case true:
+                return new SequenceNode
+                (
+                    new List<BaseNode>()
+                    {
+                        new ConditionNode(CheckRemainingTime),
+                        new ActionNode(() => SetTargets(caster,targets)), 
+                        new ActionNode(() => Perform(caster, targets))
+                    }
+                );
+            case false:
+                return new SequenceNode
+                (
+                    new List<BaseNode>()
+                    {
+                        new ActionNode(() => SetTargets(caster,targets)), 
+                        new ActionNode(() => Perform(caster, targets))
+                    }
+                );
+        }
+    }
 
     public BaseNode CreatePerformNode(BaseUnitController caster,List<BaseUnitController> targets)
     {
@@ -124,6 +150,14 @@ public abstract class Skill : ScriptableObject
         {
             Destroy(particleObject);
         }
+    }
+    
+
+
+    private bool CheckRemainingTime()
+    {
+        // 경과시간 계산
+        return false;
     }
 
     protected void ResetTargets(List<BaseUnitController> targets)

@@ -1,17 +1,20 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AoESkill", menuName = "Skills/AoESkill")]
-public class AoESkill : Skill
+[CreateAssetMenu(fileName = "NewBossSkill", menuName = "Skills/BossSkill/AoE")]
+public class BossAoESkill : Skill
 {
     public float areaAngle;
     public LayerMask targetLayer;
     
-
-
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+    // Need Fix
+    /*[Header("Skill Num : 3 - skill0 | 4- skill1")]
+    [Range(3,4)]
+    [SerializeField] private int _skillNum = 3;
+    public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}*/
+    
+protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
         
@@ -22,6 +25,13 @@ public class AoESkill : Skill
 
     protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
+        var raidBossCaster = caster as RaidBossUnitController;
+        if (raidBossCaster == null)
+        {
+            Debug.LogWarning("다운캐스팅 실패");
+            return BaseNode.ENodeState.Failure;
+        }
+        
         if (targets.Count == 0)
         {
             Debug.Log($"{SkillName}: 타겟이 없습니다.");
@@ -29,46 +39,47 @@ public class AoESkill : Skill
         }
 
         //if (!unitAnimator.GetBool("Skill"))
-        if (caster.UnitViewer.UnitAnimator == null)
+        if (raidBossCaster.UnitViewer.UnitAnimator == null)
         {
             Debug.LogWarning("애니메이터 없음;");
             return BaseNode.ENodeState.Failure;
         }
         
-        caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
+        raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
         
-               // 스킬 시전 시작
+        // 스킬 시전 시작
         //if (!caster.IsSkillRunning)
-        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
+        if(!raidBossCaster.UnitViewer.UnitAnimator.GetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
         {
-            caster.CurSkill = this;
-            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0], true);
-            Debug.Log($" {caster.gameObject.name} 스킬 시전");
-            caster.CoolTimeCounter = Cooltime;
-            caster.IsSkillRunning = true;
+            //raidBossCaster.CurSkill = this;
+            raidBossCaster.IsSkill0Running = true; // Need Fix 
+            raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill0], true);
+            Debug.Log($" {raidBossCaster.gameObject.name} 스킬 시전");
+            raidBossCaster.CoolTimeCounter = Cooltime;
+            raidBossCaster.IsSkillRunning = true;
             return BaseNode.ENodeState.Running;
         }
         
         
-        var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        var stateInfo = raidBossCaster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
         //if (stateInfo.IsName("UsingSkill"))
         {
             if (stateInfo.normalizedTime < 1.0f)
             {
-                Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
+                Debug.Log($"{raidBossCaster.gameObject.name} : '{SkillName}' 사용 중.");
                 return BaseNode.ENodeState.Running;
             }
             else if (stateInfo.normalizedTime >= 1.0f)
             {
                 {
-                    Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
+                    Debug.Log($"{raidBossCaster.gameObject.name} : '{SkillName}' 사용 완료.");
                     
-                    caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],
+                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill0],
                         false);
-                    caster.IsSkillRunning = false;
+                    raidBossCaster.IsSkillRunning = false;
 
-                    OverlapAreaAllWithAngle(caster, targets);
-                    float skillDamage = caster.UnitModel.AttackPoint * SkillRatio;
+                    OverlapAreaAllWithAngle(raidBossCaster, targets);
+                    float skillDamage = raidBossCaster.UnitModel.AttackPoint * SkillRatio;
                     foreach (var target in targets)
                     {
                         // 데미지 주는 로직
@@ -79,13 +90,13 @@ public class AoESkill : Skill
                             //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
                             if (CrowdControl != CrowdControls.None)
                             {
-                                Debug.Log("qqqq");
-                                target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
+                                target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, raidBossCaster);
                             }
                         }
                     }
 
-                    caster.CurSkill = null;
+                    //raidBossCaster.CurSkill = null;
+                    raidBossCaster.IsSkill0Running = false; // Need Fix 
                     return BaseNode.ENodeState.Success;
                     
                 }
@@ -117,26 +128,4 @@ public class AoESkill : Skill
             }
         }
     }
-
-    /*protected void OverlapOneWithAngle(BaseUnitController caster, List<BaseUnitController> targets)
-    {
-        Vector2 dir =  caster.gameObject.transform.localScale.x < 0 ? Vector2.left : Vector2.right;
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(caster.CenterPosition.position, SkillRange, targetLayer);
-        foreach (var col in hitColliders)
-        {
-            if(col == null)
-                continue;
-            BaseUnitController target = col.GetComponentInParent<BaseUnitController>();
-            if(target == null)
-                continue;
-            
-            Vector2 dirToCol = (col.transform.position - caster.CenterPosition.position).normalized;
-            float dot = Vector2.Dot(dir, dirToCol);
-            if (dot >= 0f) // 정면 180도
-            {
-                targets.Add(target);
-                return;
-            }
-        }
-    }*/
 }
