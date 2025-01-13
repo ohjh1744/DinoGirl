@@ -9,7 +9,9 @@ public abstract class BaseUnitController : MonoBehaviour
 {
     [SerializeField] private Transform _centerPosition;
     public Transform CenterPosition { get => _centerPosition; private set => _centerPosition = value; }
-    
+
+    [SerializeField] private Transform _muzzlePoint;
+    public Transform MuzzlePoint { get => _muzzlePoint; private set => _muzzlePoint = value; }
     // 임시 공격 후딜레이, 현재 미사용
     private float _tempDelay = 0.5f;
     private bool _inAttackDelay;

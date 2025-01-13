@@ -30,11 +30,12 @@ public class TeleportSkill : TargetingSkillToEnemy
             // 임시
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
             // 적 뒤로 순간이동
-            // Todo : 이펙트를 남길거라면 여기서 처리
+            SpawnEffect(caster.CenterPosition, VFXToMine);
             float enemyDir = Mathf.Sign(targets[0].gameObject.transform.localScale.x);
             float behindX = targets[0].gameObject.transform.position.x + enemyDir * distance;
             Vector2 behindPos = new Vector2(behindX, targets[0].gameObject.transform.position.y);
             caster.gameObject.transform.position = behindPos;
+            
             // 적을 바라보도록 설정
             float diffX = targets[0].transform.position.x - caster.gameObject.transform.position.x;
             float casterDir = diffX > 0 ? -1 : 1;
@@ -42,6 +43,7 @@ public class TeleportSkill : TargetingSkillToEnemy
             casterScale.x = Mathf.Abs(casterScale.x) * casterDir;
             caster.gameObject.transform.localScale = casterScale;
             
+            SpawnEffect(caster.CenterPosition, VFXToMine);
             //caster.gameObject.transform.localScale = new Vector3(enemyDir * caster.gameObject.transform.localScale.x ,caster.gameObject.transform.localScale.y, caster.gameObject.transform.localScale.z); 
             caster.DetectedEnemy = targets[0];
             caster.IsSkillRunning = true;
@@ -69,7 +71,6 @@ public class TeleportSkill : TargetingSkillToEnemy
             else if (stateInfo.normalizedTime >= 1.0f)
             {
                 {
-                    Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
                     caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],
                         false);
                     caster.IsSkillRunning = false;
@@ -81,11 +82,11 @@ public class TeleportSkill : TargetingSkillToEnemy
                         // 데미지를 줄 인원 수 선택 필요
                         if (target.gameObject != null)
                         {
-                            target.UnitModel.TakeDamage((int)attackDamage); // 소숫점 버림, 반올림할지 선택 필요
+                            target.UnitModel.TakeDamage(Mathf.RoundToInt(attackDamage)); 
+                            SpawnEffect(target.CenterPosition, VFXToTarget);
                             //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
                             if (CrowdControl != CrowdControls.None)
                             {
-                                Debug.Log("cccc");
                                 target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
                             }
                         }

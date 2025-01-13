@@ -142,7 +142,8 @@ public class TargetingSkillToAlly : Skill
                     // 임시로 아군 체력의 50%
                     int healingAmount = (int)(target.UnitModel.MaxHp * SkillRatio);
                     target.UnitModel.TakeHeal(healingAmount);
-                    SpawnEffect(target.CenterPosition, VFXToTarget);
+                    SpawnVFXEffects(caster,target);
+                    //SpawnEffect(target.CenterPosition, VFXToTarget);
                     Debug.Log(target.gameObject.name);
                 }
                 return BaseNode.ENodeState.Success;

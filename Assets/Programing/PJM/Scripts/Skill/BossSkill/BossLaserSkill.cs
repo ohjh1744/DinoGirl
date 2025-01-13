@@ -20,10 +20,10 @@ public class BossLaserSkill : Skill
     public float tickNumber;
     public GameObject laserPrefab;
 
-    [Header("Skill Num : 3 - skill0 |  4- skill1")]
-    [Range(3,4)]
-    [SerializeField] private int _skillNum = 4;
-    public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
+    //[Header("Skill Num : 3 - skill0 |  4- skill1")]
+    //[Range(3,4)]
+    //[SerializeField] private int _skillNum = 4;
+    //public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
     
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
@@ -142,7 +142,7 @@ public class BossLaserSkill : Skill
                 //raidBossCaster.CurSkill = this;
                 raidBossCaster.IsSkill1Running = true; // Need Fix 
                 raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-                raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)SkillNumAsParameter], true);
+                raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill1], true);
                 Debug.Log($" {raidBossCaster.gameObject.name} 스킬 시전");
                 raidBossCaster.CoolTimeCounter = Cooltime;
                 raidBossCaster.IsSkillRunning = true;
@@ -190,7 +190,7 @@ public class BossLaserSkill : Skill
                 if (stateInfo.normalizedTime >= 1.0f)
                 {
                     raidBossCaster.CurSkillState = SkillState.None;
-                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)SkillNumAsParameter],
+                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill1],
                         false);
                     raidBossCaster.IsSkillRunning = false;
                     Debug.Log("스킬 완료");

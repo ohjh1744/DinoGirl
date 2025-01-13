@@ -41,6 +41,7 @@ public class AoESkill : Skill
         //if (!caster.IsSkillRunning)
         if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
         {
+            SpawnEffect(caster.MuzzlePoint, VFXToMuzzle);
             caster.CurSkill = this;
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0], true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");

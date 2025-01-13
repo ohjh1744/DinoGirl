@@ -59,6 +59,9 @@ public abstract class Skill : ScriptableObject
     
     [SerializeField] private GameObject _vfxToMine;
     public GameObject VFXToMine {get => _vfxToMine;}
+    
+    [SerializeField] private GameObject _vfxToMuzzle;
+    public GameObject VFXToMuzzle {get => _vfxToMuzzle;}
 
 
     /*protected Transform skillTarget; // 여기 있어도 괜찮나? 계속 바뀔텐데 데이터 컨테이너에 있을 얘가 아닌가?
@@ -133,6 +136,15 @@ public abstract class Skill : ScriptableObject
         return new ActionNode(() => Perform(caster, targets));
     }
 
+    protected void SpawnVFXEffects(BaseUnitController caster, BaseUnitController target)
+    {
+        if(_vfxToMine != null)
+            SpawnEffect(caster.transform, VFXToMine);
+        if(_vfxToMuzzle != null)
+            SpawnEffect(caster.MuzzlePoint, VFXToMuzzle);
+        if(_vfxToTarget != null)
+            SpawnEffect(target.CenterPosition, VFXToTarget);
+    }
     protected void SpawnEffect(Transform targetTransform, GameObject effectPrefab)
     {
         if(effectPrefab == null)
