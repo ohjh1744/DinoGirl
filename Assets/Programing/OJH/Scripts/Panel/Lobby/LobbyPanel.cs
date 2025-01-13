@@ -63,7 +63,7 @@ public class LobbyPanel : UIBInder
         GetUI<Button>("LobbyRaidButton").onClick.AddListener(() => ChangeScene("RaidReady_LJH"));
         GetUI<Button>("LobbyCharacterButton").onClick.AddListener(() => ChangeScene("InventoryScene_WHS"));
         GetUI<Button>("LobbyRoomButton").onClick.AddListener(() => ChangeScene("RoomScene_WHS"));
-        GetUI<Button>("LobbyGachaButton").onClick.AddListener(() => ChangeScene("GachaScene_YJE"));
+        GetUI<Button>("LobbyGachaButton").onClick.AddListener(() => ChangeScene("ShopScene_YJE"));
 
         //Sound
         SoundManager.Instance.StopBGM();
