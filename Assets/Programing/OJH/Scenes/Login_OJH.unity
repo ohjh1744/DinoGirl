@@ -1115,8 +1115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6982161e7b96fa14eb751394ac17ac3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseUnitNum: 3
-  _baseUnitIds: 010000000200000005000000
+  _baseUnitIds: 0700000009000000
   _sceneChanger: {fileID: 311115898}
   _nameLen: 5
   _buttonClip: {fileID: 8300000, guid: e209f95ae7b108c4da32a16bbc2c1527, type: 3}
@@ -1359,10 +1358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dfc4db29f6b82f4db99d494a927153c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseUnitNum: 3
-  _baseUnitIds: 010000000200000005000000
+  _baseUnitIds: 0700000009000000
   _uID: CHSmbrwghYNzZb7AIkdLRtvpHaW2
   _name: Test11
+  _mainUnitID: 7
 --- !u!114 &303168272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2965,7 +2964,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5539110383984506930, guid: 929c69e364ecb19489cec7d6e767e01b, type: 3}
       propertyPath: _playerData._mainUnitID
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5539110383984506931, guid: 929c69e364ecb19489cec7d6e767e01b, type: 3}
       propertyPath: m_Name
