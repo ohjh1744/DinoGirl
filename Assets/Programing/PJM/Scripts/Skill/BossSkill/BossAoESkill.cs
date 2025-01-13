@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBossSkill", menuName = "Skills/BossSkill/AoE")]
-public class BossAoESkill : Skill
+public class BossAoESkill : AoESkill
 {
-    public float areaAngle;
-    public LayerMask targetLayer;
+    /*public float areaAngle;
+    public LayerMask targetLayer;*/
     
     // Need Fix
     /*[Header("Skill Num : 3 - skill0 | 4- skill1")]
@@ -14,14 +14,14 @@ public class BossAoESkill : Skill
     [SerializeField] private int _skillNum = 3;
     public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}*/
     
-protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+/*protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
         
         // 타겟 객체가 하나라도 범위에 있으면 Success 아니라면 Failure
         OverlapAreaAllWithAngle(caster, targets);
         return targets.Count == 0 ? BaseNode.ENodeState.Failure : BaseNode.ENodeState.Success;
-    }
+    }*/
 
     protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
@@ -80,6 +80,7 @@ protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, Lis
 
                     OverlapAreaAllWithAngle(raidBossCaster, targets);
                     float skillDamage = raidBossCaster.UnitModel.AttackPoint * SkillRatio;
+                    Debug.Log($"스킬 데미지 {skillDamage} ");
                     foreach (var target in targets)
                     {
                         // 데미지 주는 로직
@@ -105,7 +106,7 @@ protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, Lis
         return BaseNode.ENodeState.Failure;
     }
 
-    protected void OverlapAreaAllWithAngle(BaseUnitController caster, List<BaseUnitController> targets)
+    /*protected void OverlapAreaAllWithAngle(BaseUnitController caster, List<BaseUnitController> targets)
     {
         Vector2 dir =  caster.gameObject.transform.localScale.x < 0 ? Vector2.right : Vector2.left;
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(caster.CenterPosition.position, SkillRange, targetLayer);
@@ -127,5 +128,5 @@ protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, Lis
                 targets.Add(target);
             }
         }
-    }
+    }*/
 }

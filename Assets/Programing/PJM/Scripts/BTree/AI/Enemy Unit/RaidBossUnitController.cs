@@ -26,7 +26,8 @@ public class RaidBossUnitController : EnemyBaseUnitController
     public bool IsSkill0Running { get => _isSkill0Running; set => _isSkill0Running = value; }
     private bool _isSkill1Running;
     public bool IsSkill1Running { get => _isSkill1Running; set => _isSkill1Running = value; }
-    //private Skill _curSkill;
+    
+    public Skill curSkill { get; private set; }
     
     protected override void Awake()
     {
@@ -95,7 +96,7 @@ public class RaidBossUnitController : EnemyBaseUnitController
                     }
                 ),
 
-                new SequenceNode // Attack Dicision
+                /*new SequenceNode // Attack Dicision
                 (
                     new List<BaseNode>
                     {
@@ -103,7 +104,7 @@ public class RaidBossUnitController : EnemyBaseUnitController
                         new ActionNode(SetTargetToAttack),
                         new ActionNode(PerformAttack)
                     }
-                ),
+                ),*/
                 new SequenceNode
                 (
                     new List<BaseNode>

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
 {
     [SerializeField] private GameObject _projectilePrefab;
-    [SerializeField] private Transform _muzzlePoint;
+    //[SerializeField] private Transform _muzzlePoint;
     private GameObject _projectileObject;
 
     protected override void Awake()
@@ -190,7 +190,7 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
     {
         if(_projectileObject == null)
         {
-            _projectileObject = Instantiate(_projectilePrefab, _muzzlePoint.position, Quaternion.identity);
+            _projectileObject = Instantiate(_projectilePrefab, MuzzlePoint.position, Quaternion.identity);
             Projectile projectile = _projectileObject.GetComponent<Projectile>();
             if (projectile != null)
             {

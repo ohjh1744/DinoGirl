@@ -20,10 +20,10 @@ public class BossLaserSkill : Skill
     public float tickNumber;
     public GameObject laserPrefab;
 
-    [Header("Skill Num : 3 - skill0 |  4- skill1")]
-    [Range(3,4)]
-    [SerializeField] private int _skillNum = 4;
-    public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
+    //[Header("Skill Num : 3 - skill0 |  4- skill1")]
+    //[Range(3,4)]
+    //[SerializeField] private int _skillNum = 4;
+    //public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
     
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
@@ -142,7 +142,7 @@ public class BossLaserSkill : Skill
                 //raidBossCaster.CurSkill = this;
                 raidBossCaster.IsSkill1Running = true; // Need Fix 
                 raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-                raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)SkillNumAsParameter], true);
+                raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill1], true);
                 Debug.Log($" {raidBossCaster.gameObject.name} 스킬 시전");
                 raidBossCaster.CoolTimeCounter = Cooltime;
                 raidBossCaster.IsSkillRunning = true;
@@ -190,7 +190,7 @@ public class BossLaserSkill : Skill
                 if (stateInfo.normalizedTime >= 1.0f)
                 {
                     raidBossCaster.CurSkillState = SkillState.None;
-                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)SkillNumAsParameter],
+                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill1],
                         false);
                     raidBossCaster.IsSkillRunning = false;
                     Debug.Log("스킬 완료");
@@ -204,9 +204,11 @@ public class BossLaserSkill : Skill
                     return BaseNode.ENodeState.Success;
                 }
                 // 스킬 회수중
+                Debug.Log("스킬 회수중");
                 return BaseNode.ENodeState.Running;
             }
             default:
+                Debug.LogWarning("Failure Flag");
                 return BaseNode.ENodeState.Failure;
         }
     }
@@ -230,14 +232,19 @@ public class BossLaserSkill : Skill
             Debug.LogWarning("레이저 프리팹 설정되지 않음");
             return;
         }
-        
+        Debug.Log("레이저 생성됨");
         raidBossCaster.LaserObejct = Instantiate(laserPrefab);
     }
 
     private void AttackWithLaser(Transform bossMuzzlePoint, Transform target, GameObject laserObject)
     {
-        if(target == null || !target.gameObject.activeSelf)
+        Debug.Log("AttackWithLaser 실행됨");
+        if (target == null || !target.gameObject.activeSelf)
+        {
+            Debug.Log("타겟이 없음");
             return;
+        }
+            
         Vector2 dir = target.position - bossMuzzlePoint.position;
         float distance = dir.magnitude;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
