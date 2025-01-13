@@ -32,6 +32,8 @@ public abstract class BaseUnitController : MonoBehaviour
     private BaseUnitController _tauntSource;
     public BaseUnitController TauntSource { get => _tauntSource; set => _tauntSource = value; }
 
+    private Skill _curSkill;
+    public Skill CurSkill { get => _curSkill; set => _curSkill = value; }
     
     protected int unitID;
     public int UnitID { get { return unitID; } }
@@ -319,7 +321,7 @@ public abstract class BaseUnitController : MonoBehaviour
         return BaseNode.ENodeState.Failure;*/
     }
 
-    protected bool IsSkillAlreadyRunning()
+    protected virtual bool IsSkillAlreadyRunning()
     {
         return IsSkillRunning;
     }
@@ -382,7 +384,7 @@ public abstract class BaseUnitController : MonoBehaviour
     {
         Debug.Log("Idle ป๓ลย");
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
-        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Skill], false);
+        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Skill0], false);
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
         //UnitAnimator.SetTrigger("Idle");
         return BaseNode.ENodeState.Success;

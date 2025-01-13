@@ -101,9 +101,9 @@ public class TargetingSkillToAlly : Skill
         caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
             
         // 스킬 시전 시작
-        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill]))
+        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
         {
-            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],true);
+            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],true);
             //Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 시전.");
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
             SpawnEffect(caster.transform, VFXToMine);
@@ -129,7 +129,7 @@ public class TargetingSkillToAlly : Skill
             {
                 Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
                 //Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
-                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill],false);
+                caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],false);
                 caster.IsSkillRunning = false;
 
                 

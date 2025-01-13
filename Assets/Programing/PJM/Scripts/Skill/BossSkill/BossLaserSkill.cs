@@ -1,19 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-[CreateAssetMenu(fileName = "NewBossSkill", menuName = "Skills/BossSkill")]
-public class BossSkill : Skill
-{
-    // 후에 캐스팅 스킬이라는 이름으로 일부 재활용 가능
-    public enum AttackType {Laser, None}
 
-    public AttackType attackType;
+
+[CreateAssetMenu(fileName = "NewLaserSkill", menuName = "Skills/BossSkill/Laser")]
+public class BossLaserSkill : Skill
+{
+    // 우선 보스만 사용할 수 있음
+    // 후에 캐스팅 스킬이라는 이름으로 일부 재활용 가능
+    //public enum AttackType {Laser, None}
+    
+    
+
+    //public AttackType attackType;
     public float startUpRatio; // 실제 스킬 발동전까지
     public float recoveryRatio; // 발동 종료 후 회수
     public float tickNumber;
     public GameObject laserPrefab;
-    
+
+    [Header("Skill Num : 3 - skill0 |  4- skill1")]
+    [Range(3,4)]
+    [SerializeField] private int _skillNum = 4;
+    public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
     
     protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
@@ -31,7 +41,6 @@ public class BossSkill : Skill
                     targets.Add(target);
                     Debug.Log(target.gameObject.name);
                 }
-
             }
             else
             {
@@ -129,9 +138,11 @@ public class BossSkill : Skill
         switch (raidBossCaster.CurSkillState)
         {
             case SkillState.None:
-            {
+            {   
+                //raidBossCaster.CurSkill = this;
+                raidBossCaster.IsSkill1Running = true; // Need Fix 
                 raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-                raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill1], true);
+                raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)SkillNumAsParameter], true);
                 Debug.Log($" {raidBossCaster.gameObject.name} 스킬 시전");
                 raidBossCaster.CoolTimeCounter = Cooltime;
                 raidBossCaster.IsSkillRunning = true;
@@ -179,7 +190,7 @@ public class BossSkill : Skill
                 if (stateInfo.normalizedTime >= 1.0f)
                 {
                     raidBossCaster.CurSkillState = SkillState.None;
-                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Skill1],
+                    raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)SkillNumAsParameter],
                         false);
                     raidBossCaster.IsSkillRunning = false;
                     Debug.Log("스킬 완료");
@@ -187,7 +198,9 @@ public class BossSkill : Skill
                     {
                         Destroy(raidBossCaster.LaserObejct);
                     }
-                        
+
+                    //raidBossCaster.CurSkill = null;
+                    raidBossCaster.IsSkill1Running = false; // Need Fix 
                     return BaseNode.ENodeState.Success;
                 }
                 // 스킬 회수중
@@ -234,4 +247,5 @@ public class BossSkill : Skill
         // createLaserObject에서 만들어준 레이저 오브젝트를 caster와 target의 위치에 따라 움직여주고 회전시켜줄 메서드
         // 어떻게하지
     }
+    
 }

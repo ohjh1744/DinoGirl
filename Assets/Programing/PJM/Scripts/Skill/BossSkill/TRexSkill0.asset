@@ -9,23 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 930c9ce7b147f504a879776dc42e6ba7, type: 3}
-  m_Name: Laser
+  m_Script: {fileID: 11500000, guid: 692ce99a26f23884cbaad621f036b246, type: 3}
+  m_Name: TRexSkill0
   m_EditorClassIdentifier: 
-  _skillName: BossSkill1
+  _skillName: Spin
   _targetAll: 0
-  _skillRange: 20
-  _maxTargetingNum: 1
-  _isPriorityTargetFar: 1
-  skillRatio: 2
-  cooltime: 8
+  _skillRange: 6
+  _maxTargetingNum: 0
+  _isPriorityTargetFar: 0
+  skillRatio: 1
+  cooltime: 5
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 0}
   _vfxToTarget: {fileID: 0}
   _vfxToMine: {fileID: 0}
-  attackType: 0
-  startUpRatio: 0.25
-  recoveryRatio: 0.9
-  tickNumber: 4
-  laserPrefab: {fileID: 6023031873551005555, guid: 2dabaa00af322fd45958d57d12390488, type: 3}
+  areaAngle: 360
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048

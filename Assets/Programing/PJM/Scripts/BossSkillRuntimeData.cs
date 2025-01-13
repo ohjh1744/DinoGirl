@@ -6,6 +6,7 @@ public class BossSkillRuntimeData
 {
     private float[] _damageThresholds;  // ex) [0.3, 0.5, 0.7, 0.9]
     private int _currentIndex;
+    
 
     public BossSkillRuntimeData(float startUpRatio, float recoveryRatio, float tickNumber)
     {
