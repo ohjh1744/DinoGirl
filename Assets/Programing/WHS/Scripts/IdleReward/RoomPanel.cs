@@ -63,6 +63,8 @@ public class RoomPanel : UIBInder
             StopCoroutine(_updateIdleTimeCoroutine);
             _updateIdleTimeCoroutine = null;
         }
+
+        SoundManager.Instance.StopBGM();
     }
 
     // 보상 수령
@@ -166,24 +168,24 @@ public class RoomPanel : UIBInder
         int dinoBloodReward = _idleReward.CalculateReward(2, (int)_idleReward.GetIdleTime().TotalSeconds);
         int boneCrystalReward = _idleReward.CalculateReward(3, (int)_idleReward.GetIdleTime().TotalSeconds);
 
-        GetUI<TextMeshProUGUI>("CoinRewardText").text = $"Coin: {goldReward}";
-        GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"Dino Blood: {dinoBloodReward}";
-        GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"Bone Crystal: {boneCrystalReward}";
+        GetUI<TextMeshProUGUI>("CoinRewardText").text = $"코인: {goldReward}";
+        GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"다이노블러드: {dinoBloodReward}";
+        GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"본크리스탈: {boneCrystalReward}";
 
         /*
         LoadItemImage("CoinRewardImage", E_Item.Coin);
         LoadItemImage("DinoBloodRewardImage", E_Item.DinoBlood);
         LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
         */
-        
+
         GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
     }
 
     private void ShowPopup(int gold, int dinoBlood, int boneCrystal)
     {
-        GetUI<TextMeshProUGUI>("CoinClaimText").text = $"Coin : {gold}";
-        GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"Dino Blood : {dinoBlood}";
-        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"Bone Crystal : {boneCrystal}";
+        GetUI<TextMeshProUGUI>("CoinClaimText").text = $"코인 : {gold}";
+        GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"다이노블러드 : {dinoBlood}";
+        GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"본크리스탈 : {boneCrystal}";
 
         /*
         LoadItemImage("CoinClaimImage", E_Item.Coin);

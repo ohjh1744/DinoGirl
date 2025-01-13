@@ -56,6 +56,11 @@ public class InventoryPanel : UIBInder
         AddEvent("HomeButton", EventType.Click, GoLobby);
     }
 
+    private void OnDisable()
+    {
+        SoundManager.Instance.StopBGM();
+    }
+
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
