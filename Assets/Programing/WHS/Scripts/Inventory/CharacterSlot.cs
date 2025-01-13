@@ -11,6 +11,8 @@ public class CharacterSlot : UIBInder
     private PlayerUnitData _unitData;
     private GameObject _characterPanel;
 
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -46,7 +48,7 @@ public class CharacterSlot : UIBInder
         // 원소 속성 이미지 설정
         if (int.TryParse(data["ElementID"], out int elementId))
         {
-            string elementPath = $"UI/element_{elementId}";
+            string elementPath = $"Element/element_{elementId}";
             Sprite elementSprite = Resources.Load<Sprite>(elementPath);
             if (elementSprite != null)
             {
@@ -72,6 +74,8 @@ public class CharacterSlot : UIBInder
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
     private void OnClick(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySFX(_buttonClip);
+
         BackButtonManager.Instance.OpenPanel(_characterPanel);
 
         _characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(_unitData);
@@ -93,7 +97,7 @@ public class CharacterSlot : UIBInder
                 if (i < rarity)
                 {
                     starImage.gameObject.SetActive(true);
-                    starImage.sprite = Resources.Load<Sprite>("UI/icon_star");
+                    starImage.sprite = Resources.Load<Sprite>("Element/icon_star");
                 }
                 else
                 {

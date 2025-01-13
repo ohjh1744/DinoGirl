@@ -22,6 +22,9 @@ public class InventoryPanel : UIBInder
 
     private DynamicGrid _dynamicGrid;
 
+    [SerializeField] private AudioClip _bgmClip;
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -31,6 +34,15 @@ public class InventoryPanel : UIBInder
         AddEvent("GroundElementButton", EventType.Click, GroundElementButtonClicked);
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
 
+        SoundManager.Instance.PlayeBGM(_bgmClip);
+        /*
+        GetUI<Button>("AllElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("FireElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("WaterElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("GroundElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("GrassElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("HomeButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        */
         // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         _sceneChanger = FindObjectOfType<SceneChanger>();
@@ -42,6 +54,11 @@ public class InventoryPanel : UIBInder
         StartCoroutine(WaitForPlayerData());
 
         AddEvent("HomeButton", EventType.Click, GoLobby);
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.StopBGM();
     }
 
     private IEnumerator WaitForPlayerData()
