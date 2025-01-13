@@ -141,6 +141,81 @@ public class BattleSceneManager : MonoBehaviour
             Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
         }
     }
+    public void RaidStageStart()
+    {
+        if ((Power + Power + incBuffsPowers) < 3000) 
+        {
+            Debug.Log("전투력 부족");
+            return;
+        }
+           
+        inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
+       
+        if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
+        {           
+            for (int i = 1; i < inGridObject.Length; i++)
+            {
+                if (inGridObject[i] != null)
+                {
+                    inGridObject[i].GetComponent<UnitStat>().Pos = i;
+                    UnitsDatas unit = new UnitsDatas();
+                    unit.Pos = i;
+                    unit.Id = inGridObject[i].GetComponent<UnitStat>().Id;
+                    unit.Level = inGridObject[i].GetComponent<UnitStat>().Level;
+                    unit.MaxHp = inGridObject[i].GetComponent<UnitStat>().MaxHp;
+                    unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
+                    unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
+                    unit.Increase = inGridObject[i].GetComponent<UnitStat>().Increase;
+                    unit.Cool = inGridObject[i].GetComponent<UnitStat>().Cool;
+                    unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
+                    myUnitData.Add(unit);
+                }
+            }
+            for (int i = 0; i < enemyGridObject.Length; i++)
+            {
+                if (enemyGridObject[i] != null)
+                {
+                    int id = int.Parse(enemyGridObject[i]);
+                    UnitsDatas unit = new UnitsDatas();
+                    unit.Pos = i;
+                    unit.Id = id;
+                    unit.Atk = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Damage"]);
+                    unit.Def = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Armor"]);
+                    unit.MaxHp = int.Parse(CsvDataManager.Instance.DataLists[5][id]["MonsterHP"]);
+                    enemyUnitData.Add(unit);
+                }
+            }
+            _sceneChanger.CanChangeSceen = true;
+            switch (curChapterNum)
+            {
+                case 0:
+                    _sceneChanger.ChangeScene("StageBattleScene_LJH");
+                    Debug.Log($"0번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 1:
+                    _sceneChanger.ChangeScene("RaidBattleScene_LJH");
+                    Debug.Log($"01번 레이드로 이동");
+                    BattleSceneStart();
+                    break;
+                case 7:
+                    _sceneChanger.ChangeScene("StageBattleScene1_LJH");
+                    Debug.Log($"1번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 14:
+                    _sceneChanger.ChangeScene("StageBattleScene2_LJH");
+                    Debug.Log($"2번으로 이동");
+                    BattleSceneStart();
+                    break;
+            }
+
+        }
+        else
+        {
+            Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
+        }
+    }
     public void BackStage()
     {
 
@@ -245,7 +320,7 @@ public class BattleSceneManager : MonoBehaviour
                 incBuffsPowers += incBuffs;
             }
         }
-        BattlePower.text = "Power :" + Power.ToString();
+        BattlePower.text = "Power :" + (Power+incBuffsPowers).ToString();
         tacPower.text = "Grid :" + incBuffsPowers.ToString();
 
     }
