@@ -15,6 +15,8 @@ public class BackButtonManager : MonoBehaviour
 
     [SerializeField] private int _openPanelCount;
 
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         if (Instance == null)
@@ -50,6 +52,7 @@ public class BackButtonManager : MonoBehaviour
         if (_openPanels.Count > 0)
         {
             CloseTopPanel();
+            SoundManager.Instance.PlaySFX(_buttonClip);
         }
         // Lobby에선 게임종료
         else if (SceneManager.GetActiveScene().name == "Lobby_OJH")

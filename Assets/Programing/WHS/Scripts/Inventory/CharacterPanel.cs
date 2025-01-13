@@ -21,6 +21,8 @@ public class CharacterPanel : UIBInder
     private int _index;
     private List<PlayerUnitData> _characterList;
 
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -37,6 +39,14 @@ public class CharacterPanel : UIBInder
 
         _characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
 
+        /*
+        GetUI<Button>("LevelUpButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("QuitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("PreviousCharacterButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("NextCharacterButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("SetMainCharacterButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("LevelUpConfirm").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        */
     }
 
     private void Start()
@@ -55,10 +65,11 @@ public class CharacterPanel : UIBInder
         if (_characterData.TryGetValue(character.UnitId, out var data))
         {
             // 캐릭터 이미지
-            string portraitPath = $"Portrait/portrait_{character.UnitId}";
-            if (portraitPath != null)
+            string imagePath = $"UI/LobbyMainUnit/LobbyMainUnit_{character.UnitId}";
+            
+            if (imagePath != null)
             {
-                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(portraitPath);
+                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(imagePath);
             }
 
             // 레벨, 이름

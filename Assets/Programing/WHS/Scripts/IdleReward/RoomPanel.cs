@@ -19,6 +19,8 @@ public class RoomPanel : UIBInder
 
     private Coroutine _updateIdleTimeCoroutine;
 
+    [SerializeField] private AudioClip _bgmClip;
+
     private void Awake()
     {
         BindAll();
@@ -45,6 +47,8 @@ public class RoomPanel : UIBInder
         }
 
         AddEvent("HomeButton", EventType.Click, GoLobby);
+
+        SoundManager.Instance.PlayeBGM(_bgmClip);
     }
 
     private void OnEnable()

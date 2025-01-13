@@ -11,6 +11,8 @@ public class CharacterSlot : UIBInder
     private PlayerUnitData _unitData;
     private GameObject _characterPanel;
 
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -72,6 +74,8 @@ public class CharacterSlot : UIBInder
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
     private void OnClick(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySFX(_buttonClip);
+
         BackButtonManager.Instance.OpenPanel(_characterPanel);
 
         _characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(_unitData);
