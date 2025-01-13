@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class ShopChar : MonoBehaviour
 {
+
+    ShopSceneController shopSceneController;
+
     private int charId;
     public int CharId { get { return charId; } set { charId = value; } }
 
@@ -30,6 +33,11 @@ public class ShopChar : MonoBehaviour
     // Resources.Load<Sprite>("파일경로/파일명");
     private GameObject video;
     public GameObject Video { get { return video; } set { video = value; } }
+
+    private void OnEnable()
+    {
+        shopSceneController = gameObject.GetComponentInParent<ShopSceneController>();
+    }
 
     /// <summary>
     /// Character의 rarity에 따른 상점 구매 가격 설정
@@ -166,8 +174,8 @@ public class ShopChar : MonoBehaviour
 
     public void OnBuyCharacter()
     {
-        Debug.Log("버튼클릭");
         // 구매하기 버튼 클릭 시 재생할 함수
+        SoundManager.Instance.PlaySFX(shopSceneController.ButtonSfx);
         // 각 프리팹(BuyCharacter.gameobject.GachaChar.CharId)의 아이디와 플레이어의 소유 유닛 아이디 중복여부 확인
         bool isChecked = false;
         if (PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone] >= price) // 돌파석 개수 확인 필요
@@ -187,8 +195,7 @@ public class ShopChar : MonoBehaviour
             if (isChecked)
             {
                 // 텍스트 띄우는 코루틴 실행
-                StartCoroutine(gameObject.GetComponentInParent<ShopSceneController>().ShowBuyOverlapPopUp());
-                Debug.Log("중복");
+                StartCoroutine(shopSceneController.ShowBuyOverlapPopUp());
             }
 
             else if (!isChecked)
@@ -215,20 +222,24 @@ public class ShopChar : MonoBehaviour
                 }
 
                 // 구매 완료 텍스트를 띄우는 코루틴 출력
-                Debug.Log($"구매완료 : {gameObject.GetComponent<ShopChar>().price}");
                 int result = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone] - gameObject.GetComponent<ShopChar>().price;
                 PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Stone, result);
                 // 실제 빌드 시 사용 - UserId불러오기
                 DatabaseReference setItemRoot;
                 setItemRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_items/4");
                 setItemRoot.SetValueAsync(result); // firebase 값 변경
-                gameObject.GetComponentInParent<ShopSceneController>().ShowSingleResultPanel();
+                shopSceneController.ShowSingleResultPanel();
                 StartCoroutine(CharacterVideoR(gameObject));
             }
             StopCoroutine(CharacterVideoR(gameObject));
         }
-        gameObject.GetComponentInParent<ShopSceneController>().UpdatePlayerUI();
-        StopCoroutine(gameObject.GetComponentInParent<ShopSceneController>().ShowBuyOverlapPopUp());
+        else
+        {
+            StartCoroutine(shopSceneController.ShowGachaOverlapPopUp());
+            StopCoroutine(shopSceneController.ShowGachaOverlapPopUp());
+        }
+        shopSceneController.UpdatePlayerUI();
+        StopCoroutine(shopSceneController.ShowBuyOverlapPopUp());
     }
 
     /// <summary>
@@ -243,8 +254,8 @@ public class ShopChar : MonoBehaviour
             obj.SetActive(true);
             yield return new WaitUntil(() => obj.gameObject == false);
         }
-        gameObject.GetComponentInParent<ShopSceneController>().DisableSingleImage();
-        gameObject.GetComponentInParent<ShopSceneController>().DisabledGachaResultPanel();
+        shopSceneController.DisableSingleImage();
+        shopSceneController.DisabledGachaResultPanel();
     }
 
 }

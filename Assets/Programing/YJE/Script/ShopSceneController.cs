@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class ShopSceneController : UIBInder
 {
     ShopBtnManager shopBtnManager;
+    [SerializeField] AudioClip shopBgm;
+    [SerializeField] AudioClip buttonSfx;
+    public AudioClip ButtonSfx { get { return buttonSfx; } set { buttonSfx = value; } }
 
     [Header("UI")]
     [SerializeField] GameObject resultCharPrefab; // 결과가 캐릭터인 경우 사용할 프리팹
@@ -18,8 +21,17 @@ public class ShopSceneController : UIBInder
     {
         shopBtnManager = gameObject.GetComponent<ShopBtnManager>();
         BindAll();
+        SoundBgm();
         ShowBaseGachaPanel();
         SettingBtn();
+    }
+    /// <summary>
+    /// BGM 재생 함수
+    /// - ShopBtnManager.cs에서 사용
+    /// </summary>
+    public void SoundBgm()
+    {
+        SoundManager.Instance.PlayeBGM(shopBgm);
     }
 
     /// <summary>
@@ -59,13 +71,18 @@ public class ShopSceneController : UIBInder
         GetUI<Button>("TenResultPanel").onClick.AddListener(shopBtnManager.OnDisableGachaPanelBtn);
         // GachaBtn 스크립트의 각 버튼별 함수 연결
         GetUI<Button>("BaseSingleBtn").onClick.AddListener(shopBtnManager.OnBaseSingleBtn);
+        GetUI<Button>("BaseSingleBtn").onClick.AddListener(() => SoundManager.Instance.PlaySFX(buttonSfx));
         GetUI<Button>("BaseTenBtn").onClick.AddListener(shopBtnManager.OnBaseTenBtn);
+        GetUI<Button>("BaseTenBtn").onClick.AddListener(() => SoundManager.Instance.PlaySFX(buttonSfx));
         // Lobby로 돌아가기 버튼 함수 연동
         GetUI<Button>("BackBtn").onClick.AddListener(shopBtnManager.OnBackToRobby);
+        GetUI<Button>("BackBtn").onClick.AddListener(() => SoundManager.Instance.PlaySFX(buttonSfx));
         // 상점 활성화 버튼 연결
         GetUI<Button>("ChangeShopBtn").onClick.AddListener(shopBtnManager.OnShopBtn);
-        // Gacha 종류 변경 버튼 함수 연동
+        GetUI<Button>("ChangeShopBtn").onClick.AddListener(() => SoundManager.Instance.PlaySFX(buttonSfx));
+        // 기본 Gacha 변경 버튼 함수 연동
         GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(shopBtnManager.OnBaseGachaBtn);
+        GetUI<Button>("ChangeBaseGachaBtn").onClick.AddListener(() => SoundManager.Instance.PlaySFX(buttonSfx));
     }
 
     /// <summary>
@@ -89,11 +106,15 @@ public class ShopSceneController : UIBInder
         GetUI<Image>("LoadingPanel").gameObject.SetActive(false);
         // 중복 구매 팝업
         GetUI<Image>("BuyPopUp").gameObject.SetActive(false);
+        // 상점NPC 활성화
+        GetUI<Image>("ShopCharacter").gameObject.SetActive(true);
     }
     public void ShowShopPanel()
     {
         GetUI<Image>("BaseGachaPanel").gameObject.SetActive(false);
         GetUI<Image>("ShopPanel").gameObject.SetActive(true);
+        // 상점NPC 활성화
+        GetUI<Image>("ShopCharacter").gameObject.SetActive(true);
     }
     /// <summary>
     /// 가챠 1연차 패널 활성화
@@ -104,6 +125,9 @@ public class ShopSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(true);
         GetUI<Image>("SingleImage").gameObject.SetActive(true);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
+
+        SoundManager.Instance.StopBGM();
+
     }
     public void DisableSingleImage()
     {
@@ -115,6 +139,8 @@ public class ShopSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
         GetUI<Image>("TenImage").gameObject.SetActive(true);
+
+        SoundManager.Instance.StopBGM();
     }
     public void DisableTenImage()
     {
@@ -147,16 +173,30 @@ public class ShopSceneController : UIBInder
 
     /// <summary>
     /// 상점 구매 시 중복 구매 방지 팝업창
-    /// ShopChar.cs에서 사용
     /// </summary>
     /// <returns></returns>
     public IEnumerator ShowBuyOverlapPopUp()
     {
-        Debug.Log("팝업창 코루틴 시작");
         GetUI<Image>("BuyPopUp").gameObject.SetActive(true);
-        GetUI<TextMeshProUGUI>("OverlapPopUpText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("OverlapBuyPopUpText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("OverlapGachaPopUpText").gameObject.SetActive(false);
         yield return new WaitForSeconds(2f);
         GetUI<Image>("BuyPopUp").gameObject.SetActive(false);
-        GetUI<TextMeshProUGUI>("OverlapPopUpText").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("OverlapBuyPopUpText").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("OverlapGachaPopUpText").gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 가챠 시도 시 재화부족 안내창
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator ShowGachaOverlapPopUp()
+    {
+        GetUI<Image>("BuyPopUp").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("OverlapGachaPopUpText").gameObject.SetActive(true);
+        GetUI<TextMeshProUGUI>("OverlapBuyPopUpText").gameObject.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        GetUI<Image>("BuyPopUp").gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("OverlapGachaPopUpText").gameObject.SetActive(false);
     }
 }

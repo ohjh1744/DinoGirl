@@ -109,11 +109,11 @@ public class ShopBtnManager : MonoBehaviour
             // UI 업데이트
             shopSceneController.UpdatePlayerUI();
             StopCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 종료
-            shopSceneController.DisableSingleImage();
         }
         else
         {
-            shopSceneController.DisabledGachaResultPanel();
+            StartCoroutine(shopSceneController.ShowGachaOverlapPopUp());
+            StopCoroutine(shopSceneController.ShowGachaOverlapPopUp());
         }
     }
 
@@ -168,8 +168,8 @@ public class ShopBtnManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("재화 부족으로 실행 불가");
-            shopSceneController.DisabledGachaResultPanel();
+            StartCoroutine(shopSceneController.ShowGachaOverlapPopUp());
+            StopCoroutine(shopSceneController.ShowGachaOverlapPopUp());
         }
         StopCoroutine(CharacterTenVideoR());
     }
@@ -180,6 +180,7 @@ public class ShopBtnManager : MonoBehaviour
     public void OnDisableGachaPanelBtn()
     {
         ClearResultList();
+        shopSceneController.SoundBgm();
         shopSceneController.DisabledGachaResultPanel();
     }
 
