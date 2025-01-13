@@ -36,6 +36,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TMP_Text tacPower;
     [SerializeField] public int Power;
     [SerializeField] public int incBuffsPowers;
+    [SerializeField] public float RemainTime;
 
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 

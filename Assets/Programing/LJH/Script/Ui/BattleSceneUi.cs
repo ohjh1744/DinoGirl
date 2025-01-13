@@ -83,6 +83,7 @@ public class BattleSceneUi : MonoBehaviour
         while (curTime > 0)
         {
             curTime -= Time.deltaTime;
+            BattleSceneManager.Instance.RemainTime = curTime;
             minute = (int)curTime / 60;
             second = (int)curTime % 60;
             timerText.text = minute.ToString("00") + ":" + second.ToString("00");
