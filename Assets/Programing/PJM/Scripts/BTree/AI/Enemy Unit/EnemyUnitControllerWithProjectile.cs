@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyUnitControllerWithProjectile : EnemyBaseUnitController
 {
-[SerializeField] private GameObject _projectilePrefab;
-    [SerializeField] private Transform _muzzlePoint;
+    [SerializeField] private GameObject _projectilePrefab;
+    //[SerializeField] private Transform _muzzlePoint;
     private GameObject _projectileObject;
 
     protected override void Awake()
@@ -17,8 +17,8 @@ public class EnemyUnitControllerWithProjectile : EnemyBaseUnitController
             return;
         }
         
-        if(_muzzlePoint == null)
-            _muzzlePoint = transform.Find("MuzzlePoint");
+        if(MuzzlePoint == null)
+            MuzzlePoint = transform.Find("MuzzlePoint");
     }
 
     protected override void Start()
@@ -94,7 +94,7 @@ public class EnemyUnitControllerWithProjectile : EnemyBaseUnitController
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
             IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
             // 투사체 생성
-            _projectileObject = Instantiate(_projectilePrefab, _muzzlePoint.position, Quaternion.identity);
+            _projectileObject = Instantiate(_projectilePrefab, MuzzlePoint.position, Quaternion.identity);
             Projectile projectile = _projectileObject.GetComponent<Projectile>();
             if (projectile != null)
             {
