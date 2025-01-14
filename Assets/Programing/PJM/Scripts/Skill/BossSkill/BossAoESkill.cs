@@ -45,7 +45,7 @@ public override BaseNode.ENodeState Perform(BaseUnitController caster, List<Base
             return BaseNode.ENodeState.Failure;
         }
         
-        int skillParameterHash = raidBossCaster.UnitViewer.SkillParameterHash[(int)SkillParameterNumber];
+        //int skillParameterHash = raidBossCaster.UnitViewer.SkillParameterHash[(int)SkillParameterNumber];
         raidBossCaster.UnitViewer.UnitAnimator.SetBool(raidBossCaster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
         
         // 스킬 시전 시작

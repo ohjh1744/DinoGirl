@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7228187741322693246}
   - component: {fileID: 7228187741322693247}
   m_Layer: 0
-  m_Name: Projectile_Urolo
+  m_Name: Projectile_Urolo True
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _impactEffect: {fileID: 0}
-  _isRealAttack: 0
+  _impactEffect: {fileID: 6342507552349231116, guid: 016a84bc49c55d042b1601f8087585f5, type: 3}
+  _isRealAttack: 1
 --- !u!58 &7228187741322693247
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -79,6 +79,18 @@ PrefabInstance:
     - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -119,6 +131,22 @@ PrefabInstance:
     - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788551, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788551, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.60249305
+      objectReference: {fileID: 0}
+    - target: {fileID: 2588844799925788551, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}

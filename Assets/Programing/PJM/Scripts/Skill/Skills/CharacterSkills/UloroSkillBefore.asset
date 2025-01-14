@@ -10,19 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
-  m_Name: MelorinSkill
+  m_Name: UloroSkillBefore
   m_EditorClassIdentifier: 
-  _skillName: Signal Flare
+  _skillName: Take this~! Boom!
   _targetAll: 0
   _skillRange: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 0
-  skillRatio: 1.7
+  skillRatio: 1.5
   cooltime: 11
   crowdControl: 0
   ccDuration: 0
-  _skillIcon: {fileID: 21300000, guid: a7439f27c66b90a47b0ba469755b187d, type: 3}
-  _vfxToTarget: {fileID: 6819119596522369267, guid: 47aa5a90dabf2994fb53632243b23368, type: 3}
-  _vfxToMine: {fileID: 0}
-  _vfxToMuzzle: {fileID: 664330184069162646, guid: 2f3a501a3d43466439a8706d5c2c9551, type: 3}
-  skillParameterNumber: 0
+  _skillIcon: {fileID: 21300000, guid: 907e13d98b771394b97903ffbcb39ba9, type: 3}

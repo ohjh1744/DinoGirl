@@ -15,7 +15,6 @@ public abstract class Skill : ScriptableObject
     
     [SerializeField] private string _skillName;
     public string SkillName {get => _skillName; set => _skillName = value; }
-    
     [SerializeField] private bool _targetAll;
     public bool TargetAll {get => _targetAll; protected set => _targetAll = value; }
     // TargetAll이 true면 아래 skillrange와 maxTargetingNum은 숨기고싶다
