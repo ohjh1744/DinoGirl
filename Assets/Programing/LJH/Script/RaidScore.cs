@@ -38,7 +38,7 @@ public class RaidScore : MonoBehaviour
 
     public void setRankingData()
     {
-        
+
         DatabaseReference root = BackendManager.Database.RootReference.Child("RaidData").Child(BackendManager.Auth.CurrentUser.UserId);
 
         root.GetValueAsync().ContinueWithOnMainThread(task =>
@@ -53,8 +53,12 @@ public class RaidScore : MonoBehaviour
 
             int previousScore = 0;
 
-            // 저장된 데이터가 있는지 확인
-            if (snapshot.Exists && snapshot.Child("_totalDamage").Value != null)
+            // Child("RaidData")가 없거나 데이터가 없는 경우 처리
+            if (snapshot == null || !snapshot.Exists)
+            {
+                Debug.LogWarning("RaidData 데이터가 존재하지 않습니다. 새로운 데이터로 초기화합니다.");
+            }
+            else if (snapshot.Child("_totalDamage").Value != null)
             {
                 previousScore = int.Parse(snapshot.Child("_totalDamage").Value.ToString());
             }

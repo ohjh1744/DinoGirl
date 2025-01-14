@@ -26,10 +26,10 @@ public class RaidRank : MonoBehaviour
     }
     private void CheckSnapSHot(List<DataSnapshot> snapshotChildren)
     {
-        while (snapshotChildren == null || snapshotChildren.Count == 0)
-        {
-            Debug.Log("snapshot null값임! 또는 List값 0개임");
-        }
+        //while (snapshotChildren == null || snapshotChildren.Count == 0)
+        //{
+        //    Debug.Log("snapshot null값임! 또는 List값 0개임");
+        //}
     }
 
     public void getRankingData() 

@@ -36,7 +36,7 @@ public class RaidBossUnitController : EnemyBaseUnitController
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
-        CoolTimeCounter = 2.0f;
+        CoolTimeCounter = 10.0f;
     }
 
     protected override BaseNode SetBTree()
