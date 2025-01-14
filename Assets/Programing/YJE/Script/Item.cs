@@ -32,27 +32,27 @@ public class Item : MonoBehaviour
             case 500:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("ShopTest/TestG");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/Gold");
                 break;
             case 501:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("ShopTest/TestDB");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/DinoBlood");
                 break;
             case 502:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("ShopTest/TestBC");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/BoneCrystal");
                 break;
             case 503:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("ShopTest/TestDS");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/DinoStone");
                 break;
             case 504:
                 result.itemId = index;
                 result.itemName = dataBaseList[index]["ItemName"];
-                result.itemImage = Resources.Load<Sprite>("ShopTest/TestS");
+                result.itemImage = Resources.Load<Sprite>("ShopTest/Stone");
                 break;
         }
         return result;
@@ -73,8 +73,8 @@ public class Item : MonoBehaviour
 
         // 알맞은 UI 출력
         resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.itemImage;
-        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.itemName;
-        resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = gachaItem.amount.ToString();
+        resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = gachaItem.itemName;
+        resultUI.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = gachaItem.amount.ToString();
         return resultUI;
     }
 
@@ -91,8 +91,8 @@ public class Item : MonoBehaviour
         resultUI.GetComponent<Item>().Amount = gachaItem.Amount;
 
         // 알맞은 UI 출력
-        resultUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaItem.ItemImage;
-        resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaItem.Amount.ToString();
+        resultUI.transform.GetChild(1).GetComponent<Image>().sprite = gachaItem.ItemImage;
+        resultUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = gachaItem.Amount.ToString();
         return resultUI;
     }
 }

@@ -271,7 +271,7 @@ public class ShopBtnManager : MonoBehaviour
     {
         itemDic = shopMakeStart.ItemDic;
         charReturnItemDic = shopMakeStart.CharReturnItemDic;
-        returnContent = resultListObj.transform.GetChild(3).GetComponent<RectTransform>();
+        returnContent = resultListObj.transform.GetChild(4).GetComponent<RectTransform>();
         GameObject resultObjUI = Instantiate(returnPrefab, returnContent); // 그 위치에 새로운 프리팹으로 생성
 
         Item resultItem = resultObjUI.gameObject.GetComponent<Item>(); // 프리팹에 내용 설정

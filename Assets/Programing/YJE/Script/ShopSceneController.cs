@@ -68,7 +68,7 @@ public class ShopSceneController : UIBInder
         // 각 Button 텍스트 설정
         GetUI<TextMeshProUGUI>("BaseSingleText").SetText("1회 뽑기");
         GetUI<TextMeshProUGUI>("BaseTenText").SetText("10회 뽑기");
-        GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("상설");
+        GetUI<TextMeshProUGUI>("ChangeBaseGacahText").SetText("뽑기");
         GetUI<TextMeshProUGUI>("ChangeShopText").SetText("상점");
         GetUI<TextMeshProUGUI>("GachaSingleCostText").SetText($"{shopBtnManager.GachaCost}");
         GetUI<TextMeshProUGUI>("GachaTenCostText").SetText($"{shopBtnManager.GachaCost * 10}");
