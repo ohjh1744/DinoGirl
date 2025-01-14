@@ -20,19 +20,19 @@ public class RaidScore : MonoBehaviour
     {
         StartCoroutine(DelayingSubsScore());
     }
-    IEnumerator DelayingSubsScore() 
+    IEnumerator DelayingSubsScore()
     {
         yield return new WaitForSeconds(3f);
         BattleSceneManager.Instance.enemyUnits[0].UnitModel.OnHpChanged += UpdataScore;
         maxHp = BattleSceneManager.Instance.enemyUnits[0].UnitModel.MaxHp;
     }
 
-    public void UpdataScore(int score) 
+    public void UpdataScore(int score)
     {
-        curBossHpScore =maxHp-score;
+        curBossHpScore = maxHp - score;
         ResultScoreTxt.text = curBossHpScore.ToString();
         curScoreTxt.text = curBossHpScore.ToString();
-        
+
         //Debug.Log(curBossHpScore);
     }
 
