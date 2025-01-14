@@ -21,7 +21,7 @@ public class CharacterPanel : UIBInder
     private int _index;
     private List<PlayerUnitData> _characterList;
 
-    [SerializeField] private AudioClip _buttonClip;
+    // [SerializeField] private AudioClip _buttonClip;
 
     private void Awake()
     {
@@ -61,16 +61,22 @@ public class CharacterPanel : UIBInder
         _index = _characterList.FindIndex(c => c.UnitId == character.UnitId);
         Debug.Log($"{_index} 현재 인덱스");
 
+        // 현재 캐릭터의 레벨
         int level = character.UnitLevel;
+
         if (_characterData.TryGetValue(character.UnitId, out var data))
         {
             // 캐릭터 이미지
-            string imagePath = $"LobbyMainUnit/LobbyMainUnit_{character.UnitId}";
-            
+            string imagePath = $"LobbyMainUnit/LobbyMainUnit_{character.UnitId}";            
             if (imagePath != null)
             {
                 GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(imagePath);
             }
+            else
+            {
+                Debug.LogWarning($"이미지를 찾을 수 없음: {imagePath}");
+            }
+
 
             // 레벨, 이름
             GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
@@ -149,6 +155,7 @@ public class CharacterPanel : UIBInder
                             Debug.LogError($"캐릭터 ID {character.UnitId} 업데이트 실패: " + updateTask.Exception);
                         }
                     });
+
                     break;
                 }
             }
@@ -189,6 +196,7 @@ public class CharacterPanel : UIBInder
         return Mathf.FloorToInt(baseStat * totalIncrease);
     }
 
+    // 스킬 설명 텍스트
     private void UpdateSkill(int unitId)
     {
         foreach (var value in _skillData.Values)
@@ -196,7 +204,7 @@ public class CharacterPanel : UIBInder
             if (int.Parse(value["CharID"]) == unitId)
             {
                 GetUI<TextMeshProUGUI>("SkillNameText").text = value["SkillName"];
-                GetUI<TextMeshProUGUI>("CoolDownText").text = $"쿨타임: {value["Cooldown"]}초";
+                GetUI<TextMeshProUGUI>("CoolDownText").text = $"쿨타임 : {value["Cooldown"]}초";
                 GetUI<TextMeshProUGUI>("SkillDescriptionText").text = value["SkillDescription"];
                 return;
             }

@@ -23,7 +23,7 @@ public class InventoryPanel : UIBInder
     private DynamicGrid _dynamicGrid;
 
     [SerializeField] private AudioClip _bgmClip;
-    [SerializeField] private AudioClip _buttonClip;
+    // [SerializeField] private AudioClip _buttonClip;
 
     private void Awake()
     {
@@ -35,6 +35,7 @@ public class InventoryPanel : UIBInder
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
 
         SoundManager.Instance.PlayeBGM(_bgmClip);
+
         /*
         GetUI<Button>("AllElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
         GetUI<Button>("FireElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
@@ -43,7 +44,6 @@ public class InventoryPanel : UIBInder
         GetUI<Button>("GrassElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
         GetUI<Button>("HomeButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
         */
-        // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         _sceneChanger = FindObjectOfType<SceneChanger>();
 
@@ -64,7 +64,6 @@ public class InventoryPanel : UIBInder
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() => PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null);
         yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas != null && PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
@@ -112,10 +111,10 @@ public class InventoryPanel : UIBInder
             }
 
             Debug.Log($"캐릭터 {_allCharacters.Count}개 로드");
-        });
 
-        _allCharacters = PlayerDataManager.Instance.PlayerData.UnitDatas;
-        DisplayCharacters(_allCharacters);
+            _allCharacters = PlayerDataManager.Instance.PlayerData.UnitDatas;
+            DisplayCharacters(_allCharacters);
+        });
     }
 
     // 바뀐 캐릭터 갱신
@@ -132,7 +131,7 @@ public class InventoryPanel : UIBInder
         }
     }
 
-    // 보유한 캐릭터 보여주기
+    // 보유한 캐릭터 출력
     private void DisplayCharacters(List<PlayerUnitData> characters)
     {
         foreach (Transform child in _content)
@@ -148,6 +147,7 @@ public class InventoryPanel : UIBInder
         }
     }
 
+    // 원소 ID 받아오기
     private int GetElementId(int unitId)
     {
         if (_characterData.TryGetValue(unitId, out var data))

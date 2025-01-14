@@ -140,7 +140,14 @@ public class RoomPanel : UIBInder
         {
             TimeSpan idleTime = _idleReward.GetIdleTime();
 
-            GetUI<TextMeshProUGUI>("IdleTimeText").text = $"idleTime {idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+            GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상 누적 시간 {idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+
+            // 최대 누적시간이 넘어가면
+            if(idleTime.Hours >= 24)
+            {
+                GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상 누적 시간 24 : 00 : 00";
+            }
+
             GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
 
             TimeSpan elapsedTime = DateTime.Now - lastTime;
@@ -168,9 +175,9 @@ public class RoomPanel : UIBInder
         int dinoBloodReward = _idleReward.CalculateReward(2, (int)_idleReward.GetIdleTime().TotalSeconds);
         int boneCrystalReward = _idleReward.CalculateReward(3, (int)_idleReward.GetIdleTime().TotalSeconds);
 
-        GetUI<TextMeshProUGUI>("CoinRewardText").text = $"코인: {goldReward}";
-        GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"다이노블러드: {dinoBloodReward}";
-        GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"본크리스탈: {boneCrystalReward}";
+        GetUI<TextMeshProUGUI>("CoinRewardText").text = $"코인 : {goldReward}";
+        GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"다이노블러드 : {dinoBloodReward}";
+        GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"본크리스탈 : {boneCrystalReward}";
 
         /*
         LoadItemImage("CoinRewardImage", E_Item.Coin);

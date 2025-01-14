@@ -37,11 +37,6 @@ public class ItemPanel : UIBInder
 
     private void OnEnable()
     {
-        if (PlayerDataManager.Instance.PlayerData.OnItemChanged == null)
-        {
-            PlayerDataManager.Instance.PlayerData.OnItemChanged = new UnityAction<int>[Enum.GetValues(typeof(E_Item)).Length];
-        }
-
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoinText;
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += UpdateDinoBloodText;
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += UpdateBoneCrystalText;
