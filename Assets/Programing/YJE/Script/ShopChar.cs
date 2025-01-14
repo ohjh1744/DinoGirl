@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class ShopChar : MonoBehaviour
 {
-
     ShopSceneController shopSceneController;
 
     private int charId;
@@ -125,6 +124,12 @@ public class ShopChar : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// 가챠 결과 캐릭터 세팅
+    /// </summary>
+    /// <param name="gachaChar"></param>
+    /// <param name="resultCharUI"></param>
+    /// <returns></returns>
     public GameObject SetGachaCharUI(ShopChar gachaChar, GameObject resultCharUI)
     {
         // 데이터 설정
@@ -135,9 +140,9 @@ public class ShopChar : MonoBehaviour
 
         // UI 출력 설정
         resultCharUI.transform.GetChild(0).GetComponent<Image>().sprite = gachaChar.charImageProfile;
-        resultCharUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gachaChar.charName;
+        resultCharUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = gachaChar.charName;
 
-        GameObject rarities = resultCharUI.transform.GetChild(2).gameObject;
+        GameObject rarities = resultCharUI.transform.GetChild(3).gameObject;
         // 별 개수 설정
         for (int i = 0; i < gachaChar.rarity; i++)
         {
@@ -146,6 +151,12 @@ public class ShopChar : MonoBehaviour
         return resultCharUI;
     }
 
+    /// <summary>
+    /// 상점 캐릭터 리스트의 정보 저장/세팅
+    /// </summary>
+    /// <param name="shopChar"></param>
+    /// <param name="resultCharUI"></param>
+    /// <returns></returns>
     public GameObject SetShopCharInfo(ShopChar shopChar, GameObject resultCharUI)
     {
         // 데이터 설정
@@ -238,7 +249,6 @@ public class ShopChar : MonoBehaviour
             StartCoroutine(shopSceneController.ShowGachaOverlapPopUp());
             StopCoroutine(shopSceneController.ShowGachaOverlapPopUp());
         }
-        shopSceneController.UpdatePlayerUI();
         StopCoroutine(shopSceneController.ShowBuyOverlapPopUp());
     }
 
