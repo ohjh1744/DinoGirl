@@ -84,7 +84,7 @@ public class LoginPanel : UIBInder
                     switch (errorCode)
                     {
                         case AuthError.InvalidEmail:
-                            SetTrueWarningPanel("유효하지 않는 이메일입니다");
+                            SetTrueWarningPanel("유효한 이메일 형식이 아닙니다");
                             break;
                         case AuthError.UserNotFound:
                             SetTrueWarningPanel("존재하지 않는 이메일입니다");
