@@ -67,7 +67,7 @@ public class SignUpPanel : UIBInder
                             SetTrueWarningPanel("이미 존재하는 계정입니다");
                             break;
                         case AuthError.InvalidEmail:
-                            SetTrueWarningPanel("유효하지 않는 이메일입니다");
+                            SetTrueWarningPanel("유효한 이메일 형식이 아닙니다");
                             break;
                         case AuthError.MissingEmail:
                             SetTrueWarningPanel("이메일을 작성해주세요");
