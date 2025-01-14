@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TargetingSkillToAlly", menuName = "Skills/TargetingSkillToAlly")]
 public class TargetingSkillToAlly : Skill
 {
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
         
@@ -80,9 +80,9 @@ public class TargetingSkillToAlly : Skill
         
         return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
     }
-    
-    
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+
+
+    public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         //if (targets[0] == null || !targets[0].gameObject.activeSelf)
         if(targets.Count == 0)

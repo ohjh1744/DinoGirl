@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TargetingSkillToEnemy", menuName = "Skills/TargetingSkillToEnemy")]
 public class TargetingSkillToEnemy : Skill
 {
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
 
@@ -81,7 +81,7 @@ public class TargetingSkillToEnemy : Skill
     }
 
 
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         //if (targets[0] == null || !targets[0].gameObject.activeSelf)
         if (targets.Count == 0)

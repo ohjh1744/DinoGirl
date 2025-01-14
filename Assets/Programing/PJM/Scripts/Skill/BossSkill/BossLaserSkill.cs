@@ -19,13 +19,14 @@ public class BossLaserSkill : Skill
     public float recoveryRatio; // 발동 종료 후 회수
     public float tickNumber;
     public GameObject laserPrefab;
+    public float laserPrefabBaseScale;
 
     //[Header("Skill Num : 3 - skill0 |  4- skill1")]
     //[Range(3,4)]
     //[SerializeField] private int _skillNum = 4;
     //public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
-    
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+
+    public override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
 
@@ -102,7 +103,7 @@ public class BossLaserSkill : Skill
         return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
     }
 
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         var raidBossCaster = caster as RaidBossUnitController;
         if (raidBossCaster == null)
@@ -248,7 +249,8 @@ public class BossLaserSkill : Skill
         Vector2 dir = target.position - bossMuzzlePoint.position;
         float distance = dir.magnitude;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        laserObject.transform.localScale = new Vector3(distance, 1, 1);
+        float laserScale = distance / laserPrefabBaseScale; // 크기 맞춰줌
+        laserObject.transform.localScale = new Vector3(laserScale, 1, 1);
         laserObject.transform.rotation = Quaternion.Euler(0 ,0, angle);
         laserObject.transform.position = (bossMuzzlePoint.position + target.position) * 0.5f;
         // createLaserObject에서 만들어준 레이저 오브젝트를 caster와 target의 위치에 따라 움직여주고 회전시켜줄 메서드

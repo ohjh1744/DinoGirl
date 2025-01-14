@@ -24,8 +24,9 @@ MonoBehaviour:
   _skillIcon: {fileID: 0}
   _vfxToTarget: {fileID: 0}
   _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 0}
   startUpRatio: 0.35
   recoveryRatio: 0.9
   tickNumber: 4
   laserPrefab: {fileID: 6023031873551005555, guid: 2dabaa00af322fd45958d57d12390488, type: 3}
-  _skillNum: 4
+  laserPrefabBaseScale: 3

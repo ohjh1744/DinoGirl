@@ -6,8 +6,8 @@ using UnityEngine;
 public class TeleportSkill : TargetingSkillToEnemy
 {
     public float distance;
-    
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+
+    public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         if (targets.Count == 0)
         {
