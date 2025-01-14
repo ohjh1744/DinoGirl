@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -8,6 +9,11 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] Transform[] myGrid;
     [SerializeField] Transform[] enemyGrid;
+
+    [SerializeField] GameObject image;
+    [SerializeField] GameObject ready;
+    [SerializeField] GameObject start;
+
     public static event Action OnSpawnCompleted;
     public void SpawnUnits()
     {
@@ -87,11 +93,17 @@ public class Spawner : MonoBehaviour
         BattleSceneManager.Instance.curBattleState = BattleSceneManager.BattleState.Battle;
         OnSpawnCompleted?.Invoke();
         StartCoroutine(TimeDelaystart());
+        image.SetActive(false);
         }
 
     IEnumerator TimeDelaystart() 
-    {
-        yield return new WaitForSecondsRealtime(3f);
+    {   
+        ready.SetActive(true);
+        yield return new WaitForSecondsRealtime(2.5f);
+        ready.SetActive(false); 
+        start.SetActive(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+        start.SetActive(false);
         Time.timeScale = 1f;
         
     }

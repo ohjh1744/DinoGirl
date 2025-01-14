@@ -25,6 +25,7 @@ public class BattleSceneUi : MonoBehaviour
     [SerializeField] private float time;
     [SerializeField] private float curTime;
 
+    [SerializeField] RaidScore raidScore;
     private int minute;
     private int second;
 
@@ -93,7 +94,7 @@ public class BattleSceneUi : MonoBehaviour
             {
                 Debug.Log("시간 종료");
                 curTime = 0;
-                openResultPanel();
+                WinorLose();
                 yield break;
             }
         }
@@ -144,7 +145,7 @@ public class BattleSceneUi : MonoBehaviour
 
         StopCoroutine("startTimer");
         StopCoroutine("Subscriber");
-        Time.timeScale = 0;
+        Time.timeScale = 0; 
         resultPanel.SetActive(true);
         if (BattleSceneManager.Instance.curBattleState == BattleSceneManager.BattleState.Win)
         {
@@ -249,6 +250,7 @@ public class BattleSceneUi : MonoBehaviour
     private void RaidResult() 
     {
         Debug.Log("레이드 결과 연동");
+        raidScore.setRankingData();
     }
     public void goLobby()
     {

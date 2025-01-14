@@ -26,7 +26,7 @@ public class GridContext : MonoBehaviour
     private Vector2Int[] Front_T = { new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(0, 1) };
     private Vector2Int[] Side_UpDown = { new Vector2Int(0, -1), new Vector2Int(0, 1)};
     private Vector2Int[] Side_FrontBack = { new Vector2Int(0, -1), new Vector2Int(0, 1)};
-    private Vector2Int[] Front_L = { new Vector2Int(-1, 1), new Vector2Int(1, 0)};
+    private Vector2Int[] Front_L = { new Vector2Int(-1, 1), new Vector2Int(0, 1)};
 
 
     [SerializeField] Image[] myGrids;

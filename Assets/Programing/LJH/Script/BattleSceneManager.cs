@@ -142,7 +142,7 @@ public class BattleSceneManager : MonoBehaviour
     }
     public void RaidStageStart()
     {
-        if ((Power + Power + incBuffsPowers) < 3000) 
+        if ((Power+ incBuffsPowers) < 3000) 
         {
             Debug.Log("전투력 부족");
             return;
