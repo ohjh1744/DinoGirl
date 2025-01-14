@@ -1,4 +1,5 @@
 using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -40,14 +41,57 @@ public class RaidScore : MonoBehaviour
         
         DatabaseReference root = BackendManager.Database.RootReference.Child("RaidData").Child(BackendManager.Auth.CurrentUser.UserId);
 
-        RaidData RaidData = new RaidData();
+        root.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Firebase 데이터 가져오기 실패: " + task.Exception);
+                return;
+            }
 
-        RaidData.Name = PlayerDataManager.Instance.PlayerData.PlayerName;
+            DataSnapshot snapshot = task.Result;
 
-        RaidData.TotalDamage = curBossHpScore;
-        Debug.Log($"{name} : {curBossHpScore}");
-        string json = JsonUtility.ToJson(RaidData);
+            int previousScore = 0;
 
-        root.SetRawJsonValueAsync(json);
+            // 저장된 데이터가 있는지 확인
+            if (snapshot.Exists && snapshot.Child("_totalDamage").Value != null)
+            {
+                previousScore = int.Parse(snapshot.Child("_totalDamage").Value.ToString());
+            }
+
+            Debug.Log($"이전 점수: {previousScore}, 현재 점수: {curBossHpScore}");
+
+            // 새로운 점수가 더 높을 경우에만 갱신
+            if (curBossHpScore > previousScore)
+            {
+                RaidData RaidData = new RaidData
+                {
+                    Name = PlayerDataManager.Instance.PlayerData.PlayerName,
+                    TotalDamage = curBossHpScore
+                };
+
+                string json = JsonUtility.ToJson(RaidData);
+
+                root.SetRawJsonValueAsync(json).ContinueWithOnMainThread(setTask =>
+                {
+                    if (setTask.IsCompleted)
+                    {
+                        Debug.Log("데이터 갱신 완료");
+                    }
+                    else
+                    {
+                        Debug.LogError("데이터 갱신 실패: " + setTask.Exception);
+                    }
+                });
+            }
+            else
+            {
+                Debug.Log("새로운 점수가 이전 점수보다 낮아서 갱신하지 않음.");
+            }
+        });
+    }
+    public void setTotalDamageData()
+    {
+
     }
 }
