@@ -8,10 +8,9 @@ public class AoESkill : Skill
 {
     public float areaAngle;
     public LayerMask targetLayer;
-    
 
 
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
         
@@ -20,7 +19,7 @@ public class AoESkill : Skill
         return targets.Count == 0 ? BaseNode.ENodeState.Failure : BaseNode.ENodeState.Success;
     }
 
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         if (targets.Count == 0)
         {

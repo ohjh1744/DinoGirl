@@ -79,10 +79,10 @@ public abstract class Skill : ScriptableObject
     }*/
 
     // 타겟 설정
-    protected abstract BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets);
+    public abstract BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets);
 
     // 스킬 실행
-    protected abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets);
+    public abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets);
 
     /*protected virtual void ResetTargets()
     {

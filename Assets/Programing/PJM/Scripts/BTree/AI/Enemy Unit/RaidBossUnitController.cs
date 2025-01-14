@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class RaidBossUnitController : EnemyBaseUnitController
-{/*
+{
     [SerializeField] private Skill[] _bossSkills;
-    protected Skill[] BossSkills {get => _bossSkills; set => _bossSkills = value; }*/
+    protected Skill[] BossSkills {get => _bossSkills; set => _bossSkills = value; }
+    
+    private int _skillIndex;
+    
     [SerializeField] private Skill _bossSkill0;
     protected Skill BossSkill0 => _bossSkill0;
     [SerializeField] private Skill _bossSkill1;
@@ -51,52 +54,31 @@ public class RaidBossUnitController : EnemyBaseUnitController
                     }
                 ),
 
-                new SelectorNode // skillable Dicision Selector
+                new SelectorNode 
                 (
                     new List<BaseNode>
                     {
                         new DecoratorNode
                         (
-                            new ConditionNode(IsSkillAlreadyRunning),
-                            new SelectorNode
-                                (
-                                    new List<BaseNode>
-                                    {
-                                        new DecoratorNode
-                                        (
-                                            new ConditionNode(() => IsSkill0Running),
-                                            BossSkill0.CreatePerformNode(this, SkillTargets)
-                                        )
-                                        ,
-                                        new DecoratorNode
-                                        (
-                                            new ConditionNode(() => IsSkill1Running),
-                                            BossSkill1.CreatePerformNode(this, SkillTargets)
-                                        )
-                                    }
-                                )
+                            new ConditionNode(() => IsSkillRunning),
+                            new ActionNode(PerformChosenSkill)
+                            
                         ),
                         new SequenceNode // skillable Dicision Sequence
                         (
                             new List<BaseNode>()
                             {
                                 new ConditionNode(CheckSkillCooltimeBack),
+                                new ActionNode(ChooseNextSkill),
+                                new ActionNode(SetTargetsForChosenSkill),
+                                new ActionNode(PerformChosenSkill)
                                 
-                                new SelectorNode
-                                    (
-                                        new List<BaseNode>()
-                                        {
-                                            // new ConditionNode(checkBossPhase)
-                                            BossSkill0.CreateSkillBTree(this, SkillTargets, true),
-                                            BossSkill1.CreateSkillBTree(this, SkillTargets, false)
-                                        }
-                                    )
                             }
                         ),
                     }
                 ),
 
-                /*new SequenceNode // Attack Dicision
+                /*new SequenceNode // Attack Dicision // 평타로직 필요할 경우를 대비해 주석처리
                 (
                     new List<BaseNode>
                     {
@@ -119,6 +101,28 @@ public class RaidBossUnitController : EnemyBaseUnitController
         );
     }
 
+    private BaseNode.ENodeState ChooseNextSkill()
+    {
+        if (BossSkills == null || BossSkills.Length == 0)
+        {
+            Debug.LogWarning("보스 스킬 배열 공란");
+            return BaseNode.ENodeState.Failure;
+        }
+        _skillIndex = (_skillIndex + 1) % BossSkills.Length; // bossSkills의 배열을 순회하고 다시 0으로
+        Debug.Log($"현재 스킬 인덱스 : {_skillIndex}");
+        return BaseNode.ENodeState.Success;
+    }
+
+    private BaseNode.ENodeState PerformChosenSkill()
+    {
+        return BossSkills[_skillIndex].Perform(this, SkillTargets);
+    }
+
+    private BaseNode.ENodeState SetTargetsForChosenSkill()
+    {
+        return BossSkills[_skillIndex].SetTargets(this, SkillTargets);
+    }
+    
     
     protected override bool IsSkillAlreadyRunning()
     {

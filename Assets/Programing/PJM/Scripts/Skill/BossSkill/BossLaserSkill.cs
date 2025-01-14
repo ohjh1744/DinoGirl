@@ -24,8 +24,8 @@ public class BossLaserSkill : Skill
     //[Range(3,4)]
     //[SerializeField] private int _skillNum = 4;
     //public Parameter SkillNumAsParameter {get => (Parameter)_skillNum;}
-    
-    protected override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
+
+    public override BaseNode.ENodeState SetTargets(BaseUnitController caster, List<BaseUnitController> targets)
     {
         ResetTargets(targets);
 
@@ -102,7 +102,7 @@ public class BossLaserSkill : Skill
         return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
     }
 
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+    public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         var raidBossCaster = caster as RaidBossUnitController;
         if (raidBossCaster == null)

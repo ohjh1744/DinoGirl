@@ -1328,8 +1328,12 @@ PrefabInstance:
       value: Enemy_6
       objectReference: {fileID: 0}
     - target: {fileID: 4005812530564026311, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
+      propertyPath: _maxHp
+      value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005812530564026311, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
       propertyPath: _attackPoint
-      value: 20
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4005812530564026331, guid: a11ab3f083225b6409ddda1b39965c98, type: 3}
       propertyPath: m_RootOrder

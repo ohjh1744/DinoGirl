@@ -23,7 +23,7 @@ public class BossAoESkill : AoESkill
         return targets.Count == 0 ? BaseNode.ENodeState.Failure : BaseNode.ENodeState.Success;
     }*/
 
-    protected override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
+public override BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets)
     {
         var raidBossCaster = caster as RaidBossUnitController;
         if (raidBossCaster == null)
