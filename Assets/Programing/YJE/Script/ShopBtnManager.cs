@@ -106,8 +106,7 @@ public class ShopBtnManager : MonoBehaviour
             valueChange.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             valueChange.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            // UI 업데이트
-            shopSceneController.UpdatePlayerUI();
+
             StopCoroutine(CharacterVideoR(resultUI)); // 가챠 루틴 종료
         }
         else
@@ -163,8 +162,6 @@ public class ShopBtnManager : MonoBehaviour
             valueChange.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             valueChange.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);
-            // UI 업데이트
-            shopSceneController.UpdatePlayerUI();
         }
         else
         {

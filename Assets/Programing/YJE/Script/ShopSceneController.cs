@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ShopSceneController : UIBInder
@@ -25,6 +27,28 @@ public class ShopSceneController : UIBInder
         ShowBaseGachaPanel();
         SettingBtn();
     }
+
+    private void OnEnable()
+    {
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoinUI;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += UpdateDinoBloodUI;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += UpdateBoneCrystalUI;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] += UpdateDinoStoneUI;
+        PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Stone] += UpdateStoneUI;
+
+    }
+    private void OnDisable()
+    {
+        if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null)
+        {
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] -= UpdateCoinUI;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] -= UpdateDinoBloodUI;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] -= UpdateBoneCrystalUI;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoStone] -= UpdateDinoStoneUI;
+            PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Stone] -= UpdateStoneUI;
+        }
+    }
+
     /// <summary>
     /// BGM 재생 함수
     /// - ShopBtnManager.cs에서 사용
@@ -48,20 +72,41 @@ public class ShopSceneController : UIBInder
         GetUI<TextMeshProUGUI>("ChangeShopText").SetText("상점");
         GetUI<TextMeshProUGUI>("GachaSingleCostText").SetText($"{shopBtnManager.GachaCost}");
         GetUI<TextMeshProUGUI>("GachaTenCostText").SetText($"{shopBtnManager.GachaCost * 10}");
-        UpdatePlayerUI();
+        UpdatePlayerData();
     }
-
+    
     /// <summary>
     /// 각 Item 재화 상단 표시
     /// - 변동 시 계속 업데이트가 필요하므로 함수로 제작하여 사용
     /// </summary>
-    public void UpdatePlayerUI()
+    public void UpdatePlayerData()
     {
-        GetUI<TextMeshProUGUI>("CoinText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin].ToString());
-        GetUI<TextMeshProUGUI>("DinoBloodText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood].ToString());
-        GetUI<TextMeshProUGUI>("BoneCrystalText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal].ToString());
-        GetUI<TextMeshProUGUI>("DinoStoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone].ToString());
-        GetUI<TextMeshProUGUI>("StoneText").SetText(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone].ToString());
+        UpdateCoinUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
+        UpdateDinoBloodUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
+        UpdateBoneCrystalUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.BoneCrystal]);
+        UpdateDinoStoneUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoStone]);
+        UpdateStoneUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Stone]);
+    }
+    
+    private void UpdateCoinUI(int value)
+    {
+        GetUI<TextMeshProUGUI>("CoinText").SetText(value.ToString());
+    }
+    private void UpdateDinoBloodUI(int value)
+    {
+        GetUI<TextMeshProUGUI>("DinoBloodText").SetText(value.ToString());
+    }
+    private void UpdateBoneCrystalUI(int value)
+    {
+        GetUI<TextMeshProUGUI>("BoneCrystalText").SetText(value.ToString());
+    }
+    private void UpdateDinoStoneUI(int value)
+    {
+        GetUI<TextMeshProUGUI>("DinoStoneText").SetText(value.ToString());
+    }
+    private void UpdateStoneUI(int value)
+    {
+        GetUI<TextMeshProUGUI>("StoneText").SetText(value.ToString());
     }
 
     private void SettingBtn()

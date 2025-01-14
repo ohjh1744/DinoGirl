@@ -238,7 +238,6 @@ public class ShopChar : MonoBehaviour
             StartCoroutine(shopSceneController.ShowGachaOverlapPopUp());
             StopCoroutine(shopSceneController.ShowGachaOverlapPopUp());
         }
-        shopSceneController.UpdatePlayerUI();
         StopCoroutine(shopSceneController.ShowBuyOverlapPopUp());
     }
 
