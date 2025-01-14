@@ -17,7 +17,7 @@ MonoBehaviour:
   _skillRange: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 1
-  skillRatio: 3
+  skillRatio: 0.5
   cooltime: 20
   crowdControl: 0
   ccDuration: 0
@@ -28,6 +28,6 @@ MonoBehaviour:
   skillParameterNumber: 1
   startUpRatio: 0.35
   recoveryRatio: 0.9
-  tickNumber: 4
+  tickNumber: 6
   laserPrefab: {fileID: 6023031873551005555, guid: dbae3aaf0ad44ca488f2462d3cfceb3e, type: 3}
   laserPrefabBaseScale: 3
