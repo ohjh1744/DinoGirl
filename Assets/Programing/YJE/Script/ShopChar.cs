@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class ShopChar : MonoBehaviour
 {
-
     ShopSceneController shopSceneController;
 
     private int charId;

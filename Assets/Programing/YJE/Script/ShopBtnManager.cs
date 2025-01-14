@@ -177,7 +177,7 @@ public class ShopBtnManager : MonoBehaviour
     public void OnDisableGachaPanelBtn()
     {
         ClearResultList();
-        shopSceneController.SoundBgm();
+        shopSceneController.SoundPlayBgm();
         shopSceneController.DisabledGachaResultPanel();
     }
 

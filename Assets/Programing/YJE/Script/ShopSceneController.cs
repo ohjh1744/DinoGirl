@@ -23,7 +23,7 @@ public class ShopSceneController : UIBInder
     {
         shopBtnManager = gameObject.GetComponent<ShopBtnManager>();
         BindAll();
-        SoundBgm();
+        SoundPlayBgm();
         ShowBaseGachaPanel();
         SettingBtn();
     }
@@ -53,9 +53,17 @@ public class ShopSceneController : UIBInder
     /// BGM 재생 함수
     /// - ShopBtnManager.cs에서 사용
     /// </summary>
-    public void SoundBgm()
+    public void SoundPlayBgm()
     {
         SoundManager.Instance.PlayeBGM(shopBgm);
+    }
+    /// <summary>
+    /// BGM 재생 함수
+    /// - ShopBtnManager.cs에서 사용
+    /// </summary>
+    public void SoundPauseBGM()
+    {
+        SoundManager.Instance.PauseBGM();
     }
 
     /// <summary>
@@ -170,8 +178,7 @@ public class ShopSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(true);
         GetUI<Image>("SingleImage").gameObject.SetActive(true);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(false);
-
-        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.PauseBGM();
 
     }
     public void DisableSingleImage()
@@ -184,8 +191,7 @@ public class ShopSceneController : UIBInder
         GetUI<Image>("SingleResultPanel").gameObject.SetActive(false);
         GetUI<Image>("TenResultPanel").gameObject.SetActive(true);
         GetUI<Image>("TenImage").gameObject.SetActive(true);
-
-        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.PauseBGM();
     }
     public void DisableTenImage()
     {
