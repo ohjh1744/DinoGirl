@@ -33,7 +33,7 @@ public class RaidScore : MonoBehaviour
         ResultScoreTxt.text = curBossHpScore.ToString();
         curScoreTxt.text = curBossHpScore.ToString();
         
-        Debug.Log(curBossHpScore);
+        //Debug.Log(curBossHpScore);
     }
 
     public void setRankingData()
