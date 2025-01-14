@@ -13,8 +13,8 @@ public class RaidBossUnitController : EnemyBaseUnitController
     protected Skill BossSkill1 => _bossSkill1;
     private List<BaseUnitController> _skillTargets;
     protected List<BaseUnitController> SkillTargets { get => _skillTargets; set => _skillTargets = value; }
-    [SerializeField] private Transform _muzzlePoint;
-    public Transform MuzzlePoint { get => _muzzlePoint; set => _muzzlePoint = value; }
+    //[SerializeField] private Transform _muzzlePoint;
+    //public Transform MuzzlePoint { get => _muzzlePoint; set => _muzzlePoint = value; }
     [HideInInspector] private GameObject laserObejct;
     public GameObject LaserObejct {get => laserObejct; set => laserObejct = value; }
     
