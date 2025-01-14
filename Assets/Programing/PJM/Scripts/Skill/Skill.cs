@@ -168,13 +168,13 @@ public abstract class Skill : ScriptableObject
 
     private bool CheckRemainingTime()
     {
-        if (BattleSceneManager.Instance.RemainTime > 90.0f)
+        if (BattleSceneManager.Instance.RemainTime > 60.0f)
         {
-            Debug.Log("남은시간 90초 + ");
+            Debug.Log("남은시간 60초 + ");
             return false;
         }
            
-        Debug.Log("남은시간 90초 - ");
+        Debug.Log("남은시간 60초 - ");
         return true;
     }
 
