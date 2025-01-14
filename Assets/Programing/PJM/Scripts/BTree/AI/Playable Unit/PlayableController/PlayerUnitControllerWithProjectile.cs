@@ -7,11 +7,13 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
     [SerializeField] private GameObject _projectilePrefab;
     //[SerializeField] private Transform _muzzlePoint;
     private GameObject _projectileObject;
+    public List<GameObject> SkillProjectile { get; set; }
 
     protected override void Awake()
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
+        SkillProjectile = new List<GameObject>();
         CoolTimeCounter = 0.5f;
     }
 
@@ -194,7 +196,8 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
             Projectile projectile = _projectileObject.GetComponent<Projectile>();
             if (projectile != null)
             {
-                projectile.Target = CurrentTarget.CenterPosition;
+                projectile.TargetPos = CurrentTarget.CenterPosition;
+                projectile.Target = CurrentTarget;
             }
         }
     }

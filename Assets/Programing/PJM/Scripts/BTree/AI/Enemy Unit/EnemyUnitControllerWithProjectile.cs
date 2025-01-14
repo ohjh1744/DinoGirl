@@ -98,7 +98,7 @@ public class EnemyUnitControllerWithProjectile : EnemyBaseUnitController
             Projectile projectile = _projectileObject.GetComponent<Projectile>();
             if (projectile != null)
             {
-                projectile.Target = CurrentTarget.CenterPosition;
+                projectile.TargetPos = CurrentTarget.CenterPosition;
             }
             
             

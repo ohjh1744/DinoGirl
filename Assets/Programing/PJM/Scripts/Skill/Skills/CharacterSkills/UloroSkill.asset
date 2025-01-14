@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
+  m_Script: {fileID: 11500000, guid: 81f5baff8a4febe4eb7d5be22ef9d2df, type: 3}
   m_Name: UloroSkill
   m_EditorClassIdentifier: 
-  _skillName: Take this~! Boom!
+  _skillName: 
   _targetAll: 0
   _skillRange: 20
   _maxTargetingNum: 1
@@ -22,3 +22,8 @@ MonoBehaviour:
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 21300000, guid: 907e13d98b771394b97903ffbcb39ba9, type: 3}
+  _vfxToTarget: {fileID: 0}
+  _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 0}
+  skillParameterNumber: 0
+  skillProjectile: {fileID: 7228187741322693185, guid: 2ae7f35fb8dd0b442bb05f6aa306deb4, type: 3}
