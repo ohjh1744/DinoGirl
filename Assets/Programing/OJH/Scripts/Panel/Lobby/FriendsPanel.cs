@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class FriendsPanel : UIBInder
@@ -22,26 +23,24 @@ public class FriendsPanel : UIBInder
 
     private List<GameObject> _infoLists;
 
+    private UnityAction _friendExitClickHandler;
     private void Awake()
     {
         _infoLists = new List<GameObject>();
         BindAll();
     }
 
-    private void Start()
-    {
-        //Sound
-        GetUI<Button>("FriendsExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-    }
     private void OnEnable()
     {
+        //Sound
+        GetUI<Button>("FriendsExitButton").onClick.AddListener(_friendExitClickHandler = () => SoundManager.Instance.PlaySFX(_buttonClip));
         GetFriendData();
     }
 
     private void OnDisable()
     {
         Clear();
-        //GetUI<Button>("FriendsExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("FriendsExitButton").onClick.RemoveListener(_friendExitClickHandler);
     }
 
     private void GetFriendData()
