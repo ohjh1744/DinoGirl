@@ -56,7 +56,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7228187741322693185}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -122,6 +122,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+--- !u!1 &8118785641164376200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2588844799925788549, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
+  m_PrefabInstance: {fileID: 6000716819954177805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &7148068081606381341
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8118785641164376200}
+  m_Enabled: 1
+  m_SortingLayerID: -1403076965
+  m_SortingLayer: 4
+  m_SortingOrder: 1
 --- !u!4 &8118785641164376203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2588844799925788550, guid: 87d88c9ee324b824d847c738fd76ccf8, type: 3}
