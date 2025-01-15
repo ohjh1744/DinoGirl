@@ -55,6 +55,7 @@ public override BaseNode.ENodeState Perform(BaseUnitController caster, List<Base
                     raidBossCaster.IsSkillRunning = false;
 
                     OverlapAreaAllWithAngle(raidBossCaster, targets);
+                    //SpawnEffect(raidBossCaster.CenterPosition,VFXToMine);
                     float skillDamage = raidBossCaster.UnitModel.AttackPoint * SkillRatio;
                     Debug.Log($"스킬 데미지 {skillDamage} ");
                     foreach (var target in targets)
