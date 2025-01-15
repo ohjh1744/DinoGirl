@@ -77,15 +77,6 @@ public abstract class Skill : ScriptableObject
 
     // 스킬 실행
     public abstract BaseNode.ENodeState Perform(BaseUnitController caster, List<BaseUnitController> targets);
-
-    /*protected virtual void ResetTargets()
-    {
-        SkillTargets.Clear();
-    }*/
-
-    // 스킬 행동 트리를 반환하는 메서드
-    //public abstract SequenceNode CreateSkillBTree(Transform caster, LayerMask enemyLayer, bool isPriorityTargetFar, Animator unitAnimator);
-    
     public SequenceNode CreateSkillBTree(BaseUnitController caster,List<BaseUnitController> targets)
     {
         return new SequenceNode
@@ -99,7 +90,7 @@ public abstract class Skill : ScriptableObject
         );
     }
     
-    public SequenceNode CreateSkillBTree(BaseUnitController caster,List<BaseUnitController> targets, bool needRemainTimeChecker)
+    /*public SequenceNode CreateSkillBTree(BaseUnitController caster,List<BaseUnitController> targets, bool needRemainTimeChecker)
     {
         switch (needRemainTimeChecker)
         {
@@ -123,7 +114,7 @@ public abstract class Skill : ScriptableObject
                     }
                 );
         }
-    }
+    }*/
 
     public BaseNode CreatePerformNode(BaseUnitController caster,List<BaseUnitController> targets)
     {
@@ -143,6 +134,7 @@ public abstract class Skill : ScriptableObject
     {
         if(effectPrefab == null)
             return;
+        // Todo : 
         // localScale 방향 조정 필요
         GameObject particleObject = Instantiate(effectPrefab, targetTransform.position, Quaternion.identity);
         if (particleObject == null)
@@ -157,8 +149,7 @@ public abstract class Skill : ScriptableObject
             Destroy(particleObject);
         }
     }
-
-
+    
     protected bool GetBoolSkillParameter(BaseUnitController caster)
     {
         int skillParameterHash = caster.UnitViewer.SkillParameterHash[(int)SkillParameterNumber];

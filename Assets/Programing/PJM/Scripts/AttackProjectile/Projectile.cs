@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
     //[SerializeField] private ProjectileSkill referenceSkill;
     private void OnEnable()
     {
-        Debug.Log("생성됨");
+        //Debug.Log("생성됨");
     }
 
     private void Update()

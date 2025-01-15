@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class SkillUIView : UIBInder
 {
     // 글로벌 쿨타임 // 현재 임시
-    [SerializeField] private float _globalCooldown = 0.5f;
+    //[SerializeField] private float _globalCooldown = 0.5f;
     private float _globalCooldownTimer;
     //public bool isAutoOn; // 임시 자동체크 변수, 임시 배틀매니저에 들어가야함
 

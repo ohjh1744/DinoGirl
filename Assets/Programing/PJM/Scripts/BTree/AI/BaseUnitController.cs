@@ -12,8 +12,8 @@ public abstract class BaseUnitController : MonoBehaviour
 
     [SerializeField] private Transform _muzzlePoint;
     public Transform MuzzlePoint { get => _muzzlePoint; protected set => _muzzlePoint = value; }
-    // 임시 공격 후딜레이, 현재 미사용
-    private float _tempDelay = 0.5f;
+    // 임시 공격 후딜레이, 미사용
+    //private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
     public bool isDying { get; set; } = false;
 
@@ -23,8 +23,6 @@ public abstract class BaseUnitController : MonoBehaviour
     public UnitModel UnitModel { get => _unitModel; private set => _unitModel = value; }
     
     protected BehaviourTreeRunner _BTRunner;
-    /*protected Animator _unitAnimator;
-    public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }*/
     protected BaseUnitController _detectedEnemy;
     public BaseUnitController DetectedEnemy { get => _detectedEnemy; set => _detectedEnemy = value; }
     
@@ -38,7 +36,7 @@ public abstract class BaseUnitController : MonoBehaviour
     public Skill CurSkill { get => _curSkill; set => _curSkill = value; }
     
     protected int unitID;
-    public int UnitID { get { return unitID; } }
+    public int UnitID => unitID;
 
     /*private float _minZ = -1.0f;
     private float _maxZ = 1.0f;*/
@@ -362,13 +360,13 @@ public abstract class BaseUnitController : MonoBehaviour
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false); // 임시
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.gameObject.transform.position, UnitModel.Movespeed * Time.deltaTime);
-                Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
+                //Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
             }
             else // 타겟이 공격 범위 내에 있을때 , 행동트리 후반에 있어서 공격으로 바로 넘어가서 뜨지 않음
             {
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
-                Debug.Log($"타겟 {DetectedEnemy.gameObject.name} 추적완료");
+                //Debug.Log($"타겟 {DetectedEnemy.gameObject.name} 추적완료");
                 return BaseNode.ENodeState.Success;
             }
         }
@@ -382,9 +380,7 @@ public abstract class BaseUnitController : MonoBehaviour
     {
         Debug.Log("Idle 상태");
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
-        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Skill0], false);
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
-        //UnitAnimator.SetTrigger("Idle");
         return BaseNode.ENodeState.Success;
     }
 
@@ -403,10 +399,26 @@ public abstract class BaseUnitController : MonoBehaviour
         
         return false;
     }
-
-    protected virtual BaseNode.ENodeState SetDetectedTarget()
+    
+    protected void HandleDeath()
     {
-        Debug.LogWarning("카메라 범위에서 적 체크는 과거사양입니다.");
+        isDying = true;
+        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
+    }
+    
+    protected bool CheckSkillCooltimeBack()
+    {
+        if (CoolTimeCounter <= 0)
+        {
+            CoolTimeCounter = 0;
+            return true;
+        }
+        return false;
+    }
+
+    protected abstract BaseNode.ENodeState SetDetectedTarget();
+    /*{
+        //Debug.LogWarning("카메라 범위에서 적 체크는 과거사양입니다.");
         throw new System.NotImplementedException();
         /*Debug.LogWarning("기본 타겟 세팅 메서드 실행중");
         if ((UnitModel.CurCc & CrowdControls.Taunt) != 0) // 걸린 상태이상 중 도발이 있을경우
@@ -469,9 +481,9 @@ public abstract class BaseUnitController : MonoBehaviour
         
         UnitViewer.CheckNeedFlip(transform, DetectedEnemy.transform);
 
-        return BaseNode.ENodeState.Success;*/
+        return BaseNode.ENodeState.Success;#1#
         
-    }
+    }*/
 
     /*protected void ExtractDetectedTargetFromList()
     {
@@ -490,51 +502,6 @@ public abstract class BaseUnitController : MonoBehaviour
         }
     }*/
 
-    protected void HandleDeath()
-    {
-        isDying = true;
-        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
-    }
-    
-    protected bool CheckSkillCooltimeBack()
-    {
-        /*if (IsSkillRunning)
-        {
-            CoolTimeCounter -= Time.deltaTime;
-            return false;
-        }
-
-        if (CoolTimeCounter > 0)
-        {
-            CoolTimeCounter -= Time.deltaTime;
-            return false;
-        }*/
-
-        if (CoolTimeCounter <= 0)
-        {
-            CoolTimeCounter = 0;
-            return true;
-        }
-        
-        return false;
-        
-
-        
-        
-        /*if (CoolTimeCounter <= 0)
-        {
-            CoolTimeCounter = 0;
-            //CoolTimeCounter = UniqueSkill.Cooltime;
-            return true;
-        }
-        else
-        {
-            CoolTimeCounter -= Time.deltaTime;
-            return false;
-        }*/
-    }
-    
-    
     /*protected void OnDrawGizmos()
     {
         string layerName = LayerMask.LayerToName(gameObject.layer);

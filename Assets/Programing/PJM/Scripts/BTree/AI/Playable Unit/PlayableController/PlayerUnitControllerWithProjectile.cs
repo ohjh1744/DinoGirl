@@ -126,14 +126,12 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
         
         
         // 공격 진행중, Attack 파라미터 True 상태
-        //if (IsAttacking) // 위의 조건이 있어 사실상 필요 없을지도
-        
         //if(UnitViewer.IsAnimationRunning())
         
         //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
         {
             var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.IsName("Attacking"))
+            //if (stateInfo.IsName("Attacking"))
             {
                 if (stateInfo.normalizedTime < 1.0f)
                 {
@@ -159,33 +157,12 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
                     return BaseNode.ENodeState.Success;
                 }
             }
-            else // 
+            //else // 
             {
-                // 트랜지션 이동중 애니메이션이 블렌딩 되어서? 애니메이션 상태로 확인하면 아래 로그가 출력됨 (이건아님)
-                // Todo : 원인 발견및 해결
-                Debug.Log("IsAttacking이 True지만 현재 애니메이션 상태가 Attacking이 아님"); // IsAttacking이 True면 일단 공격중이니 Running 반환
-                //Debug.Log("Attack Bool 파라미터가 True지만 현재 애니메이션 상태가 Attacking이 아님");
+                Debug.Log("projectile이 아직 사라지지 않음"); 
                 return BaseNode.ENodeState.Running;
             }
         }
-        
-        // 공격을 끝내야 할 경우, AttackRoutine 코루틴에서 애니메이션 길이 이후 IsAttacking을 false로 바꿔줬을 때
-        // Attack 파라미터는 아직 True 상태
-        //if (!IsAttacking)
-        
-        //if(!UnitViewer.IsAnimationRunning("Attacking"))
-        
-        /*if(stateInfo.IsName("Attacking") && stateInfo.normalizedTime >= 1.0f)
-        {
-            Debug.Log($"공격 종료됨");
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
-            IsAttacking = false;
-            //StartCoroutine(AttackDelayRoutine());
-            return BaseNode.ENodeState.Success;
-        }*/
-        
-        Debug.LogWarning("해당 로그가 뜨는 조건 파악해야함.");
-        return BaseNode.ENodeState.Failure;
     }
 
     private void CreateProjectileObject()
