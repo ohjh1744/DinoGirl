@@ -89,7 +89,7 @@ public class GachaManager : MonoBehaviour
         animationSequence.Pause();             // 바로 실행하지 않고 대기 상태로 설정
 
         // 1. 스크립트 배경과 텍스트 페이드 인
-        animationSequence.AppendCallback(() => PlaySound(getSd));  // "get" 사운드 재생
+        // animationSequence.AppendCallback(() => PlaySound(getSd));  // "get" 사운드 재생
         animationSequence.Append(scriptBg.DOFade(1.0f, 1f));       // 배경 페이드 인
         animationSequence.AppendCallback(() =>
         {
@@ -100,9 +100,6 @@ public class GachaManager : MonoBehaviour
 
         // 2. 텍스트를 8초 동안 유지
         animationSequence.AppendInterval(8f);
-
-        // 3. 텍스트 비활성화
-        animationSequence.Append(scriptText.DOFade(0.0f, 0.5f));
 
         // 4. 별 애니메이션 추가
         AppendStarAnimation(star1, 0.2f);
@@ -123,6 +120,7 @@ public class GachaManager : MonoBehaviour
         animationSequence.AppendCallback(() => PlaySound(endSd)); // "end" 사운드 재생
         animationSequence.Append(name1.DOFade(1.0f, 1f));
         animationSequence.Join(name2.DOFade(1.0f, 1f));
+
     }
 
     // AppendStarAnimation: 별 애니메이션 추가
@@ -137,6 +135,7 @@ public class GachaManager : MonoBehaviour
     // TypingEffect: 텍스트 타이핑 효과
     private IEnumerator TypingEffect(TMP_Text textComponent, float typingSpeed)
     {
+        animationSequence.AppendCallback(() => PlaySound(getSd));  // "get" 사운드 재생
         string fullText = textComponent.text; // 미리 입력된 텍스트 가져오기
         textComponent.text = "";             // 텍스트 초기화
 
@@ -146,6 +145,10 @@ public class GachaManager : MonoBehaviour
             textComponent.text += letter;
             yield return new WaitForSeconds(typingSpeed); // 출력 속도 조절
         }
+        yield return new WaitForSeconds(5f);
+
+        // 3. 텍스트 비활성화
+        animationSequence.Append(scriptText.DOFade(0.0f, 0.5f));
     }
 
     // PlaySound: 사운드 재생
