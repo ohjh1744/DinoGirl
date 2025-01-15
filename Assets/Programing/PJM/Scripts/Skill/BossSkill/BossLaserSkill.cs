@@ -150,6 +150,7 @@ public class BossLaserSkill : Skill
                 raidBossCaster.IsSkillRunning = true;
                 raidBossCaster.CurSkillState = SkillState.Charging;
                 raidBossCaster.SkillRuntimeData = new BossSkillRuntimeData(startUpRatio, recoveryRatio, tickNumber);
+                SpawnEffect(raidBossCaster.MuzzlePoint, VFXToMuzzle);
                 return BaseNode.ENodeState.Running;
             }
             case SkillState.Charging:
