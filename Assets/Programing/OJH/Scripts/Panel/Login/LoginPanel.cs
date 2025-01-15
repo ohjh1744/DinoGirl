@@ -122,7 +122,7 @@ public class LoginPanel : UIBInder
         });
     }
 
-    public void CheckUserInfo()
+    private void CheckUserInfo()
     {
         Debug.Log("·Î±×ÀÎ!!!!");
         FirebaseUser user = BackendManager.Auth.CurrentUser;
