@@ -11,16 +11,16 @@ public class BackendManager : MonoBehaviour
 {
     public static BackendManager Instance { get; private set; }
 
-    private FirebaseApp app;
+    private FirebaseApp _app;
 
-    public static FirebaseApp App { get { return Instance.app; } }
+    public static FirebaseApp App { get { return Instance._app; } }
 
-    private FirebaseAuth auth;
-    public static FirebaseAuth Auth { get { return Instance.auth; } }
+    private FirebaseAuth _auth;
+    public static FirebaseAuth Auth { get { return Instance._auth; } }
 
-    private FirebaseDatabase database;
+    private FirebaseDatabase _database;
 
-    public static FirebaseDatabase Database { get { return Instance.database; } }
+    public static FirebaseDatabase Database { get { return Instance._database; } }
 
     private void Awake()
     {
@@ -55,10 +55,10 @@ public class BackendManager : MonoBehaviour
             if (task.Result == DependencyStatus.Available)
             {
 
-                app = FirebaseApp.DefaultInstance;
-                auth = FirebaseAuth.DefaultInstance;
-                database = FirebaseDatabase.DefaultInstance;
-                database.SetPersistenceEnabled(false);
+                _app = FirebaseApp.DefaultInstance;
+                _auth = FirebaseAuth.DefaultInstance;
+                _database = FirebaseDatabase.DefaultInstance;
+                _database.SetPersistenceEnabled(false);
                 Debug.Log("Firebase dependencies check success");
 
             }
@@ -66,9 +66,9 @@ public class BackendManager : MonoBehaviour
             {
                 Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
 
-                app = null;
-                auth = null;
-                database = null;
+                _app = null;
+                _auth = null;
+                _database = null;
             }
         });
     }
