@@ -43,7 +43,7 @@ public class ShopMakeStart : MonoBehaviour
     {
         dataBaseList = CsvDataManager.Instance.DataLists[(int)E_CsvData.Gacha]; // csv데이터로 가챠리스트 가져오기
 
-        for (int i = 1; i < dataBaseList.Count; i++) // dataBaseList를 전부 확인하면서
+        for (int i = 1; i <= dataBaseList.Count; i++) // dataBaseList를 전부 확인하면서
         {
             Gacha gacha = new Gacha();
             gacha.Check = TypeCastManager.Instance.TryParseInt(dataBaseList[i]["Check"]);
@@ -70,7 +70,6 @@ public class ShopMakeStart : MonoBehaviour
                 default:
                     break;
             }
-
         }
     }
 
