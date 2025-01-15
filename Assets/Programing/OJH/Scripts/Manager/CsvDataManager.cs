@@ -24,7 +24,7 @@ public class CsvDataManager : MonoBehaviour
     //csvData Parsing«— DataµÈ
     public Dictionary<int, Dictionary<string, string>>[] DataLists { get; set; }
 
-    UnityWebRequest _request;
+    private UnityWebRequest _request;
 
     private Coroutine _downLoadRoutine;
 
