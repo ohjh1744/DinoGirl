@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
+  _impactEffect: {fileID: 0}
+  _isRealAttack: 0
 --- !u!58 &7228187741322693247
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -73,6 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7228187741582498322}
   - component: {fileID: 7228187741582498320}
+  - component: {fileID: 4987012313329922827}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -147,3 +150,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &4987012313329922827
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228187741582498323}
+  m_Enabled: 1
+  m_SortingLayerID: -1403076965
+  m_SortingLayer: 4
+  m_SortingOrder: 1

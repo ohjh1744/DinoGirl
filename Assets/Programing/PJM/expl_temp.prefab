@@ -4893,6 +4893,7 @@ GameObject:
   - component: {fileID: 8651405396383828800}
   - component: {fileID: 236154403829008177}
   - component: {fileID: 6876414316984659909}
+  - component: {fileID: 5613375890951104794}
   m_Layer: 0
   m_Name: expl_temp
   m_TagString: Untagged
@@ -9768,6 +9769,17 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!210 &5613375890951104794
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6342507552349231116}
+  m_Enabled: 1
+  m_SortingLayerID: -1403076965
+  m_SortingLayer: 4
+  m_SortingOrder: 1
 --- !u!1 &7685922951411708347
 GameObject:
   m_ObjectHideFlags: 0
