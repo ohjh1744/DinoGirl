@@ -58,6 +58,16 @@ public abstract class Skill : ScriptableObject
     
     [SerializeField] private GameObject _vfxToMuzzle;
     public GameObject VFXToMuzzle {get => _vfxToMuzzle;}
+    
+    [SerializeField] private AudioClip _skillStartSound;
+    public AudioClip SkillStartSound {get => _skillStartSound;}
+    
+    [SerializeField] private AudioClip _skillOngoingSound;
+    public AudioClip SkillOngoingSound {get => _skillOngoingSound;}
+    
+    [SerializeField] private AudioClip _skillEndSound;
+    public AudioClip SkillEndSound {get => _skillEndSound;}
+    
 
     [SerializeField] protected SkillParameter skillParameterNumber;
     public SkillParameter SkillParameterNumber {get => skillParameterNumber;}
@@ -171,6 +181,13 @@ public abstract class Skill : ScriptableObject
            
         Debug.Log("남은시간 60초 - ");
         return true;
+    }
+
+    protected void PlaySkillSfx(AudioClip soundClip)
+    {
+        if(soundClip == null)
+            return;
+        SoundManager.Instance.PlaySFX(soundClip);
     }
 
     protected void ResetTargets(List<BaseUnitController> targets)
