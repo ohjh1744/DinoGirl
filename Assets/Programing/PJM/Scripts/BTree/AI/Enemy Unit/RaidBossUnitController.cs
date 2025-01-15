@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class RaidBossUnitController : EnemyBaseUnitController
 {
     [SerializeField] private Skill[] _bossSkills;
     protected Skill[] BossSkills {get => _bossSkills; set => _bossSkills = value; }
-    
     private int _skillIndex;
+    
+    public event Action<Skill> OnNextSkillSelected;
     
     /*[SerializeField] private Skill _bossSkill0;
     protected Skill BossSkill0 => _bossSkill0;
@@ -30,12 +32,13 @@ public class RaidBossUnitController : EnemyBaseUnitController
     private bool _isSkill1Running;
     public bool IsSkill1Running { get => _isSkill1Running; set => _isSkill1Running = value; }*/
     
-    public Skill curSkill { get; private set; }
+    public Skill nextSkill { get; private set; }
     
     protected override void Awake()
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
+        CurSkill = BossSkills[_skillIndex];
         CoolTimeCounter = 10.0f;
     }
 
@@ -109,7 +112,10 @@ public class RaidBossUnitController : EnemyBaseUnitController
             return BaseNode.ENodeState.Failure;
         }
         _skillIndex = (_skillIndex + 1) % BossSkills.Length; // bossSkills의 배열을 순회하고 다시 0으로
+        CurSkill = BossSkills[_skillIndex];
+        nextSkill = BossSkills[(_skillIndex + 1) % BossSkills.Length]; // 스킬을 쓸때만 들어가고 현재 사용하는 스킬이 들어감, 의도한대로가 아님
         Debug.Log($"현재 스킬 인덱스 : {_skillIndex}");
+        OnNextSkillSelected?.Invoke(nextSkill);
         return BaseNode.ENodeState.Success;
     }
 
