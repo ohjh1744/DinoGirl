@@ -38,18 +38,19 @@ public class AddFriendPanel : UIBInder
 
     private void OnEnable()
     {
-        //Sound
-        GetUI<Button>("AddFriendExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+
     }
     private void Start()
     {
         GetUserData();
+        //Sound
+        GetUI<Button>("AddFriendExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void OnDisable()
     {
         //Sound
-        GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        //GetUI<Button>("AddFriendExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
 
         GetUI("AddFriendGetCoinImage").gameObject.SetActive(false);
         GetUI("AddFriendCantAddImage").gameObject.SetActive(false);

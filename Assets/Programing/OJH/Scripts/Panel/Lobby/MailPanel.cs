@@ -59,22 +59,22 @@ public class MailPanel : UIBInder
         _imagePosPerItems[5].Add(3);
         _imagePosPerItems[5].Add(4);
         _imagePosPerItems[5].Add(5);
+
+        //Sound
+        GetUI<Button>("MailExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("MailAllCheckButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void OnEnable()
     {
-        //Sound
-        GetUI<Button>("MailExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("MailAllCheckButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-
         GetUI<Button>("MailAllCheckButton").onClick.AddListener(CheckAllMail);
         GetMailData();
     }
 
     private void OnDisable()
     {
-        GetUI<Button>("MailExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("MailAllCheckButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+       //GetUI<Button>("MailExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+       // GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
 
         GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(CheckAllMail);
         GetUI("MailCheckedImage").gameObject.SetActive(false);
