@@ -27,17 +27,21 @@ public class FriendsPanel : UIBInder
         _infoLists = new List<GameObject>();
         BindAll();
     }
+
+    private void Start()
+    {
+        //Sound
+        GetUI<Button>("FriendsExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+    }
     private void OnEnable()
     {
         GetFriendData();
-        //Sound
-        GetUI<Button>("FriendsExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void OnDisable()
     {
         Clear();
-        GetUI<Button>("FriendsExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        //GetUI<Button>("FriendsExitButton").onClick.RemoveListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void GetFriendData()
