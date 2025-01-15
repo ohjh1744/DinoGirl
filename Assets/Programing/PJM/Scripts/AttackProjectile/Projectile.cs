@@ -26,11 +26,13 @@ public class Projectile : MonoBehaviour
     //[SerializeField] private ProjectileSkill referenceSkill;
     private void OnEnable()
     {
-        Debug.Log("생성됨");
+        //Debug.Log("생성됨");
     }
 
     private void Update()
     {
+        CheckNeedFlip(TargetPos);
+        
         if (TargetPos == null || !TargetPos.gameObject.activeSelf)
         {
             Destroy(gameObject);
@@ -43,6 +45,17 @@ public class Projectile : MonoBehaviour
             HitTarget();
         }
         
+    }
+    
+    private void CheckNeedFlip(Transform target)
+    {
+        if ((transform.position.x < target.position.x && transform.localScale.x < 0) ||
+            (transform.position.x > target.position.x && transform.localScale.x > 0))
+        {
+            Vector3 newScale = transform.localScale;
+            newScale.x *= -1;
+            transform.localScale = newScale;
+        }
     }
     private void HitTarget()
     {

@@ -12,8 +12,8 @@ public abstract class BaseUnitController : MonoBehaviour
 
     [SerializeField] private Transform _muzzlePoint;
     public Transform MuzzlePoint { get => _muzzlePoint; protected set => _muzzlePoint = value; }
-    // 임시 공격 후딜레이, 현재 미사용
-    private float _tempDelay = 0.5f;
+    // 임시 공격 후딜레이, 미사용
+    //private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
     public bool isDying { get; set; } = false;
 
@@ -23,8 +23,6 @@ public abstract class BaseUnitController : MonoBehaviour
     public UnitModel UnitModel { get => _unitModel; private set => _unitModel = value; }
     
     protected BehaviourTreeRunner _BTRunner;
-    /*protected Animator _unitAnimator;
-    public Animator UnitAnimator { get => _unitAnimator; set => _unitAnimator = value; }*/
     protected BaseUnitController _detectedEnemy;
     public BaseUnitController DetectedEnemy { get => _detectedEnemy; set => _detectedEnemy = value; }
     
@@ -38,7 +36,7 @@ public abstract class BaseUnitController : MonoBehaviour
     public Skill CurSkill { get => _curSkill; set => _curSkill = value; }
     
     protected int unitID;
-    public int UnitID { get { return unitID; } }
+    public int UnitID => unitID;
 
     /*private float _minZ = -1.0f;
     private float _maxZ = 1.0f;*/
@@ -216,111 +214,24 @@ public abstract class BaseUnitController : MonoBehaviour
         }
         
         // 공격 진행중, Attack 파라미터 True 상태
-        //if (IsAttacking) // 위의 조건이 있어 사실상 필요 없을지도
-        
-        //if(UnitViewer.IsAnimationRunning())
-        
-        //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
+        var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        switch (stateInfo.normalizedTime)
         {
-            var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.IsName("Attacking"))
-            {
-                if (stateInfo.normalizedTime < 1.0f)
-                {
-                    //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
-                    return BaseNode.ENodeState.Running;
-                }
-                else if (stateInfo.normalizedTime >= 1.0f)
-                {
-                    // 공격 애니메이션이 끝났을 경우
-                    //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
-                    UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
-                    IsAttacking = false;
-                    // 공격수행 데미지 적용 시킴
-                    CurrentTarget.UnitModel.TakeDamage(UnitModel.AttackPoint);
-                    
-                    return BaseNode.ENodeState.Success;
-                }
-            }
-            else // 
-            {
-                // 트랜지션 이동중 애니메이션이 블렌딩 되어서? 애니메이션 상태로 확인하면 아래 로그가 출력됨 (이건아님)
-                // Todo : 원인 발견및 해결
-                Debug.Log("IsAttacking이 True지만 현재 애니메이션 상태가 Attacking이 아님"); // IsAttacking이 True면 일단 공격중이니 Running 반환
-                //Debug.Log("Attack Bool 파라미터가 True지만 현재 애니메이션 상태가 Attacking이 아님");
+            case < 1.0f:
+                //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
                 return BaseNode.ENodeState.Running;
-            }
+            case >= 1.0f:
+                // 공격 애니메이션이 끝났을 경우
+                //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
+                IsAttacking = false;
+                // 공격수행 데미지 적용 시킴
+                CurrentTarget.UnitModel.TakeDamage(UnitModel.AttackPoint);
+                return BaseNode.ENodeState.Success;
+            default:
+                Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
+                return BaseNode.ENodeState.Failure;
         }
-        
-        // 공격을 끝내야 할 경우, AttackRoutine 코루틴에서 애니메이션 길이 이후 IsAttacking을 false로 바꿔줬을 때
-        // Attack 파라미터는 아직 True 상태
-        //if (!IsAttacking)
-        
-        //if(!UnitViewer.IsAnimationRunning("Attacking"))
-        
-        /*if(stateInfo.IsName("Attacking") && stateInfo.normalizedTime >= 1.0f)
-        {
-            Debug.Log($"공격 종료됨");
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
-            IsAttacking = false;
-            //StartCoroutine(AttackDelayRoutine());
-            return BaseNode.ENodeState.Success;
-        }*/
-        
-        Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
-        return BaseNode.ENodeState.Failure;
-        
-        /*// 공격을 시작해야하는 경우
-        if()
-
-        // 공격이 진행중일 때
-        if (IsAttacking)
-        {
-
-        }
-        //if(UnitViewer.IsAnimationRunning("Attacking"))
-        if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
-        {
-            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 중!");
-            //StartCoroutine(AttackRoutine(("Attacking")));
-            return BaseNode.ENodeState.Running;
-        }
-
-
-        // 공격 시작, 애니메이터 Attack 이 false였을 때 = 아직 공격 시작을 하지 않았을 때
-       // if (!_unitViewer.UnitAnimator.GetBool(_unitViewer.parameterHash[(int)UnitView.AniState.Attack]))
-       // 애니메이션 스테이트 인포로 하면 정확한 상황을 받지 못할 가능성이 있다, 어택을 하고 있는지 확인할 bool 변수로 해본다
-        //if(!IsAttacking)
-
-        // getbool이 ture : 공격애니메이션 진행중일때
-        if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
-        {
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], true);
-            Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격 시작!");
-            IsAttacking = true;
-            return BaseNode.ENodeState.Success;
-        }
-
-        //if (!AttackTriggered)
-        // Attack이 True : 공격이 진행중일 때
-        //if(IsAnimationRunning(animationName))
-
-        /*var stateInfo = UnitAnimator.GetCurrentAnimatorStateInfo(0);
-        Debug.Log($"[PerformAttack] 현재 상태: {stateInfo.IsName(animationName)}, Normalized Time: {stateInfo.normalizedTime}");#1#
-
-        if(!IsAttacking)
-        {
-            // 공격 모션이 끝남, 공격모션이 끝나고 한번만 실행되어야 함
-            //Debug.Log($"공격 종료됨 어택트리거 상태 : {AttackTriggered}");
-            //UnitAnimator.SetBool("Attack", false);
-            UnitViewer.UnitAnimator.SetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack], false);
-            Debug.Log($"공격 종료됨");
-            //IsAttacking = false;
-            return BaseNode.ENodeState.Success;
-        }
-
-        Debug.LogWarning("예상치 못한 상태에서 공격 실패.");
-        return BaseNode.ENodeState.Failure;*/
     }
 
     protected virtual bool IsSkillAlreadyRunning()
@@ -333,7 +244,6 @@ public abstract class BaseUnitController : MonoBehaviour
         return !(IsAttacking || IsSkillRunning);
     }
     
-    // coroutine
     protected IEnumerator AttackRoutine(string animationName)
     {
         /*while (UnitViewer.IsAnimationRunning(animationName))
@@ -362,17 +272,13 @@ public abstract class BaseUnitController : MonoBehaviour
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false); // 임시
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], true);
                 transform.position = Vector2.MoveTowards(transform.position, DetectedEnemy.gameObject.transform.position, UnitModel.Movespeed * Time.deltaTime);
-                // 수정필요
-                /*float curY = transform.position.y;
-                float newZ = Mathf.Lerp(_minZ,_maxZ,Mathf.InverseLerp(-10f,10f,curY));
-                transform.position = new Vector3(transform.position.x, transform.position.y, newZ);*/
-                Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
+                //Debug.Log($"타겟 {DetectedEnemy.gameObject.name}를 추적 중");
                 return BaseNode.ENodeState.Running;
             }
             else // 타겟이 공격 범위 내에 있을때 , 행동트리 후반에 있어서 공격으로 바로 넘어가서 뜨지 않음
             {
                 UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
-                Debug.Log($"타겟 {DetectedEnemy.gameObject.name} 추적완료");
+                //Debug.Log($"타겟 {DetectedEnemy.gameObject.name} 추적완료");
                 return BaseNode.ENodeState.Success;
             }
         }
@@ -386,9 +292,7 @@ public abstract class BaseUnitController : MonoBehaviour
     {
         Debug.Log("Idle 상태");
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
-        UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Skill0], false);
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
-        //UnitAnimator.SetTrigger("Idle");
         return BaseNode.ENodeState.Success;
     }
 
@@ -407,10 +311,26 @@ public abstract class BaseUnitController : MonoBehaviour
         
         return false;
     }
-
-    protected virtual BaseNode.ENodeState SetDetectedTarget()
+    
+    protected void HandleDeath()
     {
-        Debug.LogWarning("카메라 범위에서 적 체크는 과거사양입니다.");
+        isDying = true;
+        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
+    }
+    
+    protected bool CheckSkillCooltimeBack()
+    {
+        if (CoolTimeCounter <= 0)
+        {
+            CoolTimeCounter = 0;
+            return true;
+        }
+        return false;
+    }
+
+    protected abstract BaseNode.ENodeState SetDetectedTarget();
+    /*{
+        //Debug.LogWarning("카메라 범위에서 적 체크는 과거사양입니다.");
         throw new System.NotImplementedException();
         /*Debug.LogWarning("기본 타겟 세팅 메서드 실행중");
         if ((UnitModel.CurCc & CrowdControls.Taunt) != 0) // 걸린 상태이상 중 도발이 있을경우
@@ -473,9 +393,9 @@ public abstract class BaseUnitController : MonoBehaviour
         
         UnitViewer.CheckNeedFlip(transform, DetectedEnemy.transform);
 
-        return BaseNode.ENodeState.Success;*/
+        return BaseNode.ENodeState.Success;#1#
         
-    }
+    }*/
 
     /*protected void ExtractDetectedTargetFromList()
     {
@@ -494,51 +414,6 @@ public abstract class BaseUnitController : MonoBehaviour
         }
     }*/
 
-    protected void HandleDeath()
-    {
-        isDying = true;
-        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Die]);
-    }
-    
-    protected bool CheckSkillCooltimeBack()
-    {
-        /*if (IsSkillRunning)
-        {
-            CoolTimeCounter -= Time.deltaTime;
-            return false;
-        }
-
-        if (CoolTimeCounter > 0)
-        {
-            CoolTimeCounter -= Time.deltaTime;
-            return false;
-        }*/
-
-        if (CoolTimeCounter <= 0)
-        {
-            CoolTimeCounter = 0;
-            return true;
-        }
-        
-        return false;
-        
-
-        
-        
-        /*if (CoolTimeCounter <= 0)
-        {
-            CoolTimeCounter = 0;
-            //CoolTimeCounter = UniqueSkill.Cooltime;
-            return true;
-        }
-        else
-        {
-            CoolTimeCounter -= Time.deltaTime;
-            return false;
-        }*/
-    }
-    
-    
     /*protected void OnDrawGizmos()
     {
         string layerName = LayerMask.LayerToName(gameObject.layer);

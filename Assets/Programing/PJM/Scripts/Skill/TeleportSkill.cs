@@ -21,9 +21,6 @@ public class TeleportSkill : TargetingSkillToEnemy
             return BaseNode.ENodeState.Failure;
         }
 
-        
-        
-
         // 스킬 시전 시작
         if (!caster.IsSkillRunning)
         {
@@ -44,16 +41,14 @@ public class TeleportSkill : TargetingSkillToEnemy
             caster.gameObject.transform.localScale = casterScale;
             
             SpawnEffect(caster.CenterPosition, VFXToMine);
-            //caster.gameObject.transform.localScale = new Vector3(enemyDir * caster.gameObject.transform.localScale.x ,caster.gameObject.transform.localScale.y, caster.gameObject.transform.localScale.z); 
             caster.DetectedEnemy = targets[0];
             caster.IsSkillRunning = true;
             
         }
         
-        
-        if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
+        if(!GetBoolSkillParameter(caster))
         {
-            caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0], true);
+            SetBoolSkillParameter(caster,true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
             caster.CoolTimeCounter = Cooltime;
             caster.IsSkillRunning = true;
@@ -61,43 +56,37 @@ public class TeleportSkill : TargetingSkillToEnemy
         }
         
         var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("UsingSkill"))
+        if (stateInfo.normalizedTime < 1.0f)
         {
-            if (stateInfo.normalizedTime < 1.0f)
+            Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
+            return BaseNode.ENodeState.Running;
+        }
+        else if (stateInfo.normalizedTime >= 1.0f)
+        {
             {
-                Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
-                return BaseNode.ENodeState.Running;
-            }
-            else if (stateInfo.normalizedTime >= 1.0f)
-            {
-                {
-                    caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],
-                        false);
-                    caster.IsSkillRunning = false;
+                SetBoolSkillParameter(caster,false);
+                caster.IsSkillRunning = false;
 
-                    float attackDamage = caster.UnitModel.AttackPoint * SkillRatio;
-                    foreach (var target in targets)
+                float attackDamage = caster.UnitModel.AttackPoint * SkillRatio;
+                foreach (var target in targets)
+                {
+                    // 데미지 주는 로직
+                    // 데미지를 줄 인원 수 선택 필요
+                    if (target.gameObject != null)
                     {
-                        // 데미지 주는 로직
-                        // 데미지를 줄 인원 수 선택 필요
-                        if (target.gameObject != null)
+                        target.UnitModel.TakeDamage(Mathf.RoundToInt(attackDamage)); 
+                        SpawnEffect(target.CenterPosition, VFXToTarget);
+                        //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
+                        if (CrowdControl != CrowdControls.None)
                         {
-                            target.UnitModel.TakeDamage(Mathf.RoundToInt(attackDamage)); 
-                            SpawnEffect(target.CenterPosition, VFXToTarget);
-                            //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
-                            if (CrowdControl != CrowdControls.None)
-                            {
-                                target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
-                            }
+                            target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
                         }
                     }
-
-                    return BaseNode.ENodeState.Success;
                 }
+                return BaseNode.ENodeState.Success;
             }
         }
 
-        // Todo : 처리해야함
         Debug.LogWarning("예외 상황");
         return BaseNode.ENodeState.Failure;
     }

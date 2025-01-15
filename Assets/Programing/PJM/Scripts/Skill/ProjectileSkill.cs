@@ -74,8 +74,6 @@ public class ProjectileSkill : Skill
         });
 
         // 최대 타겟 수만큼만 타겟에 남기기
-        //for (int i = 0; i < MaxTargetingNum; i++)
-        
         if(targets.Count > MaxTargetingNum)
         {
             targets.RemoveRange(MaxTargetingNum, targets.Count - MaxTargetingNum);
@@ -92,14 +90,13 @@ public class ProjectileSkill : Skill
             Debug.LogWarning("다운캐스팅 실패");
             return BaseNode.ENodeState.Failure;
         }
-                //if (targets[0] == null || !targets[0].gameObject.activeSelf)
+        
         if (targets.Count == 0)
         {
             Debug.Log($"{SkillName}: 타겟이 없습니다.");
             return BaseNode.ENodeState.Failure;
         }
 
-        //if (!unitAnimator.GetBool("Skill"))
         if (projectileCaster.UnitViewer.UnitAnimator == null)
         {
             Debug.LogWarning("애니메이터 없음;");
@@ -109,15 +106,11 @@ public class ProjectileSkill : Skill
         
         
         projectileCaster.UnitViewer.UnitAnimator.SetBool(projectileCaster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
-        //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Attack], false);
 
         // 스킬 시전 시작
-        //if (!caster.IsSkillRunning)
         if(!GetBoolSkillParameter(projectileCaster))
-        //if(!caster.UnitViewer.UnitAnimator.GetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0]))
         {
             SetBoolSkillParameter(projectileCaster, true);
-            //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0], true);
             Debug.Log($" {projectileCaster.gameObject.name} 스킬 시전");
             
             SpawnEffect(projectileCaster.transform, VFXToMine);
@@ -129,31 +122,28 @@ public class ProjectileSkill : Skill
         
         
         var stateInfo = projectileCaster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
-        //if (stateInfo.IsName("UsingSkill"))
+        if (stateInfo.normalizedTime < 1.0f)
         {
-            if (stateInfo.normalizedTime < 1.0f)
+            Debug.Log($"{projectileCaster.gameObject.name} : '{SkillName}' 사용 중.");
+            return BaseNode.ENodeState.Running;
+        }
+        else if (stateInfo.normalizedTime >= 1.0f)
+        {
             {
-                Debug.Log($"{projectileCaster.gameObject.name} : '{SkillName}' 사용 중.");
-                return BaseNode.ENodeState.Running;
-            }
-            else if (stateInfo.normalizedTime >= 1.0f)
-            {
-                {
-                    projectileCaster.SkillProjectile.Clear();
-                    float attackDamage = projectileCaster.UnitModel.AttackPoint * SkillRatio;
+                projectileCaster.SkillProjectile.Clear();
+                float attackDamage = projectileCaster.UnitModel.AttackPoint * SkillRatio;
                     
-                    Debug.Log($"{projectileCaster.gameObject.name} : '{SkillName}' 사용 완료.");
-                    foreach (var target in targets)
-                    {
-                        if(target == null || !target.gameObject.activeSelf)
-                            continue;
-                        CreateSkillProjectile(projectileCaster, target, attackDamage);
-                    }
-                    SetBoolSkillParameter(projectileCaster, false);
-                    projectileCaster.IsSkillRunning = false;
-
-                    return BaseNode.ENodeState.Success;
+                Debug.Log($"{projectileCaster.gameObject.name} : '{SkillName}' 사용 완료.");
+                foreach (var target in targets)
+                {
+                    if(target == null || !target.gameObject.activeSelf)
+                        continue;
+                    CreateSkillProjectile(projectileCaster, target, attackDamage);
                 }
+                SetBoolSkillParameter(projectileCaster, false);
+                projectileCaster.IsSkillRunning = false;
+
+                return BaseNode.ENodeState.Success;
             }
         }
         Debug.LogWarning("예외 상황");
@@ -176,11 +166,5 @@ public class ProjectileSkill : Skill
         {
             Destroy(projectileObject);
         }
-        /*projectileCaster.SkillProjectile.Add();     
-        Projectile projectile = projectileCaster.SkillProjectile.GetComponent<Projectile>();
-        if(projectile != null)
-        {
-            projectile.Target = target.CenterPosition;
-        }*/
     }
 }
