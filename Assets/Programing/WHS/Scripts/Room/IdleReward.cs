@@ -153,6 +153,13 @@ public class IdleReward : MonoBehaviour
     {
         string exitTimeStr = PlayerDataManager.Instance.PlayerData.RoomExitTime;
         DateTime exitTime = DateTime.ParseExact(exitTimeStr, "yyyyMMdd_HHmmss_fff", null);
+
+        if (exitTime > DateTime.Now)
+        {
+            Debug.LogWarning("exitTime이 현재보다 큼");
+            exitTime = DateTime.Now;
+        }
+
         return DateTime.Now - exitTime;
     }
 
@@ -166,17 +173,17 @@ public class IdleReward : MonoBehaviour
             // 클리어한 스테이지의 수
             int clearedStages = PlayerDataManager.Instance.PlayerData.IsStageClear.Count(x => x);
 
-            if (clearedStages >= 7 && data.TryGetValue("2MaxStorage", out string storage2))
+            if (clearedStages >= 21 && data.TryGetValue("2MaxStorage", out string storage2))
             {
                 Debug.Log("storage2");
                 return int.Parse(storage2);
             }
-            else if (clearedStages >= 5 && data.TryGetValue("1MaxStorage", out string storage1))
+            else if (clearedStages >= 14 && data.TryGetValue("1MaxStorage", out string storage1))
             {
                 Debug.Log("storage1");
                 return int.Parse(storage1);
             }
-            else if (clearedStages >= 2 && data.TryGetValue("0MaxStorage", out string storage0))
+            else if (clearedStages >= 7 && data.TryGetValue("0MaxStorage", out string storage0))
             {
                 Debug.Log("storage0");
                 return int.Parse(storage0);
