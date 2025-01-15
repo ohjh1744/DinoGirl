@@ -57,10 +57,6 @@ public class PlayerData
         }
     }
 
-    [SerializeField] private int[] _unitPos;
-
-    public int[]  UnitPos{ get { return _unitPos; } private set { } }
-
     [SerializeField] private bool[] _isStageClear;   //스테이지 클리어 여부
 
     public bool[] IsStageClear { get { return _isStageClear; } private set { } }

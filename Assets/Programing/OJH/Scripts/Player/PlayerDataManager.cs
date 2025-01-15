@@ -12,10 +12,6 @@ public class PlayerDataManager : MonoBehaviour
 
     public PlayerData PlayerData {  get { return _playerData; } set { _playerData = value; } }
 
-    private int[] _housingIDs = new int[(int)E_Item.Length];
-
-    private static int[] _itemIDs = { 500, 501, 502, 530, 504 };
-
     private void Awake()
     {
         if (_instance == null)

@@ -23,9 +23,10 @@ public class SceneChanger : MonoBehaviour
 
     private bool _canChangeSceen;
 
+    public bool CanChangeSceen { get { return _canChangeSceen; } set { _canChangeSceen = value; } }
+
     private StringBuilder _sb = new StringBuilder();
 
-    public bool CanChangeSceen { get { return _canChangeSceen; } set { _canChangeSceen = value; } }
 
     private void Awake()
     {

@@ -22,7 +22,8 @@ public class CsvDataManager : MonoBehaviour
     [SerializeField] private string[] _csvDatas;
 
     //csvData Parsing한 Data들
-    public Dictionary<int, Dictionary<string, string>>[] DataLists { get; set; }
+    private Dictionary<int, Dictionary<string, string>>[] _dataLists;
+    public Dictionary<int, Dictionary<string, string>>[] DataLists { get { return _dataLists; } private set { } }
 
     private UnityWebRequest _request;
 
@@ -49,10 +50,10 @@ public class CsvDataManager : MonoBehaviour
     private IEnumerator DownloadRoutine()
     {
         // Data 초기화 
-        DataLists = new Dictionary<int, Dictionary<string, string>>[_csvDatas.Length];
-        for (int i = 0; i < DataLists.Length; i++)
+        _dataLists = new Dictionary<int, Dictionary<string, string>>[_csvDatas.Length];
+        for (int i = 0; i < _dataLists.Length; i++)
         {
-            DataLists[i] = new Dictionary<int, Dictionary<string, string>>();
+            _dataLists[i] = new Dictionary<int, Dictionary<string, string>>();
         }
 
         for (int i = 0; i < _urls.Length; i++)
@@ -66,7 +67,7 @@ public class CsvDataManager : MonoBehaviour
             _csvDatas[i] = _request.downloadHandler.text;
 
             //Parsing에서 List에 저장.
-            DataLists[i] = ChangeCsvToList(_csvDatas[i]);
+            _dataLists[i] = ChangeCsvToList(_csvDatas[i]);
         }
 
         _isLoad = true;
