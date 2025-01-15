@@ -91,10 +91,11 @@ public class RaidRank : MonoBehaviour
         for (int i = 0; i < raidDatas.Count; i++)
         {
             totalDamage += raidDatas[i].TotalDamage;
-            if (i>=5) // 5등까지만 노출
-                return;
-            rankingUi[i].GetComponent<RankingSlot>().setRankingData(raidDatas[i].Name, raidDatas[i].TotalDamage.ToString());
-            
+            if (i < 5) 
+            {
+                rankingUi[i].GetComponent<RankingSlot>().setRankingData(raidDatas[i].Name, raidDatas[i].TotalDamage.ToString());
+            } // 5등까지만 노출
+  
         }
 
         float progress = Mathf.Clamp01((float)totalDamage / BossWorldHP);
