@@ -11,16 +11,22 @@ public class StageLock : MonoBehaviour
     [SerializeField] int end;
 
 
-
+    [SerializeField] private AudioClip _bgmClip;
+    [SerializeField] AudioClip buttonSfx;
     private void OnEnable()
     {
         StageLocking();
+        SoundManager.Instance.PlayeBGM(_bgmClip);
     }
     public void StageLocking()
     {
         StartCoroutine(delayLocking());
     }
 
+    public void buttonSound() 
+    {
+        SoundManager.Instance.PlaySFX(buttonSfx);
+    }
     IEnumerator delayLocking()
     {
         yield return new WaitForSeconds(0.02f);

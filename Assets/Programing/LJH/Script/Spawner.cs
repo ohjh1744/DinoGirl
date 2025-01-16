@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] GameObject image;
     [SerializeField] GameObject ready;
     [SerializeField] GameObject start;
+
+    [SerializeField] Button[] buttons;
 
     public static event Action OnSpawnCompleted;
     public void SpawnUnits()
@@ -97,7 +100,11 @@ public class Spawner : MonoBehaviour
         }
 
     IEnumerator TimeDelaystart() 
-    {   
+    {
+        for (int i = 0; i < buttons.Length; i++) 
+        {
+            buttons[i].interactable = false;
+        }
         ready.SetActive(true);
         yield return new WaitForSecondsRealtime(2.5f);
         ready.SetActive(false); 
@@ -105,6 +112,10 @@ public class Spawner : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         start.SetActive(false);
         Time.timeScale = 1f;
-        
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = true;
+        }
+
     }
 }

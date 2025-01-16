@@ -37,7 +37,8 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] public int Power;
     [SerializeField] public int incBuffsPowers;
     [SerializeField] public float RemainTime;
-
+    [SerializeField] GameObject warningPanel;
+    [SerializeField] GameObject warningPanelPower;
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 
     [SerializeField] public BattleState curBattleState;
@@ -138,12 +139,20 @@ public class BattleSceneManager : MonoBehaviour
         else
         {
             Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
+            StartCoroutine(warningPanelShowing());
         }
+    }
+    IEnumerator warningPanelShowing() 
+    {
+        warningPanel.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        warningPanel.SetActive(false);
     }
     public void RaidStageStart()
     {
         if ((Power+ incBuffsPowers) < 3000) 
         {
+            StartCoroutine(powerwarningPanelShowing());
             Debug.Log("전투력 부족");
             return;
         }
@@ -212,8 +221,15 @@ public class BattleSceneManager : MonoBehaviour
         }
         else
         {
+            StartCoroutine(warningPanelShowing());
             Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
         }
+    }
+    IEnumerator powerwarningPanelShowing()
+    {
+        warningPanelPower.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        warningPanelPower.SetActive(false);
     }
     public void BackStage()
     {
@@ -246,7 +262,7 @@ public class BattleSceneManager : MonoBehaviour
 
         }
         Debug.Log(PlayerDataManager.Instance.PlayerData.UnitDatas.Count);
-        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db ���� ���� ������ ��ŭ�� ���̰� 
+        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db 기준 가지고있는 유닛의 수만큼 보여줌 
         {
 
             Draggables[i].gameObject.SetActive(true);
@@ -259,10 +275,9 @@ public class BattleSceneManager : MonoBehaviour
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
 
-            Sprite sprite = Resources.Load<Sprite>("PortraitGrid/Portrait_" + id.ToString());
-            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
-                                                                                             // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
-            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element, inc, 1);
+            Sprite sprite = Resources.Load<Sprite>("PortraitGrid/Portrait_" + id.ToString()); // 이미지 
+            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite);  // 슬롯 정보삽입 
+            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element, inc, 1); // 실제로 가질 정보 삽입
         }
     }
     private void BattleSceneStart()
