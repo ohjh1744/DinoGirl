@@ -21,7 +21,7 @@ public class CsvDataManager : MonoBehaviour
     //csvData들
     [SerializeField] private string[] _csvDatas;
 
-    //csvData Parsing한 Data들
+    //csvDatacContainer
     private Dictionary<int, Dictionary<string, string>>[] _dataLists;
     public Dictionary<int, Dictionary<string, string>>[] DataLists { get { return _dataLists; } private set { } }
 
@@ -88,13 +88,13 @@ public class CsvDataManager : MonoBehaviour
             string[] values = lines[i].Split(",");
             Dictionary<string, string> dataDic = new Dictionary<string, string>();
 
-            //id는 제외하고 다음속석부터를 위해서 1부터
+            //id는 key값으로 사용하기위해  제외하고 다음속성부터 value값으로 사용하기 위해서 1부터
             for (int j = 1; j < headers.Length; j++)
             {
                 dataDic[headers[j].Trim()] = values[j].Trim();
             }
 
-            //values[0]은 
+            //values[0]은 id값으로 키로 사용.
             dataList[TypeCastManager.Instance.TryParseInt(values[0])] = dataDic;
         }
 
