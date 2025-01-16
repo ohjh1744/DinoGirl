@@ -124,7 +124,7 @@ public class ProjectileSkill : Skill
         var stateInfo = projectileCaster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.normalizedTime < 1.0f)
         {
-            Debug.Log($"{projectileCaster.gameObject.name} : '{SkillName}' 사용 중.");
+            //Debug.Log($"{projectileCaster.gameObject.name} : '{SkillName}' 사용 중.");
             return BaseNode.ENodeState.Running;
         }
         else if (stateInfo.normalizedTime >= 1.0f)

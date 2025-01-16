@@ -108,7 +108,7 @@ public class TargetingSkillToAlly : Skill
         
         if (stateInfo.normalizedTime < 1.0f)
         {
-            Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
+            //Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
             return BaseNode.ENodeState.Running;
         }
         

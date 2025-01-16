@@ -13,7 +13,7 @@ public class StageBossUnitController : EnemyBaseUnitController
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
-        CoolTimeCounter = 5.0f; // 임시
+        CoolTimeCounter = 5.0f; 
     }
     
     

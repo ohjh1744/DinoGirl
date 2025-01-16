@@ -12,8 +12,6 @@ public abstract class BaseUnitController : MonoBehaviour
 
     [SerializeField] private Transform _muzzlePoint;
     public Transform MuzzlePoint { get => _muzzlePoint; protected set => _muzzlePoint = value; }
-    // 임시 공격 후딜레이, 미사용
-    //private float _tempDelay = 0.5f;
     private bool _inAttackDelay;
     public bool isDying { get; set; } = false;
 
@@ -21,13 +19,14 @@ public abstract class BaseUnitController : MonoBehaviour
     public UnitView UnitViewer { get => _unitViewer; private set => _unitViewer = value; }
     private UnitModel _unitModel;
     public UnitModel UnitModel { get => _unitModel; private set => _unitModel = value; }
-    
-    protected BehaviourTreeRunner _BTRunner;
-    protected BaseUnitController _detectedEnemy;
+
+    private BehaviourTreeRunner _BTRunner;
+    private BaseUnitController _detectedEnemy;
     public BaseUnitController DetectedEnemy { get => _detectedEnemy; set => _detectedEnemy = value; }
-    
-    protected BaseUnitController _currentTarget;
-    public BaseUnitController CurrentTarget { get => _currentTarget; protected set => _currentTarget = value; }
+
+    private BaseUnitController _currentTarget;
+
+    protected BaseUnitController CurrentTarget { get => _currentTarget; set => _currentTarget = value; }
 
     private BaseUnitController _tauntSource;
     public BaseUnitController TauntSource { get => _tauntSource; set => _tauntSource = value; }
@@ -37,37 +36,16 @@ public abstract class BaseUnitController : MonoBehaviour
     
     protected int unitID;
     public int UnitID => unitID;
-
-    /*private float _minZ = -1.0f;
-    private float _maxZ = 1.0f;*/
-    
-    // 카메라 범위
-    /*protected Vector2 _bottomLeft;
-    protected Vector2 _topRight;*/
-    
-    
-    
-    //[SerializeField] protected float _detectRange;
-    //public float DetectRange { get => _detectRange; protected set => _detectRange = value; }
-    
-    //[SerializeField] protected float _attackRange;
-    //public float AttackRange { get => _attackRange; protected set => _attackRange = value; }
-    
-    //[SerializeField] protected float _moveSpeed;
-    //public float MoveSpeed { get => _moveSpeed; protected set => _moveSpeed = value; }
     
     [SerializeField] protected LayerMask _allianceLayer;
     public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
     [SerializeField] protected LayerMask _enemyLayer;
     public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
-    
-    protected bool _isAttacking = false;
-    public bool IsAttacking { get => _isAttacking; protected set => _isAttacking = value;}
-    
-    //[SerializeField] protected bool _isPriorityTargetFar;
-    //public bool IsPriorityTargetFar { get => _isPriorityTargetFar; set => _isPriorityTargetFar = value; }
 
-    // 스킬있는 적이 나중에 생길수도 있음 혹은 보스라던가
+    private bool _isAttacking = false;
+
+    protected bool IsAttacking { get => _isAttacking; set => _isAttacking = value;}
+    
     public float CoolTimeCounter { get; set; }
     public bool IsSkillRunning { get; set; }
 
@@ -92,9 +70,6 @@ public abstract class BaseUnitController : MonoBehaviour
     protected virtual void Start()
     {
         SetLayer();
-        //SetDetectingArea();
-        //UnitAnimator = GetComponent<Animator>();
-
         BaseNode rootNode = SetBTree();
         _BTRunner = new BehaviourTreeRunner(rootNode);
     }
@@ -120,13 +95,14 @@ public abstract class BaseUnitController : MonoBehaviour
 
 
     protected abstract BaseNode SetBTree(); // 각 유닛이 구현할 행동 트리 메서드
+
     protected virtual void SetLayer()
     {
         string myLayerName = LayerMask.LayerToName(gameObject.layer);
         EnemyLayer = myLayerName == "UserCharacter" ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("UserCharacter");
         AllianceLayer = LayerMask.GetMask(myLayerName);
     }
-
+    
     protected BaseNode.ENodeState CheckUnitDying()
     {
         if (!isDying)
@@ -149,6 +125,14 @@ public abstract class BaseUnitController : MonoBehaviour
         }
 
         return BaseNode.ENodeState.Failure;
+    }
+
+    protected BaseNode.ENodeState CheckBattleWin()
+    {
+        if (BattleSceneManager.Instance.curBattleState != BattleSceneManager.BattleState.Win)
+            return BaseNode.ENodeState.Failure;
+        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Win]);
+        return BaseNode.ENodeState.Success;
     }
 
     protected BaseNode.ENodeState CheckCrowdControl()
@@ -184,8 +168,6 @@ public abstract class BaseUnitController : MonoBehaviour
             return BaseNode.ENodeState.Failure;
         }
         
-        
-        // 임시
         if ((UnitModel.CurCc & CrowdControls.Taunt) != 0) // 걸린 상태이상 중 도발이 있을경우
         {
             if (UnitModel.CcCaster != null && UnitModel.CcCaster.gameObject.activeSelf) // 도발을 건 대상이 유효한 대상일 때
@@ -194,22 +176,15 @@ public abstract class BaseUnitController : MonoBehaviour
             }
         }
         
-
         UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
         // 공격을 시작
         // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
         UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
-        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]))
         
-        //if (!IsAttacking)
+        if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]))
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], true);
-            //Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
-            IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
-            
-            // 공격 애니메이션의 길이 + 지정된 공격 후딜레이 후 공격을 종료시켜줄 코루틴 // 현재 미사용
-            // 공격 판정은 들어간 뒤 후 딜레이가 적용되어야 하므로 바꿀 필요가 있음
-            //StartCoroutine(AttackRoutine("Attacking"));
+            IsAttacking = true; 
             return BaseNode.ENodeState.Running;
         }
         

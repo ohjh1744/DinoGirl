@@ -119,6 +119,7 @@ Transform:
   m_Children:
   - {fileID: 4005812529081758525}
   - {fileID: 4276192676807382779}
+  - {fileID: 1652936045696430587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _centerPosition: {fileID: 4276192676807382779}
+  _muzzlePoint: {fileID: 1652936045696430587}
   _allianceLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -191,6 +193,37 @@ MonoBehaviour:
   _moveSpeed: 2
   _attackRange: 2
   _isPriorityTargetFar: 0
+--- !u!1 &6142308324139087770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1652936045696430587}
+  m_Layer: 11
+  m_Name: MuzzlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1652936045696430587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6142308324139087770}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4005812530564026331}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6050676471972035172
 PrefabInstance:
   m_ObjectHideFlags: 0
