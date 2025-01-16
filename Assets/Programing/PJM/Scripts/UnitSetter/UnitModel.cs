@@ -14,14 +14,10 @@ public enum CrowdControls
 }
 public class UnitModel : MonoBehaviour
 {
-    //private Coroutine _crowdControlRoutine;
     private BaseUnitController _ccCaster;
     public BaseUnitController CcCaster { get { return _ccCaster; } private set { _ccCaster = value; } }
     private CrowdControls _curCc;
     public CrowdControls CurCc { get => _curCc; set => _curCc = value; }
-    
-
-
     public event Action<int> OnHpChanged;
     public event Action OnTaunted;
     public event Action OnStun;
@@ -54,10 +50,6 @@ public class UnitModel : MonoBehaviour
     }
     
     //private Dictionary<CrowdControls, float> _ccDurations = new Dictionary<CrowdControls, float>();
-    
-    /*private bool _isTaunted = false;
-    public bool IsTaunted { get => _isTaunted; set => _isTaunted = value; }*/
-
     [SerializeField] private float _coolDownAcc = 1.0f;
     public float CoolDownAcc { get => _coolDownAcc; set => _coolDownAcc = value; }
     
@@ -107,8 +99,6 @@ public class UnitModel : MonoBehaviour
             calcDamage = 1;
         
         Hp -= calcDamage;
-        
-        //Debug.Log($"데미지 : {damage} 받음.");
     }
 
     public void TakeCrowdControl(CrowdControls crowdControl, float duration, BaseUnitController caster)
@@ -158,8 +148,6 @@ public class UnitModel : MonoBehaviour
         Debug.Log($"{gameObject.name} 죽음");
         
         OnDeath?.Invoke();
-        
-        //gameObject.SetActive(false);
     }
 
     private IEnumerator RunningCrowdControlRoutine(CrowdControls crowdControl, float duration)

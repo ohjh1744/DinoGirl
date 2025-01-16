@@ -31,8 +31,6 @@ public class UnitView : MonoBehaviour
         Animator.StringToHash("Attacking"),
     };
 
-
-
     private void Awake()
     {
         ParameterHash = new int[(int)Parameter.Size];
@@ -42,17 +40,11 @@ public class UnitView : MonoBehaviour
         ParameterHash[(int)Parameter.Win] = Animator.StringToHash("Win");
         ParameterHash[(int)Parameter.Die] = Animator.StringToHash("Die");
         
-        // 이건 반복문으로 묶을 수 있을거같다
-        
         SkillParameterHash = new int[(int)SkillParameter.Size];
         for (int i = 0; i < SkillParameterHash.Length; i++)
         {
             SkillParameterHash[i] = Animator.StringToHash($"Skill{i}");
         }
-        /*SkillParameterHash[(int)SkillParameter.Skill0] = Animator.StringToHash("Skill0");
-        SkillParameterHash[(int)SkillParameter.Skill1] = Animator.StringToHash("Skill1");
-        SkillParameterHash[(int)SkillParameter.Skill2] = Animator.StringToHash("Skill2");*/
-        
     }
 
     private void Start()
@@ -91,9 +83,9 @@ public class UnitView : MonoBehaviour
     
     private void FlipScaleX(bool boolValue)
     {
-        Vector3 newScale = transform.localScale; // 현재 로컬 스케일 가져오기
-        newScale.x = boolValue ? -Mathf.Abs(newScale.x) : Mathf.Abs(newScale.x); // X 값을 양수/음수로 설정
-        transform.localScale = newScale; // 수정된 스케일 다시 적용
+        Vector3 newScale = transform.localScale; 
+        newScale.x = boolValue ? -Mathf.Abs(newScale.x) : Mathf.Abs(newScale.x);
+        transform.localScale = newScale;
     }
 
     /*public void PlayAnimation(int animationHash)
