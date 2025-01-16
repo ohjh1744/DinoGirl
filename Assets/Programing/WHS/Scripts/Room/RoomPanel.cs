@@ -140,14 +140,17 @@ public class RoomPanel : UIBInder
         {
             TimeSpan idleTime = _idleReward.GetIdleTime();
 
-            GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상 누적 시간 {idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
-
             // 최대 누적시간이 넘어가면
-            if(idleTime.Hours >= 24)
+            if(idleTime.TotalSeconds >= 86400)
             {
-                GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상 누적 시간 24 : 00 : 00";
+                Debug.Log(idleTime.TotalSeconds);
+                GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상이 가득 찼습니다";
             }
-
+            else
+            {
+                GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상 누적 시간 {idleTime.Hours} : {idleTime.Minutes} : {idleTime.Seconds}";
+            }
+            
             GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
 
             TimeSpan elapsedTime = DateTime.Now - lastTime;
@@ -179,12 +182,6 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodRewardText").text = $"다이노블러드 : {dinoBloodReward}";
         GetUI<TextMeshProUGUI>("BoneCrystalRewardText").text = $"본크리스탈 : {boneCrystalReward}";
 
-        /*
-        LoadItemImage("CoinRewardImage", E_Item.Coin);
-        LoadItemImage("DinoBloodRewardImage", E_Item.DinoBlood);
-        LoadItemImage("BoneCrystalRewardImage", E_Item.BoneCrystal);
-        */
-
         GetUI<Button>("ClaimButton").interactable = _idleReward.HasIdleReward();
     }
 
@@ -194,27 +191,7 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"다이노블러드 : {dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"본크리스탈 : {boneCrystal}";
 
-        /*
-        LoadItemImage("CoinClaimImage", E_Item.Coin);
-        LoadItemImage("DinoBloodClaimImage", E_Item.DinoBlood);
-        LoadItemImage("BoneCrystalClaimImage", E_Item.BoneCrystal);
-        */
     }
-    /*
-    private void LoadItemImage(string imageName, E_Item itemType)
-    {
-        string imagePath = $"UI/item_{(int)itemType}";
-        Sprite itemSprite = Resources.Load<Sprite>(imagePath);
-        if (itemSprite != null)
-        {
-            GetUI<Image>(imageName).sprite = itemSprite;
-        }
-        else
-        {
-            Debug.LogWarning($"이미지 찾을 수 없음 {imagePath}");
-        }
-    }
-    */
 
     public void GoLobby(PointerEventData eventData)
     {

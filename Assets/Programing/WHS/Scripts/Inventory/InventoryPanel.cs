@@ -18,12 +18,7 @@ public class InventoryPanel : UIBInder
 
     private Dictionary<int, Dictionary<string, string>> _characterData;
 
-    private SceneChanger _sceneChanger;
-
-    private DynamicGrid _dynamicGrid;
-
     [SerializeField] private AudioClip _bgmClip;
-    // [SerializeField] private AudioClip _buttonClip;
 
     private void Awake()
     {
@@ -35,25 +30,13 @@ public class InventoryPanel : UIBInder
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
 
         SoundManager.Instance.PlayeBGM(_bgmClip);
-
-        /*
-        GetUI<Button>("AllElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("FireElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("WaterElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("GroundElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("GrassElementButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("HomeButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        */
-
-        _sceneChanger = FindObjectOfType<SceneChanger>();
-
     }
 
     private void Start()
     {
-        StartCoroutine(WaitForPlayerData());
+        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
-        AddEvent("HomeButton", EventType.Click, GoLobby);
+        PopulateGrid();
     }
 
     private void OnDisable()
@@ -61,6 +44,7 @@ public class InventoryPanel : UIBInder
         SoundManager.Instance.StopBGM();
     }
 
+    /*
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
@@ -69,10 +53,8 @@ public class InventoryPanel : UIBInder
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         PopulateGrid();
-
-        _dynamicGrid = GetComponentInChildren<DynamicGrid>();
-        _dynamicGrid.SetItemCount(_allCharacters.Count);
     }
+    */
 
     // 그리드에 가진 캐릭터 정렬
     private void PopulateGrid()
@@ -190,16 +172,4 @@ public class InventoryPanel : UIBInder
         Debug.Log("grass");
         DisplayCharacters(_allCharacters.Where(c => GetElementId(c.UnitId) == 4).ToList());
     }
-
-    public int GetCharacterCount()
-    {
-        return _allCharacters.Count;
-    }
-        
-    public void GoLobby(PointerEventData eventData)
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("Lobby_OJH");
-    }
-    
 }
