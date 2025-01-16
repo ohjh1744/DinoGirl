@@ -467,6 +467,11 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &1672810934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 666824113438753796, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+  m_PrefabInstance: {fileID: 1936342270}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1936342270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1060,6 +1065,10 @@ PrefabInstance:
       propertyPath: BattlePower
       value: 
       objectReference: {fileID: 1936342275}
+    - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
+      propertyPath: warningPanel
+      value: 
+      objectReference: {fileID: 1672810934}
     - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
       propertyPath: _sceneChanger
       value: 

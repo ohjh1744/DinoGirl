@@ -280,9 +280,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 77255441777077722, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 489737721809503740, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 602217949549506822, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 641208908769046751, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1531108028960327711, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
       propertyPath: m_Name
       value: BackGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 2437167911072519556, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452248167871831856, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546181785217445848, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996571412287179133, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
       propertyPath: m_Sprite
@@ -960,6 +988,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5386185420418492204, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109265911256599410, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765170666196348562, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013225872664049068, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260017890128955397, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344949399972420045, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+      propertyPath: DragOnList.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
 --- !u!114 &542304474 stripped
@@ -1220,6 +1272,11 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &1667818245 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 666824113438753796, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+  m_PrefabInstance: {fileID: 542304473}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2098349546568345415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1239,6 +1296,10 @@ PrefabInstance:
       propertyPath: BattlePower
       value: 
       objectReference: {fileID: 1208287885}
+    - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
+      propertyPath: warningPanel
+      value: 
+      objectReference: {fileID: 1667818245}
     - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
       propertyPath: _sceneChanger
       value: 

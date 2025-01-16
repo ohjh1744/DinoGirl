@@ -1052,6 +1052,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &550124059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 666824113438753796, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
+  m_PrefabInstance: {fileID: 360833561}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &728158117 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5865746322892632312, guid: 075eeb09b20f8aa4f803a789d61d28cb, type: 3}
@@ -1258,6 +1263,10 @@ PrefabInstance:
       propertyPath: BattlePower
       value: 
       objectReference: {fileID: 728158118}
+    - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
+      propertyPath: warningPanel
+      value: 
+      objectReference: {fileID: 550124059}
     - target: {fileID: 2098349547733870644, guid: 4d84074e720e8af43a0ecd8440512aeb, type: 3}
       propertyPath: _sceneChanger
       value: 
