@@ -4,22 +4,10 @@ using UnityEngine;
 
 public class PlayerUnitControllerNoProjectile : PlayableBaseUnitController
 {
-
-    //private List<Transform> _skillTargets;
-
-    /*private Transform _skillTarget;
-
-    public Transform SkillTarget {get => _skillTarget; set => _skillTarget = value; }*/
-
-    //[SerializeField] private bool _isAssassin;
     protected override void Awake()
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
-        //DetectRange = 20.0f;
-        //AttackRange = 2.0f;
-        //MoveSpeed = 2.0f;
-        //SkillRange = 4.0f;
         CoolTimeCounter = 0.5f;
     }
 

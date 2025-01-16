@@ -111,72 +111,54 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
         }
         
         UnitViewer.CheckNeedFlip(transform, CurrentTarget.transform);
-        // 공격을 시작
-        // 공격 파라미터가 False였을 경우에만 True로 바꿔주며 공격 시작
         
+        // 공격을 시작
         if(!UnitViewer.UnitAnimator.GetBool(UnitViewer.ParameterHash[(int)Parameter.Attack]) && _projectileObject == null)
         {
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Run], false);
             UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], true);
             Debug.Log($"{CurrentTarget.gameObject.name}에 {gameObject.name}이 공격을 시작!");
-            IsAttacking = true; // true로 바꿔줬으니 다음 트리 순회때 해당 조건문 실행x
-            //CreateProjectileObject();
+            IsAttacking = true; 
             return BaseNode.ENodeState.Running;
         }
         
-        
-        
         // 공격 진행중, Attack 파라미터 True 상태
-        //if(UnitViewer.IsAnimationRunning())
-        
-        //if(UnitViewer.UnitAnimator.GetBool(UnitViewer.parameterHash[(int)UnitView.AniState.Attack]))
+        var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
+        switch (stateInfo.normalizedTime)
         {
-            var stateInfo = UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
-            //if (stateInfo.IsName("Attacking"))
+            case < 1.0f:
             {
-                if (stateInfo.normalizedTime < 1.0f)
+                if (stateInfo.normalizedTime > 0.4f && stateInfo.normalizedTime < 0.6f)
                 {
-
-                    if (stateInfo.normalizedTime > 0.4f && stateInfo.normalizedTime < 0.6f)
-                    {
-                        // 투사체가 생성되기 적당한 타이밍
-                        CreateProjectileObject();
-                    }
-                    
-                    Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
-                    return BaseNode.ENodeState.Running;
+                    CreateProjectileObject();
                 }
-                else if (stateInfo.normalizedTime >= 1.0f && _projectileObject == null)
-                {
-                    // 공격 애니메이션이 끝났을 경우 + 공격 투사체가 사라졌을 경우
-                    Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
-                    UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
-                    IsAttacking = false;
-                    // 공격수행 데미지 적용 시킴
-                    CurrentTarget.UnitModel.TakeDamage(UnitModel.AttackPoint);
                     
-                    return BaseNode.ENodeState.Success;
-                }
-            }
-            //else // 
-            {
-                Debug.Log("projectile이 아직 사라지지 않음"); 
+                //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}를 공격 중");
                 return BaseNode.ENodeState.Running;
             }
+            case >= 1.0f when _projectileObject == null:
+                // 공격 애니메이션이 끝났을 경우 + 공격 투사체가 사라졌을 경우
+                //Debug.Log($"{gameObject.name}가 {CurrentTarget.gameObject.name}에 대한 공격을 완료");
+                UnitViewer.UnitAnimator.SetBool(UnitViewer.ParameterHash[(int)Parameter.Attack], false);
+                IsAttacking = false;
+                // 공격수행 데미지 적용 시킴
+                CurrentTarget.UnitModel.TakeDamage(UnitModel.AttackPoint);
+                return BaseNode.ENodeState.Success;
+            default:
+                //Debug.Log("projectile이 아직 사라지지 않음"); 
+                return BaseNode.ENodeState.Running;
         }
     }
 
     private void CreateProjectileObject()
     {
-        if(_projectileObject == null)
+        if (_projectileObject != null) return;
+        _projectileObject = Instantiate(_projectilePrefab, MuzzlePoint.position, Quaternion.identity);
+        Projectile projectile = _projectileObject.GetComponent<Projectile>();
+        if (projectile != null)
         {
-            _projectileObject = Instantiate(_projectilePrefab, MuzzlePoint.position, Quaternion.identity);
-            Projectile projectile = _projectileObject.GetComponent<Projectile>();
-            if (projectile != null)
-            {
-                projectile.TargetPos = CurrentTarget.CenterPosition;
-                projectile.Target = CurrentTarget;
-            }
+            projectile.TargetPos = CurrentTarget.CenterPosition;
+            projectile.Target = CurrentTarget;
         }
     }
 }
