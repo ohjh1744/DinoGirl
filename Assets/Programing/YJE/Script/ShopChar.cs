@@ -25,7 +25,7 @@ public class ShopChar : MonoBehaviour
     public int Amount { get { return amount; } set { amount = value; } }
 
     // 상점 구매 가격 - 레어도 별로 다름 / 코드에서 설정
-    [SerializeField] private int price;
+    private int price;
 
     // 뽑기 시 출력할 컷씬    
     // Resources 폴더에 있는 이미지를 연동하여 사용함
@@ -258,6 +258,7 @@ public class ShopChar : MonoBehaviour
     /// <returns></returns>
     IEnumerator CharacterVideoR(GameObject gameObj)
     {
+        shopSceneController.SoundPauseBGM();
         if (gameObj.GetComponent<ShopChar>())
         {
             GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<ShopBtnManager>().SingleVideoContet);
@@ -266,6 +267,7 @@ public class ShopChar : MonoBehaviour
         }
         shopSceneController.DisableSingleImage();
         shopSceneController.DisabledGachaResultPanel();
+        shopSceneController.SoundPlayBgm();
     }
 
 }

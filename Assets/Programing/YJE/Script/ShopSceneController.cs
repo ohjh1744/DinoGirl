@@ -13,12 +13,6 @@ public class ShopSceneController : UIBInder
     [SerializeField] AudioClip buttonSfx;
     public AudioClip ButtonSfx { get { return buttonSfx; } set { buttonSfx = value; } }
 
-    [Header("UI")]
-    [SerializeField] GameObject resultCharPrefab; // 결과가 캐릭터인 경우 사용할 프리팹
-    [SerializeField] GameObject resultItemPrefab; // 결과가 아이템인 경우 사용할 프리팹
-    [SerializeField] RectTransform returnContent; // 중복캐릭터 아이템 반환 프리팹이 생성 될 위치
-    [SerializeField] GameObject returnPrefab; // 중복캐릭터 아이템 반환 프리팹
-
     private void Awake()
     {
         shopBtnManager = gameObject.GetComponent<ShopBtnManager>();
@@ -87,7 +81,7 @@ public class ShopSceneController : UIBInder
     /// 각 Item 재화 상단 표시
     /// - 변동 시 계속 업데이트가 필요하므로 함수로 제작하여 사용
     /// </summary>
-    public void UpdatePlayerData()
+    private void UpdatePlayerData()
     {
         UpdateCoinUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin]);
         UpdateDinoBloodUI(PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.DinoBlood]);
