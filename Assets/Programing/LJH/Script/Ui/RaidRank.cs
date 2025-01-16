@@ -18,6 +18,9 @@ public class RaidRank : MonoBehaviour
     [SerializeField] int totalDamage;
     [SerializeField] private Slider  _loadingBar;
     [SerializeField] private TextMeshProUGUI _loadingText;
+
+
+    [SerializeField] AudioClip buttonSfx;
     [SerializeField] AudioClip _bgmClip;
 
 
@@ -34,6 +37,10 @@ public class RaidRank : MonoBehaviour
         //{
         //    Debug.Log("snapshot null값임! 또는 List값 0개임");
         //}
+    }
+    public void buttonSound()
+    {
+        SoundManager.Instance.PlaySFX(buttonSfx);
     }
 
     public void getRankingData() 

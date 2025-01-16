@@ -12,6 +12,7 @@ public class StageLock : MonoBehaviour
 
 
     [SerializeField] private AudioClip _bgmClip;
+    [SerializeField] AudioClip buttonSfx;
     private void OnEnable()
     {
         StageLocking();
@@ -22,6 +23,10 @@ public class StageLock : MonoBehaviour
         StartCoroutine(delayLocking());
     }
 
+    public void buttonSound() 
+    {
+        SoundManager.Instance.PlaySFX(buttonSfx);
+    }
     IEnumerator delayLocking()
     {
         yield return new WaitForSeconds(0.02f);

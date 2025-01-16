@@ -1026,6 +1026,7 @@ MonoBehaviour:
   totalDamage: 0
   _loadingBar: {fileID: 1870431225}
   _loadingText: {fileID: 1379122699}
+  buttonSfx: {fileID: 8300000, guid: e209f95ae7b108c4da32a16bbc2c1527, type: 3}
   _bgmClip: {fileID: 8300000, guid: 87d8d72f8f33ec546bcd2032fb5c65a3, type: 3}
 --- !u!1 &852099879
 GameObject:
@@ -15959,14 +15960,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 5157801175749610674}
-        m_TargetAssemblyTypeName: StagePanel, Assembly-CSharp
-        m_MethodName: setStageData
-        m_Mode: 3
+      - m_Target: {fileID: 850788247}
+        m_TargetAssemblyTypeName: RaidRank, Assembly-CSharp
+        m_MethodName: buttonSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 122
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -15979,6 +15980,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 5157801175749610674}
+        m_TargetAssemblyTypeName: StagePanel, Assembly-CSharp
+        m_MethodName: setStageData
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 122
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -16244,6 +16257,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 850788247}
+        m_TargetAssemblyTypeName: RaidRank, Assembly-CSharp
+        m_MethodName: buttonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BattleSceneManager, Assembly-CSharp
         m_MethodName: BackStage
@@ -16342,6 +16367,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1183420275}
         m_TargetAssemblyTypeName: BattleSceneManager, Assembly-CSharp
         m_MethodName: GoLobby
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 850788247}
+        m_TargetAssemblyTypeName: RaidRank, Assembly-CSharp
+        m_MethodName: buttonSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16804,6 +16841,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1183420275}
         m_TargetAssemblyTypeName: BattleSceneManager, Assembly-CSharp
         m_MethodName: RaidStageStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 850788247}
+        m_TargetAssemblyTypeName: RaidRank, Assembly-CSharp
+        m_MethodName: buttonSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

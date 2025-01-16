@@ -41,7 +41,7 @@ public class BattleSceneUi : MonoBehaviour
 
         Spawner.OnSpawnCompleted += startTimerTriger;
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         StopAllCoroutines();
 
