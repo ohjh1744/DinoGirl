@@ -13,13 +13,10 @@ public class ShopChar : MonoBehaviour
     public int CharId { get { return charId; } set { charId = value; } }
 
     private string charName;
-    public string CharName { get { return charName; } set { charName = value; } }
 
     private int rarity;
-    public int Rarity { get { return rarity; } set { rarity = value; } }
 
     private Sprite charImageProfile; // 프리팹에서 사용할 이미지
-    public Sprite CharImageProfile { get { return charImageProfile; } set { charImageProfile = value; } }
 
     private int amount;
     public int Amount { get { return amount; } set { amount = value; } }
@@ -134,7 +131,7 @@ public class ShopChar : MonoBehaviour
     {
         // 데이터 설정
         resultCharUI.GetComponent<ShopChar>().charId = gachaChar.charId;
-        resultCharUI.GetComponent<ShopChar>().charName = gachaChar.CharName;
+        resultCharUI.GetComponent<ShopChar>().charName = gachaChar.charName;
         resultCharUI.GetComponent<ShopChar>().rarity = gachaChar.rarity;
         resultCharUI.GetComponent<ShopChar>().video = gachaChar.video;
 
@@ -161,7 +158,7 @@ public class ShopChar : MonoBehaviour
     {
         // 데이터 설정
         resultCharUI.GetComponent<ShopChar>().charId = shopChar.charId;
-        resultCharUI.GetComponent<ShopChar>().charName = shopChar.CharName;
+        resultCharUI.GetComponent<ShopChar>().charName = shopChar.charName;
         resultCharUI.GetComponent<ShopChar>().rarity = shopChar.rarity;
         resultCharUI.GetComponent<ShopChar>().price = shopChar.price;
         resultCharUI.GetComponent<ShopChar>().video = shopChar.video;
