@@ -98,7 +98,7 @@ public class TargetingSkillToAlly : Skill
         {
             SetBoolSkillParameter(caster, true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
-            SpawnEffect(caster.transform, VFXToMine);
+            SpawnVFX(caster.transform, caster.transform, VFXToMine);
             caster.CoolTimeCounter = Cooltime;
             caster.IsSkillRunning = true;
             return BaseNode.ENodeState.Running;
@@ -127,7 +127,7 @@ public class TargetingSkillToAlly : Skill
                 // 임시로 반드시 힐하도록 설정, 아군대상 스킬이 힐 외에 따로 없기때문에 일단 고정
                 int healingAmount = (int)(target.UnitModel.MaxHp * SkillRatio);
                 target.UnitModel.TakeHeal(healingAmount);
-                SpawnVFXEffects(caster,target);
+                SpawnAllVFXs(caster,target);
                 Debug.Log(target.gameObject.name);
             }
             return BaseNode.ENodeState.Success;

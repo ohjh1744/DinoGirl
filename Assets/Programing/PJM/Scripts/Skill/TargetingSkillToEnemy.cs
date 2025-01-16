@@ -122,7 +122,7 @@ public class TargetingSkillToEnemy : Skill
                     // 데미지 주는 로직
                     // 데미지를 줄 인원 수 선택 필요
                     target.UnitModel.TakeDamage(Mathf.RoundToInt(attackDamage));
-                    SpawnVFXEffects(caster,target);
+                    SpawnAllVFXs(caster,target);
                     if (CrowdControl != CrowdControls.None)
                     {
                         target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);

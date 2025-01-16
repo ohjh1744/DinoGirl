@@ -33,7 +33,7 @@ public override BaseNode.ENodeState Perform(BaseUnitController caster, List<Base
         {
             SetBoolSkillParameter(raidBossCaster, true);
             Debug.Log($" {raidBossCaster.gameObject.name} 스킬 시전");
-            SpawnEffect(raidBossCaster.CenterPosition,VFXToMine);
+            SpawnVFX(raidBossCaster.transform, raidBossCaster.CenterPosition,VFXToMine);
             raidBossCaster.CoolTimeCounter = Cooltime;
             raidBossCaster.IsSkillRunning = true;
             return BaseNode.ENodeState.Running;

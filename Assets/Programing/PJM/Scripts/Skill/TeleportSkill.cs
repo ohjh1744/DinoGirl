@@ -27,7 +27,7 @@ public class TeleportSkill : TargetingSkillToEnemy
             // 임시
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
             // 적 뒤로 순간이동
-            SpawnEffect(caster.CenterPosition, VFXToMine);
+            SpawnVFX(caster.transform,caster.CenterPosition, VFXToMine);
             float enemyDir = Mathf.Sign(targets[0].gameObject.transform.localScale.x);
             float behindX = targets[0].gameObject.transform.position.x + enemyDir * distance;
             Vector2 behindPos = new Vector2(behindX, targets[0].gameObject.transform.position.y);
@@ -40,7 +40,7 @@ public class TeleportSkill : TargetingSkillToEnemy
             casterScale.x = Mathf.Abs(casterScale.x) * casterDir;
             caster.gameObject.transform.localScale = casterScale;
             
-            SpawnEffect(caster.CenterPosition, VFXToMine);
+            SpawnVFX(caster.transform, caster.CenterPosition, VFXToMine);
             caster.DetectedEnemy = targets[0];
             caster.IsSkillRunning = true;
             
@@ -75,7 +75,7 @@ public class TeleportSkill : TargetingSkillToEnemy
                     if (target.gameObject != null)
                     {
                         target.UnitModel.TakeDamage(Mathf.RoundToInt(attackDamage)); 
-                        SpawnEffect(target.CenterPosition, VFXToTarget);
+                        SpawnVFX(caster.transform, target.CenterPosition, VFXToTarget);
                         //Debug.Log($"{SkillName}으로 {(int)attackDamage} 만큼 데미지를 {target}에 가함");
                         if (CrowdControl != CrowdControls.None)
                         {
