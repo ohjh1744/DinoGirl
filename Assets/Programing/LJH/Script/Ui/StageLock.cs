@@ -11,10 +11,11 @@ public class StageLock : MonoBehaviour
     [SerializeField] int end;
 
 
-
+    [SerializeField] private AudioClip _bgmClip;
     private void OnEnable()
     {
         StageLocking();
+        SoundManager.Instance.PlayeBGM(_bgmClip);
     }
     public void StageLocking()
     {

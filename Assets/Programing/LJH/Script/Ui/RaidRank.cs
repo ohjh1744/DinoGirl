@@ -18,9 +18,13 @@ public class RaidRank : MonoBehaviour
     [SerializeField] int totalDamage;
     [SerializeField] private Slider  _loadingBar;
     [SerializeField] private TextMeshProUGUI _loadingText;
+    [SerializeField] AudioClip _bgmClip;
+
+
 
     private void OnEnable()
-    {   
+    {
+        SoundManager.Instance.PlayeBGM(_bgmClip);
         raidDatas = new List<RaidData>();
         getRankingData();
     }
