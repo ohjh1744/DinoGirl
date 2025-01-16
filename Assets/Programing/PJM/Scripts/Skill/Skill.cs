@@ -121,33 +121,47 @@ public abstract class Skill : ScriptableObject
         return new ActionNode(() => Perform(caster, targets));
     }
 
-    protected void SpawnVFXEffects(BaseUnitController caster, BaseUnitController target)
+    protected void SpawnAllVFXs(BaseUnitController caster, BaseUnitController target)
     {
         if(_vfxToMine != null)
-            SpawnEffect(caster.transform, VFXToMine);
+            SpawnVFX(caster.transform, caster.transform, VFXToMine);
         if(_vfxToMuzzle != null)
-            SpawnEffect(caster.MuzzlePoint, VFXToMuzzle);
+            SpawnVFX(caster.transform, caster.MuzzlePoint, VFXToMuzzle);
         if(_vfxToTarget != null)
-            SpawnEffect(target.CenterPosition, VFXToTarget);
+            SpawnVFX(caster.transform, target.CenterPosition, VFXToTarget);
     }
-    protected void SpawnEffect(Transform targetTransform, GameObject effectPrefab)
+    protected void SpawnVFX(Transform casterPos ,Transform targetTransform, GameObject effectPrefab)
     {
-        if(effectPrefab == null)
+        if(effectPrefab == null || casterPos == null)
+            return;
+        
+        
+        GameObject particleObject = Instantiate(effectPrefab, targetTransform.position, Quaternion.identity);
+        
+        if (particleObject == null)
             return;
         // Todo : 
         // localScale 방향 조정 필요
-        GameObject particleObject = Instantiate(effectPrefab, targetTransform.position, Quaternion.identity);
-        if (particleObject == null)
-            return;
+        Vector3 newScale = new Vector3(particleObject.transform.localScale.x * Mathf.Sign(casterPos.localScale.x), particleObject.transform.localScale.y, particleObject.transform.localScale.z);
+        particleObject.transform.localScale = newScale;
+        var particle = particleObject.GetComponentInChildren<ParticleSystem>();
+        if (particle != null)
+        {
+            Destroy(particleObject, particle.main.duration + particle.main.startLifetime.constantMax);
+        }
+        else
+        {
+            Destroy(particleObject);
+        }
         
-        if (particleObject.TryGetComponent<ParticleSystem>(out var particleSystem))
+        /*if (particleObject.TryGetComponent<ParticleSystem>(out var particleSystem))
         {
             Destroy(particleObject, particleSystem.main.duration + particleSystem.main.startLifetime.constantMax);
         }
         else
         {
             Destroy(particleObject);
-        }
+        }*/
     }
     
     protected bool GetBoolSkillParameter(BaseUnitController caster)

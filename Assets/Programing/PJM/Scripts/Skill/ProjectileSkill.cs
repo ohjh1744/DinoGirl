@@ -113,7 +113,7 @@ public class ProjectileSkill : Skill
             SetBoolSkillParameter(projectileCaster, true);
             Debug.Log($" {projectileCaster.gameObject.name} 스킬 시전");
             
-            SpawnEffect(projectileCaster.transform, VFXToMine);
+            SpawnVFX(projectileCaster.transform, projectileCaster.transform, VFXToMine);
             
             projectileCaster.CoolTimeCounter = Cooltime;
             projectileCaster.IsSkillRunning = true;

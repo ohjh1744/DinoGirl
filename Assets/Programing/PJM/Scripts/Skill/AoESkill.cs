@@ -34,7 +34,7 @@ public class AoESkill : Skill
         // 스킬 시전 시작
         if(!GetBoolSkillParameter(caster))
         {
-            SpawnEffect(caster.MuzzlePoint, VFXToMuzzle);
+            SpawnVFX(caster.transform,caster.MuzzlePoint, VFXToMuzzle);
             caster.CurSkill = this;
             SetBoolSkillParameter(caster, true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
