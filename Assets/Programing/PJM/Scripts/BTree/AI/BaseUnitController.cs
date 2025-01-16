@@ -126,6 +126,7 @@ public abstract class BaseUnitController : MonoBehaviour
         EnemyLayer = myLayerName == "UserCharacter" ? LayerMask.GetMask("Enemy") : LayerMask.GetMask("UserCharacter");
         AllianceLayer = LayerMask.GetMask(myLayerName);
     }
+    
 
     protected BaseNode.ENodeState CheckUnitDying()
     {
@@ -149,6 +150,14 @@ public abstract class BaseUnitController : MonoBehaviour
         }
 
         return BaseNode.ENodeState.Failure;
+    }
+
+    protected BaseNode.ENodeState CheckBattleWin()
+    {
+        if (BattleSceneManager.Instance.curBattleState != BattleSceneManager.BattleState.Win)
+            return BaseNode.ENodeState.Failure;
+        UnitViewer.UnitAnimator.SetTrigger(UnitViewer.ParameterHash[(int)Parameter.Win]);
+        return BaseNode.ENodeState.Success;
     }
 
     protected BaseNode.ENodeState CheckCrowdControl()

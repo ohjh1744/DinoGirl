@@ -34,6 +34,7 @@ public class PlayerUnitControllerWithProjectile : PlayableBaseUnitController
                 (
                     new List<BaseNode>
                     {
+                        new ActionNode(CheckBattleWin),
                         new ActionNode(CheckUnitDying),
                         new ActionNode(CheckCrowdControl),
                     }
