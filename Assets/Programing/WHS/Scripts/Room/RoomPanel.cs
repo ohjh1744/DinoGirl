@@ -15,8 +15,6 @@ public class RoomPanel : UIBInder
     [SerializeField] private GameObject _claimPopup;
     [SerializeField] private ItemPanel _itemPanel;
 
-    private SceneChanger _sceneChanger;
-
     private Coroutine _updateIdleTimeCoroutine;
 
     [SerializeField] private AudioClip _bgmClip;
@@ -27,8 +25,6 @@ public class RoomPanel : UIBInder
 
         AddEvent("ClaimButton", EventType.Click, ClaimIdleRewards);
         AddEvent("CheckRewardButton", EventType.Click, ShowIdleRewardPanel);
-
-        _sceneChanger = FindObjectOfType<SceneChanger>();
     }
 
     private void Start()
@@ -45,8 +41,6 @@ public class RoomPanel : UIBInder
         {
             _updateIdleTimeCoroutine = StartCoroutine(UpdateIdleTimeCoroutine());
         }
-
-        AddEvent("HomeButton", EventType.Click, GoLobby);
 
         SoundManager.Instance.PlayeBGM(_bgmClip);
     }
@@ -191,11 +185,5 @@ public class RoomPanel : UIBInder
         GetUI<TextMeshProUGUI>("DinoBloodClaimText").text = $"다이노블러드 : {dinoBlood}";
         GetUI<TextMeshProUGUI>("BoneCrystalClaimText").text = $"본크리스탈 : {boneCrystal}";
 
-    }
-
-    public void GoLobby(PointerEventData eventData)
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 }
