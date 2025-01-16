@@ -53,9 +53,8 @@ public class ShopBtnManager : MonoBehaviour
     /// <summary>
     /// 결과 패널 비활성화 시
     /// resultList 를 초기화
-    //  - GachaSceneController.cs에서 사용
     /// </summary>
-    public void ClearResultList()
+   private void ClearResultList()
     {
         for (int i = 0; i < resultList.Count; i++)
         {
@@ -210,7 +209,7 @@ public class ShopBtnManager : MonoBehaviour
     /// <param name="GachaList"></param>
     /// <param name="index"></param>
     /// <returns></returns>
-    public GameObject GachaResultUI(List<Gacha> GachaList, int index, int count)
+    private GameObject GachaResultUI(List<Gacha> GachaList, int index, int count)
     {
         charDic = shopMakeStart.CharDic;
         itemDic = shopMakeStart.ItemDic;

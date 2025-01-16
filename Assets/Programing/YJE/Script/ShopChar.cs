@@ -13,19 +13,16 @@ public class ShopChar : MonoBehaviour
     public int CharId { get { return charId; } set { charId = value; } }
 
     private string charName;
-    public string CharName { get { return charName; } set { charName = value; } }
 
     private int rarity;
-    public int Rarity { get { return rarity; } set { rarity = value; } }
 
     private Sprite charImageProfile; // 프리팹에서 사용할 이미지
-    public Sprite CharImageProfile { get { return charImageProfile; } set { charImageProfile = value; } }
 
     private int amount;
     public int Amount { get { return amount; } set { amount = value; } }
 
     // 상점 구매 가격 - 레어도 별로 다름 / 코드에서 설정
-    [SerializeField] private int price;
+    private int price;
 
     // 뽑기 시 출력할 컷씬    
     // Resources 폴더에 있는 이미지를 연동하여 사용함
@@ -134,7 +131,7 @@ public class ShopChar : MonoBehaviour
     {
         // 데이터 설정
         resultCharUI.GetComponent<ShopChar>().charId = gachaChar.charId;
-        resultCharUI.GetComponent<ShopChar>().charName = gachaChar.CharName;
+        resultCharUI.GetComponent<ShopChar>().charName = gachaChar.charName;
         resultCharUI.GetComponent<ShopChar>().rarity = gachaChar.rarity;
         resultCharUI.GetComponent<ShopChar>().video = gachaChar.video;
 
@@ -161,7 +158,7 @@ public class ShopChar : MonoBehaviour
     {
         // 데이터 설정
         resultCharUI.GetComponent<ShopChar>().charId = shopChar.charId;
-        resultCharUI.GetComponent<ShopChar>().charName = shopChar.CharName;
+        resultCharUI.GetComponent<ShopChar>().charName = shopChar.charName;
         resultCharUI.GetComponent<ShopChar>().rarity = shopChar.rarity;
         resultCharUI.GetComponent<ShopChar>().price = shopChar.price;
         resultCharUI.GetComponent<ShopChar>().video = shopChar.video;
@@ -258,6 +255,7 @@ public class ShopChar : MonoBehaviour
     /// <returns></returns>
     IEnumerator CharacterVideoR(GameObject gameObj)
     {
+        shopSceneController.SoundPauseBGM();
         if (gameObj.GetComponent<ShopChar>())
         {
             GameObject obj = Instantiate(gameObj.GetComponent<ShopChar>().Video, gameObject.GetComponentInParent<ShopBtnManager>().SingleVideoContet);
@@ -266,6 +264,7 @@ public class ShopChar : MonoBehaviour
         }
         shopSceneController.DisableSingleImage();
         shopSceneController.DisabledGachaResultPanel();
+        shopSceneController.SoundPlayBgm();
     }
 
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-public class GachaManager : MonoBehaviour
+public class GachaCutSceneManager : MonoBehaviour
 {
     // UI 요소 선언
     public Image scriptBg;          // 스크립트 배경 이미지
