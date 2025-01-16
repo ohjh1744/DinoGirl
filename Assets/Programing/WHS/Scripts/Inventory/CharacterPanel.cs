@@ -16,18 +16,13 @@ public class CharacterPanel : UIBInder
     private Dictionary<int, Dictionary<string, string>> _characterData;
     private Dictionary<int, Dictionary<string, string>> _skillData;
 
-    private SceneChanger _sceneChanger;
-
     private int _index;
     private List<PlayerUnitData> _characterList;
-
-    // [SerializeField] private AudioClip _buttonClip;
 
     private void Awake()
     {
         BindAll();
         AddEvent("LevelUpButton", EventType.Click, OnLevelUpButtonClick);
-        AddEvent("HomeButton", EventType.Click, GoLobby);
         AddEvent("PreviousCharacterButton", EventType.Click, PreviousButton);
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
         AddEvent("SetMainCharacterButton", EventType.Click, SetMainCharacter);
@@ -35,18 +30,7 @@ public class CharacterPanel : UIBInder
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
         _skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
 
-        _sceneChanger = FindObjectOfType<SceneChanger>();
-
         _characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
-
-        /*
-        GetUI<Button>("LevelUpButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("QuitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("PreviousCharacterButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("NextCharacterButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("SetMainCharacterButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        GetUI<Button>("LevelUpConfirm").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
-        */
     }
 
     private void Start()
@@ -262,12 +246,6 @@ public class CharacterPanel : UIBInder
                 }
             }
         }
-    }
-
-    private void GoLobby(PointerEventData eventData)
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 
     // 메인 캐릭터로 설정

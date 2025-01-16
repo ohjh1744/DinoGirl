@@ -10,26 +10,6 @@ public class IdleReward : MonoBehaviour
 {
     private Dictionary<int, Dictionary<string, string>> _housingData;
 
-    /*
-    private void Start()
-    {
-        StartCoroutine(WaitForPlayerData());
-    }
-
-    private IEnumerator WaitForPlayerData()
-    {
-        // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
-
-        housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
-        Debug.Log($"{housingData.Count}");
-        foreach (var key in housingData.Keys)
-        {
-            Debug.Log($"Key: {key}, Value: {housingData[key]["PerHour"]}, {housingData[key]["0MaxStorage"]}");
-        }
-    }
-    */
-
     private void Awake()
     {
         _housingData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Housing];
@@ -41,7 +21,6 @@ public class IdleReward : MonoBehaviour
                 $"{_housingData[key]["1MaxStorage"]}, {_housingData[key]["2MaxStorage"]}, ");
         }
     }
-
 
     // 방치시간 계산하기
     public void CalculateIdleReward()
