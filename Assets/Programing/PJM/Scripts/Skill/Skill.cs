@@ -62,8 +62,8 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private AudioClip _skillStartSound;
     public AudioClip SkillStartSound {get => _skillStartSound;}
     
-    [SerializeField] private AudioClip _skillOngoingSound;
-    public AudioClip SkillOngoingSound {get => _skillOngoingSound;}
+    //[SerializeField] private AudioClip _skillOngoingSound;
+    //public AudioClip SkillOngoingSound {get => _skillOngoingSound;}
     
     [SerializeField] private AudioClip _skillEndSound;
     public AudioClip SkillEndSound {get => _skillEndSound;}
