@@ -18,10 +18,6 @@ public class SkillSlot : UIBInder
     private Image _skillIcon;
     public Image SkillIcon { get => _skillIcon; set => _skillIcon = value; }
 
-    /*public float skillTime; // 스킬의 쿨타임
-    public float remainingTime; // 남은시간
-    public bool isCooling; */
-
     public PlayableBaseUnitController SkillOwner { get; set; }
 
     public Skill SkillData { get; set; }
@@ -34,25 +30,6 @@ public class SkillSlot : UIBInder
         HideImage = GetUI<Image>("HideImage");
         CooldownText = GetUI<TextMeshProUGUI>("CooldownText");
         SkillIcon = GetUI<Image>("SkillIcon");
-        
-        
-        /*SpriteRenderer tempRenderer = GetUI<SpriteRenderer>("SkillIcon");
-        if (tempRenderer != null)
-        {
-            SkillIcon = tempRenderer.sprite;
-        }
-        else
-        {
-            Debug.LogWarning("스프라이트 없음");
-        }*/
-            
-        //SkillIcon = GetUI<Sprite>("SkillIcon");
-        
-        /*skillRoot = GameObject.Find("SkillRoot");
-        skillButton = GameObject.Find("SkillButton").GetComponent<Button>();
-        hideImage = GameObject.Find("HideImage").GetComponent<Image>();
-        cooldownText = GameObject.Find("CooldownText").GetComponent<TextMeshProUGUI>();
-        skillIcon = GameObject.Find("SkillIcon").GetComponent<Image>().sprite;*/
     }
 
     public void HandleDeath()

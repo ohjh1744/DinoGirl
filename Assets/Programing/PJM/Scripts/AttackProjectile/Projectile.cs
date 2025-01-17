@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     {
         CheckNeedFlip(TargetPos);
         
-        if (TargetPos == null || !TargetPos.gameObject.activeSelf)
+        if (TargetPos == null || !TargetPos.gameObject.activeSelf || !Target.gameObject.activeSelf)
         {
             Destroy(gameObject);
             return;
