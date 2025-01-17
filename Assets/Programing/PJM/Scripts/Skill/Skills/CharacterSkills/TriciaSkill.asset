@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Aegis Of Gaia
   _targetAll: 1
-  _skillRange: 0
+  _skillRangeRadius: 0
   _maxTargetingNum: 0
   _isPriorityTargetFar: 0
   skillRatio: 0
@@ -26,6 +26,5 @@ MonoBehaviour:
   _vfxToMine: {fileID: 1140259462322360712, guid: 80eaa7246ded15548ae1bbd902b03fdb, type: 3}
   _vfxToMuzzle: {fileID: 0}
   _skillStartSound: {fileID: 0}
-  _skillOngoingSound: {fileID: 0}
-  _skillEndSound: {fileID: 0}
+  _skillEndSound: {fileID: 8300000, guid: 53c29ac0dc3b90e41b25910253ee0e38, type: 3}
   skillParameterNumber: 0

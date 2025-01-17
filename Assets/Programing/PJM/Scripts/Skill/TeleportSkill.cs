@@ -28,6 +28,7 @@ public class TeleportSkill : TargetingSkillToEnemy
             caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Run], false);
             // 적 뒤로 순간이동
             SpawnVFX(caster.transform,caster.CenterPosition, VFXToMine);
+            PlaySkillSfx(SkillStartSound);
             float enemyDir = Mathf.Sign(targets[0].gameObject.transform.localScale.x);
             float behindX = targets[0].gameObject.transform.position.x + enemyDir * distance;
             Vector2 behindPos = new Vector2(behindX, targets[0].gameObject.transform.position.y);
@@ -83,6 +84,7 @@ public class TeleportSkill : TargetingSkillToEnemy
                         }
                     }
                 }
+                PlaySkillSfx(SkillEndSound);
                 return BaseNode.ENodeState.Success;
             }
         }

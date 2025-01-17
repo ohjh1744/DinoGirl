@@ -99,6 +99,7 @@ public class TargetingSkillToAlly : Skill
             SetBoolSkillParameter(caster, true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
             SpawnVFX(caster.transform, caster.transform, VFXToMine);
+            PlaySkillSfx(SkillStartSound);
             caster.CoolTimeCounter = Cooltime;
             caster.IsSkillRunning = true;
             return BaseNode.ENodeState.Running;
@@ -117,6 +118,7 @@ public class TargetingSkillToAlly : Skill
             Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
             //Debug.Log($"{SkillName}: {targets[0].name}에게 스킬 완료.");
             //caster.UnitViewer.UnitAnimator.SetBool(caster.UnitViewer.ParameterHash[(int)Parameter.Skill0],false);
+            PlaySkillSfx(SkillEndSound);
             SetBoolSkillParameter(caster, false);
             caster.IsSkillRunning = false;
 

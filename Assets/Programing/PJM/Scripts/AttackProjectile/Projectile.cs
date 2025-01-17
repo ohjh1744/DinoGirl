@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Projectile : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class Projectile : MonoBehaviour
     public float HitDamage { get => _hitDamage; set => _hitDamage = value; }
     [SerializeField] private GameObject _impactEffect;
     public GameObject ImpactEffect { get => _impactEffect; set => _impactEffect = value; }
+
+    [SerializeField] AudioClip _impactSound;
+    public AudioClip ImpactSound { get => _impactSound; private set => _impactSound = value; }
 
     [SerializeField] private bool _isRealAttack;
 
@@ -82,6 +86,7 @@ public class Projectile : MonoBehaviour
         
         if (particleObject.TryGetComponent<ParticleSystem>(out var particle))
         {
+            PlaySkillSfx(ImpactSound);
             Destroy(particleObject, particle.main.duration + particle.main.startLifetime.constantMax);
         }
         else
@@ -90,5 +95,12 @@ public class Projectile : MonoBehaviour
         }
         
         //Destroy(gameObject);
+    }
+    
+    private void PlaySkillSfx(AudioClip sound)
+    {
+        if(sound == null)
+            return;
+        SoundManager.Instance.PlaySFX(sound);
     }
 }

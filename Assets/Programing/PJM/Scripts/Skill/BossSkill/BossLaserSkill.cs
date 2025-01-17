@@ -129,6 +129,7 @@ public class BossLaserSkill : Skill
                 raidBossCaster.CurSkillState = SkillState.Charging;
                 raidBossCaster.SkillRuntimeData = new BossSkillRuntimeData(startUpRatio, recoveryRatio, tickCount);
                 SpawnVFX(raidBossCaster.transform, raidBossCaster.MuzzlePoint, VFXToMuzzle);
+                PlaySkillSfx(SkillStartSound);
                 return BaseNode.ENodeState.Running;
             }
             case SkillState.Charging:
@@ -174,6 +175,7 @@ public class BossLaserSkill : Skill
                     SetBoolSkillParameter(raidBossCaster, false);
                     raidBossCaster.IsSkillRunning = false;
                     Debug.Log("스킬 완료");
+                    PlaySkillSfx(SkillEndSound);
                     if (raidBossCaster.LaserObejct != null)
                     {
                         Destroy(raidBossCaster.LaserObejct);

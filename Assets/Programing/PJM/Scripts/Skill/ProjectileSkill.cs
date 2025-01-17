@@ -114,6 +114,7 @@ public class ProjectileSkill : Skill
             Debug.Log($" {projectileCaster.gameObject.name} 스킬 시전");
             
             SpawnVFX(projectileCaster.transform, projectileCaster.transform, VFXToMine);
+            PlaySkillSfx(SkillStartSound);
             
             projectileCaster.CoolTimeCounter = Cooltime;
             projectileCaster.IsSkillRunning = true;
@@ -142,7 +143,8 @@ public class ProjectileSkill : Skill
                 }
                 SetBoolSkillParameter(projectileCaster, false);
                 projectileCaster.IsSkillRunning = false;
-
+                
+                PlaySkillSfx(SkillEndSound);
                 return BaseNode.ENodeState.Success;
             }
         }

@@ -35,6 +35,7 @@ public class AoESkill : Skill
         if(!GetBoolSkillParameter(caster))
         {
             SpawnVFX(caster.transform,caster.MuzzlePoint, VFXToMuzzle);
+            PlaySkillSfx(SkillStartSound);
             caster.CurSkill = this;
             SetBoolSkillParameter(caster, true);
             Debug.Log($" {caster.gameObject.name} 스킬 시전");
@@ -69,6 +70,7 @@ public class AoESkill : Skill
                         }
                     }
                     caster.CurSkill = null;
+                    PlaySkillSfx(SkillEndSound);
                     return BaseNode.ENodeState.Success;
                 }
             }

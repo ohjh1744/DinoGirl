@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Leaf Shot
   _targetAll: 1
-  _skillRange: 0
+  _skillRangeRadius: 0
   _maxTargetingNum: 0
   _isPriorityTargetFar: 0
   skillRatio: 0.15
@@ -25,7 +25,6 @@ MonoBehaviour:
   _vfxToTarget: {fileID: 7601770753009722091, guid: 889564d07ecd77d49811d89a787687a2, type: 3}
   _vfxToMine: {fileID: 7324979860738691148, guid: e391b401ebd797144b2a6c2e54802647, type: 3}
   _vfxToMuzzle: {fileID: 0}
-  _skillStartSound: {fileID: 8300000, guid: 66753552335c7d94faf454a76be25518, type: 3}
-  _skillOngoingSound: {fileID: 0}
-  _skillEndSound: {fileID: 8300000, guid: 8865d5e51692cf946bb22f61ccd4b0db, type: 3}
+  _skillStartSound: {fileID: 8300000, guid: 7971e4566936d8549ada6e4eb647845f, type: 3}
+  _skillEndSound: {fileID: 0}
   skillParameterNumber: 0
