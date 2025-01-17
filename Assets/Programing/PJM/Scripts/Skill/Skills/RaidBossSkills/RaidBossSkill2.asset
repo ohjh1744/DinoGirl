@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Spin
   _targetAll: 0
-  _skillRange: 6
+  _skillRangeRadius: 6
   _maxTargetingNum: 0
   _isPriorityTargetFar: 0
   skillRatio: 1
@@ -24,6 +24,11 @@ MonoBehaviour:
   _skillIcon: {fileID: 0}
   _vfxToTarget: {fileID: 0}
   _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 0}
+  _skillStartSound: {fileID: 0}
+  _skillOngoingSound: {fileID: 0}
+  _skillEndSound: {fileID: 0}
+  skillParameterNumber: 0
   areaAngle: 360
   targetLayer:
     serializedVersion: 2

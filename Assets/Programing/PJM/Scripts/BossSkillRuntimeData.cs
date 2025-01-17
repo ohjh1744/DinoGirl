@@ -47,7 +47,7 @@ public class BossSkillRuntimeData
         {
             // 실제 데미지 주기
             float damage = raidBossCaster.UnitModel.AttackPoint * skillRatio; // skillRatio를 어떻게 쓰냐에 따라 /tickNum을 할수도 있음
-            target.UnitModel.TakeDamage(Mathf.RoundToInt(damage)); // 반올림 처리?
+            target.UnitModel.TakeDamage(Mathf.RoundToInt(damage)); 
 
             Debug.Log($" 틱 데미지 {_currentIndex+1}회 : {target.gameObject.name}에 데미지 {damage}");
             _currentIndex++;

@@ -45,7 +45,7 @@ public class BossLaserSkill : Skill
             return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
         }
 
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRangeRadius, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
             return BaseNode.ENodeState.Failure;
