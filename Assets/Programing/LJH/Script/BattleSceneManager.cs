@@ -11,7 +11,7 @@ public class BattleSceneManager : MonoBehaviour
 {
     private static BattleSceneManager _instance;
     public static BattleSceneManager Instance { get { return _instance; } set { _instance = value; } }
-
+    [SerializeField] public float curTimeScale;
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private DraggableUI[] Draggables;
@@ -342,5 +342,4 @@ public class BattleSceneManager : MonoBehaviour
     {
         StartCoroutine(delayingPowerCheck());
     }
-
 }
