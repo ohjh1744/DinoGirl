@@ -10,7 +10,7 @@ public class BossLaserSkill : Skill
 {
     public float startUpRatio; // 실제 스킬 발동전까지
     public float recoveryRatio; // 발동 종료 후 회수
-    public float tickNumber;
+    public float tickCount;
     public GameObject laserPrefab;
     public float laserPrefabBaseScale;
 
@@ -45,7 +45,7 @@ public class BossLaserSkill : Skill
             return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
         }
 
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.EnemyLayer);
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRangeRadius, caster.EnemyLayer);
         if (detectedColliders.Length == 0)
         {
             return BaseNode.ENodeState.Failure;
@@ -127,7 +127,7 @@ public class BossLaserSkill : Skill
                 raidBossCaster.CoolTimeCounter = Cooltime;
                 raidBossCaster.IsSkillRunning = true;
                 raidBossCaster.CurSkillState = SkillState.Charging;
-                raidBossCaster.SkillRuntimeData = new BossSkillRuntimeData(startUpRatio, recoveryRatio, tickNumber);
+                raidBossCaster.SkillRuntimeData = new BossSkillRuntimeData(startUpRatio, recoveryRatio, tickCount);
                 SpawnVFX(raidBossCaster.transform, raidBossCaster.MuzzlePoint, VFXToMuzzle);
                 return BaseNode.ENodeState.Running;
             }

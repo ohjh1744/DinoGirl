@@ -29,7 +29,7 @@ public class AreaDisplayer : MonoBehaviour
         Vector2 dir = flipToRight ? Vector2.right : Vector2.left;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(centerPos, skill.SkillRange);
+        Gizmos.DrawWireSphere(centerPos, skill.SkillRangeRadius);
         Gizmos.color = Color.red;
 
         float halfAngle = skill.areaAngle * 0.5f;
@@ -45,7 +45,7 @@ public class AreaDisplayer : MonoBehaviour
             if (dir == Vector2.left)
                 rad += Mathf.PI;
             Vector2 rotatedDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-            Vector2 endPos = centerPos + rotatedDir * skill.SkillRange;
+            Vector2 endPos = centerPos + rotatedDir * skill.SkillRangeRadius;
             Gizmos.DrawLine(centerPos, endPos);
         }
     }

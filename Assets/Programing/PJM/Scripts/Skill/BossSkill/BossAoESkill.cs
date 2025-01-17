@@ -60,8 +60,6 @@ public override BaseNode.ENodeState Perform(BaseUnitController caster, List<Base
                     Debug.Log($"스킬 데미지 {skillDamage} ");
                     foreach (var target in targets)
                     {
-                        // 데미지 주는 로직
-                        // 데미지를 줄 인원 수 선택 필요
                         if (target.gameObject != null)
                         {
                             target.UnitModel.TakeDamage(Mathf.RoundToInt(skillDamage));

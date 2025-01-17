@@ -49,7 +49,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1011718864748398946, guid: 441cc80758070b344931b9bd979494f6, type: 3}
       propertyPath: m_LocalScale.x
-      value: -4
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011718864748398946, guid: 441cc80758070b344931b9bd979494f6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011718864748398946, guid: 441cc80758070b344931b9bd979494f6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1011718864748398946, guid: 441cc80758070b344931b9bd979494f6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -90,6 +98,10 @@ PrefabInstance:
     - target: {fileID: 1011718864748398946, guid: 441cc80758070b344931b9bd979494f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011718864748398946, guid: 441cc80758070b344931b9bd979494f6, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1011718864748398947, guid: 441cc80758070b344931b9bd979494f6, type: 3}
       propertyPath: startDelay.scalar

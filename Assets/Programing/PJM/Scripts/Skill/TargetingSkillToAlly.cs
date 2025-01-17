@@ -35,7 +35,7 @@ public class TargetingSkillToAlly : Skill
             return targets.Count > 0 ? BaseNode.ENodeState.Success : BaseNode.ENodeState.Failure;
         }
         
-        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRange, caster.AllianceLayer);
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(caster.transform.position, SkillRangeRadius, caster.AllianceLayer);
         if (detectedColliders.Length == 0)
         {
             return BaseNode.ENodeState.Failure;

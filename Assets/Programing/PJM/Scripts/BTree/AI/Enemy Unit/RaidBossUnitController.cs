@@ -68,7 +68,7 @@ public class RaidBossUnitController : EnemyBaseUnitController
                     }
                 ),
 
-                /*new SequenceNode // Attack Dicision // 평타로직 필요할 경우를 대비해 주석처리
+                /*new SequenceNode // Attack Dicision 
                 (
                     new List<BaseNode>
                     {
@@ -97,7 +97,7 @@ public class RaidBossUnitController : EnemyBaseUnitController
             Debug.LogWarning("보스 스킬 배열 공란");
             return BaseNode.ENodeState.Failure;
         }
-        _skillIndex = (_skillIndex + 1) % BossSkills.Length; // bossSkills의 배열을 순회하고 다시 0으로
+        _skillIndex = (_skillIndex + 1) % BossSkills.Length;
         CurSkill = BossSkills[_skillIndex];
         nextSkill = BossSkills[(_skillIndex + 1) % BossSkills.Length];
         Debug.Log($"현재 스킬 인덱스 : {_skillIndex}");

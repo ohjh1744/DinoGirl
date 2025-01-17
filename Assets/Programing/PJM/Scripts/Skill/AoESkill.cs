@@ -45,33 +45,32 @@ public class AoESkill : Skill
         
         var stateInfo = caster.UnitViewer.UnitAnimator.GetCurrentAnimatorStateInfo(0);
         {
-            if (stateInfo.normalizedTime < 1.0f)
+            switch (stateInfo.normalizedTime)
             {
-                //Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 중.");
-                return BaseNode.ENodeState.Running;
-            }
-            else if (stateInfo.normalizedTime >= 1.0f)
-            {
-                Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
-                SetBoolSkillParameter(caster, false);
-                caster.IsSkillRunning = false;
-
-                OverlapAreaAllWithAngle(caster, targets);
-                float skillDamage = caster.UnitModel.AttackPoint * SkillRatio;
-                foreach (var target in targets)
+                case < 1.0f:
+                    return BaseNode.ENodeState.Running;
+                case >= 1.0f:
                 {
-                    // 데미지 주는 로직
-                    if (target.gameObject != null)
+                    Debug.Log($"{caster.gameObject.name} : '{SkillName}' 사용 완료.");
+                    SetBoolSkillParameter(caster, false);
+                    caster.IsSkillRunning = false;
+
+                    OverlapAreaAllWithAngle(caster, targets);
+                    float skillDamage = caster.UnitModel.AttackPoint * SkillRatio;
+                    foreach (var target in targets)
                     {
-                        target.UnitModel.TakeDamage(Mathf.RoundToInt(skillDamage)); // 소숫점 버림, 반올림할지 선택 필요
-                        if (CrowdControl != CrowdControls.None)
+                        if (target.gameObject != null)
                         {
-                            target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
+                            target.UnitModel.TakeDamage(Mathf.RoundToInt(skillDamage));
+                            if (CrowdControl != CrowdControls.None)
+                            {
+                                target.UnitModel.TakeCrowdControl(CrowdControl, CcDuration, caster);
+                            }
                         }
                     }
+                    caster.CurSkill = null;
+                    return BaseNode.ENodeState.Success;
                 }
-                caster.CurSkill = null;
-                return BaseNode.ENodeState.Success;
             }
         }
         return BaseNode.ENodeState.Failure;
@@ -81,7 +80,7 @@ public class AoESkill : Skill
     {
         ResetTargets(targets);
         Vector2 dir =  caster.gameObject.transform.localScale.x < 0 ? Vector2.right : Vector2.left;
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(caster.CenterPosition.position, SkillRange, targetLayer);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(caster.CenterPosition.position, SkillRangeRadius, targetLayer);
         foreach (var col in hitColliders)
         {
             if(col == null)
@@ -99,26 +98,4 @@ public class AoESkill : Skill
             }
         }
     }
-
-    /*protected void OverlapOneWithAngle(BaseUnitController caster, List<BaseUnitController> targets)
-    {
-        Vector2 dir =  caster.gameObject.transform.localScale.x < 0 ? Vector2.left : Vector2.right;
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(caster.CenterPosition.position, SkillRange, targetLayer);
-        foreach (var col in hitColliders)
-        {
-            if(col == null)
-                continue;
-            BaseUnitController target = col.GetComponentInParent<BaseUnitController>();
-            if(target == null)
-                continue;
-            
-            Vector2 dirToCol = (col.transform.position - caster.CenterPosition.position).normalized;
-            float dot = Vector2.Dot(dir, dirToCol);
-            if (dot >= 0f) // 정면 180도
-            {
-                targets.Add(target);
-                return;
-            }
-        }
-    }*/
 }

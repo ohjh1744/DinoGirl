@@ -19,8 +19,8 @@ public abstract class Skill : ScriptableObject
     public bool TargetAll {get => _targetAll; protected set => _targetAll = value; }
     // TargetAll이 true면 아래 skillrange와 maxTargetingNum은 숨기고싶다
     
-    [SerializeField] private float _skillRange;
-    public float SkillRange {get => _skillRange; protected set => _skillRange = value; }
+    [SerializeField] private float _skillRangeRadius;
+    public float SkillRangeRadius {get => _skillRangeRadius; protected set => _skillRangeRadius = value; }
 
 
     [SerializeField] private int _maxTargetingNum;
@@ -34,10 +34,10 @@ public abstract class Skill : ScriptableObject
     [SerializeField] private float cooltime;
     public float Cooltime {get => cooltime; protected set => cooltime = value; }
     [SerializeField] private CrowdControls crowdControl = CrowdControls.None;
-    public CrowdControls CrowdControl {get => crowdControl;}
+    protected CrowdControls CrowdControl {get => crowdControl;}
     [SerializeField] float ccDuration;
 
-    public float CcDuration
+    protected float CcDuration
     {
         get
         {
