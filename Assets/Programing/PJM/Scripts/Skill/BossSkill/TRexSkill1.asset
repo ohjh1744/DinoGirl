@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: BossSkill1
   _targetAll: 0
-  _skillRange: 20
+  _skillRangeRadius: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 1
   skillRatio: 0.5
@@ -31,6 +31,6 @@ MonoBehaviour:
   skillParameterNumber: 1
   startUpRatio: 0.35
   recoveryRatio: 0.9
-  tickNumber: 6
+  tickCount: 6
   laserPrefab: {fileID: 6801293779967490748, guid: 58d0f93fbf3e6c64abea3179b433222e, type: 3}
   laserPrefabBaseScale: 10

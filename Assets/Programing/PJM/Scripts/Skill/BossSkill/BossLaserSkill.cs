@@ -10,7 +10,7 @@ public class BossLaserSkill : Skill
 {
     public float startUpRatio; // 실제 스킬 발동전까지
     public float recoveryRatio; // 발동 종료 후 회수
-    public float tickNumber;
+    public float tickCount;
     public GameObject laserPrefab;
     public float laserPrefabBaseScale;
 
@@ -127,7 +127,7 @@ public class BossLaserSkill : Skill
                 raidBossCaster.CoolTimeCounter = Cooltime;
                 raidBossCaster.IsSkillRunning = true;
                 raidBossCaster.CurSkillState = SkillState.Charging;
-                raidBossCaster.SkillRuntimeData = new BossSkillRuntimeData(startUpRatio, recoveryRatio, tickNumber);
+                raidBossCaster.SkillRuntimeData = new BossSkillRuntimeData(startUpRatio, recoveryRatio, tickCount);
                 SpawnVFX(raidBossCaster.transform, raidBossCaster.MuzzlePoint, VFXToMuzzle);
                 return BaseNode.ENodeState.Running;
             }
