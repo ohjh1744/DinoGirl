@@ -135,7 +135,7 @@ public class RoomPanel : UIBInder
             TimeSpan idleTime = _idleReward.GetIdleTime();
 
             // 최대 누적시간이 넘어가면
-            if(idleTime.TotalSeconds >= 86400)
+            if(idleTime.TotalSeconds >= 43200)
             {
                 Debug.Log(idleTime.TotalSeconds);
                 GetUI<TextMeshProUGUI>("IdleTimeText").text = $"보상이 가득 찼습니다";
@@ -149,7 +149,7 @@ public class RoomPanel : UIBInder
 
             TimeSpan elapsedTime = DateTime.Now - lastTime;
 
-            if (elapsedTime.TotalSeconds >= 10)
+            if (elapsedTime.TotalSeconds >= 60)
             {
                 _idleReward.CalculateIdleReward();
                 lastTime = DateTime.Now;

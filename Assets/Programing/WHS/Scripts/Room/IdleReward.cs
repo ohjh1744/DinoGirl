@@ -49,15 +49,15 @@ public class IdleReward : MonoBehaviour
     // 아이템 계산
     public int CalculateReward(int housingId, int seconds)
     {
-        // 최대 누적 시간(24시간 86400초)
-        int maxIdleTime = Mathf.Min(seconds, 86400);
-        float idleHours = maxIdleTime / 3600f;
+        // 최대 누적 시간(12시간 43200초)
+        int maxIdleTime = Mathf.Min(seconds, 43200);
+        int idleTime = maxIdleTime / 60;
 
         if (_housingData.TryGetValue(housingId, out Dictionary<string, string> data))
         {
             // 스테이지 진행도에 따른 시간당 보상
-            int rewardPerHour = GetRewardPerHour(housingId);
-            int reward = Mathf.FloorToInt(rewardPerHour * idleHours);
+            float rewardPerMinute = GetRewardPerHour(housingId) / 60f;
+            int reward = Mathf.FloorToInt(rewardPerMinute * idleTime);
 
             return reward;
         }
@@ -152,16 +152,19 @@ public class IdleReward : MonoBehaviour
             // 클리어한 스테이지의 수
             int clearedStages = PlayerDataManager.Instance.PlayerData.IsStageClear.Count(x => x);
 
+            // 21스테이지(3챕터) 올 클리어 시 
             if (clearedStages >= 21 && data.TryGetValue("2MaxStorage", out string storage2))
             {
                 Debug.Log("storage2");
                 return int.Parse(storage2);
             }
+            // 14스테이지(2챕터) 올 클리어 시
             else if (clearedStages >= 14 && data.TryGetValue("1MaxStorage", out string storage1))
             {
                 Debug.Log("storage1");
                 return int.Parse(storage1);
             }
+            // 7스테이지(1챕터) 올 클리어 시
             else if (clearedStages >= 7 && data.TryGetValue("0MaxStorage", out string storage0))
             {
                 Debug.Log("storage0");
