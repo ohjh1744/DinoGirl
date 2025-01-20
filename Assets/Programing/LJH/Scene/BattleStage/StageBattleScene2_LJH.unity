@@ -2011,6 +2011,7 @@ GameObject:
   - component: {fileID: 656244294}
   - component: {fileID: 656244293}
   - component: {fileID: 656244297}
+  - component: {fileID: 656244298}
   m_Layer: 5
   m_Name: BattleSceneUi
   m_TagString: Untagged
@@ -2098,8 +2099,8 @@ RectTransform:
   - {fileID: 1418610991}
   - {fileID: 189733441}
   - {fileID: 6141492623157669507}
-  - {fileID: 966817655}
   - {fileID: 2057751934}
+  - {fileID: 966817655}
   - {fileID: 1460850435}
   - {fileID: 1707396464}
   - {fileID: 2025460948}
@@ -2136,6 +2137,19 @@ MonoBehaviour:
   time: 0
   curTime: 0
   raidScore: {fileID: 0}
+--- !u!114 &656244298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656244292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d90d6244e36a034382534c476d5b790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 656244296}
 --- !u!1 &722246076
 GameObject:
   m_ObjectHideFlags: 0
@@ -3237,7 +3251,7 @@ RectTransform:
   - {fileID: 293397300}
   - {fileID: 1973716252}
   m_Father: {fileID: 656244296}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7046,7 +7060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3188090430639722567, guid: 24dbc55e316ba8140bd920314a51ecc2, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3188090430639722567, guid: 24dbc55e316ba8140bd920314a51ecc2, type: 3}
       propertyPath: m_AnchorMax.x
