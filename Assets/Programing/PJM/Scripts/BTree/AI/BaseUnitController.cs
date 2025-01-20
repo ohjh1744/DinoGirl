@@ -36,11 +36,11 @@ public abstract class BaseUnitController : MonoBehaviour
     
     protected int unitID;
     public int UnitID => unitID;
-    
-    [SerializeField] protected LayerMask _allianceLayer;
-    public LayerMask AllianceLayer { get => _allianceLayer; protected set => _allianceLayer = value; }
-    [SerializeField] protected LayerMask _enemyLayer;
-    public LayerMask EnemyLayer { get => _enemyLayer; protected set => _enemyLayer = value; }
+
+    private LayerMask _allianceLayer;
+    public LayerMask AllianceLayer { get => _allianceLayer; private set => _allianceLayer = value; }
+    private LayerMask _enemyLayer;
+    public LayerMask EnemyLayer { get => _enemyLayer; private set => _enemyLayer = value; }
 
     private bool _isAttacking = false;
 
