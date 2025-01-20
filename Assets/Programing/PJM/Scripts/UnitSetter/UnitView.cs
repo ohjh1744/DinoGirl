@@ -10,13 +10,11 @@ public enum Parameter
 
 public enum SkillParameter
 {
-    Skill0, Skill1, Skill2, Size
+    Skill0, Skill1, Skill2, Size // 스킬이 더 필요할 경우 추가
 }
 
 public class UnitView : MonoBehaviour
 {
-
-    public BaseUnitController unit;
     private Animator _unitAnimator;
     public Animator UnitAnimator { get => _unitAnimator;}
 
@@ -49,7 +47,6 @@ public class UnitView : MonoBehaviour
 
     private void Start()
     {
-        unit = GetComponent<BaseUnitController>();
         _unitAnimator = GetComponentInChildren<Animator>();
     }
     
@@ -112,6 +109,4 @@ public class UnitView : MonoBehaviour
             return false;
         }
     }*/
-
-
 }
