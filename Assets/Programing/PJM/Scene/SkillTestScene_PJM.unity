@@ -476,7 +476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7584008107497173229, guid: 2f05f41425d9e4b48b47db4cf3cd3767, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f05f41425d9e4b48b47db4cf3cd3767, type: 3}
@@ -1547,7 +1547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2025010577699403332, guid: bdb5fdedeaf26a54ba257ef9a670f3dc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2025010577699403710, guid: bdb5fdedeaf26a54ba257ef9a670f3dc, type: 3}
       propertyPath: _maxHp
@@ -1862,6 +1862,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7584008107497173227, guid: 65694daae940de14aa6f3954fb7f06d3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7584008107497173228, guid: 65694daae940de14aa6f3954fb7f06d3, type: 3}
       propertyPath: _attackPoint
       value: 0
@@ -1872,7 +1876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7584008107497173229, guid: 65694daae940de14aa6f3954fb7f06d3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65694daae940de14aa6f3954fb7f06d3, type: 3}
@@ -2032,7 +2036,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af237da566926946b3b384ab8bb76b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}
 --- !u!1 &149877903440859933
 GameObject:
   m_ObjectHideFlags: 0
@@ -2855,7 +2858,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af237da566926946b3b384ab8bb76b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}
 --- !u!114 &2787038362654102431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2870,12 +2872,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerPosition: {fileID: 3054033524774046397}
   _muzzlePoint: {fileID: 0}
-  _allianceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &2819326263325583603
 GameObject:
   m_ObjectHideFlags: 0
@@ -4693,7 +4689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af237da566926946b3b384ab8bb76b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}
 --- !u!114 &8333899131257779065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4708,12 +4703,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerPosition: {fileID: 4104724877607798570}
   _muzzlePoint: {fileID: 0}
-  _allianceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &8333899131257779066
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,12 +4852,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerPosition: {fileID: 8569219180748376573}
   _muzzlePoint: {fileID: 2881582329960568424}
-  _allianceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
   _projectilePrefab: {fileID: 7228187741322693185, guid: 7d4e3cb8f01185f4cbf5061989036280, type: 3}
 --- !u!212 &8623047495093951503
 SpriteRenderer:
