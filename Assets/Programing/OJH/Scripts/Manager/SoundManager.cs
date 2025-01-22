@@ -29,6 +29,11 @@ public class SoundManager : MonoBehaviour
         _bgm.Play();
     }
 
+    public void SetLoopBGM(bool b)
+    {
+        _bgm.loop = b;
+    }
+
     public void StopBGM()
     {
         if (_bgm.isPlaying == false)
