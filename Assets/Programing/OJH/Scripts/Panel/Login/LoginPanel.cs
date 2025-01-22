@@ -46,6 +46,7 @@ public class LoginPanel : UIBInder
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
 
         //Sound
+        SoundManager.Instance.SetLoopBGM(true);
         SoundManager.Instance.PlayeBGM(_bgmClip);
         GetUI<Button>("LoginButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
         GetUI<Button>("SignUpButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
