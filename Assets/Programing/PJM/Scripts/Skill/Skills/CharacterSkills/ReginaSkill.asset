@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Rage of Vulcan
   _targetAll: 0
-  _skillRange: 5
+  _skillRangeRadius: 5
   _maxTargetingNum: 0
   _isPriorityTargetFar: 0
   skillRatio: 0.5
@@ -22,6 +22,12 @@ MonoBehaviour:
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 21300000, guid: e14a779b02fd16d4c8fcaf1664a0c301, type: 3}
+  _vfxToTarget: {fileID: 0}
+  _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 5136305050704567358, guid: a8b4b2fa0a1176a4ea0dd0b8f71f0115, type: 3}
+  _skillStartSound: {fileID: 8300000, guid: c1413201476fbec439019d0ae53eb8a4, type: 3}
+  _skillEndSound: {fileID: 0}
+  skillParameterNumber: 0
   areaAngle: 180
   targetLayer:
     serializedVersion: 2

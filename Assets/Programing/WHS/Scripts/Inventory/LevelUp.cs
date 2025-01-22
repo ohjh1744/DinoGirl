@@ -12,7 +12,6 @@ public class LevelUp
     private Dictionary<int, Dictionary<string, string>> _levelUpData;
     private Dictionary<int, Dictionary<string, string>> _characterData;
 
-
     public LevelUp(Dictionary<int, Dictionary<string, string>> levelUpData, Dictionary<int, Dictionary<string, string>> characterData)
     {
         _levelUpData = levelUpData;

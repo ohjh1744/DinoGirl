@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Warning Shot
   _targetAll: 0
-  _skillRange: 20
+  _skillRangeRadius: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 0
   skillRatio: 2
@@ -22,3 +22,9 @@ MonoBehaviour:
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 21300000, guid: 9bb25724680aa9f46ac33c3b0b61aab1, type: 3}
+  _vfxToTarget: {fileID: 2942705356082979661, guid: f438359e95d1b9f4f8078753fce2c34e, type: 3}
+  _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 50086450879471798, guid: 0785b04831997ce41bfad6fe23a8000c, type: 3}
+  _skillStartSound: {fileID: 0}
+  _skillEndSound: {fileID: 8300000, guid: 7f87d9e9d7c4cb64aa0a4c7582dadbdd, type: 3}
+  skillParameterNumber: 0

@@ -37,11 +37,6 @@ public class ItemPanel : UIBInder
 
     private void OnEnable()
     {
-        if (PlayerDataManager.Instance.PlayerData.OnItemChanged == null)
-        {
-            PlayerDataManager.Instance.PlayerData.OnItemChanged = new UnityAction<int>[Enum.GetValues(typeof(E_Item)).Length];
-        }
-
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.Coin] += UpdateCoinText;
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.DinoBlood] += UpdateDinoBloodText;
         PlayerDataManager.Instance.PlayerData.OnItemChanged[(int)E_Item.BoneCrystal] += UpdateBoneCrystalText;
@@ -154,23 +149,6 @@ public class ItemPanel : UIBInder
             }
         });
     }
-
-    /*
-    // 아이템 이미지 가져오기
-    private void LoadItemImage(string imageName, E_Item itemType)
-    {
-        string itemPath = $"UI/item_{(int)itemType}";
-        Sprite itemSprite = Resources.Load<Sprite>(itemPath);
-        if(itemSprite != null)
-        {
-            GetUI<Image>(imageName).sprite = itemSprite;
-        }
-        else
-        {
-            Debug.LogWarning($"이미지 찾을 수 없음 {itemPath}");
-        }
-    }
-    */
 
     public void GoLobby(PointerEventData eventData)
     {

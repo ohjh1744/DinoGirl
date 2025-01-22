@@ -5,20 +5,23 @@ using UnityEngine;
 
 public enum Parameter
 {
-    Idle, Run ,Attack, Skill, Skill1, Win ,Die, Size
+    Idle, Run ,Attack, Win ,Die, Size
+}
+
+public enum SkillParameter
+{
+    Skill0, Skill1, Skill2, Size // 스킬이 더 필요할 경우 추가
 }
 
 public class UnitView : MonoBehaviour
 {
-
-    public BaseUnitController unit;
     private Animator _unitAnimator;
     public Animator UnitAnimator { get => _unitAnimator;}
 
     private int[] _parameterHash;
-
     public int[] ParameterHash { get => _parameterHash; private set => _parameterHash = value; }
-    //public AnimatorStateInfo stateInfo;
+    private int[] _skillParameterHash;
+    public int[] SkillParameterHash { get => _skillParameterHash; private set => _skillParameterHash = value; }
 
     private int[] _animationHash = new int[]
     {
@@ -26,23 +29,24 @@ public class UnitView : MonoBehaviour
         Animator.StringToHash("Attacking"),
     };
 
-
-
     private void Awake()
     {
         ParameterHash = new int[(int)Parameter.Size];
         ParameterHash[(int)Parameter.Idle] = Animator.StringToHash("Idle");
         ParameterHash[(int)Parameter.Run] = Animator.StringToHash("Run");
         ParameterHash[(int)Parameter.Attack] = Animator.StringToHash("Attack");
-        ParameterHash[(int)Parameter.Skill] = Animator.StringToHash("Skill");
-        ParameterHash[(int)Parameter.Skill1] = Animator.StringToHash("Skill1");
         ParameterHash[(int)Parameter.Win] = Animator.StringToHash("Win");
         ParameterHash[(int)Parameter.Die] = Animator.StringToHash("Die");
+        
+        SkillParameterHash = new int[(int)SkillParameter.Size];
+        for (int i = 0; i < SkillParameterHash.Length; i++)
+        {
+            SkillParameterHash[i] = Animator.StringToHash($"Skill{i}");
+        }
     }
 
     private void Start()
     {
-        unit = GetComponent<BaseUnitController>();
         _unitAnimator = GetComponentInChildren<Animator>();
     }
     
@@ -76,9 +80,9 @@ public class UnitView : MonoBehaviour
     
     private void FlipScaleX(bool boolValue)
     {
-        Vector3 newScale = transform.localScale; // 현재 로컬 스케일 가져오기
-        newScale.x = boolValue ? -Mathf.Abs(newScale.x) : Mathf.Abs(newScale.x); // X 값을 양수/음수로 설정
-        transform.localScale = newScale; // 수정된 스케일 다시 적용
+        Vector3 newScale = transform.localScale; 
+        newScale.x = boolValue ? -Mathf.Abs(newScale.x) : Mathf.Abs(newScale.x);
+        transform.localScale = newScale;
     }
 
     /*public void PlayAnimation(int animationHash)
@@ -105,6 +109,4 @@ public class UnitView : MonoBehaviour
             return false;
         }
     }*/
-
-
 }

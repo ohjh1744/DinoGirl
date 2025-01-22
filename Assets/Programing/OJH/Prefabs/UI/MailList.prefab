@@ -233,6 +233,7 @@ MonoBehaviour:
   _checkedImageSprite: {fileID: 0}
   _checkcedItemImage: {fileID: 0}
   _checkcedItemText: {fileID: 0}
+  _buttonClip: {fileID: 8300000, guid: e209f95ae7b108c4da32a16bbc2c1527, type: 3}
 --- !u!1 &3095505167423304311
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,7 +435,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "2024/01/01/22:08     \nPlayerName  Item   3\n\n"
+  m_text: "2024/01/01/22:08     \nPlayerName  Item   3\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
   m_sharedMaterial: {fileID: -5869306142683989769, guid: ddc231ba912b76f44b8f82f6e7be7533, type: 2}
@@ -461,8 +462,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

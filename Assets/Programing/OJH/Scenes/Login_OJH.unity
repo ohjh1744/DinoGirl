@@ -1115,10 +1115,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6982161e7b96fa14eb751394ac17ac3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseUnitNum: 3
-  _baseUnitIds: 010000000200000005000000
+  _baseUnitIds: 0700000009000000
   _sceneChanger: {fileID: 311115898}
   _nameLen: 5
+  _buttonClip: {fileID: 8300000, guid: e209f95ae7b108c4da32a16bbc2c1527, type: 3}
 --- !u!1 &214945367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1329,8 +1329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uID: Y29oJ7Tu2RQr0SZlbgYzZcDz5Xb2
-  _resetFollowTime: 8
-  _originFollowTime: 2
 --- !u!4 &303168270
 Transform:
   m_ObjectHideFlags: 0
@@ -1358,10 +1356,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dfc4db29f6b82f4db99d494a927153c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseUnitNum: 3
-  _baseUnitIds: 010000000200000005000000
-  _uID: CHSmbrwghYNzZb7AIkdLRtvpHaW2
-  _name: Test11
+  _baseUnitIds: 0700000009000000
+  _uID: 8KGwlr8S0aNGKg6PLQMQNk7KVyZ2
+  _name: "\uC624\uC900\uD601"
+  _mainUnitID: 7
 --- !u!114 &303168272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2964,7 +2962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5539110383984506930, guid: 929c69e364ecb19489cec7d6e767e01b, type: 3}
       propertyPath: _playerData._mainUnitID
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5539110383984506931, guid: 929c69e364ecb19489cec7d6e767e01b, type: 3}
       propertyPath: m_Name
@@ -3512,8 +3510,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6500,7 +6498,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6561,8 +6559,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uID: 
-  _resetFollowTime: 0
-  _originFollowTime: 0
 --- !u!1 &1282855455
 GameObject:
   m_ObjectHideFlags: 0
@@ -6700,6 +6696,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282855455}
   m_CullTransparentMesh: 1
+--- !u!1001 &1332381776
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7333485208221013929, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.864727
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.887805
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.31821844
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333485208221013931, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 26c01eee0cb86e94f9625784927968cc, type: 3}
 --- !u!1 &1333522659
 GameObject:
   m_ObjectHideFlags: 0
@@ -8641,6 +8694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f2c181ba0aaf944a37531fd13846f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buttonClip: {fileID: 8300000, guid: e209f95ae7b108c4da32a16bbc2c1527, type: 3}
 --- !u!1 &1838139429
 GameObject:
   m_ObjectHideFlags: 0
@@ -8726,8 +8780,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9169,7 +9223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cc0f74dc0160f7e40a37ee13321725a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d58be7d8128a8bc4fb538a0ad03f7ce7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9215,6 +9269,8 @@ MonoBehaviour:
   _sceneChanger: {fileID: 311115898}
   _resetFollowTime: 8
   _originFollowTime: 2
+  _buttonClip: {fileID: 8300000, guid: e209f95ae7b108c4da32a16bbc2c1527, type: 3}
+  _bgmClip: {fileID: 8300000, guid: e1350141d5472ea4c8a9c580793c5525, type: 3}
 --- !u!1 &1985800599
 GameObject:
   m_ObjectHideFlags: 0

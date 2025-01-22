@@ -18,9 +18,7 @@ public class InventoryPanel : UIBInder
 
     private Dictionary<int, Dictionary<string, string>> _characterData;
 
-    private SceneChanger _sceneChanger;
-
-    private DynamicGrid _dynamicGrid;
+    [SerializeField] private AudioClip _bgmClip;
 
     private void Awake()
     {
@@ -31,32 +29,32 @@ public class InventoryPanel : UIBInder
         AddEvent("GroundElementButton", EventType.Click, GroundElementButtonClicked);
         AddEvent("GrassElementButton", EventType.Click, GrassElementButtonClicked);
 
-        // characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
-
-        _sceneChanger = FindObjectOfType<SceneChanger>();
-
+        SoundManager.Instance.PlayeBGM(_bgmClip);
     }
 
     private void Start()
     {
-        StartCoroutine(WaitForPlayerData());
+        _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
-        AddEvent("HomeButton", EventType.Click, GoLobby);
+        PopulateGrid();
     }
 
+    private void OnDisable()
+    {
+        SoundManager.Instance.StopBGM();
+    }
+
+    /*
     private IEnumerator WaitForPlayerData()
     {
         // PlayerDataManager가 초기화되고 PlayerData가 로드될 때까지 대기
-        yield return new WaitUntil(() => PlayerDataManager.Instance != null && PlayerDataManager.Instance.PlayerData != null);
         yield return new WaitUntil(() => PlayerDataManager.Instance.PlayerData.UnitDatas != null && PlayerDataManager.Instance.PlayerData.UnitDatas.Count > 0);
 
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
         PopulateGrid();
-
-        _dynamicGrid = GetComponentInChildren<DynamicGrid>();
-        _dynamicGrid.SetItemCount(_allCharacters.Count);
     }
+    */
 
     // 그리드에 가진 캐릭터 정렬
     private void PopulateGrid()
@@ -95,10 +93,10 @@ public class InventoryPanel : UIBInder
             }
 
             Debug.Log($"캐릭터 {_allCharacters.Count}개 로드");
-        });
 
-        _allCharacters = PlayerDataManager.Instance.PlayerData.UnitDatas;
-        DisplayCharacters(_allCharacters);
+            _allCharacters = PlayerDataManager.Instance.PlayerData.UnitDatas;
+            DisplayCharacters(_allCharacters);
+        });
     }
 
     // 바뀐 캐릭터 갱신
@@ -115,7 +113,7 @@ public class InventoryPanel : UIBInder
         }
     }
 
-    // 보유한 캐릭터 보여주기
+    // 보유한 캐릭터 출력
     private void DisplayCharacters(List<PlayerUnitData> characters)
     {
         foreach (Transform child in _content)
@@ -131,6 +129,7 @@ public class InventoryPanel : UIBInder
         }
     }
 
+    // 원소 ID 받아오기
     private int GetElementId(int unitId)
     {
         if (_characterData.TryGetValue(unitId, out var data))
@@ -173,16 +172,4 @@ public class InventoryPanel : UIBInder
         Debug.Log("grass");
         DisplayCharacters(_allCharacters.Where(c => GetElementId(c.UnitId) == 4).ToList());
     }
-
-    public int GetCharacterCount()
-    {
-        return _allCharacters.Count;
-    }
-        
-    public void GoLobby(PointerEventData eventData)
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("Lobby_OJH");
-    }
-    
 }

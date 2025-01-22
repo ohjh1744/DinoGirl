@@ -11,6 +11,8 @@ public class CharacterSlot : UIBInder
     private PlayerUnitData _unitData;
     private GameObject _characterPanel;
 
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -27,6 +29,7 @@ public class CharacterSlot : UIBInder
 
         Dictionary<int, Dictionary<string, string>> characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
 
+        // 이름
         if (characterData.TryGetValue(_unitData.UnitId, out var data))
         {
             GetUI<TextMeshProUGUI>("NameText").text = data["Name"];
@@ -36,17 +39,19 @@ public class CharacterSlot : UIBInder
             GetUI<TextMeshProUGUI>("NameText").text = _unitData.UnitId.ToString();
         }
 
+        // 레벨
         GetUI<TextMeshProUGUI>("LevelText").text = _unitData.UnitLevel.ToString();
 
+        // 레어도
         if (int.TryParse(data["Rarity"], out int rarity))
         {
             UpdateStar(rarity);
         }
 
-        // 원소 속성 이미지 설정
+        // 원소 속성 이미지
         if (int.TryParse(data["ElementID"], out int elementId))
         {
-            string elementPath = $"UI/element_{elementId}";
+            string elementPath = $"Element/element_{elementId}";
             Sprite elementSprite = Resources.Load<Sprite>(elementPath);
             if (elementSprite != null)
             {
@@ -58,6 +63,7 @@ public class CharacterSlot : UIBInder
             }
         }
 
+        // 초상화 이미지
         string portraitPath = $"Portrait/portrait_{_unitData.UnitId}";
         if (portraitPath != null)
         {
@@ -65,13 +71,15 @@ public class CharacterSlot : UIBInder
         }
         else
         {
-            Debug.Log($"이미지를 찾을 수 없음 {portraitPath}");
+            Debug.LogWarning($"이미지를 찾을 수 없음 {portraitPath}");
         }
     }
 
     // 클릭 시 ( 캐릭터 정보 출력, 추가 UI )
     private void OnClick(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySFX(_buttonClip);
+
         BackButtonManager.Instance.OpenPanel(_characterPanel);
 
         _characterPanel.GetComponent<CharacterPanel>().UpdateCharacterInfo(_unitData);
@@ -93,7 +101,7 @@ public class CharacterSlot : UIBInder
                 if (i < rarity)
                 {
                     starImage.gameObject.SetActive(true);
-                    starImage.sprite = Resources.Load<Sprite>("UI/icon_star");
+                    starImage.sprite = Resources.Load<Sprite>("Element/icon_star");
                 }
                 else
                 {

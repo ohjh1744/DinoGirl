@@ -11,11 +11,11 @@ public class BattleSceneManager : MonoBehaviour
 {
     private static BattleSceneManager _instance;
     public static BattleSceneManager Instance { get { return _instance; } set { _instance = value; } }
-
+    [SerializeField] public float curTimeScale;
     [SerializeField] private SceneChanger _sceneChanger;
 
     [SerializeField] private DraggableUI[] Draggables;
-    [SerializeField] public int curChapterNum { get; set; }
+    [SerializeField] public int curChapterNum;
 
     public bool isAutoOn { get; set; }
     public bool isGamePaused { get; set; }
@@ -36,7 +36,9 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TMP_Text tacPower;
     [SerializeField] public int Power;
     [SerializeField] public int incBuffsPowers;
-
+    [SerializeField] public float RemainTime;
+    [SerializeField] GameObject warningPanel;
+    [SerializeField] GameObject warningPanelPower;
     [SerializeField] public Dictionary<int, int> curItemValues = new Dictionary<int, int>();
 
     [SerializeField] public BattleState curBattleState;
@@ -75,7 +77,6 @@ public class BattleSceneManager : MonoBehaviour
         if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
         {
             Debug.Log($"출발 인원{inGridObjectCount}");
-
 
             for (int i = 1; i < inGridObject.Length; i++)
             {
@@ -117,6 +118,11 @@ public class BattleSceneManager : MonoBehaviour
                     Debug.Log($"0번으로 이동");
                     BattleSceneStart();
                     break;
+                case 1:
+                    _sceneChanger.ChangeScene("RaidBattleScene_LJH");
+                    Debug.Log($"01번으 레이드로 이동");
+                    BattleSceneStart();
+                    break;
                 case 7:
                     _sceneChanger.ChangeScene("StageBattleScene1_LJH");
                     Debug.Log($"1번으로 이동");
@@ -133,7 +139,97 @@ public class BattleSceneManager : MonoBehaviour
         else
         {
             Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
+            StartCoroutine(warningPanelShowing());
         }
+    }
+    IEnumerator warningPanelShowing() 
+    {
+        warningPanel.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        warningPanel.SetActive(false);
+    }
+    public void RaidStageStart()
+    {
+        if ((Power+ incBuffsPowers) < 3000) 
+        {
+            StartCoroutine(powerwarningPanelShowing());
+            Debug.Log("전투력 부족");
+            return;
+        }
+           
+        inGridObjectCount = inGridObject.Count(inGridObject => inGridObject != null); // 출발 인원 체크
+       
+        if (inGridObjectCount >= 1 && inGridObjectCount <= 5)
+        {           
+            for (int i = 1; i < inGridObject.Length; i++)
+            {
+                if (inGridObject[i] != null)
+                {
+                    inGridObject[i].GetComponent<UnitStat>().Pos = i;
+                    UnitsDatas unit = new UnitsDatas();
+                    unit.Pos = i;
+                    unit.Id = inGridObject[i].GetComponent<UnitStat>().Id;
+                    unit.Level = inGridObject[i].GetComponent<UnitStat>().Level;
+                    unit.MaxHp = inGridObject[i].GetComponent<UnitStat>().MaxHp;
+                    unit.Atk = inGridObject[i].GetComponent<UnitStat>().Atk;
+                    unit.Def = inGridObject[i].GetComponent<UnitStat>().Def;
+                    unit.Increase = inGridObject[i].GetComponent<UnitStat>().Increase;
+                    unit.Cool = inGridObject[i].GetComponent<UnitStat>().Cool;
+                    unit.buffs = inGridObject[i].GetComponent<UnitStat>().buffs;
+                    myUnitData.Add(unit);
+                }
+            }
+            for (int i = 0; i < enemyGridObject.Length; i++)
+            {
+                if (enemyGridObject[i] != null)
+                {
+                    int id = int.Parse(enemyGridObject[i]);
+                    UnitsDatas unit = new UnitsDatas();
+                    unit.Pos = i;
+                    unit.Id = id;
+                    unit.Atk = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Damage"]);
+                    unit.Def = int.Parse(CsvDataManager.Instance.DataLists[5][id]["Armor"]);
+                    unit.MaxHp = int.Parse(CsvDataManager.Instance.DataLists[5][id]["MonsterHP"]);
+                    enemyUnitData.Add(unit);
+                }
+            }
+            _sceneChanger.CanChangeSceen = true;
+            switch (curChapterNum)
+            {
+                case 0:
+                    _sceneChanger.ChangeScene("StageBattleScene_LJH");
+                    Debug.Log($"0번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 1:
+                    _sceneChanger.ChangeScene("RaidBattleScene_LJH");
+                    Debug.Log($"01번 레이드로 이동");
+                    BattleSceneStart();
+                    break;
+                case 7:
+                    _sceneChanger.ChangeScene("StageBattleScene1_LJH");
+                    Debug.Log($"1번으로 이동");
+                    BattleSceneStart();
+                    break;
+                case 14:
+                    _sceneChanger.ChangeScene("StageBattleScene2_LJH");
+                    Debug.Log($"2번으로 이동");
+                    BattleSceneStart();
+                    break;
+            }
+
+        }
+        else
+        {
+            StartCoroutine(warningPanelShowing());
+            Debug.Log($"출발 인원 초과 or 부족{inGridObjectCount}");
+        }
+    }
+    IEnumerator powerwarningPanelShowing()
+    {
+        warningPanelPower.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        warningPanelPower.SetActive(false);
     }
     public void BackStage()
     {
@@ -166,7 +262,7 @@ public class BattleSceneManager : MonoBehaviour
 
         }
         Debug.Log(PlayerDataManager.Instance.PlayerData.UnitDatas.Count);
-        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db ���� ���� ������ ��ŭ�� ���̰� 
+        for (int i = 0; i < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; i++) // db 기준 가지고있는 유닛의 수만큼 보여줌 
         {
 
             Draggables[i].gameObject.SetActive(true);
@@ -179,10 +275,9 @@ public class BattleSceneManager : MonoBehaviour
             string name = CsvDataManager.Instance.DataLists[0][id]["Name"];
             string level = PlayerDataManager.Instance.PlayerData.UnitDatas[i].UnitLevel.ToString();
 
-            Sprite sprite = Resources.Load<Sprite>("Portrait/portrait_" + id.ToString());
-            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite); // �̹����� ���ҽ� ���ϱ������� �������
-                                                                                             // ���ҽ� ���� �̸��� id ������ ���� ��Ű�� �ɵ���
-            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element, inc, 1);
+            Sprite sprite = Resources.Load<Sprite>("PortraitGrid/Portrait_" + id.ToString()); // 이미지 
+            Draggables[i].GetComponent<CharSlot>().setCharSlotData(id, name, level, sprite);  // 슬롯 정보삽입 
+            Draggables[i].GetComponent<UnitStat>().setStats(0, maxHp, atk, def, int.Parse(level), id, element, inc, 1); // 실제로 가질 정보 삽입
         }
     }
     private void BattleSceneStart()
@@ -239,7 +334,7 @@ public class BattleSceneManager : MonoBehaviour
                 incBuffsPowers += incBuffs;
             }
         }
-        BattlePower.text = "Power :" + Power.ToString();
+        BattlePower.text = "Power :" + (Power+incBuffsPowers).ToString();
         tacPower.text = "Grid :" + incBuffsPowers.ToString();
 
     }
@@ -247,5 +342,4 @@ public class BattleSceneManager : MonoBehaviour
     {
         StartCoroutine(delayingPowerCheck());
     }
-
 }

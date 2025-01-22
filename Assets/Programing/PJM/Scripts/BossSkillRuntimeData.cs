@@ -6,6 +6,7 @@ public class BossSkillRuntimeData
 {
     private float[] _damageThresholds;  // ex) [0.3, 0.5, 0.7, 0.9]
     private int _currentIndex;
+    
 
     public BossSkillRuntimeData(float startUpRatio, float recoveryRatio, float tickNumber)
     {
@@ -18,6 +19,11 @@ public class BossSkillRuntimeData
         if (tickCount <= 0)
         {
             Debug.LogWarning("틱은 최소 1회 이상 주어야 함");
+            return;
+        }
+        else if (startUp > recovery)
+        {
+            Debug.LogWarning("startUp은 recovery보다 작아야 한다");
             return;
         }
         
@@ -46,7 +52,7 @@ public class BossSkillRuntimeData
         {
             // 실제 데미지 주기
             float damage = raidBossCaster.UnitModel.AttackPoint * skillRatio; // skillRatio를 어떻게 쓰냐에 따라 /tickNum을 할수도 있음
-            target.UnitModel.TakeDamage(Mathf.RoundToInt(damage)); // 반올림 처리?
+            target.UnitModel.TakeDamage(Mathf.RoundToInt(damage)); 
 
             Debug.Log($" 틱 데미지 {_currentIndex+1}회 : {target.gameObject.name}에 데미지 {damage}");
             _currentIndex++;
@@ -54,7 +60,7 @@ public class BossSkillRuntimeData
     }
 
     /// <summary>
-    /// 남은 틱이 있는지 여부 등 필요하다면 추가 메서드
+    /// 남은 틱이 있는지 여부 등 필요하다면 추가 메서드, 필요시 사용 추가스킬 구현시?
     /// </summary>
     public bool AllTicksDone()
     {

@@ -12,4 +12,6 @@ public class RaidData
     [SerializeField] private int _totalDamage; // ÀÔÈù ÃÑ µ¥¹ÌÁö
 
     public int TotalDamage { get { return _totalDamage; } set { _totalDamage = value; } }
+
+    [SerializeField] public int Rank; // ¼øÀ§
 }

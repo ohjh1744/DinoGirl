@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Drizzle Slash
   _targetAll: 0
-  _skillRange: 20
+  _skillRangeRadius: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 1
   skillRatio: 2
@@ -22,4 +22,10 @@ MonoBehaviour:
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 21300000, guid: 46e68dae4b70fdd4a8e23d45a0b25976, type: 3}
+  _vfxToTarget: {fileID: 3253155120925876819, guid: e098c6111089ade4786c406d95ef6320, type: 3}
+  _vfxToMine: {fileID: 6750838901977370475, guid: 09a60480deef8ba4d8b95fcde5d45156, type: 3}
+  _vfxToMuzzle: {fileID: 0}
+  _skillStartSound: {fileID: 8300000, guid: 1c4167a6d12f17d4384dddfa1cc50527, type: 3}
+  _skillEndSound: {fileID: 0}
+  skillParameterNumber: 0
   distance: 2

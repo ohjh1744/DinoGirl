@@ -1,9 +1,3 @@
-using Firebase.Database;
-using Firebase.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -82,8 +76,22 @@ public class LevelUpPanel : UIBInder
     // 아이템 수량 확인
     private void CheckItemAmount(string itemName, int requiredAmount, int currentAmount)
     {
+        string itemNameKor = itemName;
+        switch (itemNameKor)
+        {
+            case "Coin": 
+                itemNameKor = "코인";
+                break;
+            case "DinoBlood": 
+                itemNameKor = "다이노블러드";
+                break;
+            case "BoneCrystal":
+                itemNameKor = "본크리스탈";
+                break;
+        }
+
         int shortage = requiredAmount - currentAmount;
-        string text = shortage > 0 ? $"{itemName} {shortage} 부족" : $"{itemName} : {requiredAmount}";
+        string text = shortage > 0 ? $"{itemNameKor} {shortage} 부족" : $"{itemNameKor} : {requiredAmount}";
         GetUI<TextMeshProUGUI>($"{itemName}Text").text = text;
     }
 

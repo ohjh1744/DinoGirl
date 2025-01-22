@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class FriendsPanel : MonoBehaviour
+public class FriendsPanel : UIBInder
 {
     [SerializeField] private GameObject _friendList;
 
@@ -16,20 +18,29 @@ public class FriendsPanel : MonoBehaviour
 
     [SerializeField] private ListObjectPull _pull;
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private List<GameObject> _infoLists;
 
+    private UnityAction _friendExitClickHandler;
     private void Awake()
     {
         _infoLists = new List<GameObject>();
+        BindAll();
     }
+
     private void OnEnable()
     {
+        //Sound
+        GetUI<Button>("FriendsExitButton").onClick.AddListener(_friendExitClickHandler = () => SoundManager.Instance.PlaySFX(_buttonClip));
         GetFriendData();
     }
 
     private void OnDisable()
     {
         Clear();
+        GetUI<Button>("FriendsExitButton").onClick.RemoveListener(_friendExitClickHandler);
     }
 
     private void GetFriendData()

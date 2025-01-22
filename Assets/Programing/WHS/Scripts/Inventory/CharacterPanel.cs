@@ -16,8 +16,6 @@ public class CharacterPanel : UIBInder
     private Dictionary<int, Dictionary<string, string>> _characterData;
     private Dictionary<int, Dictionary<string, string>> _skillData;
 
-    private SceneChanger _sceneChanger;
-
     private int _index;
     private List<PlayerUnitData> _characterList;
 
@@ -25,7 +23,6 @@ public class CharacterPanel : UIBInder
     {
         BindAll();
         AddEvent("LevelUpButton", EventType.Click, OnLevelUpButtonClick);
-        AddEvent("HomeButton", EventType.Click, GoLobby);
         AddEvent("PreviousCharacterButton", EventType.Click, PreviousButton);
         AddEvent("NextCharacterButton", EventType.Click, NextButton);
         AddEvent("SetMainCharacterButton", EventType.Click, SetMainCharacter);
@@ -33,10 +30,7 @@ public class CharacterPanel : UIBInder
         _characterData = CsvDataManager.Instance.DataLists[(int)E_CsvData.Character];
         _skillData = CsvDataManager.Instance.DataLists[(int)E_CsvData.CharacterSkill];
 
-        _sceneChanger = FindObjectOfType<SceneChanger>();
-
         _characterList = PlayerDataManager.Instance.PlayerData.UnitDatas;
-
     }
 
     private void Start()
@@ -51,15 +45,22 @@ public class CharacterPanel : UIBInder
         _index = _characterList.FindIndex(c => c.UnitId == character.UnitId);
         Debug.Log($"{_index} 현재 인덱스");
 
+        // 현재 캐릭터의 레벨
         int level = character.UnitLevel;
+
         if (_characterData.TryGetValue(character.UnitId, out var data))
         {
             // 캐릭터 이미지
-            string portraitPath = $"Portrait/portrait_{character.UnitId}";
-            if (portraitPath != null)
+            string imagePath = $"LobbyMainUnit/LobbyMainUnit_{character.UnitId}";            
+            if (imagePath != null)
             {
-                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(portraitPath);
+                GetUI<Image>("CharacterImage").sprite = Resources.Load<Sprite>(imagePath);
             }
+            else
+            {
+                Debug.LogWarning($"이미지를 찾을 수 없음: {imagePath}");
+            }
+
 
             // 레벨, 이름
             GetUI<TextMeshProUGUI>("LevelText").text = character.UnitLevel.ToString();
@@ -68,7 +69,7 @@ public class CharacterPanel : UIBInder
             // 속성 아이콘 이미지 
             if (int.TryParse(data["ElementID"], out int elementId))
             {
-                string elementPath = $"UI/element_{elementId}";
+                string elementPath = $"Element/element_{elementId}";
                 Sprite elementSprite = Resources.Load<Sprite>(elementPath);
                 if (elementSprite != null)
                 {
@@ -138,6 +139,7 @@ public class CharacterPanel : UIBInder
                             Debug.LogError($"캐릭터 ID {character.UnitId} 업데이트 실패: " + updateTask.Exception);
                         }
                     });
+
                     break;
                 }
             }
@@ -178,6 +180,7 @@ public class CharacterPanel : UIBInder
         return Mathf.FloorToInt(baseStat * totalIncrease);
     }
 
+    // 스킬 설명 텍스트
     private void UpdateSkill(int unitId)
     {
         foreach (var value in _skillData.Values)
@@ -185,7 +188,7 @@ public class CharacterPanel : UIBInder
             if (int.Parse(value["CharID"]) == unitId)
             {
                 GetUI<TextMeshProUGUI>("SkillNameText").text = value["SkillName"];
-                GetUI<TextMeshProUGUI>("CoolDownText").text = $"쿨타임: {value["Cooldown"]}초";
+                GetUI<TextMeshProUGUI>("CoolDownText").text = $"쿨타임 : {value["Cooldown"]}초";
                 GetUI<TextMeshProUGUI>("SkillDescriptionText").text = value["SkillDescription"];
                 return;
             }
@@ -235,7 +238,7 @@ public class CharacterPanel : UIBInder
                 if (i < rarity)
                 {
                     starImage.gameObject.SetActive(true);
-                    starImage.sprite = Resources.Load<Sprite>("UI/icon_star");
+                    starImage.sprite = Resources.Load<Sprite>("Element/icon_star");
                 }
                 else
                 {
@@ -243,12 +246,6 @@ public class CharacterPanel : UIBInder
                 }
             }
         }
-    }
-
-    private void GoLobby(PointerEventData eventData)
-    {
-        _sceneChanger.CanChangeSceen = true;
-        _sceneChanger.ChangeScene("Lobby_OJH");
     }
 
     // 메인 캐릭터로 설정

@@ -17,44 +17,29 @@ public class BattleSceneUi : MonoBehaviour
     [SerializeField] private GameObject winUi;
     [SerializeField] private GameObject loseUi;
     [SerializeField] private GameObject RewardUi;
-
+    [SerializeField] GameObject image;
     [SerializeField] Button Lobbybtn;
     [SerializeField] Button Stagebtn;
-
+    [SerializeField] Button timebtn;
 
     [SerializeField] private float time;
     [SerializeField] private float curTime;
 
+    [SerializeField] RaidScore raidScore;
     private int minute;
     private int second;
 
     private void OnEnable()
     {
         StartCoroutine(ableDelaying());
-
+        timebtn.image.color = new Color(151f / 255f, 151f / 255f, 151f / 255f, 200f / 255f);
     }
-    IEnumerator ableDelaying() 
-    {   
+    IEnumerator ableDelaying()
+    {
         yield return new WaitForSeconds(0.3f);
         time = BattleSceneManager.Instance._timeLimit;
 
         Spawner.OnSpawnCompleted += startTimerTriger;
-    }
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-
-        for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
-        {
-            BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
-        }
-        for (int i = 0; i < BattleSceneManager.Instance.enemyUnits.Count; i++)
-        {
-            BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
-        }
-        Spawner.OnSpawnCompleted -= startTimerTriger;
-        StopCoroutine("startTimer");
-        StopCoroutine("Subscriber");
     }
     IEnumerator Subscriber()
     {
@@ -74,8 +59,8 @@ public class BattleSceneUi : MonoBehaviour
     Coroutine coroutine;
     public void startTimerTriger()
     {
-        coroutine =  StartCoroutine(startTimer());
-        coroutine =  StartCoroutine(Subscriber());
+        coroutine = StartCoroutine(startTimer());
+        coroutine = StartCoroutine(Subscriber());
     }
     IEnumerator startTimer()
     {
@@ -83,6 +68,7 @@ public class BattleSceneUi : MonoBehaviour
         while (curTime > 0)
         {
             curTime -= Time.deltaTime;
+            BattleSceneManager.Instance.RemainTime = curTime;
             minute = (int)curTime / 60;
             second = (int)curTime % 60;
             timerText.text = minute.ToString("00") + ":" + second.ToString("00");
@@ -92,7 +78,7 @@ public class BattleSceneUi : MonoBehaviour
             {
                 Debug.Log("시간 종료");
                 curTime = 0;
-                openResultPanel();
+                WinorLose();
                 yield break;
             }
         }
@@ -130,7 +116,7 @@ public class BattleSceneUi : MonoBehaviour
 
     }
     public void openResultPanel()
-    {   
+    {
         for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
         {
             BattleSceneManager.Instance.myUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
@@ -159,6 +145,11 @@ public class BattleSceneUi : MonoBehaviour
         {
             loseUi.SetActive(true);
             winUi.SetActive(false);
+            if (BattleSceneManager.Instance.curChapterNum == 1)
+            {
+                RaidResult();
+            }
+
         }
 
     }
@@ -240,7 +231,11 @@ public class BattleSceneUi : MonoBehaviour
         });
     }
 
-
+    private void RaidResult()
+    {
+        Debug.Log("레이드 결과 연동");
+        raidScore.setRankingData();
+    }
     public void goLobby()
     {
         BattleSceneManager.Instance.GoLobby();
@@ -251,6 +246,7 @@ public class BattleSceneUi : MonoBehaviour
     }
     public void goLobby2()
     {
+        image.SetActive(true);
         Time.timeScale = 0;
         for (int i = 0; i < BattleSceneManager.Instance.myUnits.Count; i++)
         {
@@ -261,11 +257,37 @@ public class BattleSceneUi : MonoBehaviour
             BattleSceneManager.Instance.enemyUnits[i].GetComponent<UnitModel>().OnDeath -= WinorLose;
         }
         Spawner.OnSpawnCompleted -= startTimerTriger;
-        Destroy(gameObject);
+
         StopCoroutine("startTimer");
         StopCoroutine("Subscriber");
-        //Time.timeScale = 0;
         BattleSceneManager.Instance.GoLobby();
+    }
+
+
+
+    private bool isOndoubleTimes = false;
+    public void DoubleTimes()
+    {
+        if (!isOndoubleTimes)
+        {
+            timebtn.image.color = Color.white;
+            Time.timeScale = 2f;
+            BattleSceneManager.Instance.curTimeScale = 2f;
+            isOndoubleTimes = true;
+        }
+        else
+        {
+            timebtn.image.color = new Color(151f / 255f, 151f / 255f, 151f / 255f, 200f / 255f);
+            Time.timeScale = 1f;
+            BattleSceneManager.Instance.curTimeScale = 1f;
+            isOndoubleTimes = false;
+        }
+    }
+
+    public void timeBtnColor()
+    {
+        isOndoubleTimes = false;
+        timebtn.image.color = new Color(151f / 255f, 151f / 255f, 151f / 255f, 200f / 255f);
     }
 
 }

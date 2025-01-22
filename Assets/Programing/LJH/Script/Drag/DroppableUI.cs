@@ -44,7 +44,7 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
     public void OnDrop(PointerEventData eventData)
 	{	
         BattleSceneManager.Instance.ClearBuffs();
-        //BattleSceneManager.Instance.TotalPowerUpdate();
+        
         if (isFull == true)  
 		{
 			return;
@@ -72,12 +72,15 @@ public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
 		{			
             BattleSceneManager.Instance.inGridObject[gridNum] = null; //그리드에서 빠지면 빼기
 			isFull=false;
+            //BattleSceneManager.Instance.TotalPowerUpdate();
         }
 		else if (transform.childCount >= 1) 
-		{
+		{	
+
             BattleSceneManager.Instance.TotalPowerUpdate();
             isFull = true;
         }
+        DropinGrid?.Invoke();
     }
 
 }

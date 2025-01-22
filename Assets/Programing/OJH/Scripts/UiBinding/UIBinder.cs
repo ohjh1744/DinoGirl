@@ -13,40 +13,40 @@ using UnityEngine.EventSystems;
 // 때문에 스크립트상에서 바인딩하도록함.
 public class UIBInder : MonoBehaviour
 {
-    private Dictionary<string, GameObject> gameObjectDic;
-    private Dictionary<(string, System.Type), Component> componentDic;
+    private Dictionary<string, GameObject> _gameObjectDic;
+    private Dictionary<(string, System.Type), Component> _componentDic;
 
     // 빠른 시간에 게임오브젝트만 바인딩
-    protected void Bind()
+    public void Bind()
     {
         //false로 하면 비활성화 컴포넌트는 안찾음, true는 비활성화 활성화 모두 찾음.
         Transform[] transforms = GetComponentsInChildren<Transform>(true);
         // 2* 2 크기를 4배로 일단.
-        gameObjectDic = new Dictionary<string, GameObject>(transforms.Length << 2);
+        _gameObjectDic = new Dictionary<string, GameObject>(transforms.Length << 2);
         foreach (Transform child in transforms)
         {
-            gameObjectDic.TryAdd(child.gameObject.name, child.gameObject);
+            _gameObjectDic.TryAdd(child.gameObject.name, child.gameObject);
         }
 
-        componentDic = new Dictionary<(string, System.Type), Component>();
+        _componentDic = new Dictionary<(string, System.Type), Component>();
     }
 
     // 비교적 오랜 시간에 게임오브젝트와 모든 컴포넌트 바인딩
-    protected void BindAll()
+    public void BindAll()
     {
         Transform[] transforms = GetComponentsInChildren<Transform>(true);
-        gameObjectDic = new Dictionary<string, GameObject>(transforms.Length << 2);
+        _gameObjectDic = new Dictionary<string, GameObject>(transforms.Length << 2);
 
         foreach (Transform child in transforms)
         {
-            gameObjectDic.TryAdd(child.gameObject.name, child.gameObject);
+            _gameObjectDic.TryAdd(child.gameObject.name, child.gameObject);
         }
 
         Component[] components = GetComponentsInChildren<Component>(true);
-        componentDic = new Dictionary<(string, System.Type), Component>(components.Length << 4);
+        _componentDic = new Dictionary<(string, System.Type), Component>(components.Length << 4);
         foreach (Component child in components)
         {
-            componentDic.TryAdd((child.gameObject.name, components.GetType()), child);
+            _componentDic.TryAdd((child.gameObject.name, components.GetType()), child);
         }
     }
 
@@ -54,7 +54,7 @@ public class UIBInder : MonoBehaviour
     // GetUI("Key") : Key 이름의 게임오브젝트 가져오기
     public GameObject GetUI(in string name)
     {
-        gameObjectDic.TryGetValue(name, out GameObject gameObject);
+        _gameObjectDic.TryGetValue(name, out GameObject gameObject);
         return gameObject;
     }
 
@@ -65,11 +65,11 @@ public class UIBInder : MonoBehaviour
         (string, System.Type) key = (name, typeof(T));
 
         //컴포넌트 딕셔너리에 이미 있을때(찾아본 적 있는 경우): 이미 찾은걸 줌.
-        componentDic.TryGetValue(key, out Component component);
+        _componentDic.TryGetValue(key, out Component component);
         if (component != null)
             return component as T;
         // 컴포넌트 딕셔너리에 아직 없다면 찾은 후 딕셔너리에 추가하고 줌.
-        gameObjectDic.TryGetValue(name, out GameObject gameObject);
+        _gameObjectDic.TryGetValue(name, out GameObject gameObject);
         if (gameObject == null)
             return null;
 
@@ -77,14 +77,14 @@ public class UIBInder : MonoBehaviour
         if (component == null)
             return null;
 
-        componentDic.TryAdd(key, component);
+        _componentDic.TryAdd(key, component);
         return component as T;
     }
 
     public enum EventType { Click, Enter, Exit, Up, Down, Move, BeginDrag, EndDrag, Drag, Drop }
     public void AddEvent(in string name, EventType eventType, UnityAction<PointerEventData> callback)
     {
-        gameObjectDic.TryGetValue(name, out GameObject gameObject);
+        _gameObjectDic.TryGetValue(name, out GameObject gameObject);
         if (gameObject == null)
             return;
 
@@ -127,7 +127,7 @@ public class UIBInder : MonoBehaviour
 
     public void RemoveEvent(in string name, EventType eventType, UnityAction<PointerEventData> callback)
     {
-        gameObjectDic.TryGetValue(name, out GameObject gameObject);
+        _gameObjectDic.TryGetValue(name, out GameObject gameObject);
         if (gameObject == null)
             return;
 

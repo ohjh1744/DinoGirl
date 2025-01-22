@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: Solar Lay
   _targetAll: 0
-  _skillRange: 20
+  _skillRangeRadius: 20
   _maxTargetingNum: 1
   _isPriorityTargetFar: 1
   skillRatio: 2
@@ -22,3 +22,9 @@ MonoBehaviour:
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 21300000, guid: 771b8310739537c489006fa1fb1950aa, type: 3}
+  _vfxToTarget: {fileID: 1374973295186933993, guid: a6ca43eb66e33f840b8c79207c63e158, type: 3}
+  _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 3359957453900927049, guid: 3cb441faf87ad7c44bc962eac611f609, type: 3}
+  _skillStartSound: {fileID: 8300000, guid: f94a021a1d400a54a96c9f005d417e31, type: 3}
+  _skillEndSound: {fileID: 0}
+  skillParameterNumber: 0

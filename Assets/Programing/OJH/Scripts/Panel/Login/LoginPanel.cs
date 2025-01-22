@@ -28,6 +28,12 @@ public class LoginPanel : UIBInder
     //팔로우 origin 값
     [SerializeField] private int _originFollowTime;
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
+    //Bgm
+    [SerializeField] private AudioClip _bgmClip;
+
     private void Awake()
     {
         BindAll();
@@ -38,6 +44,14 @@ public class LoginPanel : UIBInder
         GetUI<Button>("LoginButton").onClick.AddListener(Login);
         GetUI<Button>("SignUpButton").onClick.AddListener(ResetInputField);
         GetUI<Button>("LoginExitButton").onClick.AddListener(_sceneChanger.QuitGame);
+
+        //Sound
+        SoundManager.Instance.SetLoopBGM(true);
+        SoundManager.Instance.PlayeBGM(_bgmClip);
+        GetUI<Button>("LoginButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("SignUpButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("LoginExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("LoginWarningExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
     private void Login()
@@ -71,7 +85,7 @@ public class LoginPanel : UIBInder
                     switch (errorCode)
                     {
                         case AuthError.InvalidEmail:
-                            SetTrueWarningPanel("유효하지 않는 이메일입니다");
+                            SetTrueWarningPanel("유효한 이메일 형식이 아닙니다");
                             break;
                         case AuthError.UserNotFound:
                             SetTrueWarningPanel("존재하지 않는 이메일입니다");
@@ -109,7 +123,7 @@ public class LoginPanel : UIBInder
         });
     }
 
-    public void CheckUserInfo()
+    private void CheckUserInfo()
     {
         Debug.Log("로그인!!!!");
         FirebaseUser user = BackendManager.Auth.CurrentUser;

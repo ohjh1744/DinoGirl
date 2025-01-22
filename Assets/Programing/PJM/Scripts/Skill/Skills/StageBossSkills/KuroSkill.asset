@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillName: TempBossSKill
   _targetAll: 0
-  _skillRange: 5
+  _skillRangeRadius: 5
   _maxTargetingNum: 1
   _isPriorityTargetFar: 0
   skillRatio: 1.5
@@ -22,3 +22,9 @@ MonoBehaviour:
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: 8593497014526902906, guid: e3b8effc1f3ae844a853a0742168b28f, type: 3}
+  _vfxToTarget: {fileID: 0}
+  _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 6385794807422481173, guid: 0b92e330ce996094288fc126db76d1dc, type: 3}
+  _skillStartSound: {fileID: 0}
+  _skillEndSound: {fileID: 8300000, guid: a5cc681b1bf03b44da6a63711a0739d3, type: 3}
+  skillParameterNumber: 0

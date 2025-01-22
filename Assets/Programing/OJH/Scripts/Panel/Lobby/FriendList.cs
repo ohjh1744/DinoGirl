@@ -9,8 +9,13 @@ public class FriendList : MonoBehaviour
 
     public string FriendId { get { return _friendId; } set { _friendId = value; } }
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     public void DeleteFriend()
     {
+        SoundManager.Instance.PlaySFX(_buttonClip);
+
         PlayerDataManager.Instance.PlayerData.FriendIds.Remove(_friendId);
 
         DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);

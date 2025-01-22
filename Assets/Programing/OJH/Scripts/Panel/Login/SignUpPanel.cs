@@ -16,6 +16,9 @@ public class SignUpPanel : UIBInder
 
     private StringBuilder _sb = new StringBuilder();
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         BindAll();
@@ -24,6 +27,10 @@ public class SignUpPanel : UIBInder
     {
         GetUI<Button>("CreateButton").onClick.AddListener(CreateAccount);
         GetUI<Button>("SignUpExitButton").onClick.AddListener(ResetInputField);
+
+        GetUI<Button>("SignUpExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("CreateButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("CreateWarningExitButton").onClick.AddListener(() => SoundManager.Instance.PlaySFX(_buttonClip));
     }
 
 
@@ -60,7 +67,7 @@ public class SignUpPanel : UIBInder
                             SetTrueWarningPanel("이미 존재하는 계정입니다");
                             break;
                         case AuthError.InvalidEmail:
-                            SetTrueWarningPanel("유효하지 않는 이메일입니다");
+                            SetTrueWarningPanel("유효한 이메일 형식이 아닙니다");
                             break;
                         case AuthError.MissingEmail:
                             SetTrueWarningPanel("이메일을 작성해주세요");

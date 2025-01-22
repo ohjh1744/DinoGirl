@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bfbc953a34e3784490e5451426bd55d, type: 3}
   m_Name: ShiroSkill
   m_EditorClassIdentifier: 
-  _skillName: TempBossSKill
-  _targetAll: 1
-  _skillRange: 0
-  _maxTargetingNum: 0
+  _skillName: Beam
+  _targetAll: 0
+  _skillRangeRadius: 5
+  _maxTargetingNum: 1
   _isPriorityTargetFar: 0
   skillRatio: 1
   cooltime: 20
   crowdControl: 0
   ccDuration: 0
   _skillIcon: {fileID: -184890904288638664, guid: 3b2097ff998f34143b270ead300ce049, type: 3}
+  _vfxToTarget: {fileID: 0}
+  _vfxToMine: {fileID: 0}
+  _vfxToMuzzle: {fileID: 3041746574140021777, guid: 57f65966b8859b042947f67351b8dd6f, type: 3}
+  _skillStartSound: {fileID: 8300000, guid: 993b143e0353e854b9c79320ace08503, type: 3}
+  _skillEndSound: {fileID: 0}
+  skillParameterNumber: 0

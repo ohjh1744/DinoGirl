@@ -68,7 +68,7 @@ public class StagePanel : MonoBehaviour
         }
 
         stageRewardDic = CsvDataManager.Instance.DataLists[8]; // 스테이지 클리어시 받을 보상 불러오기 
-        //itemDic = CsvDataManager.Instance.DataLists[9];
+        
         foreach (string item in stageRewardDic[curRewardGroup].Keys) 
         {
             if (stageRewardDic[curRewardGroup][item] != "0") 

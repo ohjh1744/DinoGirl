@@ -8,10 +8,15 @@ public class StartPanel : MonoBehaviour
 
     [SerializeField] private string _nextSceneName;
 
+    //Bgm
+    [SerializeField] private AudioClip _bgmClip;
+
     private bool _isStart;
 
     private void Start()
     {
+        SoundManager.Instance.SetLoopBGM(false);
+        SoundManager.Instance.PlayeBGM(_bgmClip);
         _sceneChanager.CanChangeSceen = false;
         _sceneChanager.ChangeScene(_nextSceneName);
     }

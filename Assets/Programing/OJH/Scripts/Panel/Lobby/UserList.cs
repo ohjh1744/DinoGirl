@@ -19,6 +19,9 @@ public class UserList : MonoBehaviour
 
     [SerializeField] private Button _button;
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private AutoFalseSetter _getCoinImage;
 
     public AutoFalseSetter GetCoinImage { get { return _getCoinImage; } set { _getCoinImage = value; } }
@@ -33,10 +36,13 @@ public class UserList : MonoBehaviour
 
     public AutoFalseSetter MaxFriendImage { get { return _maxFriendImage; } set { _maxFriendImage = value; } }
 
+
     public void AddFriend()
     {
+        SoundManager.Instance.PlaySFX(_buttonClip);
+
         //친구 최대 인원수 채운경우
-        if(PlayerDataManager.Instance.PlayerData.FriendIds.Count == _maxFriendNum)
+        if (PlayerDataManager.Instance.PlayerData.FriendIds.Count == _maxFriendNum)
         {
             _maxFriendImage.ResetCurrentTime();
             _maxFriendImage.gameObject.SetActive(true);

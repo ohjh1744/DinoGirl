@@ -1,30 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RaidBossUnitController : EnemyBaseUnitController
 {
-    [SerializeField] private Skill _bossSkill1;
-    protected Skill BossSkill1 => _bossSkill1;
-    [SerializeField] private Skill _bossSkill2;
-    protected Skill BossSkill2 => _bossSkill2;
-    //[SerializeField] private Skill _bossSkill3;
-    //protected Skill BossSkill3 => _bossSkill3;
-
+    [SerializeField] private Skill[] _bossSkills;
+    protected Skill[] BossSkills {get => _bossSkills; set => _bossSkills = value; }
+    private int _skillIndex;
+    public event Action<Skill> OnNextSkillSelected;
+    
     private List<BaseUnitController> _skillTargets;
     protected List<BaseUnitController> SkillTargets { get => _skillTargets; set => _skillTargets = value; }
-    [SerializeField] private Transform _muzzlePoint;
-    public Transform MuzzlePoint { get => _muzzlePoint; set => _muzzlePoint = value; }
-    [SerializeField] private GameObject laserObejct;
+    [HideInInspector] private GameObject laserObejct;
     public GameObject LaserObejct {get => laserObejct; set => laserObejct = value; }
     
     private BossSkillRuntimeData _skillRuntimeData;
     public BossSkillRuntimeData SkillRuntimeData { get => _skillRuntimeData; set => _skillRuntimeData = value; }
+
+    public Skill nextSkill { get; private set; }
+    
     protected override void Awake()
     {
         base.Awake();
         SkillTargets = new List<BaseUnitController>();
-        CoolTimeCounter = 2.0f;
+        CurSkill = BossSkills[_skillIndex];
+        CoolTimeCounter = 10.0f;
     }
 
     protected override BaseNode SetBTree()
@@ -42,28 +44,31 @@ public class RaidBossUnitController : EnemyBaseUnitController
                     }
                 ),
 
-                new SelectorNode // skillable Dicision Selector
+                new SelectorNode 
                 (
                     new List<BaseNode>
                     {
                         new DecoratorNode
                         (
-                            new ConditionNode(IsSkillAlreadyRunning),
-                            BossSkill1.CreatePerformNode(this, SkillTargets) // 사실상 스킬체크노드를 따로 만들어야함
+                            new ConditionNode(() => IsSkillRunning),
+                            new ActionNode(PerformChosenSkill)
+                            
                         ),
                         new SequenceNode // skillable Dicision Sequence
                         (
                             new List<BaseNode>()
                             {
                                 new ConditionNode(CheckSkillCooltimeBack),
-                                // 타임체크로 무슨 스킬을 쓸지 정해야함
-                                BossSkill1.CreateSkillBTree(this, SkillTargets)
+                                new ActionNode(ChooseNextSkill),
+                                new ActionNode(SetTargetsForChosenSkill),
+                                new ActionNode(PerformChosenSkill)
+                                
                             }
                         ),
                     }
                 ),
 
-                new SequenceNode // Attack Dicision
+                /*new SequenceNode // Attack Dicision 
                 (
                     new List<BaseNode>
                     {
@@ -71,13 +76,12 @@ public class RaidBossUnitController : EnemyBaseUnitController
                         new ActionNode(SetTargetToAttack),
                         new ActionNode(PerformAttack)
                     }
-                ),
+                ),*/
                 new SequenceNode
                 (
                     new List<BaseNode>
                     {
                         new ActionNode(SetDetectedTarget),
-                        // CheckMoveable ?
                         new ActionNode(ChaseTarget)
                     }
                 ),
@@ -85,4 +89,36 @@ public class RaidBossUnitController : EnemyBaseUnitController
             }
         );
     }
+
+    private BaseNode.ENodeState ChooseNextSkill()
+    {
+        if (BossSkills == null || BossSkills.Length == 0)
+        {
+            Debug.LogWarning("보스 스킬 배열 공란");
+            return BaseNode.ENodeState.Failure;
+        }
+        _skillIndex = (_skillIndex + 1) % BossSkills.Length;
+        CurSkill = BossSkills[_skillIndex];
+        nextSkill = BossSkills[(_skillIndex + 1) % BossSkills.Length];
+        Debug.Log($"현재 스킬 인덱스 : {_skillIndex}");
+        OnNextSkillSelected?.Invoke(nextSkill);
+        return BaseNode.ENodeState.Success;
+    }
+
+    private BaseNode.ENodeState PerformChosenSkill()
+    {
+        return BossSkills[_skillIndex].Perform(this, SkillTargets);
+    }
+
+    private BaseNode.ENodeState SetTargetsForChosenSkill()
+    {
+        return BossSkills[_skillIndex].SetTargets(this, SkillTargets);
+    }
+    
+    
+    protected override bool IsSkillAlreadyRunning()
+    {
+        return IsSkillRunning;
+    }
+
 }

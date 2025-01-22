@@ -8,6 +8,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class MailPanel : UIBInder
 {
@@ -21,11 +22,18 @@ public class MailPanel : UIBInder
 
     [SerializeField] private Sprite[] _itemSprites; // 보상 이미지들 item순서대로
 
+    //ButtonSound
+    [SerializeField] private AudioClip _buttonClip;
+
     private List<MailList> _mailLists;
 
     private List<int>[] _imagePosPerItems; //보상 종류 개수에 따라 팝업내부 아이템 위치가 다름.
 
     StringBuilder _sb;
+
+    private UnityAction _mailExitClickHandler;
+
+    private UnityAction _mailAllCheckHandler;
 
     private void Awake()
     {
@@ -60,14 +68,21 @@ public class MailPanel : UIBInder
 
     private void OnEnable()
     {
+        //Sound
+        GetUI<Button>("MailExitButton").onClick.AddListener(_mailExitClickHandler = () => SoundManager.Instance.PlaySFX(_buttonClip));
+        GetUI<Button>("MailAllCheckButton").onClick.AddListener(_mailAllCheckHandler = () => SoundManager.Instance.PlaySFX(_buttonClip));
+
         GetUI<Button>("MailAllCheckButton").onClick.AddListener(CheckAllMail);
         GetMailData();
     }
 
     private void OnDisable()
     {
-        GetUI("MailCheckedImage").gameObject.SetActive(false);
+        GetUI<Button>("MailExitButton").onClick.RemoveListener(_mailExitClickHandler);
+        GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(_mailAllCheckHandler);
+
         GetUI<Button>("MailAllCheckButton").onClick.RemoveListener(CheckAllMail);
+        GetUI("MailCheckedImage").gameObject.SetActive(false);
         ResetMailLists();
     }
 
