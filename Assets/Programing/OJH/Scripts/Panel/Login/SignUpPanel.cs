@@ -41,7 +41,7 @@ public class SignUpPanel : UIBInder
 
         _password = GetUI<TMP_InputField>("SignUpPwInputField").text;
 
-        BackendManager.Auth.CreateUserWithEmailAndPasswordAsync(_email, _password).ContinueWithOnMainThread(task =>
+        BackendManager.Instance.Auth.CreateUserWithEmailAndPasswordAsync(_email, _password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {

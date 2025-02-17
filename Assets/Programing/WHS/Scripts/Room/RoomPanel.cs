@@ -98,8 +98,8 @@ public class RoomPanel : UIBInder
     // 데이터베이스에 아이템 저장
     private void UpdateItemsInDatabase()
     {
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
 
         Dictionary<string, object> updates = new Dictionary<string, object>
         {

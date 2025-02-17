@@ -19,7 +19,7 @@ public class DataWriter : MonoBehaviour
     public void CreateDataBase()
     {
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(_uID);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(_uID);
         PlayerDataManager.Instance.PlayerData.PlayerName = _name;
         PlayerDataManager.Instance.PlayerData.MainUnitID = _mainUnitID;
         PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");

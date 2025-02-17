@@ -74,7 +74,7 @@ public class UserList : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.FriendIds.Add(_otherId);
 
         //Firebase에 추가
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_friendIds");
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_friendIds");
         root.SetValueAsync(PlayerDataManager.Instance.PlayerData.FriendIds);
 
 
@@ -93,7 +93,7 @@ public class UserList : MonoBehaviour
     private void DecreaseCanFollow()
     {
         PlayerDataManager.Instance.PlayerData.CanAddFriend--;
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_canAddFriend");
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_canAddFriend");
         root.SetValueAsync(PlayerDataManager.Instance.PlayerData.CanAddFriend);
     }
 
@@ -105,7 +105,7 @@ public class UserList : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, coin);
 
         //Backend에서도 변경
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_items");
         Dictionary<string, object> dic = new Dictionary<string, object>();
         dic[$"/{(int)E_Item.Coin}"] = PlayerDataManager.Instance.PlayerData.Items[(int)E_Item.Coin];
         root.UpdateChildrenAsync(dic);      
@@ -116,11 +116,11 @@ public class UserList : MonoBehaviour
     {
         string sendMailTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff") + DateTime.Now.Ticks.ToString("D19");
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(_otherId).Child(sendMailTime);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("MailData").Child(_otherId).Child(sendMailTime);
 
         MailData mailData = new MailData();
 
-        mailData.Name = $"{PlayerDataManager.Instance.PlayerData.PlayerName}#{BackendManager.Auth.CurrentUser.UserId.Substring(0, 4)}";
+        mailData.Name = $"{PlayerDataManager.Instance.PlayerData.PlayerName}#{BackendManager.Instance.Auth.CurrentUser.UserId.Substring(0, 4)}";
 
         mailData.ItemType = (int)E_Item.Coin;
 

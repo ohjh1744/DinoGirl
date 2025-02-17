@@ -89,7 +89,7 @@ public class MailPanel : UIBInder
     private void GetMailData()
     {
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("MailData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
@@ -203,7 +203,7 @@ public class MailPanel : UIBInder
             return;
         }
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_items");
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
         for (int i = 0; i < (int)E_Item.Length; i++)
@@ -268,7 +268,7 @@ public class MailPanel : UIBInder
     // 선물 다 제거해주기
     private void DeleteAllMail()
     {
-        DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("MailData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
         root.RemoveValueAsync();
     }
 

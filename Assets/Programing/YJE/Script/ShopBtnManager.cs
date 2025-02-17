@@ -100,7 +100,7 @@ public class ShopBtnManager : MonoBehaviour
 
             // 서버에서 플레이어의 데이터 값 수정
             // firebase 기본 UserData 루트
-            DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
+            DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData");
             // 뽑기에 성공한 재화값 PlayerData 수정
             valueChange.SendChangeValue(gachaCostItem, gachaCost, false, root, PlayerDataManager.Instance.PlayerData);
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
@@ -157,7 +157,7 @@ public class ShopBtnManager : MonoBehaviour
             } while (count < 10);
             StartCoroutine(CharacterTenVideoR());
             // 뽑기에 사용한 재화값 PlayerData 수정
-            DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
+            DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData");
             valueChange.SendChangeValue(gachaCostItem, gachaCost * 10, false, root, PlayerDataManager.Instance.PlayerData);
             // 결과 리스트를 보며 알맞은 아이템과 캐릭터 반환을 확인하고 정보를 갱신
             valueChange.CheckCharId(resultList, root, PlayerDataManager.Instance.PlayerData);

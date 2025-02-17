@@ -208,13 +208,13 @@ public class ShopChar : MonoBehaviour
 
             else if (!isChecked)
             {
-                DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
+                DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData");
 
                 PlayerUnitData newUnit = new PlayerUnitData();
                 newUnit.UnitId = gameObject.GetComponent<ShopChar>().CharId;
                 newUnit.UnitLevel = 1;
                 PlayerDataManager.Instance.PlayerData.UnitDatas.Add(newUnit);
-                DatabaseReference unitRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_unitDatas");
+                DatabaseReference unitRoot = root.Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_unitDatas");
 
                 // 모든 playerData.UnitDatas의 정보를 DB서버에 갱신
                 for (int num = 0; num < PlayerDataManager.Instance.PlayerData.UnitDatas.Count; num++)
@@ -234,7 +234,7 @@ public class ShopChar : MonoBehaviour
                 PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Stone, result);
                 // 실제 빌드 시 사용 - UserId불러오기
                 DatabaseReference setItemRoot;
-                setItemRoot = root.Child(BackendManager.Auth.CurrentUser.UserId).Child("_items/4");
+                setItemRoot = root.Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_items/4");
                 setItemRoot.SetValueAsync(result); // firebase 값 변경
                 shopSceneController.ShowSingleResultPanel();
                 StartCoroutine(CharacterVideoR(gameObject));

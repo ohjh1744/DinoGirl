@@ -139,7 +139,7 @@ public class LobbyPanel : UIBInder
 
     private void ResetAddFriend()
     {
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
         //canAddFriend √ ±‚»≠
@@ -164,7 +164,7 @@ public class LobbyPanel : UIBInder
         nameSb.Clear();
         nameSb.Append(PlayerDataManager.Instance.PlayerData.PlayerName);
         nameSb.Append("#");
-        nameSb.Append(BackendManager.Auth.CurrentUser.UserId.Substring(0, 4));
+        nameSb.Append(BackendManager.Instance.Auth.CurrentUser.UserId.Substring(0, 4));
         GetUI<TextMeshProUGUI>("LobbyPlayerNameText").SetText(nameSb);
         GetUI<TextMeshProUGUI>("PlayerPlayerNameText").SetText(nameSb);
     }

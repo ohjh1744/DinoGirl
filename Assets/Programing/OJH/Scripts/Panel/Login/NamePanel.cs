@@ -51,7 +51,7 @@ public class NamePanel : UIBInder
             return;
         }
 
-        FirebaseUser user = BackendManager.Auth.CurrentUser;
+        FirebaseUser user = BackendManager.Instance.Auth.CurrentUser;
         if (user == null)
         {
             ResetInputField();
@@ -89,7 +89,7 @@ public class NamePanel : UIBInder
         // 성공시 비동기씬 진행.
         _sceneChanger.ChangeScene("Lobby_OJH");
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
         PlayerDataManager.Instance.PlayerData.PlayerName = name;
         PlayerDataManager.Instance.PlayerData.RoomExitTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
         PlayerDataManager.Instance.PlayerData.LastResetAddFriendTime = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");

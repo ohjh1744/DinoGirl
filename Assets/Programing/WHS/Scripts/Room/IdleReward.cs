@@ -67,8 +67,8 @@ public class IdleReward : MonoBehaviour
     // 데이터베이스에 방치형 아이템 저장
     private void UpdateStoredItemsInDatabase()
     {
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId).Child("_storedItems");
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId).Child("_storedItems");
 
         Dictionary<string, object> updates = new Dictionary<string, object>
         {
@@ -98,8 +98,8 @@ public class IdleReward : MonoBehaviour
 
         PlayerDataManager.Instance.PlayerData.RoomExitTime = curTime;
 
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
 
         userRef.Child("_roomExitTime").SetValueAsync(curTime).ContinueWithOnMainThread(task =>
         {

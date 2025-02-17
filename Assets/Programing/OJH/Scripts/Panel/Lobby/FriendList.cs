@@ -18,7 +18,7 @@ public class FriendList : MonoBehaviour
 
         PlayerDataManager.Instance.PlayerData.FriendIds.Remove(_friendId);
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
 
         root.Child("_friendIds").SetValueAsync(PlayerDataManager.Instance.PlayerData.FriendIds);
 

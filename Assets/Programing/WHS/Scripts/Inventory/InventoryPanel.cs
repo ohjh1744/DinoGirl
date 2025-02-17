@@ -66,9 +66,9 @@ public class InventoryPanel : UIBInder
         }
 
         // Firebase에서 UnitDatas를 가져와 스크롤뷰에 캐릭터 정렬
-        string userID = BackendManager.Auth.CurrentUser.UserId;
+        string userID = BackendManager.Instance.Auth.CurrentUser.UserId;
 
-        DatabaseReference unitDatasRef = BackendManager.Database.RootReference
+        DatabaseReference unitDatasRef = BackendManager.Instance.Database.RootReference
             .Child("UserData").Child(userID).Child("_unitDatas");
 
         unitDatasRef.GetValueAsync().ContinueWithOnMainThread(task =>

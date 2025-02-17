@@ -45,8 +45,8 @@ public class RaidRank : MonoBehaviour
 
     public void getRankingData() 
     {
-        FirebaseUser user = BackendManager.Auth.CurrentUser;
-        DatabaseReference root = BackendManager.Database.RootReference.Child("RaidData");
+        FirebaseUser user = BackendManager.Instance.Auth.CurrentUser;
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("RaidData");
         root.KeepSynced(true);
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {

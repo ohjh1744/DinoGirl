@@ -13,14 +13,14 @@ public class BackendManager : MonoBehaviour
 
     private FirebaseApp _app;
 
-    public static FirebaseApp App { get { return Instance._app; } }
+    public FirebaseApp App { get { return Instance._app; } }
 
     private FirebaseAuth _auth;
-    public static FirebaseAuth Auth { get { return Instance._auth; } }
+    public  FirebaseAuth Auth { get { return Instance._auth; } }
 
     private FirebaseDatabase _database;
 
-    public static FirebaseDatabase Database { get { return Instance._database; } }
+    public  FirebaseDatabase Database { get { return Instance._database; } }
 
     private void Awake()
     {

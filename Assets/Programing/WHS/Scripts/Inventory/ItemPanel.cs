@@ -125,8 +125,8 @@ public class ItemPanel : UIBInder
     // DB에 아이템 갱신
     private void UpdateItemsInDatabase()
     {
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
 
         Dictionary<string, object> updates = new Dictionary<string, object>
         {

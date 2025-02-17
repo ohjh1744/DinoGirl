@@ -45,9 +45,9 @@ public class FriendsPanel : UIBInder
 
     private void GetFriendData()
     {
-        FirebaseUser user = BackendManager.Auth.CurrentUser;
+        FirebaseUser user = BackendManager.Instance.Auth.CurrentUser;
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData");
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData");
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)

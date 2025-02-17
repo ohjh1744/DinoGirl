@@ -62,7 +62,7 @@ public class LoginPanel : UIBInder
 
         _password = GetUI<TMP_InputField>("LoginPwInputField").text;
 
-        BackendManager.Auth.SignInWithEmailAndPasswordAsync(_email, _password).ContinueWithOnMainThread(task =>
+        BackendManager.Instance.Auth.SignInWithEmailAndPasswordAsync(_email, _password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {
@@ -126,7 +126,7 @@ public class LoginPanel : UIBInder
     private void CheckUserInfo()
     {
         Debug.Log("·Î±×ÀÎ!!!!");
-        FirebaseUser user = BackendManager.Auth.CurrentUser;
+        FirebaseUser user = BackendManager.Instance.Auth.CurrentUser;
         if (user == null)
         {
             return;
@@ -158,9 +158,9 @@ public class LoginPanel : UIBInder
 
     private void GetPlayerData()
     {
-        FirebaseUser user = BackendManager.Auth.CurrentUser;
+        FirebaseUser user = BackendManager.Instance.Auth.CurrentUser;
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(user.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(user.UserId);
 
         Debug.Log(root);
 

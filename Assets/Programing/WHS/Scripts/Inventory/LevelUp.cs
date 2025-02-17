@@ -113,8 +113,8 @@ public class LevelUp
     // DB에 레벨과 아이템 갱신
     private void UpdateDatabase(PlayerUnitData character, RequiredItems items)
     {
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
 
         Dictionary<string, object> updates = new Dictionary<string, object>
         {

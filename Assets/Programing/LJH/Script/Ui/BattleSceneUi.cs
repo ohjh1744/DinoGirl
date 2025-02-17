@@ -155,8 +155,8 @@ public class BattleSceneUi : MonoBehaviour
     }
     private void updateClear()
     {
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference stageRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference stageRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
         Debug.Log(BattleSceneManager.Instance.curStageNum);
         PlayerDataManager.Instance.PlayerData.IsStageClear[BattleSceneManager.Instance.curStageNum] = true;
         Dictionary<string, object> updates = new Dictionary<string, object>
@@ -180,8 +180,8 @@ public class BattleSceneUi : MonoBehaviour
     }
     private void UpdateItems()
     {   // Coin , DinoBlood ,BoneCrystal, DinoStone, Stone
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
 
 
         foreach (int i in BattleSceneManager.Instance.curItemValues.Keys)

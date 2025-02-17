@@ -39,7 +39,7 @@ public class RaidScore : MonoBehaviour
     public void setRankingData()
     {
 
-        DatabaseReference root = BackendManager.Database.RootReference.Child("RaidData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("RaidData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
 
         root.GetValueAsync().ContinueWithOnMainThread(task =>
         {

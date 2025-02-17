@@ -60,7 +60,7 @@ public class MailList : MonoBehaviour
         PlayerDataManager.Instance.PlayerData.SetItem((int)E_Item.Coin, sum);
 
         //백엔드에도 저장
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(BackendManager.Auth.CurrentUser.UserId).Child("_items");
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(BackendManager.Instance.Auth.CurrentUser.UserId).Child("_items");
         Dictionary<string, object> dic = new Dictionary<string, object>();
         dic[$"/{_itemType}"] = PlayerDataManager.Instance.PlayerData.Items[_itemType];
         root.UpdateChildrenAsync(dic);
@@ -69,7 +69,7 @@ public class MailList : MonoBehaviour
     //수령받은 메일 삭제
     private void DeleteMail()
     {
-        DatabaseReference root = BackendManager.Database.RootReference.Child("MailData").Child(BackendManager.Auth.CurrentUser.UserId);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("MailData").Child(BackendManager.Instance.Auth.CurrentUser.UserId);
         root.Child(_mailTime).RemoveValueAsync();
     }
 

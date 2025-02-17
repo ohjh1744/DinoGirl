@@ -106,8 +106,8 @@ public class CharacterPanel : UIBInder
     // DB에 캐릭터 정보 갱신
     private void UpdateCharacterData(PlayerUnitData character)
     {
-        string userID = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference characterRef = BackendManager.Database.RootReference
+        string userID = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference characterRef = BackendManager.Instance.Database.RootReference
             .Child("UserData").Child(userID).Child("_unitDatas");
 
         characterRef.GetValueAsync().ContinueWithOnMainThread(task =>
@@ -255,8 +255,8 @@ public class CharacterPanel : UIBInder
 
         PlayerDataManager.Instance.PlayerData.MainUnitID = _curCharacter.UnitId;
 
-        string userId = BackendManager.Auth.CurrentUser.UserId;
-        DatabaseReference userRef = BackendManager.Database.RootReference.Child("UserData").Child(userId);
+        string userId = BackendManager.Instance.Auth.CurrentUser.UserId;
+        DatabaseReference userRef = BackendManager.Instance.Database.RootReference.Child("UserData").Child(userId);
 
         Dictionary<string, object> updates = new Dictionary<string, object>
         {

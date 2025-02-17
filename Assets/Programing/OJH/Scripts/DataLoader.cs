@@ -18,7 +18,7 @@ public class DataLoader : MonoBehaviour
     [ContextMenu("LoadTest")]
     public void Test()
     {
-        DatabaseReference root = BackendManager.Database.RootReference.Child("UserData").Child(_uID);
+        DatabaseReference root = BackendManager.Instance.Database.RootReference.Child("UserData").Child(_uID);
 
         Debug.Log(root);
 
